@@ -4,6 +4,6 @@ La empresa se encarga logística y distribución a nivel internacional y requier
 ⦁	LOGISTICA
 ⦁	ALMACENAJE
 ⦁	PREPARACION DE PEDIDOS
-⦁	DISTRIBUCIÓN
+⦁	DISTRIBUCIÓN.
 
 ESTADO: EN PROCESO.
