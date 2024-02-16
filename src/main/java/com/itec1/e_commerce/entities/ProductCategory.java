@@ -25,5 +25,54 @@ public class ProductCategory {
     private String description;
     
     private boolean enable;
+
+    public ProductCategory() {
+    }
+
+    public ProductCategory(Long id, String name, String description, boolean enable) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.enable = enable;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" + "id=" + id + ", name=" + name + ", description=" + description + ", enable=" + enable + '}';
+    }
+    
+    
     
 }
