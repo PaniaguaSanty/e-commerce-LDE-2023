@@ -29,8 +29,7 @@ public class ProductCategory {
     public ProductCategory() {
     }
 
-    public ProductCategory(Long id, String name, String description, boolean enable) {
-        this.id = id;
+    public ProductCategory(String name, String description, boolean enable) {
         this.name = name;
         this.description = description;
         this.enable = enable;
@@ -72,7 +71,5 @@ public class ProductCategory {
     public String toString() {
         return "ProductCategory{" + "id=" + id + ", name=" + name + ", description=" + description + ", enable=" + enable + '}';
     }
-    
-    
-    
+
 }

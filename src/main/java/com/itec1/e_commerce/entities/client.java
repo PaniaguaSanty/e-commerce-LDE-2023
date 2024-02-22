@@ -15,11 +15,10 @@ import javax.persistence.Id;
  * @author melina
  */
 @Entity
-public class client implements Serializable {
+public class Client implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Long getId() {
@@ -29,30 +28,93 @@ public class client implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    private String name;
+    
+    private String lastname;
+    
+    private String address;
+    
+    private String cuit;
+    
+    private String email;
+    
+    private String phone;
+    
+    private boolean enabled;
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public Client() {
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof client)) {
-            return false;
-        }
-        client other = (client) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public Client(String name, String lastname, String address, String cuit, String email, String phone, boolean enabled) {
+        this.name = name;
+        this.lastname = lastname;
+        this.address = address;
+        this.cuit = cuit;
+        this.email = email;
+        this.phone = phone;
+        this.enabled = enabled;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCuit() {
+        return cuit;
+    }
+
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
     public String toString() {
-        return "com.itec1.e_commerce.entities.client[ id=" + id + " ]";
+        return "Client{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + '}';
     }
     
 }
