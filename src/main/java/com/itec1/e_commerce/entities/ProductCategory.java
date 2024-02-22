@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.entities;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
  * @author sjcex
  */
 @Entity
-public class ProductCategory {
+public class ProductCategory implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

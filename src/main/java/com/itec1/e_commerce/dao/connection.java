@@ -12,20 +12,20 @@ import javax.persistence.Persistence;
  *
  * @author melina
  */
-public class connection {
+public class Connection {
 
     private static EntityManagerFactory emf;
     private static EntityManager em;
 
-    public connection() {
-        connection.conectar();
+    public Connection() {
+        Connection.conectar();
     }
 
     public static void conectar() {
         if (em == null) {
-            connection.emf = Persistence.createEntityManagerFactory(
+            Connection.emf = Persistence.createEntityManagerFactory(
                     "ecommerce_PU");
-            connection.em = connection.emf.createEntityManager();
+            Connection.em = Connection.emf.createEntityManager();
         }
     }
 
@@ -34,7 +34,7 @@ public class connection {
     }
 
     public static void setEmf(EntityManagerFactory emf) {
-        connection.emf = emf;
+        Connection.emf = emf;
     }
 
     public static EntityManager getEm() {
@@ -42,6 +42,6 @@ public class connection {
     }
 
     public static void setEm(EntityManager em) {
-        connection.em = em;
+        Connection.em = em;
     }
 }
