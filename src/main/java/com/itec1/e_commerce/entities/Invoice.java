@@ -26,6 +26,7 @@ public class Invoice implements Serializable {
     private Long id;
 
     private LocalDate emission;
+    
     private Integer carrierQualification;
 
     @ManyToOne
@@ -41,11 +42,12 @@ public class Invoice implements Serializable {
     private Order order;
 
     public Invoice() {
+        this.emission = LocalDate.now();
+        this.carrierQualification = null;
     }
 
-    public Invoice(LocalDate emission, Integer carrierQualification, Employee employeeIssuing, Employee employeeReceiving, Carrier carrier, Order order) {
-        this.emission = emission;
-        this.carrierQualification = carrierQualification;
+    public Invoice(LocalDate emission, Employee employeeIssuing, Employee employeeReceiving, Carrier carrier, Order order) {
+        this();
         this.employeeIssuing = employeeIssuing;
         this.employeeReceiving = employeeReceiving;
         this.carrier = carrier;
