@@ -30,22 +30,23 @@ public class Employee implements Serializable {
     private String cuit;
     private String email;
     private String phone;
-    private Boolean enabled;
+    private Boolean enable;
     
     @ManyToOne
     private Warehouse warehouse;
 
     public Employee() {
+        this.enable = true;
     }
 
-    public Employee(String name, String surname, String address, String cuit, String email, String phone, Boolean enabled, Warehouse warehouse) {
+    public Employee(String name, String surname, String address, String cuit, String email, String phone, Warehouse warehouse) {
+        this();
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.cuit = cuit;
         this.email = email;
         this.phone = phone;
-        this.enabled = enabled;
         this.warehouse = warehouse;
     }
     
@@ -107,12 +108,12 @@ public class Employee implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public Warehouse getWarehouse() {
@@ -145,7 +146,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + ", warehouse=" + warehouse + '}';
+        return "Employee{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enable + ", warehouse=" + warehouse + '}';
     }
 
 

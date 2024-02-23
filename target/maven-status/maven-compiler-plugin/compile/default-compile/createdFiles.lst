@@ -1,5 +1,4 @@
 com\itec1\e_commerce\dao\ProductCategoryJpaController.class
-com\itec1\e_commerce\dao\Connection.class
 com\itec1\e_commerce\entities\Carrier.class
 com\itec1\e_commerce\entities\DetailOrder_.class
 com\itec1\e_commerce\entities\Invoice_.class
@@ -21,6 +20,7 @@ com\itec1\e_commerce\entities\Order_.class
 com\itec1\e_commerce\E_commerce.class
 com\itec1\e_commerce\dao\exceptions\PreexistingEntityException.class
 com\itec1\e_commerce\entities\DetailOrder.class
+com\itec1\e_commerce\config\Connection.class
 com\itec1\e_commerce\entities\ProductCategory.class
 com\itec1\e_commerce\dao\OrderJpaController.class
 com\itec1\e_commerce\dao\SectorJpaController.class

@@ -35,19 +35,20 @@ public class Client implements Serializable {
     
     private String phone;
     
-    private Boolean enabled;
+    private Boolean enable;
 
     public Client() {
+        this.enable = true;
     }
 
-    public Client(String name, String lastname, String address, String cuit, String email, String phone, boolean enabled) {
+    public Client(String name, String lastname, String address, String cuit, String email, String phone) {
+        this();
         this.name = name;
         this.lastname = lastname;
         this.address = address;
         this.cuit = cuit;
         this.email = email;
         this.phone = phone;
-        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -106,17 +107,17 @@ public class Client implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + '}';
+        return "Client{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enable + '}';
     }
     
 }
