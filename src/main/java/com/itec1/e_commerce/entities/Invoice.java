@@ -11,31 +11,39 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "invoices")
 public class Invoice implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDate emission;
     private Integer carrierQualification;
+
     @ManyToOne
     private Employee employeeIssuing;
+
     @ManyToOne
     private Employee employeeReceiving;
+
     @ManyToOne
     private Carrier carrier;
+
     @ManyToOne
     private Order order;
 
-    public Invoice(Long id, LocalDate emission, Integer carrierQualification, Employee employeeIssuing, Employee employeeReceiving, Carrier carrier, Order order) {
-        this.id = id;
+    public Invoice() {
+    }
+
+    public Invoice(LocalDate emission, Integer carrierQualification, Employee employeeIssuing, Employee employeeReceiving, Carrier carrier, Order order) {
         this.emission = emission;
         this.carrierQualification = carrierQualification;
         this.employeeIssuing = employeeIssuing;
@@ -43,8 +51,6 @@ public class Invoice implements Serializable {
         this.carrier = carrier;
         this.order = order;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -101,8 +107,6 @@ public class Invoice implements Serializable {
     public void setOrder(Order order) {
         this.order = order;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -129,5 +133,4 @@ public class Invoice implements Serializable {
         return "Invoice{" + "id=" + id + ", emission=" + emission + ", carrierQualification=" + carrierQualification + ", employeeIssuing=" + employeeIssuing + ", employeeReceiving=" + employeeReceiving + ", carrier=" + carrier + ", order=" + order + '}';
     }
 
-   
 }

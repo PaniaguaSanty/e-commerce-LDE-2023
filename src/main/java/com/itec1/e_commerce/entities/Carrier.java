@@ -9,17 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "carriers")
 public class Carrier implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String name;
     private String cuit;
     private String phone;
@@ -28,8 +31,10 @@ public class Carrier implements Serializable {
     private Boolean maritime;
     private Boolean aerial;
 
-    public Carrier(Long id, String name, String cuit, String phone, Boolean enabled, Boolean ground, Boolean maritime, Boolean aerial) {
-        this.id = id;
+    public Carrier() {
+    }
+
+    public Carrier(String name, String cuit, String phone, Boolean enabled, Boolean ground, Boolean maritime, Boolean aerial) {
         this.name = name;
         this.cuit = cuit;
         this.phone = phone;
@@ -38,7 +43,6 @@ public class Carrier implements Serializable {
         this.maritime = maritime;
         this.aerial = aerial;
     }
-
     
        public Long getId() {
         return id;

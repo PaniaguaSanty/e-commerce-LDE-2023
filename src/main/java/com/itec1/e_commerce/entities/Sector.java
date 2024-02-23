@@ -5,6 +5,7 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,25 +13,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "sectors")
 public class Sector implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private Boolean enabled;
+
     @ManyToOne
     private Warehouse warehouse;
-    @OneToMany(mappedBy="stock")
-    private List<Order> stock;
-   
+
+    @OneToMany(mappedBy = "sector")
+    private List<Order> orders;
+
+    public Sector() {
+        orders = new ArrayList<>();
+    }
+
+    public Sector(String name, Boolean enabled, Warehouse warehouse, List<Order> orders) {
+        this();
+        this.name = name;
+        this.enabled = enabled;
+        this.warehouse = warehouse;
+        this.orders = orders;
+    }
 
     public Long getId() {
         return id;
@@ -64,5 +80,5 @@ public class Sector implements Serializable {
     public String toString() {
         return "com.itec1.e_commerce.entities.Sector[ id=" + id + " ]";
     }
-    
+
 }

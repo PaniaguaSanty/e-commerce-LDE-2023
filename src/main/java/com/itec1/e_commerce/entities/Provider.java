@@ -5,21 +5,20 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "providers")
 public class Provider implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String surname;
     private String address;
@@ -28,8 +27,10 @@ public class Provider implements Serializable {
     private String phone;
     private Boolean enabled;
 
-    public Provider(Long id, String name, String surname, String address, String cuit, String email, String phone, Boolean enabled) {
-        this.id = id;
+    public Provider() {
+    }
+
+    public Provider(String name, String surname, String address, String cuit, String email, String phone, Boolean enabled) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -38,7 +39,7 @@ public class Provider implements Serializable {
         this.phone = phone;
         this.enabled = enabled;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -102,9 +103,6 @@ public class Provider implements Serializable {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-    
-
-    
 
     @Override
     public int hashCode() {
@@ -131,5 +129,4 @@ public class Provider implements Serializable {
         return "provider{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + '}';
     }
 
-    
 }

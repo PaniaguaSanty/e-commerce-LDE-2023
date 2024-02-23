@@ -9,30 +9,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "warehouses")
 public class Warehouse implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String address;
     private String country;
     private Boolean enabled;
 
-    public Warehouse(Long id, String address, String country, Boolean enabled) {
-        this.id = id;
+    public Warehouse() {
+    }
+
+    public Warehouse(String address, String country, Boolean enabled) {
         this.address = address;
         this.country = country;
         this.enabled = enabled;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -65,8 +67,6 @@ public class Warehouse implements Serializable {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -93,5 +93,4 @@ public class Warehouse implements Serializable {
         return "Warehouse{" + "id=" + id + ", address=" + address + ", country=" + country + ", enabled=" + enabled + '}';
     }
 
-   
 }

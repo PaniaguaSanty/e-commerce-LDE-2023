@@ -9,25 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "clients")
 public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     
     private String name;
     
@@ -41,7 +35,7 @@ public class Client implements Serializable {
     
     private String phone;
     
-    private boolean enabled;
+    private Boolean enabled;
 
     public Client() {
     }
@@ -54,6 +48,14 @@ public class Client implements Serializable {
         this.email = email;
         this.phone = phone;
         this.enabled = enabled;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

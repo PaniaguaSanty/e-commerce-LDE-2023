@@ -5,7 +5,6 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
-import java.util.ServiceLoader.Provider;
 import javax.persistence.*;
 
 /**
@@ -13,11 +12,13 @@ import javax.persistence.*;
  * @author melina
  */
 @Entity
+@Table(name = "products")
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
     private Float weight;
@@ -25,14 +26,17 @@ public class Product implements Serializable {
     private Float width;
     private Float depth;
     private Boolean enabled;
+
     @ManyToOne
     private ProductCategory productCategory;
+
     @ManyToOne
-    @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    public Product(Long id, String name, String description, Float weight, Float high, Float width, Float depth, Boolean enabled, ProductCategory productCategory, Provider provider) {
-        this.id = id;
+    public Product() {
+    }
+
+    public Product(String name, String description, Float weight, Float high, Float width, Float depth, Boolean enabled, ProductCategory productCategory, Provider provider) {
         this.name = name;
         this.description = description;
         this.weight = weight;
@@ -43,7 +47,6 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
         this.provider = provider;
     }
-    
 
     public Long getId() {
         return id;
@@ -124,8 +127,6 @@ public class Product implements Serializable {
     public void setProvider(Provider provider) {
         this.provider = provider;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -152,6 +153,4 @@ public class Product implements Serializable {
         return "product{" + "id=" + id + ", name=" + name + ", description=" + description + ", weight=" + weight + ", high=" + high + ", width=" + width + ", depth=" + depth + ", enabled=" + enabled + ", productCategory=" + productCategory + ", provider=" + provider + '}';
     }
 
-   
-    
 }

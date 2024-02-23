@@ -10,34 +10,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "order_details")
 public class DetailOrder implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private Integer amount;
     private Integer providerQualification;
+    
     @ManyToOne
     private Product pruduct;
+    
     @ManyToOne
     private Order order;
 
-    public DetailOrder(Long id, Integer amount, Integer providerQualification, Product pruduct, Order order) {
-        this.id = id;
+    public DetailOrder() {
+    }
+
+    public DetailOrder(Integer amount, Integer providerQualification, Product pruduct, Order order) {
         this.amount = amount;
         this.providerQualification = providerQualification;
         this.pruduct = pruduct;
         this.order = order;
     }
-
-    
     
     public Long getId() {
         return id;
@@ -79,10 +83,6 @@ public class DetailOrder implements Serializable {
         this.order = order;
     }
     
-    
-    
-    
-
     @Override
     public int hashCode() {
         int hash = 0;

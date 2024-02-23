@@ -10,18 +10,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author melina
  */
 @Entity
+@Table(name = "employees")
 public class Employee implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String name;
     private String surname;
     private String address;
@@ -29,11 +31,14 @@ public class Employee implements Serializable {
     private String email;
     private String phone;
     private Boolean enabled;
+    
     @ManyToOne
     private Warehouse warehouse;
 
-    public Employee(Long id, String name, String surname, String address, String cuit, String email, String phone, Boolean enabled, Warehouse warehouse) {
-        this.id = id;
+    public Employee() {
+    }
+
+    public Employee(String name, String surname, String address, String cuit, String email, String phone, Boolean enabled, Warehouse warehouse) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -44,6 +49,7 @@ public class Employee implements Serializable {
         this.warehouse = warehouse;
     }
     
+        
 
     public Long getId() {
         return id;
@@ -117,10 +123,6 @@ public class Employee implements Serializable {
         this.warehouse = warehouse;
     }
     
-    
-    
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
