@@ -4,7 +4,7 @@
 
 package com.itec1.e_commerce;
 
-import com.itec1.e_commerce.dao.Connection;
+import com.itec1.e_commerce.config.Connection;
 
 /**
  *

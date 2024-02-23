@@ -2,6 +2,7 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Employee.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ProductJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\EmployeeJpaController.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\config\Connection.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ClientJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\exceptions\NonexistentEntityException.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Product.java
@@ -9,7 +10,6 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Order.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\WarehouseJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\ProductCategory.java
-C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\Connection.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Client.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\DetailOrderJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\State.java
