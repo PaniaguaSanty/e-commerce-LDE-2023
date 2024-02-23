@@ -4,6 +4,8 @@
 
 package com.itec1.e_commerce;
 
+import com.itec1.e_commerce.dao.Connection;
+
 /**
  *
  * @author sjcex
@@ -11,6 +13,6 @@ package com.itec1.e_commerce;
 public class E_commerce {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new Connection();
     }
 }

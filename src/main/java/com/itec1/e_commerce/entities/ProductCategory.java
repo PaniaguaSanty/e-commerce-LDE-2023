@@ -4,17 +4,20 @@
  */
 package com.itec1.e_commerce.entities;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author sjcex
  */
 @Entity
-public class ProductCategory {
+@Table(name = "product_categories")
+public class ProductCategory implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +32,7 @@ public class ProductCategory {
     public ProductCategory() {
     }
 
-    public ProductCategory(Long id, String name, String description, boolean enable) {
-        this.id = id;
+    public ProductCategory(String name, String description, boolean enable) {
         this.name = name;
         this.description = description;
         this.enable = enable;
@@ -72,7 +74,5 @@ public class ProductCategory {
     public String toString() {
         return "ProductCategory{" + "id=" + id + ", name=" + name + ", description=" + description + ", enable=" + enable + '}';
     }
-    
-    
-    
+
 }
