@@ -26,19 +26,20 @@ public class Carrier implements Serializable {
     private String name;
     private String cuit;
     private String phone;
-    private Boolean enabled;
+    private Boolean enable;
     private Boolean ground;
     private Boolean maritime;
     private Boolean aerial;
 
     public Carrier() {
+        this.enable = true;
     }
 
-    public Carrier(String name, String cuit, String phone, Boolean enabled, Boolean ground, Boolean maritime, Boolean aerial) {
+    public Carrier(String name, String cuit, String phone, Boolean ground, Boolean maritime, Boolean aerial) {
+        this();
         this.name = name;
         this.cuit = cuit;
         this.phone = phone;
-        this.enabled = enabled;
         this.ground = ground;
         this.maritime = maritime;
         this.aerial = aerial;
@@ -76,12 +77,12 @@ public class Carrier implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public Boolean getGround() {
@@ -132,7 +133,7 @@ public class Carrier implements Serializable {
 
     @Override
     public String toString() {
-        return "carrier{" + "id=" + id + ", name=" + name + ", cuit=" + cuit + ", phone=" + phone + ", enabled=" + enabled + ", ground=" + ground + ", maritime=" + maritime + ", aerial=" + aerial + '}';
+        return "carrier{" + "id=" + id + ", name=" + name + ", cuit=" + cuit + ", phone=" + phone + ", enabled=" + enable + ", ground=" + ground + ", maritime=" + maritime + ", aerial=" + aerial + '}';
     }
 
    
