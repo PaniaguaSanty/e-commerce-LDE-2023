@@ -26,16 +26,21 @@ public class Warehouse implements Serializable {
     private String address;
     private String country;
     private Boolean enabled;
+    private String latitude;
+    private String longitude;
 
     public Warehouse() {
     }
 
-    public Warehouse(String address, String country, Boolean enabled) {
+    public Warehouse(String address, String country, Boolean enabled, String latitude, String longitude) {
         this.address = address;
         this.country = country;
         this.enabled = enabled;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
+   
     public Long getId() {
         return id;
     }
@@ -67,6 +72,24 @@ public class Warehouse implements Serializable {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+    
+    
 
     @Override
     public int hashCode() {
