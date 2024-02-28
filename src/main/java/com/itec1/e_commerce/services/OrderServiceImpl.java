@@ -139,20 +139,16 @@ public class OrderServiceImpl {
         }
 
     }
-
-    public void qualifyProvider(Order order, int star) {
-        List<DetailOrder> details = new ArrayList<>();
-        for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
-            if (detail.getOrder().getId().equals(order.getId())) {
-                details.add(detail);
-            }
-        }
-        
-        for(DetailOrder detail : details){
-            detail.setProviderQualification(star);
-        }
+ public void qualifyProvider(DetailOrder detail, int star) throws Exception{
+        detail.setProviderQualification(star);
+        detailOrderJpaController.edit(detail);
     }
     
-    //falta calificar transportista
+
+    public void qualifyCarrier(Invoice invoice, int star) throws Exception{
+        invoice.setCarrierQualification(star);
+        invoiceJpaController.edit(invoice);
+    }
+    
 
 }
