@@ -6,8 +6,6 @@ package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,20 +24,16 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     private Client client;
-    
-    @Enumerated(EnumType.STRING) 
-    @JoinColumn(name = "state")
-    private State state;
-    
+
     @ManyToOne
     private Warehouse warehouseOrigin;
-    
+
     @ManyToOne
     private Warehouse warehouseDestiny;
-    
+
     @ManyToOne
     @JoinColumn(name = "sector_id")
     private Sector sector;
@@ -47,14 +41,13 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Client client, State state, Warehouse warehouseOrigin, Warehouse warehouseDestiny, Sector sector) {
+    public Order(Client client, Warehouse warehouseOrigin, Warehouse warehouseDestiny, Sector sector) {
         this.client = client;
-        this.state = state;
         this.warehouseOrigin = warehouseOrigin;
         this.warehouseDestiny = warehouseDestiny;
         this.sector = sector;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -69,14 +62,6 @@ public class Order implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public Warehouse getWarehouseOrigin() {
@@ -95,8 +80,6 @@ public class Order implements Serializable {
         this.warehouseDestiny = warehouseDestiny;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,8 +102,7 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", client=" + client + ", state=" + state + ", warehouseOrigin=" + warehouseOrigin + ", warehouseDestiny=" + warehouseDestiny + '}';
+        return "Order{" + "id=" + id + ", client=" + client + ", warehouseOrigin=" + warehouseOrigin + ", warehouseDestiny=" + warehouseDestiny + '}';
     }
 
-    
 }

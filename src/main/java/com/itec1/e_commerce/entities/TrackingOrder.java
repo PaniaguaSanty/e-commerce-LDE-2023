@@ -33,21 +33,25 @@ public class TrackingOrder implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date hour;
     
-    private Double latitude;
-    private Double length;
+    private String latitude;
+    private String longitude;
+    private State state;
     
     @ManyToOne
     private Order order;
+    
+    
 
     public TrackingOrder() {
     }
 
-    public TrackingOrder(Date date, Date hour, Double latitude, Double length, Order order) {
+    public TrackingOrder(Date date, Date hour, String latitude, String longitude, Order order, State state) {
         this.date = date;
         this.hour = hour;
         this.latitude = latitude;
-        this.length = length;
+        this.longitude = longitude;
         this.order = order;
+        this.state = state;
     }
     
     public Long getId() {
@@ -58,22 +62,25 @@ public class TrackingOrder implements Serializable {
         this.id = id;
     }
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLength() {
-        return length;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLength(Double length) {
-        this.length = length;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
+   
+
+   
     public Order getOrder() {
         return order;
     }
@@ -97,6 +104,16 @@ public class TrackingOrder implements Serializable {
     public void setHour(Date hour) {
         this.hour = hour;
     }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+    
+    
     
     
 

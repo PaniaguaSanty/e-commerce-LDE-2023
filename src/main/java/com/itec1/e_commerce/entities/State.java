@@ -11,19 +11,18 @@ import java.io.Serializable;
  * @author melina
  */
 public enum State implements Serializable {
-    PENDIENTE("pendiente"),
-    EN_PROCESO("en Proceso"),
-    COMPLETO ("completo"),
-    ESPERANDO_DESPACHO ("esperando despacho"),
-    ENVIADO_DESPACHO ("enviado despacho"),
-    EN_TRANSITO ("en transito"),
-    EN_SUCURSAL_DE_DESTINO ("en sucursal de destino"),
-    ENTREGADO ("entregado"),
-    CANCELADO ("cancelado"),
-    DEVUELTO ("devuelto")
-    ;
-    private String name;
+    PENDING("Pending"),
+    IN_PROCESS("In Process"),
+    COMPLETE("Complete"),
+    WAITING_DISPATCH("Waiting Dispatch"),
+    DISPATCHED("Dispatched"),
+    IN_TRANSIT("In Transit"),
+    AT_DESTINATION("At Destination"),
+    DELIVERED("Delivered"),
+    CANCELED("Canceled"),
+    RETURNED("Returned");
     
+    private String name;
 
     private State(String name) {
         this.name = name;
@@ -36,7 +35,5 @@ public enum State implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-    
+
 }
