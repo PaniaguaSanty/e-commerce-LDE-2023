@@ -58,7 +58,7 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
         warehouseJpaController.destroy(id);
     }
 
-    public List<Warehouse> findWarehousePerCountry(String countryName) {
+    public List<Warehouse> findWarehouseByCountry(String countryName) {
         return warehouseJpaController.findWarehouseEntities()
                 .stream()
                 .filter(warehouse -> warehouse.getCountry()

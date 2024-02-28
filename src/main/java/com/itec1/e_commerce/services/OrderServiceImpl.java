@@ -89,42 +89,25 @@ public class OrderServiceImpl {
             tracking.setLongitude(order.getWarehouseDestiny().getLongitude());
             tracking.setLatitude(order.getWarehouseDestiny().getLatitude());
         }
-
         create(tracking);
     }
 
     public void orderInTransit(Order order, String latitude, String longitude) {
-        TrackingOrder tracking = new TrackingOrder();
-        tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
-        tracking.setLatitude(latitude);
-        tracking.setLongitude(longitude);
-        tracking.setState(state.IN_TRANSIT);
-        create(tracking);
-
+        createTracking(order, latitude, longitude, State.IN_TRANSIT);
     }
 
     public void cancelOrder(Order order) {
-        TrackingOrder tracking = new TrackingOrder();
-        tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
-        tracking.setLongitude(order.getWarehouseOrigin().getLongitude());
-        tracking.setLatitude(order.getWarehouseOrigin().getLatitude());
-        tracking.setState(state.CANCELED);
-        create(tracking);
+        createTracking(order,
+                order.getWarehouseOrigin().getLatitude(),
+                order.getWarehouseOrigin().getLongitude(),
+                State.IN_TRANSIT);
     }
 
     public void returnOrder(Order order) {
-        TrackingOrder tracking = new TrackingOrder();
-        tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
-        tracking.setLongitude(order.getWarehouseDestiny().getLongitude());
-        tracking.setLatitude(order.getWarehouseDestiny().getLatitude());
-        tracking.setState(state.RETURNED);
-        create(tracking);
+        createTracking(order,
+                order.getWarehouseDestiny().getLatitude(),
+                order.getWarehouseDestiny().getLongitude(),
+                State.IN_TRANSIT);
     }
 
     public void create(Invoice invoice) {
@@ -135,20 +118,27 @@ public class OrderServiceImpl {
         for (DetailOrder detail : details) {
             detail.setOrder(orderJpaController.findOrder(order.getId()));
             detailOrderJpaController.create(detail);
-
         }
-
     }
- public void qualifyProvider(DetailOrder detail, int star) throws Exception{
+
+    public void qualifyProvider(DetailOrder detail, int star) throws Exception {
         detail.setProviderQualification(star);
         detailOrderJpaController.edit(detail);
     }
-    
 
-    public void qualifyCarrier(Invoice invoice, int star) throws Exception{
+    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
         invoice.setCarrierQualification(star);
         invoiceJpaController.edit(invoice);
     }
-    
 
+    private void createTracking(Order order, String latitude, String longitude, State state) {
+        TrackingOrder tracking = new TrackingOrder();
+        tracking.setOrder(order);
+        tracking.setDate(new Date());
+        tracking.setHour(new Date());
+        tracking.setLatitude(latitude);
+        tracking.setLongitude(longitude);
+        tracking.setState(state);
+        create(tracking);
+    }
 }
