@@ -100,14 +100,14 @@ public class OrderServiceImpl {
         createTracking(order,
                 order.getWarehouseOrigin().getLatitude(),
                 order.getWarehouseOrigin().getLongitude(),
-                State.IN_TRANSIT);
+                State.CANCELED);
     }
 
     public void returnOrder(Order order) {
         createTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
                 order.getWarehouseDestiny().getLongitude(),
-                State.IN_TRANSIT);
+                State.RETURNED);
     }
 
     public void create(Invoice invoice) {
