@@ -59,14 +59,14 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         return sectorJpaController.findSectorEntities();
     }
 
-    public List<Sector> findSectorPerName(String sectorName) {
+    public List<Sector> findSectorByName(String sectorName) {
         return sectorJpaController.findSectorEntities()
                 .stream()
                 .filter(sector -> sector.getName().equals(sectorName))
                 .toList();
     }
 
-    public List<Sector> findSectorPerWarehouse(String enabledSectors) {
+    public List<Sector> findSectorByWarehouse(String enabledSectors) {
         return sectorJpaController.findSectorEntities()
                 .stream()
                 .filter(sector -> sector.getWarehouse()
