@@ -5,7 +5,6 @@ import java.util.List;
 import com.itec1.e_commerce.dao.CarrierJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CarrierServiceImpl implements ICRUD<Carrier> {

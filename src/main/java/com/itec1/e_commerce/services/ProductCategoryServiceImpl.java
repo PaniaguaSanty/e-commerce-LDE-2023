@@ -13,60 +13,53 @@ import java.util.List;
  *
  * @author melina
  */
-public class ProductCategoryServiceImpl implements ICRUD<ProductCategory>{
-    
+public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
+
     private final ProductCategoryJpaController productCategoryJpaController;
 
     public ProductCategoryServiceImpl(ProductCategoryJpaController productCategoryJpaController) {
         this.productCategoryJpaController = productCategoryJpaController;
     }
-    
-    
 
     @Override
     public ProductCategory create(ProductCategory entity) {
         productCategoryJpaController.create(entity);
-        return  productCategoryJpaController.findProductCategory(entity.getId());
+        return productCategoryJpaController.findProductCategory(entity.getId());
     }
 
     @Override
     public ProductCategory update(Long id, ProductCategory entity) throws NonexistentEntityException, Exception {
-    ProductCategory productCategory =  productCategoryJpaController.findProductCategory(id);
-    productCategory.setDescription(entity.getDescription());
-     productCategoryJpaController.edit(productCategory);
-     return  productCategoryJpaController.findProductCategory(id);
+        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
+        productCategory.setDescription(entity.getDescription());
+        productCategoryJpaController.edit(productCategory);
+        return productCategoryJpaController.findProductCategory(id);
     }
 
     @Override
     public ProductCategory findById(Long id) {
-    return  productCategoryJpaController.findProductCategory(id);
+        return productCategoryJpaController.findProductCategory(id);
     }
 
     @Override
     public List<ProductCategory> findAll() {
-    return  productCategoryJpaController.findProductCategoryEntities();
+        return productCategoryJpaController.findProductCategoryEntities();
     }
 
     @Override
     public void disable(Long id) throws NonexistentEntityException, Exception {
-    ProductCategory productCategory =  productCategoryJpaController.findProductCategory(id);
-    productCategory.setEnable(false);
-     productCategoryJpaController.edit(productCategory);
+        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
+        productCategory.setEnable(false);
+        productCategoryJpaController.edit(productCategory);
     }
 
     @Override
     public void delete(Long id) throws NonexistentEntityException {
-    productCategoryJpaController.destroy(id);
+        productCategoryJpaController.destroy(id);
     }
-    
-    public ProductCategory findByName(String name){
-        ProductCategory categoryFound = new ProductCategory();
-    for(ProductCategory pc:productCategoryJpaController.findProductCategoryEntities()){
-        if(pc.getName().contains(name)){
-        categoryFound.equals(pc);
-        }
+
+    public ProductCategory findByName(String name) {
+        return productCategoryJpaController.findProductCategoryEntities().stream()
+                .filter(productCategory -> productCategory.getName().equals(name))
+                .findFirst().orElse(null);
     }
-        return categoryFound;
-  
-}
 }
