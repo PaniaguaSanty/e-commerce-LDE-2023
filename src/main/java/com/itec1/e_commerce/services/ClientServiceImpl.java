@@ -16,17 +16,8 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     @Override
     public Client create(Client entity) {
-        Client client = new Client();
-        client.setId(entity.getId());
-        client.setName(entity.getName());
-        client.setLastname(entity.getLastname());
-        client.setAddress(entity.getAddress());
-        client.setCuit(entity.getCuit());
-        client.setEmail(entity.getEmail());
-        client.setPhone(entity.getPhone());
-        clientJpaController.create(client);
-        return client;
-
+        clientJpaController.create(entity);
+        return clientJpaController.findClient(entity.getId());
     }
 
     @Override
@@ -39,7 +30,7 @@ public class ClientServiceImpl implements ICRUD<Client> {
         client.setEmail(entity.getEmail());
         client.setPhone(entity.getPhone());
         clientJpaController.edit(client);
-        return client;
+        return clientJpaController.findClient(entity.getId());
     }
 
     @Override
@@ -64,5 +55,9 @@ public class ClientServiceImpl implements ICRUD<Client> {
         clientJpaController.destroy(id);
     }
 
-    // Agregar buscar por cuit
+    public Client findByCuit(String cuit) {
+        return clientJpaController.findClientEntities().stream()
+                .filter(client -> client.getCuit().equals(cuit))
+                .findFirst().orElse(null);
+    }
 }

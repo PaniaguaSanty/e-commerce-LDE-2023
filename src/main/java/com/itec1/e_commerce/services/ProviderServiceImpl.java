@@ -14,37 +14,36 @@ import java.util.List;
  * @author melina
  */
 public class ProviderServiceImpl implements ICRUD<Provider> {
+
     private final ProviderJpaController providerJpaController;
 
     public ProviderServiceImpl(ProviderJpaController providerJpaController) {
         this.providerJpaController = providerJpaController;
     }
-    
-    
 
     @Override
     public Provider create(Provider entity) {
-     providerJpaController.create(entity);
-     return providerJpaController.findProvider(entity.getId());
-   }
+        providerJpaController.create(entity);
+        return providerJpaController.findProvider(entity.getId());
+    }
 
     @Override
     public Provider update(Long id, Provider entity) throws NonexistentEntityException, Exception {
-    Provider provider = providerJpaController.findProvider(id);
-    provider.setCuit(entity.getCuit());
-    provider.setName(entity.getName());
-    provider.setSurname(entity.getSurname());
-    provider.setAddress(entity.getAddress());
-    provider.setEmail(entity.getEmail());
-    provider.setPhone(entity.getPhone());
-    providerJpaController.edit(provider);
-    return providerJpaController.findProvider(entity.getId());
+        Provider provider = providerJpaController.findProvider(id);
+        provider.setCuit(entity.getCuit());
+        provider.setName(entity.getName());
+        provider.setSurname(entity.getSurname());
+        provider.setAddress(entity.getAddress());
+        provider.setEmail(entity.getEmail());
+        provider.setPhone(entity.getPhone());
+        providerJpaController.edit(provider);
+        return providerJpaController.findProvider(entity.getId());
     }
 
     @Override
     public Provider findById(Long id) {
         return providerJpaController.findProvider(id);
-   }
+    }
 
     @Override
     public List<Provider> findAll() {
@@ -56,11 +55,17 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         Provider provider = providerJpaController.findProvider(id);
         provider.setEnabled(false);
         providerJpaController.edit(provider);
-   }
+    }
 
     @Override
     public void delete(Long id) throws NonexistentEntityException {
         providerJpaController.destroy(id);
     }
-    
+
+    public Provider findByCuit(String cuit) {
+        return providerJpaController.findProviderEntities()
+                .stream()
+                .filter(provider -> provider.getCuit().equals(cuit))
+                .findFirst().orElse(null);
+    }
 }

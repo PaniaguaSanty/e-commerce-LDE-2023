@@ -5,6 +5,8 @@ import java.util.List;
 import com.itec1.e_commerce.dao.CarrierJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class CarrierServiceImpl implements ICRUD<Carrier> {
 
@@ -55,4 +57,24 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
         carrierJpaController.destroy(id);
     }
 
+    public Carrier findByCuit(String cuit) {
+        return carrierJpaController.findCarrierEntities().stream()
+                .filter(carrier -> carrier.getCuit().equals(cuit))
+                .findFirst().orElse(null);
+    }
+
+    public List<Carrier> searchByTypeOfTransport(String transportType) {
+        return carrierJpaController.findCarrierEntities().stream()
+                .filter(carrier -> {
+                    if (transportType.equalsIgnoreCase("aerial")) {
+                        return carrier.getAerial() == true;
+                    } else if (transportType.equalsIgnoreCase("ground")) {
+                        return carrier.getGround() == true;
+                    } else if (transportType.equalsIgnoreCase("maritime")) {
+                        return carrier.getMaritime() == true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+    }
 }
