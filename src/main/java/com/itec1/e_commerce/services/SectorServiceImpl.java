@@ -4,9 +4,13 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.SectorJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.Warehouse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +20,11 @@ import java.util.List;
 public class SectorServiceImpl implements ICRUD<Sector> {
 
     private final SectorJpaController sectorJpaController;
+    private final OrderJpaController orderJpaController;
 
-    public SectorServiceImpl(SectorJpaController sectorJpaController) {
+    public SectorServiceImpl(SectorJpaController sectorJpaController, OrderJpaController orderJpaController) {
         this.sectorJpaController = sectorJpaController;
+        this.orderJpaController = orderJpaController;
     }
 
     @Override
@@ -31,8 +37,6 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     public Sector update(Long id, Sector entity) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
         sector.setName(entity.getName());
-        sector.setWarehouse(entity.getWarehouse());
-        sector.setOrders(entity.getOrders());
         sectorJpaController.edit(entity);
         return sectorJpaController.findSector(entity.getId());
     }
@@ -56,22 +60,35 @@ public class SectorServiceImpl implements ICRUD<Sector> {
 
     @Override
     public List<Sector> findAll() {
-        return sectorJpaController.findSectorEntities();
+        List<Sector> sectors = new ArrayList<>();
+        for (Sector se : sectorJpaController.findSectorEntities()) {
+            if (se.getEnabled()) {
+                sectors.add(se);
+            }
+        }
+        return sectors;
     }
 
-    public List<Sector> findSectorByName(String sectorName) {
-        return sectorJpaController.findSectorEntities()
+    public Sector findSectorByName(String sectorName, Warehouse entity) {
+        List<Sector> sectors = findSectorByWarehouse(entity);
+        return sectors
                 .stream()
                 .filter(sector -> sector.getName().equals(sectorName))
+                .findFirst().orElse(null);
+    }
+
+    public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
+        return sectorJpaController.findSectorEntities()
+                .stream()
+                .filter(sector -> sector.getWarehouse().getId()
+                .equals(warehouse.getId()))
                 .toList();
     }
 
-    public List<Sector> findSectorByWarehouse(String enabledSectors) {
-        return sectorJpaController.findSectorEntities()
-                .stream()
-                .filter(sector -> sector.getWarehouse()
-                .equals(enabledSectors))
-                .toList();
+    public Order changeSector(Order order, Sector sector) throws Exception {
+        order.setSector(sector);
+        orderJpaController.edit(order);
+        return orderJpaController.findOrder(order.getId());
     }
 
 }

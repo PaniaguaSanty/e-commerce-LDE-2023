@@ -80,6 +80,16 @@ public class Order implements Serializable {
         this.warehouseDestiny = warehouseDestiny;
     }
 
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

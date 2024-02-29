@@ -11,11 +11,14 @@ import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.TrackingOrderJpaController;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
+import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
+import com.itec1.e_commerce.entities.Warehouse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +36,7 @@ public class OrderServiceImpl {
     private final TrackingOrderJpaController trackingOrderJpaController;
     private final OrderJpaController orderJpaController;
     private final InvoiceJpaController invoiceJpaController;
+    private SectorServiceImpl sectorServiceImpl;
     private State state;
 
     public OrderServiceImpl(ClientJpaController clientJpaController, WarehouseJpaController warehouseJpaController, DetailOrderJpaController detailOrderJpaController, ProductJpaController productJpaController, TrackingOrderJpaController trackingOrderJpaController, OrderJpaController orderJpaController, InvoiceJpaController invoiceJpaController) {
@@ -68,6 +72,30 @@ public class OrderServiceImpl {
         return foundTrackingOrder;
     }
 
+    public List<Order> findByWarehouse(Warehouse entity) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getSector().getWarehouse().getId()
+                .equals(entity.getId()))
+                .toList();
+
+    }
+
+    public List<Order> findByClient(Client entity) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getClient().getId()
+                .equals(entity.getId()))
+                .toList();
+
+    }
+
+    public List<Order> findBySector(Sector entity) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getSector().getId()
+                .equals(entity.getId()))
+                .toList();
+
+    }
+
     public TrackingOrder create(TrackingOrder entity) {
         trackingOrderJpaController.create(entity);
         return trackingOrderJpaController.findTrackingOrder(entity.getId());
@@ -76,38 +104,37 @@ public class OrderServiceImpl {
     public void changeState(Order order) {
         State[] states = State.values();
         int nextState = findByOrder(order).size() + 1;
-        TrackingOrder tracking = new TrackingOrder();
-        tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
         if (nextState < 7) {
-            tracking.setState(states[nextState]);
-            tracking.setLongitude(order.getWarehouseOrigin().getLongitude());
-            tracking.setLatitude(order.getWarehouseOrigin().getLatitude());
+            createTracking(order, order.getWarehouseOrigin().getLatitude(),
+                    order.getWarehouseOrigin().getLongitude(), states[nextState]);
         } else {
-            tracking.setState(states[nextState]);
-            tracking.setLongitude(order.getWarehouseDestiny().getLongitude());
-            tracking.setLatitude(order.getWarehouseDestiny().getLatitude());
+            createTracking(order, order.getWarehouseDestiny().getLatitude(),
+                    order.getWarehouseDestiny().getLongitude(), states[nextState]);
         }
-        create(tracking);
+
     }
 
     public void orderInTransit(Order order, String latitude, String longitude) {
         createTracking(order, latitude, longitude, State.IN_TRANSIT);
     }
 
-    public void cancelOrder(Order order) {
+    public void cancelOrder(Order order) throws Exception {
         createTracking(order,
                 order.getWarehouseOrigin().getLatitude(),
                 order.getWarehouseOrigin().getLongitude(),
                 State.CANCELED);
+        sectorServiceImpl.changeSector(order,
+                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
+   
     }
 
-    public void returnOrder(Order order) {
+    public void returnOrder(Order order) throws Exception {
         createTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
                 order.getWarehouseDestiny().getLongitude(),
                 State.RETURNED);
+        sectorServiceImpl.changeSector(order,
+                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
 
     public void create(Invoice invoice) {
