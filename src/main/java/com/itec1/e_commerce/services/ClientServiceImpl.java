@@ -64,4 +64,5 @@ public class ClientServiceImpl implements ICRUD<Client> {
         clientJpaController.destroy(id);
     }
 
+    // Agregar buscar por cuit
 }

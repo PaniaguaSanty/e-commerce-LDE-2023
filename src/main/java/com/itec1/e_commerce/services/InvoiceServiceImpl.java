@@ -6,14 +6,17 @@ package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.dao.InvoiceJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.Order;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author sjcex
  */
-public class InvoiceServiceImpl implements ICRUD<Invoice>{
+public class InvoiceServiceImpl {
 
     private final InvoiceJpaController invoiceJpaController;
 
@@ -21,40 +24,32 @@ public class InvoiceServiceImpl implements ICRUD<Invoice>{
         this.invoiceJpaController = invoiceJpaController;
     }
 
-    @Override
     public Invoice create(Invoice entity) {
         invoiceJpaController.create(entity);
         return invoiceJpaController.findInvoice(entity.getId());
     }
 
-    @Override
-    public Invoice update(Long id, Invoice entity) throws NonexistentEntityException, Exception {
-        Invoice invoice = invoiceJpaController.findInvoice(id);
-        invoice.setEmployeeIssuing(entity.getEmployeeIssuing());
-        invoice.setEmployeeReceiving(entity.getEmployeeReceiving());
-        invoice.setCarrier(entity.getCarrier());
-        invoice.setOrder(entity.getOrder());
-        invoiceJpaController.edit(invoice);
-        return invoiceJpaController.findInvoice(id);
-    }
-
-    @Override
-    public Invoice findById(Long id) {
-        return invoiceJpaController.findInvoice(id);
-    }
-
-    @Override
     public List<Invoice> findAll() {
         return invoiceJpaController.findInvoiceEntities();
     }
 
-    @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
-    }
-
-    @Override
-    public void delete(Long id) throws NonexistentEntityException {
-        invoiceJpaController.destroy(id);
+    public List<Invoice> findByCarrier(Carrier carrier) {
+        List<Invoice> invoices = new ArrayList<>();
+        for (Invoice invoice : invoiceJpaController.findInvoiceEntities()) {
+            if (invoice.getCarrier().getCuit().equals(carrier.getCuit())) {
+                invoices.add(invoice);
+            }
+        }
+        return invoices;
     }
     
+    public Invoice findByOrder (Order order){
+        for(Invoice invoice : invoiceJpaController.findInvoiceEntities()){
+            if(invoice.getOrder().getId().equals(order.getId())){
+                return invoice;
+            }
+        }
+        return null;
+    }
+
 }
