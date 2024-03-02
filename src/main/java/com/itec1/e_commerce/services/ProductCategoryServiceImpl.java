@@ -46,15 +46,25 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public ProductCategory disable(Long id) throws NonexistentEntityException, Exception {
         ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
         productCategory.setEnable(false);
         productCategoryJpaController.edit(productCategory);
+        return productCategoryJpaController.findProductCategory(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public ProductCategory delete(Long id) throws NonexistentEntityException {
         productCategoryJpaController.destroy(id);
+        return productCategoryJpaController.findProductCategory(id);
+    }
+
+    @Override
+    public ProductCategory enable(Long id) throws NonexistentEntityException, Exception {
+        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
+        productCategory.setEnable(true);
+        productCategoryJpaController.edit(productCategory);
+        return productCategoryJpaController.findProductCategory(id);
     }
 
     public ProductCategory findByName(String name) {

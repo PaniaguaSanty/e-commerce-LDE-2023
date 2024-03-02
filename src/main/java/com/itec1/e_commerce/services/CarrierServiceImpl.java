@@ -45,15 +45,25 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Carrier disable(Long id) throws NonexistentEntityException, Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
         carrier.setEnable(false);
         carrierJpaController.edit(carrier);
+        return carrierJpaController.findCarrier(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Carrier delete(Long id) throws NonexistentEntityException {
         carrierJpaController.destroy(id);
+        return carrierJpaController.findCarrier(id);
+    }
+
+    @Override
+    public Carrier enable(Long id) throws NonexistentEntityException, Exception {
+        Carrier carrier = carrierJpaController.findCarrier(id);
+        carrier.setEnable(true);
+        carrierJpaController.edit(carrier);
+        return carrierJpaController.findCarrier(id);
     }
 
     public Carrier findByCuit(String cuit) {

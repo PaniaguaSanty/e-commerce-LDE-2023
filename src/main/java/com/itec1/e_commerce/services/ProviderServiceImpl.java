@@ -51,15 +51,25 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Provider disable(Long id) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
         provider.setEnabled(false);
         providerJpaController.edit(provider);
+        return providerJpaController.findProvider(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Provider delete(Long id) throws NonexistentEntityException {
         providerJpaController.destroy(id);
+        return providerJpaController.findProvider(id);
+    }
+
+    @Override
+    public Provider enable(Long id) throws NonexistentEntityException, Exception {
+        Provider provider = providerJpaController.findProvider(id);
+        provider.setEnabled(true);
+        providerJpaController.edit(provider);
+        return providerJpaController.findProvider(id);
     }
 
     public Provider findByCuit(String cuit) {

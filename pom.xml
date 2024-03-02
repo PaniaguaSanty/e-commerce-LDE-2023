@@ -12,7 +12,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>com.itec1.e_commerce.E_commerce</exec.mainClass>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -60,6 +60,29 @@
             <version>2.7.12</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.6.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+            </plugin>
+        </plugins>
+    </build>
     
 </project>
+
