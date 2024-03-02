@@ -47,15 +47,25 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Warehouse disable(Long id) throws NonexistentEntityException, Exception {
         Warehouse warehouse = warehouseJpaController.findWarehouse(id);
         warehouse.setEnabled(false);
         warehouseJpaController.edit(warehouse);
+        return warehouseJpaController.findWarehouse(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Warehouse delete(Long id) throws NonexistentEntityException {
         warehouseJpaController.destroy(id);
+        return warehouseJpaController.findWarehouse(id);
+    }
+
+    @Override
+    public Warehouse enable(Long id) throws NonexistentEntityException, Exception {
+        Warehouse warehouse = warehouseJpaController.findWarehouse(id);
+        warehouse.setEnabled(true);
+        warehouseJpaController.edit(warehouse);
+        return warehouseJpaController.findWarehouse(id);
     }
 
     public List<Warehouse> findWarehouseByCountry(String countryName) {

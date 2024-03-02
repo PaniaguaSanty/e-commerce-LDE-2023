@@ -52,15 +52,25 @@ public class ProductServiceImpl implements ICRUD<Product> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Product disable(Long id) throws NonexistentEntityException, Exception {
         Product product = productJpaController.findProduct(id);
         product.setEnabled(false);
         productJpaController.edit(product);
+        return productJpaController.findProduct(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Product delete(Long id) throws NonexistentEntityException {
         productJpaController.destroy(id);
+        return productJpaController.findProduct(id);
+    }
+
+    @Override
+    public Product enable(Long id) throws NonexistentEntityException, Exception {
+        Product product = productJpaController.findProduct(id);
+        product.setEnabled(false);
+        productJpaController.edit(product);
+        return productJpaController.findProduct(id);
     }
 
     public List<Product> findProductsByName(String name) {

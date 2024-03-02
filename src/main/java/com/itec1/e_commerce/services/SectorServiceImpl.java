@@ -42,15 +42,25 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Sector disable(Long id) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
         sector.setEnabled(false);
         sectorJpaController.edit(sector);
+        return sectorJpaController.findSector(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Sector delete(Long id) throws NonexistentEntityException {
         sectorJpaController.destroy(id);
+        return sectorJpaController.findSector(id);
+    }
+
+    @Override
+    public Sector enable(Long id) throws NonexistentEntityException, Exception {
+        Sector sector = sectorJpaController.findSector(id);
+        sector.setEnabled(true);
+        sectorJpaController.edit(sector);
+        return sectorJpaController.findSector(id);
     }
 
     @Override

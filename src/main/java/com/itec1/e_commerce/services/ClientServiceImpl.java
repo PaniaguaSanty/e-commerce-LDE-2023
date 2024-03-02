@@ -44,15 +44,25 @@ public class ClientServiceImpl implements ICRUD<Client> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Client disable(Long id) throws NonexistentEntityException, Exception {
         Client client = clientJpaController.findClient(id);
         client.setEnable(false);
         clientJpaController.edit(client);
+        return clientJpaController.findClient(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Client delete(Long id) throws NonexistentEntityException {
         clientJpaController.destroy(id);
+        return clientJpaController.findClient(id);
+    }
+
+    @Override
+    public Client enable(Long id) throws NonexistentEntityException, Exception {
+        Client client = clientJpaController.findClient(id);
+        client.setEnable(true);
+        clientJpaController.edit(client);
+        return clientJpaController.findClient(id);
     }
 
     public Client findByCuit(String cuit) {

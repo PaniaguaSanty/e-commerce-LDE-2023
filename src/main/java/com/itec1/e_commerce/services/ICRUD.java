@@ -22,8 +22,10 @@ public interface ICRUD<T> {
 
     List<T> findAll();
 
-    void disable(Long id) throws NonexistentEntityException, Exception;
+    T disable(Long id) throws NonexistentEntityException, Exception;
 
-    void delete(Long id) throws NonexistentEntityException;
-    
+    T delete(Long id) throws NonexistentEntityException;
+
+    T enable(Long id) throws NonexistentEntityException, Exception;
+
 }

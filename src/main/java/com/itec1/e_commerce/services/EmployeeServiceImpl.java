@@ -45,15 +45,24 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     @Override
-    public void disable(Long id) throws NonexistentEntityException, Exception {
+    public Employee disable(Long id) throws NonexistentEntityException, Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(false);
         employeeJpaController.edit(employee);
+        return employeeJpaController.findEmployee(id);
     }
 
     @Override
-    public void delete(Long id) throws NonexistentEntityException {
+    public Employee delete(Long id) throws NonexistentEntityException {
         employeeJpaController.destroy(id);
+        return employeeJpaController.findEmployee(id);
+    }
+
+    public Employee enable(Long id) throws NonexistentEntityException, Exception {
+        Employee employee = employeeJpaController.findEmployee(id);
+        employee.setEnable(true);
+        employeeJpaController.edit(employee);
+        return employeeJpaController.findEmployee(id);
     }
 
 }
