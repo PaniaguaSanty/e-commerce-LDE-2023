@@ -4,35 +4,55 @@
  */
 package com.itec1.e_commerce.views;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author sjcex
  */
 public class MainFrame extends javax.swing.JFrame {
-    
-    private final MainPanel mainPanel;
 
-    /**
-     * Creates new form Principal
-     */
+    private final MainPanel mainPanel;
+    private Management_Carriers_Panel carriersPanel;
+    private Management_Clients_Panel clientsPanel;
+    private Management_Products_Categories_Panel productsCategoriesPanel;
+    private Management_Products_Panel productsPanel;
+    private Management_Providers_Panel providersPanel;
+    private Management_Sectors_Panel sectorsPanel;
+    private Management_Warehouses_Panel warehouseHouse;
+    private Order_NewOrder_Panel newOrderPanel;
+    private Order_ViewOrderSector_Panel wiewOrderSectorPanel;
+    private Order_ViewOrderStatuses_Panel orderStatusesPanel;
+    private Reports_Carriers_ByDate_Panel carriersByDatePanel;
+    private Reports_Carriers_Overview_Panel reportsCarriersOverviewPanel;
+    private Reports_Clients_ByCategory_Panel reportsClientsByCategoryPanel;
+    private Reports_Clients_ByDate_Panel reportsClientsByDatePanel;
+    private Reports_Clients_Overview_Panel reportsClientsOverviewPanel;
+    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
+    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
+    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
+    private Reports_Providers_ByDate_Panel providersByDatePanel;
+    private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
+    
+           
     public MainFrame() {
-        
+
         initComponents();
-        
-        this.setSize(800,660);
+        this.mainPanel = new MainPanel();
+        this.mainPanel.setSize(800, 660);
+        this.contentPanel.add(mainPanel);
+
+        this.setSize(800, 660);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        this.mainPanel = new MainPanel();
-        this.mainPanel.setSize(800, 660);
-        this.add(this.mainPanel);
-        
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        contentPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -69,6 +89,20 @@ public class MainFrame extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 660));
         setPreferredSize(new java.awt.Dimension(800, 660));
         setResizable(false);
+
+        contentPanel.setMaximumSize(new java.awt.Dimension(800, 600));
+        contentPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+
+        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
+        contentPanel.setLayout(contentPanelLayout);
+        contentPanelLayout.setHorizontalGroup(
+            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+        contentPanelLayout.setVerticalGroup(
+            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -139,12 +173,27 @@ public class MainFrame extends javax.swing.JFrame {
         menu_Orders.setText("Pedidos");
 
         menu_newOrder.setText("Crear nuevo pedido");
+        menu_newOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_newOrderActionPerformed(evt);
+            }
+        });
         menu_Orders.add(menu_newOrder);
 
         menu_ViewOrderSector.setText("Ver sector de un pedido");
+        menu_ViewOrderSector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ViewOrderSectorActionPerformed(evt);
+            }
+        });
         menu_Orders.add(menu_ViewOrderSector);
 
         menu_ViewOrderStatuses.setText("Ver estados de un pedido");
+        menu_ViewOrderStatuses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ViewOrderStatusesActionPerformed(evt);
+            }
+        });
         menu_Orders.add(menu_ViewOrderStatuses);
 
         jMenuBar1.add(menu_Orders);
@@ -154,12 +203,27 @@ public class MainFrame extends javax.swing.JFrame {
         menu_ClientReports.setText("Generar informe de Clientes");
 
         client_OverviewReport.setText("Informe general");
+        client_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_OverviewReportActionPerformed(evt);
+            }
+        });
         menu_ClientReports.add(client_OverviewReport);
 
         client_ReportByDate.setText("Informe por fecha");
+        client_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_ReportByDateActionPerformed(evt);
+            }
+        });
         menu_ClientReports.add(client_ReportByDate);
 
         client_ReportByCategory.setText("Informe por categoria de productos");
+        client_ReportByCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_ReportByCategoryActionPerformed(evt);
+            }
+        });
         menu_ClientReports.add(client_ReportByCategory);
 
         menu_Reports.add(menu_ClientReports);
@@ -167,9 +231,19 @@ public class MainFrame extends javax.swing.JFrame {
         menu_ProvidersReport.setText("Generar informe de Proveedores");
 
         provider_OverviewReport.setText("Informe general");
+        provider_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                provider_OverviewReportActionPerformed(evt);
+            }
+        });
         menu_ProvidersReport.add(provider_OverviewReport);
 
         provider_ReportByDate.setText("Informe por fecha");
+        provider_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                provider_ReportByDateActionPerformed(evt);
+            }
+        });
         menu_ProvidersReport.add(provider_ReportByDate);
 
         menu_Reports.add(menu_ProvidersReport);
@@ -177,9 +251,19 @@ public class MainFrame extends javax.swing.JFrame {
         menu_CarriersReport.setText("Generar informe de Transportistas");
 
         carrier_OverviewReport.setText("Informe general");
+        carrier_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carrier_OverviewReportActionPerformed(evt);
+            }
+        });
         menu_CarriersReport.add(carrier_OverviewReport);
 
         carrier_ReportByDate.setText("Informe por fecha");
+        carrier_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carrier_ReportByDateActionPerformed(evt);
+            }
+        });
         menu_CarriersReport.add(carrier_ReportByDate);
 
         menu_Reports.add(menu_CarriersReport);
@@ -187,12 +271,27 @@ public class MainFrame extends javax.swing.JFrame {
         menu_OrdersReport.setText("Generar informe de Pedidos");
 
         order_OverviewReport.setText("Informe general");
+        order_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                order_OverviewReportActionPerformed(evt);
+            }
+        });
         menu_OrdersReport.add(order_OverviewReport);
 
         order_ReportByDate.setText("Informe por fecha");
+        order_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                order_ReportByDateActionPerformed(evt);
+            }
+        });
         menu_OrdersReport.add(order_ReportByDate);
 
         order_ReportByStatuses.setText("Informe por estados");
+        order_ReportByStatuses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                order_ReportByStatusesActionPerformed(evt);
+            }
+        });
         menu_OrdersReport.add(order_ReportByStatuses);
 
         menu_Reports.add(menu_OrdersReport);
@@ -205,52 +304,132 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ClientsActionPerformed
-        
+        Management_Clients_Panel clientsP = new Management_Clients_Panel();
+        this.changePanel(clientsP);
+
     }//GEN-LAST:event_menu_ClientsActionPerformed
 
     private void menu_CarriersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CarriersActionPerformed
-        
+        Management_Carriers_Panel carriersP = new Management_Carriers_Panel();
+        this.changePanel(carriersP);
     }//GEN-LAST:event_menu_CarriersActionPerformed
 
     private void menu_ProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProvidersActionPerformed
-        
+        Management_Providers_Panel providerP = new Management_Providers_Panel();
+        this.changePanel(providerP);
     }//GEN-LAST:event_menu_ProvidersActionPerformed
 
     private void menu_ProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProductsActionPerformed
-        
+        Management_Products_Panel productsP = new Management_Products_Panel();
+        this.changePanel(productsP);
     }//GEN-LAST:event_menu_ProductsActionPerformed
 
     private void menu_WarehousesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_WarehousesActionPerformed
-        
+        Management_Warehouses_Panel warehouseP = new Management_Warehouses_Panel();
+        this.changePanel(warehouseP);
     }//GEN-LAST:event_menu_WarehousesActionPerformed
 
     private void menu_ProductCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProductCategoriesActionPerformed
-        // TODO add your handling code here:
+       Management_Products_Categories_Panel productCP = new Management_Products_Categories_Panel();
+       this.changePanel(productCP);
     }//GEN-LAST:event_menu_ProductCategoriesActionPerformed
 
     private void menu_SectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_SectorsActionPerformed
-        // TODO add your handling code here:
+   Management_Sectors_Panel sectorP = new Management_Sectors_Panel();
+   this.changePanel(sectorP);
     }//GEN-LAST:event_menu_SectorsActionPerformed
 
-    
-    
+    private void client_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_OverviewReportActionPerformed
+        Reports_Clients_Overview_Panel report =  new Reports_Clients_Overview_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_client_OverviewReportActionPerformed
+
+    private void client_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_ReportByDateActionPerformed
+        Reports_Clients_ByDate_Panel report = new Reports_Clients_ByDate_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_client_ReportByDateActionPerformed
+
+    private void client_ReportByCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_ReportByCategoryActionPerformed
+       Reports_Clients_ByCategory_Panel report = new Reports_Clients_ByCategory_Panel();
+       this.changePanel(report);
+    }//GEN-LAST:event_client_ReportByCategoryActionPerformed
+
+    private void provider_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_provider_OverviewReportActionPerformed
+      Reports_Providers_Overview_Panel report = new Reports_Providers_Overview_Panel();
+      this.changePanel(report);
+    }//GEN-LAST:event_provider_OverviewReportActionPerformed
+
+    private void provider_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_provider_ReportByDateActionPerformed
+      Reports_Providers_ByDate_Panel report = new Reports_Providers_ByDate_Panel();
+      this.changePanel(report);
+    }//GEN-LAST:event_provider_ReportByDateActionPerformed
+
+    private void carrier_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrier_OverviewReportActionPerformed
+        Reports_Carriers_Overview_Panel report = new Reports_Carriers_Overview_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_carrier_OverviewReportActionPerformed
+
+    private void carrier_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrier_ReportByDateActionPerformed
+        Reports_Carriers_ByDate_Panel report = new Reports_Carriers_ByDate_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_carrier_ReportByDateActionPerformed
+
+    private void order_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_OverviewReportActionPerformed
+        Reports_Orders_Overview_Panel report = new Reports_Orders_Overview_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_order_OverviewReportActionPerformed
+
+    private void order_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_ReportByDateActionPerformed
+        Reports_Orders_ByDate_Panel report = new Reports_Orders_ByDate_Panel();
+        this.changePanel(report);
+    }//GEN-LAST:event_order_ReportByDateActionPerformed
+
+    private void order_ReportByStatusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_ReportByStatusesActionPerformed
+       Reports_Orders_ByStatuses_Panel report = new Reports_Orders_ByStatuses_Panel();
+       this.changePanel(report);
+    }//GEN-LAST:event_order_ReportByStatusesActionPerformed
+
+    private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newOrderActionPerformed
+        Order_NewOrder_Panel order = new Order_NewOrder_Panel();
+        this.changePanel(order);
+    }//GEN-LAST:event_menu_newOrderActionPerformed
+
+    private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
+       Order_ViewOrderSector_Panel order = new Order_ViewOrderSector_Panel();
+       this.changePanel(order);
+    }//GEN-LAST:event_menu_ViewOrderSectorActionPerformed
+
+    private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed
+      Order_ViewOrderStatuses_Panel order = new Order_ViewOrderStatuses_Panel();
+      this.changePanel(order);
+    }//GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
+
+    public void changePanel (JPanel newPanel ){
+        this.contentPanel.removeAll();
+        newPanel.setSize(800,660);
+        this.contentPanel.add(newPanel);
+        this.contentPanel.validate();
+        this.contentPanel.repaint();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem carrier_OverviewReport;
     private javax.swing.JMenuItem carrier_ReportByDate;
     private javax.swing.JMenuItem client_OverviewReport;
     private javax.swing.JMenuItem client_ReportByCategory;
     private javax.swing.JMenuItem client_ReportByDate;
+    private javax.swing.JPanel contentPanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
