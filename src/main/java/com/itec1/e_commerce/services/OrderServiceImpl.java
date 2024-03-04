@@ -49,7 +49,7 @@ public class OrderServiceImpl {
         this.invoiceJpaController = invoiceJpaController;
     }
 
-    //Tienen RuntimeException en vez de EntityNotFoundException porque
+    //Los métodos con find tienen RuntimeException en vez de EntityNotFoundException porque
     //para implementar la  misma hay que cambiar los constructores :(.
     public Order create(Order entity) {
         try {
