@@ -6,6 +6,7 @@ import com.itec1.e_commerce.dao.CarrierJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 public class CarrierServiceImpl implements ICRUD<Carrier> {
 
@@ -67,9 +68,15 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     public Carrier findByCuit(String cuit) {
-        return carrierJpaController.findCarrierEntities().stream()
-                .filter(carrier -> carrier.getCuit().equals(cuit))
-                .findFirst().orElse(null);
+        try {
+            return carrierJpaController.findCarrierEntities().stream()
+                    .filter(carrier -> carrier.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Carrier not found with CUIT: " + cuit));
+        } catch (Exception e) {
+            System.err.println("Error while searching for carrier by CUIT: " + e.getMessage());
+            throw new RuntimeException("Error while searching for carrier by CUIT. Please try again later.", e);
+        }
     }
 
     public List<Carrier> searchByTypeOfTransport(String transportType) {
