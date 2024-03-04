@@ -1,5 +1,6 @@
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import java.util.List;
 
 import com.itec1.e_commerce.dao.ClientJpaController;
@@ -11,8 +12,8 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     private final ClientJpaController clientJpaController;
 
-    public ClientServiceImpl(ClientJpaController clientJpaController) {
-        this.clientJpaController = clientJpaController;
+    public ClientServiceImpl() {
+        this.clientJpaController = new ClientJpaController(Connection.getEmf());
     }
 
     @Override
