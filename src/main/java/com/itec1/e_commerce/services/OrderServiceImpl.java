@@ -19,9 +19,9 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -49,56 +49,93 @@ public class OrderServiceImpl {
         this.invoiceJpaController = invoiceJpaController;
     }
 
+    //Tienen RuntimeException en vez de EntityNotFoundException porque
+    //para implementar la  misma hay que cambiar los constructores :(.
     public Order create(Order entity) {
-        orderJpaController.create(entity);
-        return orderJpaController.findOrder(entity.getId());
+        try {
+            orderJpaController.create(entity);
+            return orderJpaController.findOrder(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating the order: " + e.getMessage());
+            throw new RuntimeException("Failed to create order.", e);
+        }
     }
 
     public Order findById(Long id) {
-        return orderJpaController.findOrder(id);
+        try {
+            return orderJpaController.findOrder(id);
+        } catch (Exception e) {
+            System.err.println("Error while finding order by ID: " + e.getMessage());
+            throw new RuntimeException("Failed to find order by ID.", e);
+        }
     }
 
     public List<Order> findAll() {
-        return orderJpaController.findOrderEntities();
+        try {
+            return orderJpaController.findOrderEntities();
+        } catch (Exception e) {
+            System.err.println("Error while finding all orders: " + e.getMessage());
+            throw new RuntimeException("Failed to find all orders.", e);
+        }
     }
 
     public List<TrackingOrder> findByOrder(Order order) {
-        List<TrackingOrder> foundTrackingOrder = new ArrayList<>();
-        for (TrackingOrder to : trackingOrderJpaController.findTrackingOrderEntities()) {
-            if (to.getOrder().getId().equals(order.getId())) {
-                foundTrackingOrder.add(to);
-            }
+        try {
+            return trackingOrderJpaController.findTrackingOrderEntities().stream()
+                    .filter(trackingOrder -> trackingOrder.getOrder().getId().equals(order.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding tracking orders: " + e.getMessage());
+            throw new RuntimeException("Failed to found the order.", e);
         }
-        return foundTrackingOrder;
     }
 
     public List<Order> findByWarehouse(Warehouse entity) {
-        return orderJpaController.findOrderEntities().stream()
-                .filter(order -> order.getSector().getWarehouse().getId()
-                .equals(entity.getId()))
-                .toList();
+        try {
+            return orderJpaController.findOrderEntities().stream()
+                    .filter(order -> order.getSector().getWarehouse().getId()
+                    .equals(entity.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by Warehouse: " + e.getMessage());
+            throw new RuntimeException("Failed to found the order.", e);
+        }
 
     }
 
     public List<Order> findByClient(Client entity) {
-        return orderJpaController.findOrderEntities().stream()
-                .filter(order -> order.getClient().getId()
-                .equals(entity.getId()))
-                .toList();
-
+        try {
+            return orderJpaController.findOrderEntities().stream()
+                    .filter(order -> order.getClient().getId()
+                    .equals(entity.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by client." + e.getMessage());
+            throw new RuntimeException("Failed to found the order by Client.", e);
+        }
     }
 
     public List<Order> findBySector(Sector entity) {
-        return orderJpaController.findOrderEntities().stream()
-                .filter(order -> order.getSector().getId()
-                .equals(entity.getId()))
-                .toList();
+        try {
+            return orderJpaController.findOrderEntities().stream()
+                    .filter(order -> order.getSector().getId()
+                    .equals(entity.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by sector");
+            throw new RuntimeException("Failed to found orders by sector", e);
+        }
 
     }
 
     public TrackingOrder create(TrackingOrder entity) {
-        trackingOrderJpaController.create(entity);
-        return trackingOrderJpaController.findTrackingOrder(entity.getId());
+        try {
+            trackingOrderJpaController.create(entity);
+            return trackingOrderJpaController.findTrackingOrder(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating the tracking order." + e.getMessage());
+            throw new RuntimeException("Failed to  create the Tracking order: ", e);
+        }
     }
 
     public void changeState(Order order) {
@@ -111,7 +148,6 @@ public class OrderServiceImpl {
             createTracking(order, order.getWarehouseDestiny().getLatitude(),
                     order.getWarehouseDestiny().getLongitude(), states[nextState]);
         }
-
     }
 
     public void orderInTransit(Order order, String latitude, String longitude) {
@@ -125,7 +161,6 @@ public class OrderServiceImpl {
                 State.CANCELED);
         sectorServiceImpl.changeSector(order,
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
-   
     }
 
     public void returnOrder(Order order) throws Exception {
@@ -138,7 +173,12 @@ public class OrderServiceImpl {
     }
 
     public void create(Invoice invoice) {
+        try {
         invoiceJpaController.create(invoice);
+        }catch (Exception e) {
+            System.err.println("Error while creating invoice. " + e.getMessage());
+            throw new RuntimeException("Failed to create Invoice", e);
+        }
     }
 
     public void addDetail(Order order, List<DetailOrder> details) {

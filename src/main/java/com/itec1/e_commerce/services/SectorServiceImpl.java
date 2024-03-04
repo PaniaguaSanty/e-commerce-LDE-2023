@@ -10,8 +10,9 @@ import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -29,8 +30,13 @@ public class SectorServiceImpl implements ICRUD<Sector> {
 
     @Override
     public Sector create(Sector entity) {
-        sectorJpaController.create(entity);
-        return sectorJpaController.findSector(entity.getId());
+        try {
+            sectorJpaController.create(entity);
+            return sectorJpaController.findSector(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating a new sector: " + e.getMessage());
+            throw new RuntimeException("Failed to create a sector", e);
+        }
     }
 
     @Override
@@ -70,29 +76,34 @@ public class SectorServiceImpl implements ICRUD<Sector> {
 
     @Override
     public List<Sector> findAll() {
-        List<Sector> sectors = new ArrayList<>();
-        for (Sector se : sectorJpaController.findSectorEntities()) {
-            if (se.getEnabled()) {
-                sectors.add(se);
-            }
-        }
-        return sectors;
+        return sectorJpaController.findSectorEntities();
     }
 
     public Sector findSectorByName(String sectorName, Warehouse entity) {
-        List<Sector> sectors = findSectorByWarehouse(entity);
-        return sectors
-                .stream()
-                .filter(sector -> sector.getName().equals(sectorName))
-                .findFirst().orElse(null);
+        try {
+            List<Sector> sectors = findSectorByWarehouse(entity);
+            return sectors
+                    .stream()
+                    .filter(sector -> sector.getName().equals(sectorName))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
+        } catch (Exception e) {
+            System.err.println("Error while finding sector´s by name: " + e.getMessage());
+            throw new RuntimeException("Failed to find the sector.", e);
+        }
     }
 
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
-        return sectorJpaController.findSectorEntities()
-                .stream()
-                .filter(sector -> sector.getWarehouse().getId()
-                .equals(warehouse.getId()))
-                .toList();
+        try {
+            return sectorJpaController.findSectorEntities()
+                    .stream()
+                    .filter(sector -> sector.getWarehouse().getId()
+                    .equals(warehouse.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding sector´s by warehouse." + e.getMessage());
+            throw new RuntimeException("Failed to find sector´s by warehouse", e);
+        }
     }
 
     public Order changeSector(Order order, Sector sector) throws Exception {

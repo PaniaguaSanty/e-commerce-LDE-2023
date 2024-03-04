@@ -5,6 +5,7 @@ import java.util.List;
 import com.itec1.e_commerce.dao.EmployeeJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Employee;
+import javax.persistence.EntityNotFoundException;
 
 public class EmployeeServiceImpl implements ICRUD<Employee> {
 
@@ -16,8 +17,13 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     @Override
     public Employee create(Employee entity) {
-        employeeJpaController.create(entity);
-        return employeeJpaController.findEmployee(entity.getId());
+        try {
+            employeeJpaController.create(entity);
+            return employeeJpaController.findEmployee(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error when creating the employee" + e.getMessage());
+            throw new RuntimeException("Failed to create employee", e);
+        }
     }
 
     @Override
@@ -58,6 +64,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         return employeeJpaController.findEmployee(id);
     }
 
+    @Override
     public Employee enable(Long id) throws NonexistentEntityException, Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(true);
@@ -65,4 +72,18 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         return employeeJpaController.findEmployee(id);
     }
 
+    public Employee findByCuit(String cuit) {
+        try {
+            return employeeJpaController.findEmployeeEntities().stream()
+                    .filter(client -> client.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Client not found with CUIT: " + cuit));
+        } catch (Exception e) {
+            System.err.println("Error while searching for client by CUIT: " + e.getMessage());
+            throw new RuntimeException("Error while searching for client by CUIT. Please try again later.", e);
+        }
+    }
+
+    //TODO: RelocateEmployee Function
+    //TODO: SearchEmployeeByWarehouse Function
 }

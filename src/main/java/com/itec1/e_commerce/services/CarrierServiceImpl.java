@@ -77,7 +77,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
             return carrierJpaController.findCarrierEntities().stream()
                     .filter(carrier -> carrier.getCuit().equals(cuit))
                     .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Carrier not found with CUIT: " + cuit));
+                    .orElseThrow(() -> new EntityNotFoundException("Carrier with CUIT: " + cuit + " Not found"));
         } catch (Exception e) {
             System.err.println("Error while searching for carrier by CUIT: " + e.getMessage());
             throw new RuntimeException("Error while searching for carrier by CUIT. Please try again later.", e);

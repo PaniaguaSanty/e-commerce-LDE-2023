@@ -5,7 +5,6 @@
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.dao.InvoiceJpaController;
-import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
@@ -25,8 +24,13 @@ public class InvoiceServiceImpl {
     }
 
     public Invoice create(Invoice entity) {
-        invoiceJpaController.create(entity);
-        return invoiceJpaController.findInvoice(entity.getId());
+        try {
+            invoiceJpaController.create(entity);
+            return invoiceJpaController.findInvoice(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error when creating the invoice: " + e.getMessage());
+            throw new RuntimeException("Failed to create invoice", e);
+        }
     }
 
     public List<Invoice> findAll() {
@@ -42,10 +46,10 @@ public class InvoiceServiceImpl {
         }
         return invoices;
     }
-    
-    public Invoice findByOrder (Order order){
-        for(Invoice invoice : invoiceJpaController.findInvoiceEntities()){
-            if(invoice.getOrder().getId().equals(order.getId())){
+
+    public Invoice findByOrder(Order order) {
+        for (Invoice invoice : invoiceJpaController.findInvoiceEntities()) {
+            if (invoice.getOrder().getId().equals(order.getId())) {
                 return invoice;
             }
         }
