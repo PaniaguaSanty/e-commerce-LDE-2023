@@ -7,8 +7,8 @@ package com.itec1.e_commerce.services;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -24,8 +24,13 @@ public class ProductServiceImpl implements ICRUD<Product> {
 
     @Override
     public Product create(Product entity) {
-        productJpaController.create(entity);
-        return productJpaController.findProduct(entity.getId());
+        try {
+            productJpaController.create(entity);
+            return productJpaController.findProduct(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating a new product: " + e.getMessage());
+            throw new RuntimeException("Failed to create a product", e);
+        }
     }
 
     @Override
@@ -74,33 +79,36 @@ public class ProductServiceImpl implements ICRUD<Product> {
     }
 
     public List<Product> findProductsByName(String name) {
-        List<Product> productsFound = new ArrayList<>();
-        for (Product product : productJpaController.findProductEntities()) {
-            if (product.getName().contains(name)) {
-                productsFound.add(product);
-            }
+        try {
+            return productJpaController.findProductEntities().stream()
+                    .filter(product -> product.getName().contains(name))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding a product named}: " + e.getMessage());
+            throw new RuntimeException("Failed to find products by name.", e);
         }
-        return productsFound;
     }
 
     public List<Product> findProductsByCategory(String category) {
-        List<Product> productsFound = new ArrayList<>();
-        for (Product product : productJpaController.findProductEntities()) {
-            if (product.getProductCategory().getName().contains(category)) {
-                productsFound.add(product);
-            }
+        try {
+            return productJpaController.findProductEntities().stream()
+                    .filter(product -> product.getProductCategory().getName().contains(category))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding products by category: " + e.getMessage());
+            throw new RuntimeException("Failed to find products by category.", e);
         }
-        return productsFound;
     }
 
     public List<Product> findProductsByProvider(String cuit) {
-        List<Product> productsFound = new ArrayList<>();
-        for (Product product : productJpaController.findProductEntities()) {
-            if (product.getProvider().getCuit().equals(cuit)) {
-                productsFound.add(product);
-            }
+        try {
+            return productJpaController.findProductEntities().stream()
+                    .filter(product -> product.getProvider().getCuit().equals(cuit))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error while finding products by provider´s nonexistent cuit: " + e.getMessage());
+            throw new RuntimeException("Failed to find products  by  provider´s cuit: ", e);
         }
-        return productsFound;
     }
 
     public Product updateProductCategory(Long id, Product entity) throws Exception {

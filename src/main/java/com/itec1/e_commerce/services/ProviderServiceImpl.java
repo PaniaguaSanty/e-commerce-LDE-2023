@@ -8,6 +8,7 @@ import com.itec1.e_commerce.dao.ProviderJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -23,8 +24,13 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     @Override
     public Provider create(Provider entity) {
-        providerJpaController.create(entity);
-        return providerJpaController.findProvider(entity.getId());
+        try {
+            providerJpaController.create(entity);
+            return providerJpaController.findProvider(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating a provider: " + e.getMessage());
+            throw new RuntimeException("Failed to create a provider", e);
+        }
     }
 
     @Override
@@ -73,9 +79,15 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     public Provider findByCuit(String cuit) {
-        return providerJpaController.findProviderEntities()
-                .stream()
-                .filter(provider -> provider.getCuit().equals(cuit))
-                .findFirst().orElse(null);
+        try {
+            return providerJpaController.findProviderEntities()
+                    .stream()
+                    .filter(provider -> provider.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Provider with: " + cuit + " Not found."));
+        } catch (Exception e) {
+            System.err.println("Error while finding a provider by cuit: " + e.getMessage());
+            throw new RuntimeException("Failed to find a provider by cuit: ", e);
+        }
     }
 }

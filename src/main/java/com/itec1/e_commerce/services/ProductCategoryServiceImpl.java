@@ -8,6 +8,7 @@ import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -23,8 +24,13 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     @Override
     public ProductCategory create(ProductCategory entity) {
-        productCategoryJpaController.create(entity);
-        return productCategoryJpaController.findProductCategory(entity.getId());
+        try {
+            productCategoryJpaController.create(entity);
+            return productCategoryJpaController.findProductCategory(entity.getId());
+        } catch (Exception e) {
+            System.err.println("Error while creating the product category: " + e.getMessage());
+            throw new RuntimeException("Failed to create the product category", e);
+        }
     }
 
     @Override
@@ -68,8 +74,14 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     }
 
     public ProductCategory findByName(String name) {
-        return productCategoryJpaController.findProductCategoryEntities().stream()
-                .filter(productCategory -> productCategory.getName().equals(name))
-                .findFirst().orElse(null);
+        try {
+            return productCategoryJpaController.findProductCategoryEntities().stream()
+                    .filter(productCategory -> productCategory.getName().equals(name))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Product Category with: " + name + " Not found."));
+        } catch (Exception e) {
+            System.err.println("Error while finding a product category: " + e.getMessage());
+            throw new RuntimeException("Failed to find the category. ", e);
+        }
     }
 }
