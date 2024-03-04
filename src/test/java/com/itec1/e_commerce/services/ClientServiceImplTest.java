@@ -29,7 +29,7 @@ class ClientServiceImplTest {
         this.client = new Client("name","lastname", "address", "123", "email", "phone");
         this.clientMockDB = new ArrayList<>();
         this.clientMockDB.add(client);
-        this.clientService = new ClientServiceImpl(clientJpa);
+        this.clientService = new ClientServiceImpl();
     }
 
     @Test

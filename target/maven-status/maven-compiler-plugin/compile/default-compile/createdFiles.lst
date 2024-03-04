@@ -1,3 +1,4 @@
+com/itec1/e_commerce/views/Management_Clients_Panel$9.class
 com/itec1/e_commerce/views/MainFrame$17.class
 com/itec1/e_commerce/entities/Sector.class
 com/itec1/e_commerce/dao/InvoiceJpaController.class
@@ -10,11 +11,15 @@ com/itec1/e_commerce/services/ClientServiceImpl.class
 com/itec1/e_commerce/E_commerce.class
 com/itec1/e_commerce/views/MainFrame$11.class
 com/itec1/e_commerce/services/ProviderServiceImpl.class
+com/itec1/e_commerce/views/Management_Clients_Panel$3.class
 com/itec1/e_commerce/dao/ProductCategoryJpaController.class
+com/itec1/e_commerce/views/Management_Clients_Panel$10.class
 com/itec1/e_commerce/views/Management_Products_Panel.class
+com/itec1/e_commerce/views/Management_Clients_Panel$6.class
 com/itec1/e_commerce/entities/DetailOrder_.class
 com/itec1/e_commerce/views/Reports_Providers_ByDate_Panel.class
 com/itec1/e_commerce/views/MainFrame$5.class
+com/itec1/e_commerce/views/Management_Clients_Panel$4.class
 com/itec1/e_commerce/views/MainFrame$12.class
 com/itec1/e_commerce/entities/Client_.class
 com/itec1/e_commerce/views/Management_Clients_Panel.class
@@ -29,6 +34,7 @@ com/itec1/e_commerce/views/Reports_Providers_Overview_Panel.class
 com/itec1/e_commerce/views/Management_Carriers_Panel.class
 com/itec1/e_commerce/services/CarrierServiceImpl.class
 com/itec1/e_commerce/entities/Provider_.class
+com/itec1/e_commerce/views/Management_Clients_Panel$5.class
 com/itec1/e_commerce/views/MainFrame$4.class
 com/itec1/e_commerce/entities/ProductCategory_.class
 com/itec1/e_commerce/views/Management_Products_Categories_Panel.class
@@ -41,6 +47,7 @@ com/itec1/e_commerce/views/Reports_Orders_ByDate_Panel.class
 com/itec1/e_commerce/dao/WarehouseJpaController.class
 com/itec1/e_commerce/views/Management_Warehouses_Panel.class
 com/itec1/e_commerce/entities/Order_.class
+com/itec1/e_commerce/views/Management_Clients_Panel$2.class
 com/itec1/e_commerce/entities/State.class
 com/itec1/e_commerce/services/ProductCategoryServiceImpl.class
 com/itec1/e_commerce/views/MainFrame$10.class
@@ -81,11 +88,13 @@ com/itec1/e_commerce/views/Reports_Carriers_Overview_Panel.class
 com/itec1/e_commerce/views/MainFrame$16.class
 com/itec1/e_commerce/entities/Employee_.class
 com/itec1/e_commerce/entities/Client.class
+com/itec1/e_commerce/views/Management_Clients_Panel$7.class
 com/itec1/e_commerce/entities/Product.class
 com/itec1/e_commerce/views/MainFrame$2.class
 com/itec1/e_commerce/views/Management_Sectors_Panel.class
 com/itec1/e_commerce/views/Reports_Clients_ByCategory_Panel.class
 com/itec1/e_commerce/entities/Invoice.class
+com/itec1/e_commerce/views/Management_Clients_Panel$8.class
 com/itec1/e_commerce/views/Management_Clients_Panel$1.class
 com/itec1/e_commerce/services/InvoiceServiceImpl.class
 com/itec1/e_commerce/views/MainFrame$8.class
