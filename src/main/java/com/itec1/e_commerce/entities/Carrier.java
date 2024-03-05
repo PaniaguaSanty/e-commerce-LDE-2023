@@ -45,7 +45,7 @@ public class Carrier implements Serializable {
         this.aerial = aerial;
     }
     
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -107,28 +107,6 @@ public class Carrier implements Serializable {
 
     public void setAerial(Boolean aerial) {
         this.aerial = aerial;
-    }
-    
-
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Carrier)) {
-            return false;
-        }
-        Carrier other = (Carrier) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override
