@@ -28,7 +28,7 @@ public class DetailOrder implements Serializable {
     private Integer providerQualification;
     
     @ManyToOne
-    private Product pruduct;
+    private Product product;
     
     @ManyToOne
     private Order order;
@@ -36,10 +36,10 @@ public class DetailOrder implements Serializable {
     public DetailOrder() {
     }
 
-    public DetailOrder(Integer amount, Integer providerQualification, Product pruduct, Order order) {
+    public DetailOrder(Integer amount, Integer providerQualification, Product product, Order order) {
         this.amount = amount;
         this.providerQualification = providerQualification;
-        this.pruduct = pruduct;
+        this.product = product;
         this.order = order;
     }
     
@@ -67,12 +67,12 @@ public class DetailOrder implements Serializable {
         this.providerQualification = providerQualification;
     }
 
-    public Product getPruduct() {
-        return pruduct;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setPruduct(Product pruduct) {
-        this.pruduct = pruduct;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Order getOrder() {
@@ -82,30 +82,10 @@ public class DetailOrder implements Serializable {
     public void setOrder(Order order) {
         this.order = order;
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetailOrder)) {
-            return false;
-        }
-        DetailOrder other = (DetailOrder) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String toString() {
-        return "DetailOrder{" + "id=" + id + ", amount=" + amount + ", providerQualification=" + providerQualification + ", pruduct=" + pruduct + ", order=" + order + '}';
+        return "DetailOrder{" + "id=" + id + ", amount=" + amount + ", providerQualification=" + providerQualification + ", pruduct=" + product + ", order=" + order + '}';
     }
 
     
