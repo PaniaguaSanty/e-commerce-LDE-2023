@@ -4,12 +4,12 @@
  */
 package com.itec1.e_commerce.views;
 
-import com.itec1.e_commerce.config.Connection;
-import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.services.ClientServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityNotFoundException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -366,22 +366,28 @@ public class Management_Clients_Panel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtn_cancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_cancelar1ActionPerformed
-    
+
     }//GEN-LAST:event_jbtn_cancelar1ActionPerformed
 
     private void jbtn_modificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_modificar1ActionPerformed
-       Client newClient = clientService.findByCuit(jtf_cuit.getText());
-        newClient.setName(jtf_name.getText());
-        newClient.setLastname(jtf_lastname.getText());
-        newClient.setAddress(jtf_address.getText());
-        newClient.setEmail(jtf_email.getText());
-        newClient.setPhone(jtf_phone.getText());
         try {
-            clientService.update(newClient.getId(), newClient);
-        } catch (Exception ex) {
-            Logger.getLogger(Management_Clients_Panel.class.getName()).log(Level.SEVERE, null, ex);
+            Client newClient = clientService.findByCuit(jtf_cuit.getText());
+            newClient.setName(jtf_name.getText());
+            newClient.setLastname(jtf_lastname.getText());
+            newClient.setAddress(jtf_address.getText());
+            newClient.setEmail(jtf_email.getText());
+            newClient.setPhone(jtf_phone.getText());
+            try {
+                clientService.update(newClient.getId(), newClient);
+                JOptionPane.showMessageDialog(null, "Client updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                Logger.getLogger(Management_Clients_Panel.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error updating client.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (EntityNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Client not found: " + ex.getMessage(), "Error-Not-Found", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jbtn_modificar1ActionPerformed
 
     private void jbtn_eliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_eliminar1ActionPerformed
@@ -392,30 +398,29 @@ public class Management_Clients_Panel extends javax.swing.JPanel {
             Logger.getLogger(Management_Clients_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
+
     }//GEN-LAST:event_jbtn_eliminar1ActionPerformed
 
     private void jbtn_listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_listarActionPerformed
-        
-    
+
+
     }//GEN-LAST:event_jbtn_listarActionPerformed
 
     private void jbtn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_agregarActionPerformed
-        
+
     }//GEN-LAST:event_jbtn_agregarActionPerformed
 
     private void jtf_buscarPersonaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_buscarPersonaFocusGained
-        
-        
-        
+
+
     }//GEN-LAST:event_jtf_buscarPersonaFocusGained
 
     private void jtf_buscarPersonaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_buscarPersonaKeyReleased
-      
+
     }//GEN-LAST:event_jtf_buscarPersonaKeyReleased
 
     private void jbtn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_volverActionPerformed
-      
+
     }//GEN-LAST:event_jbtn_volverActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -427,7 +432,7 @@ public class Management_Clients_Panel extends javax.swing.JPanel {
         newClient.setEmail(jtf_email.getText());
         newClient.setPhone(jtf_phone.getText());
         clientService.create(newClient);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
