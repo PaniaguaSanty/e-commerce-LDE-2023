@@ -54,6 +54,7 @@
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/views/Management_Products_Categories_Panel.java
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/views/MainPanel.java
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/views/Management_Clients_Panel.java
+/home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/views/resources/ValidadorDeCampos.java
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/views/Management_Carriers_Panel.java
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/entities/State.java
 /home/melina/Documentos/GitHub/e-commerce-LDE-2023/src/main/java/com/itec1/e_commerce/dao/InvoiceJpaController.java

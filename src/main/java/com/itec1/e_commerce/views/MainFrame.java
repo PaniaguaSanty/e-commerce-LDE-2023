@@ -55,6 +55,8 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        menu_Close = new javax.swing.JMenuItem();
+        menu_Exit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         menu_Management = new javax.swing.JMenu();
         menu_Clients = new javax.swing.JMenuItem();
@@ -105,6 +107,23 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+
+        menu_Close.setText("Close");
+        menu_Close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_CloseActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_Close);
+
+        menu_Exit.setText("Exit");
+        menu_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_Exit);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -415,6 +434,14 @@ public class MainFrame extends javax.swing.JFrame {
       this.changePanel(order);
     }//GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
+    private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CloseActionPerformed
+        changePanel(mainPanel);
+    }//GEN-LAST:event_menu_CloseActionPerformed
+
+    private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_menu_ExitActionPerformed
+
     public void changePanel (JPanel newPanel ){
         this.contentPanel.removeAll();
         newPanel.setSize(800,660);
@@ -437,6 +464,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menu_CarriersReport;
     private javax.swing.JMenu menu_ClientReports;
     private javax.swing.JMenuItem menu_Clients;
+    private javax.swing.JMenuItem menu_Close;
+    private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
     private javax.swing.JMenu menu_OrdersReport;
