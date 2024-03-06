@@ -4,7 +4,6 @@ com\itec1\e_commerce\dao\exceptions\IllegalOrphanException.class
 com\itec1\e_commerce\entities\Warehouse.class
 com\itec1\e_commerce\dao\WarehouseJpaController.class
 com\itec1\e_commerce\entities\Sector_.class
-com\itec1\e_commerce\views\Management_Clients_Panel$7.class
 com\itec1\e_commerce\views\Management_Clients_Panel$1.class
 com\itec1\e_commerce\entities\Order_.class
 com\itec1\e_commerce\E_commerce.class
@@ -29,7 +28,6 @@ com\itec1\e_commerce\dao\ProductCategoryJpaController.class
 com\itec1\e_commerce\entities\Provider.class
 com\itec1\e_commerce\entities\Warehouse_.class
 com\itec1\e_commerce\entities\Employee_.class
-com\itec1\e_commerce\views\Management_Clients_Panel$6.class
 com\itec1\e_commerce\entities\Product.class
 com\itec1\e_commerce\services\CarrierServiceImpl.class
 com\itec1\e_commerce\views\MainFrame$6.class
@@ -47,7 +45,6 @@ com\itec1\e_commerce\views\MainFrame$16.class
 com\itec1\e_commerce\dao\exceptions\NonexistentEntityException.class
 com\itec1\e_commerce\views\Reports_Providers_Overview_Panel.class
 com\itec1\e_commerce\entities\DetailOrder_.class
-com\itec1\e_commerce\views\Management_Clients_Panel$10.class
 com\itec1\e_commerce\views\Reports_Providers_ByDate_Panel.class
 com\itec1\e_commerce\views\MainFrame$13.class
 com\itec1\e_commerce\views\Reports_Orders_ByDate_Panel.class
@@ -66,7 +63,6 @@ com\itec1\e_commerce\views\Management_Clients_Panel$5.class
 com\itec1\e_commerce\views\Order_NewOrder_Panel.class
 com\itec1\e_commerce\views\MainFrame$20.class
 com\itec1\e_commerce\entities\Sector.class
-com\itec1\e_commerce\views\Management_Clients_Panel$8.class
 com\itec1\e_commerce\dao\CarrierJpaController.class
 com\itec1\e_commerce\entities\Client.class
 com\itec1\e_commerce\views\MainFrame$18.class
@@ -83,7 +79,6 @@ com\itec1\e_commerce\dao\ClientJpaController.class
 com\itec1\e_commerce\dao\TrackingOrderJpaController.class
 com\itec1\e_commerce\views\Reports_Clients_ByCategory_Panel.class
 com\itec1\e_commerce\dao\exceptions\PreexistingEntityException.class
-com\itec1\e_commerce\views\Management_Clients_Panel$9.class
 com\itec1\e_commerce\views\MainFrame$9.class
 com\itec1\e_commerce\views\MainFrame$12.class
 com\itec1\e_commerce\views\Management_Products_Panel.class
