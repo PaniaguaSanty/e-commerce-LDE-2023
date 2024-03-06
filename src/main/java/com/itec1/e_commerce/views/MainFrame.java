@@ -41,10 +41,10 @@ public class MainFrame extends javax.swing.JFrame {
         
         // Inicializar el mainPanel en el constructor si es esencial para la interfaz inicial
         mainPanel = new MainPanel();
-        mainPanel.setSize(1024, 768);
+        mainPanel.setSize(800, 660);
         contentPanel.add(mainPanel);
 
-        setSize(1024, 768);  // Cambiar el tamaño del frame
+        setSize(800, 660);  // Cambiar el tamaño del frame
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -55,8 +55,6 @@ public class MainFrame extends javax.swing.JFrame {
             case "MainPanel":
                 if (mainPanel == null) {
                     mainPanel = new MainPanel();
-                    // Ajustar el tamaño del mainPanel al nuevo tamaño del frame
-                    mainPanel.setSize(1024, 768);
                 }
                 return mainPanel;
             case "Management_Carriers_Panel":
