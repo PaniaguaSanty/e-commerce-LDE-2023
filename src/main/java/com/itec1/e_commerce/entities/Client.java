@@ -22,19 +22,19 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
-    
+
     private String lastname;
-    
+
     private String address;
-    
+
     private String cuit;
-    
+
     private String email;
-    
+
     private String phone;
-    
+
     private Boolean enable;
 
     public Client() {
@@ -119,5 +119,5 @@ public class Client implements Serializable {
     public String toString() {
         return "Client{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enable + '}';
     }
-    
+
 }

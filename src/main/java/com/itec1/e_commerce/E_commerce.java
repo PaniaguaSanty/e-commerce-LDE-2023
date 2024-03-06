@@ -1,7 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.itec1.e_commerce;
 
 import com.itec1.e_commerce.config.Connection;
