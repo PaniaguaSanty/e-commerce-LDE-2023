@@ -20,24 +20,25 @@ public class Provider implements Serializable {
     private Long id;
 
     private String name;
-    private String surname;
+    private String lastname;
     private String address;
     private String cuit;
     private String email;
     private String phone;
-    private Boolean enabled;
+    private Boolean enable;
 
     public Provider() {
+        this.enable = true;
     }
 
-    public Provider(String name, String surname, String address, String cuit, String email, String phone, Boolean enabled) {
+    public Provider(String name, String lastname, String address, String cuit, String email, String phone) {
+        this();
         this.name = name;
-        this.surname = surname;
+        this.lastname = lastname;
         this.address = address;
         this.cuit = cuit;
         this.email = email;
         this.phone = phone;
-        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -56,12 +57,12 @@ public class Provider implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String surname) {
+        this.lastname = surname;
     }
 
     public String getAddress() {
@@ -96,12 +97,12 @@ public class Provider implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setEnable(Boolean enabled) {
+        this.enable = enabled;
     }
 
     @Override
@@ -126,7 +127,7 @@ public class Provider implements Serializable {
 
     @Override
     public String toString() {
-        return "provider{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + '}';
+        return "provider{" + "id=" + id + ", name=" + name + ", surname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enable=" + enable + '}';
     }
 
 }

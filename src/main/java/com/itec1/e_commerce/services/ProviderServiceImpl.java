@@ -4,10 +4,12 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProviderJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 /**
@@ -18,8 +20,8 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     private final ProviderJpaController providerJpaController;
 
-    public ProviderServiceImpl(ProviderJpaController providerJpaController) {
-        this.providerJpaController = providerJpaController;
+    public ProviderServiceImpl() {
+        this.providerJpaController = new ProviderJpaController(Connection.getEmf());
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         Provider provider = providerJpaController.findProvider(id);
         provider.setCuit(entity.getCuit());
         provider.setName(entity.getName());
-        provider.setSurname(entity.getSurname());
+        provider.setLastname(entity.getLastname());
         provider.setAddress(entity.getAddress());
         provider.setEmail(entity.getEmail());
         provider.setPhone(entity.getPhone());
@@ -53,13 +55,15 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     @Override
     public List<Provider> findAll() {
-        return providerJpaController.findProviderEntities();
+        return providerJpaController.findProviderEntities().stream()
+                .filter(provider -> provider.getEnable())
+                .collect(Collectors.toList());
     }
 
     @Override
     public Provider disable(Long id) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
-        provider.setEnabled(false);
+        provider.setEnable(false);
         providerJpaController.edit(provider);
         return providerJpaController.findProvider(id);
     }
@@ -73,7 +77,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     @Override
     public Provider enable(Long id) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
-        provider.setEnabled(true);
+        provider.setEnable(true);
         providerJpaController.edit(provider);
         return providerJpaController.findProvider(id);
     }
@@ -84,7 +88,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
                     .stream()
                     .filter(provider -> provider.getCuit().equals(cuit))
                     .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Provider with: " + cuit + " Not found."));
+                    .orElse(null);
         } catch (Exception e) {
             System.err.println("Error while finding a provider by cuit: " + e.getMessage());
             throw new RuntimeException("Failed to find a provider by cuit: ", e);
