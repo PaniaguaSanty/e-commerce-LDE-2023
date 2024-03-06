@@ -51,7 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private JPanel getPanel(String panelName) {
         switch (panelName) {
-            case "MainPanel":
+            case "Main_Panel":
                 if (mainPanel == null) {
                     mainPanel = new MainPanel();
                 }
@@ -179,7 +179,8 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menu_Close = new javax.swing.JMenuItem();
+        menu_Exit = new javax.swing.JMenuItem();
         menu_Management = new javax.swing.JMenu();
         menu_Clients = new javax.swing.JMenuItem();
         menu_Carriers = new javax.swing.JMenuItem();
@@ -229,10 +230,24 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menu_Close.setText("Cerrar");
+        menu_Close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_CloseActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_Close);
+
+        menu_Exit.setText("Salir");
+        menu_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_Exit);
+
+        jMenuBar1.add(jMenu1);
 
         menu_Management.setText("Gestión");
 
@@ -518,6 +533,14 @@ public class MainFrame extends javax.swing.JFrame {
         changePanel("Order_ViewOrderStatuses_Panel");
     }//GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
+    private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CloseActionPerformed
+        changePanel("Main_Panel");
+    }//GEN-LAST:event_menu_CloseActionPerformed
+
+    private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_menu_ExitActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem carrier_OverviewReport;
     private javax.swing.JMenuItem carrier_ReportByDate;
@@ -526,12 +549,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem client_ReportByDate;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem menu_Carriers;
     private javax.swing.JMenu menu_CarriersReport;
     private javax.swing.JMenu menu_ClientReports;
     private javax.swing.JMenuItem menu_Clients;
+    private javax.swing.JMenuItem menu_Close;
+    private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
     private javax.swing.JMenu menu_OrdersReport;
