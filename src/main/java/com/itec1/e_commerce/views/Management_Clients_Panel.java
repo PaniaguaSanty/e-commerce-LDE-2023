@@ -354,8 +354,8 @@ public class Management_Clients_Panel extends javax.swing.JPanel {
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         Client newClient = new Client();
-
-        if (jtf_cuit.getText().length() != 10) {
+//mensaje de prueba 
+        if (jtf_cuit.getText().length() != 11) {
             jtf_cuit.setText("ERROR.Ingrese un C.U.I.T. válido");
             return;
         }
