@@ -6,6 +6,7 @@ import java.util.List;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Client;
+import java.util.ArrayList;
 import javax.persistence.EntityNotFoundException;
 
 public class ClientServiceImpl implements ICRUD<Client> {
@@ -47,7 +48,14 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     @Override
     public List<Client> findAll() {
-        return clientJpaController.findClientEntities();
+        List<Client> clients = new ArrayList<>();
+        for(Client cli:clientJpaController.findClientEntities()){
+            if(cli.getEnable()){
+                clients.add(cli);
+            }
+        }
+        return clients;
+        
     }
 
     @Override
@@ -77,7 +85,7 @@ public class ClientServiceImpl implements ICRUD<Client> {
             return clientJpaController.findClientEntities().stream()
                     .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Client not found with CUIT: " + cuit));
+                    .orElse(null);
         } catch (Exception e) {
             System.err.println("Error while searching for client by CUIT: " + e.getMessage());
             throw new RuntimeException("Error while searching for client by CUIT. Please try again later.", e);
