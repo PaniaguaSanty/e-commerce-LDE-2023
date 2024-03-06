@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author sjcex
+ * @author turraca
  */
 public class DetailOrderJpaController implements Serializable {
 
