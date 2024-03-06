@@ -39,7 +39,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         initComponents();
         
-        // Inicializar el mainPanel en el constructor si es esencial para la interfaz inicial
         mainPanel = new MainPanel();
         mainPanel.setSize(800, 660);
         contentPanel.add(mainPanel);
