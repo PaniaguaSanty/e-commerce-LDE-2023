@@ -8,6 +8,8 @@ import com.itec1.e_commerce.controllers.ProviderPanelController;
 import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.ProviderTableListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -20,20 +22,17 @@ import javax.swing.JTextField;
  */
 public class Management_Providers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
-    private final ProviderPanelController controller;
+    private final ProviderPanelController providerController;
     private final FieldDataValidator validator;
     private List<Provider> providers;
     private int click = 0;
 
     public Management_Providers_Panel() {
         initComponents();
-
-        this.controller = new ProviderPanelController(this);
+        this.providerController = new ProviderPanelController(this);
         tableProvider.getSelectionModel().addListSelectionListener(new ProviderTableListener(this));
-        this.providers = controller.updateTable("");
-
+        this.providers = providerController.updateTable("");
         this.validator = new FieldDataValidator();
-
         validator.onlyNumbers(jtf_providerCuit);
         validator.onlyLetters(jtf_providerName);
         validator.onlyLetters(jtf_providerLastname);
@@ -125,6 +124,11 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
         jbn_delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbn_deleteActionPerformed(evt);
+            }
+        });
+        jbn_delete.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbn_deleteKeyPressed(evt);
             }
         });
 
@@ -381,99 +385,156 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
         if (click == 0) {
-            changeConditionAllFields(true);
-            changeConditionField(jtf_providerCuit, false);
-            changeConditionAllButtons(false);
-            changeConditionButton(jbn_update, true);
-            jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
+            setupUpdateModeForProvider();
             click++;
         } else {
-            if (jtf_providerCuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+            if (!isValidProviderCuit()) {
+                jlbl_info.setText("ERROR: Ingrese un CUIT válido");
+                setRedFont();
             } else if (verifyEmptyFields()) {
-                jlbl_info.setText("Error: no pueden haber datos vacios");
+                jlbl_info.setText("Error: no pueden haber datos vacíos");
+                setRedFont();
             } else {
-                Provider newProvider = controller.findByCuit(jtf_providerCuit.getText());
-                newProvider.setName(jtf_providerName.getText());
-                newProvider.setLastname(jtf_providerLastname.getText());
-                newProvider.setAddress(jtf_providerAddress.getText());
-                newProvider.setEmail(jtf_providerEmail.getText());
-                newProvider.setPhone(jtf_providerPhone.getText());
-                jlbl_info.setText(controller.update(newProvider.getId(), newProvider));
+                updateProvider();
             }
-            changeConditionAllButtons(false);
-            changeConditionAllFields(false);
-            changeConditionButton(jbn_save, true);
-            changeConditionButton(jbn_restore, true);
+            resetProviderFieldsAndButtons();
             click = 0;
             cleanAllFields();
-            providers = controller.updateTable("");
+            providers = providerController.updateTable("");
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
+    private void setupUpdateModeForProvider() {
+        changeConditionAllFields(true);
+        changeConditionField(jtf_providerCuit, false);
+        changeConditionAllButtons(false);
+        changeConditionButton(jbn_update, true);
+        jlbl_info.setText("Modifique los campos que requiera y vuelva a pulsar");
+        setGreenFont();
+    }
+
+    private boolean isValidProviderCuit() {
+        return jtf_providerCuit.getText().length() == 11;
+    }
+
+    private void updateProvider() {
+        Provider newProvider = providerController.findByCuit(jtf_providerCuit.getText());
+        newProvider.setName(jtf_providerName.getText());
+        newProvider.setLastname(jtf_providerLastname.getText());
+        newProvider.setAddress(jtf_providerAddress.getText());
+        newProvider.setEmail(jtf_providerEmail.getText());
+        newProvider.setPhone(jtf_providerPhone.getText());
+        jlbl_info.setText(providerController.update(newProvider.getId(), newProvider));
+        setGreenFont();
+    }
+
+    private void resetProviderFieldsAndButtons() {
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
+    }
+
+
     private void jbn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteActionPerformed
-        Provider newProvider = controller.findByCuit(jtf_providerCuit.getText());
-        jlbl_info.setText(controller.disable(newProvider.getId()));
+
+        Provider newProvider = providerController.findByCuit(jtf_providerCuit.getText());
+        setRedFont();
+        jlbl_info.setText(providerController.disable(newProvider.getId()));
         cleanAllFields();
         changeConditionAllButtons(false);
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
-        providers = controller.updateTable("");
+        providers = providerController.updateTable("");
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (click == 0) {
-            changeConditionAllFields(true);
-            jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
-            changeConditionAllButtons(false);
-            changeConditionButton(jbn_save, true);
+            setupSaveMode();
             click++;
         } else {
-            if (jtf_providerCuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+            if (!isValidProviderCuit()) {
+                jlbl_info.setText("ERROR: Ingrese un CUIT válido");
+                setRedFont();
             } else if (verifyEmptyFields()) {
-                jlbl_info.setText("Error: no pueden haber datos vacios");
+                jlbl_info.setText("Error: no pueden haber datos vacíos");
+                setRedFont();
             } else {
-                Provider newClient = new Provider();
-                newClient.setName(jtf_providerName.getText());
-                newClient.setLastname(jtf_providerLastname.getText());
-                newClient.setCuit(jtf_providerCuit.getText());
-                newClient.setAddress(jtf_providerAddress.getText());
-                newClient.setEmail(jtf_providerEmail.getText());
-                newClient.setPhone(jtf_providerPhone.getText());
-                jlbl_info.setText(controller.create(newClient));
+                saveProvider();
+                setGreenFont();
             }
+            resetProviderFieldsAndButtons();
             click = 0;
             cleanAllFields();
-            changeConditionButton(jbn_restore, true);
-            changeConditionAllFields(false);
-            providers = controller.updateTable("");
+            providers = providerController.updateTable("");
         }
     }//GEN-LAST:event_jbn_saveActionPerformed
 
+    private void setupSaveMode() {
+        changeConditionAllFields(true);
+        jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+        changeConditionAllButtons(false);
+        changeConditionButton(jbn_save, true);
+    }
+
+    private void saveProvider() {
+        Provider newProvider = new Provider();
+        newProvider.setName(jtf_providerName.getText());
+        newProvider.setLastname(jtf_providerLastname.getText());
+        newProvider.setCuit(jtf_providerCuit.getText());
+        newProvider.setAddress(jtf_providerAddress.getText());
+        newProvider.setEmail(jtf_providerEmail.getText());
+        newProvider.setPhone(jtf_providerPhone.getText());
+        jlbl_info.setText(providerController.create(newProvider));
+    }
+
+
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
         if (click == 0) {
-            changeConditionButton(jbn_save, false);
-            changeConditionField(jtf_providerCuit, true);
-            jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
+            setupRestoreMode();
             click++;
         } else {
             if (jtf_providerCuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+                jlbl_info.setText("ERROR: Ingrese un CUIT válido");
+                setRedFont();
             } else {
-                Provider newClient = controller.findByCuit(jtf_providerCuit.getText());
-                jlbl_info.setText(controller.enable(newClient.getId()));
+                enableProvider(jtf_providerCuit.getText());
+                setGreenFont();
             }
+            resetProviderFieldsAndButtons();
             click = 0;
             cleanAllFields();
-            changeConditionButton(jbn_save, true);
-            changeConditionAllFields(false);
-            providers = controller.updateTable("");
+            providers = providerController.updateTable("");
         }
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
+    private void setupRestoreMode() {
+        changeConditionAllButtons(false);
+        changeConditionButton(jbn_restore, true);
+        changeConditionField(jtf_providerCuit, true);
+        jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
+        setGreenFont();
+    }
+
+    private void enableProvider(String cuit) {
+        Provider newClient = providerController.findByCuit(cuit);
+        jlbl_info.setText(providerController.enable(newClient.getId()));
+    }
+
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
     private void seeProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeProvidersActionPerformed
-        providers = controller.updateTable(jtf_cuitFilter.getText());
+        providers = providerController.updateTable(jtf_cuitFilter.getText());
         changeConditionAllButtons(false);
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
@@ -482,8 +543,12 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
     }//GEN-LAST:event_seeProvidersActionPerformed
 
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        providers = controller.updateTable(jtf_cuitFilter.getText());
+        providers = providerController.updateTable(jtf_cuitFilter.getText());
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
+
+    private void jbn_deleteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbn_deleteKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbn_deleteKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -595,7 +660,6 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
         fields.add(jtf_providerAddress);
         fields.add(jtf_providerEmail);
         fields.add(jtf_providerPhone);
-
         for (JTextField field : fields) {
             if (field.getText().length() == 0) {
                 return true;
