@@ -8,8 +8,9 @@ import com.itec1.e_commerce.dao.InvoiceJpaController;
 import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -38,22 +39,15 @@ public class InvoiceServiceImpl {
     }
 
     public List<Invoice> findByCarrier(Carrier carrier) {
-        List<Invoice> invoices = new ArrayList<>();
-        for (Invoice invoice : invoiceJpaController.findInvoiceEntities()) {
-            if (invoice.getCarrier().getCuit().equals(carrier.getCuit())) {
-                invoices.add(invoice);
-            }
-        }
-        return invoices;
+        return invoiceJpaController.findInvoiceEntities().stream()
+                .filter(invoice -> invoice.getCarrier().getCuit().equals(carrier.getCuit()))
+                .collect(Collectors.toList());
     }
 
     public Invoice findByOrder(Order order) {
-        for (Invoice invoice : invoiceJpaController.findInvoiceEntities()) {
-            if (invoice.getOrder().getId().equals(order.getId())) {
-                return invoice;
-            }
-        }
-        return null;
+        return invoiceJpaController.findInvoiceEntities().stream()
+                .filter(invoice -> invoice.getOrder().getId().equals(order.getId()))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Invoice-not-found"));
     }
-
 }

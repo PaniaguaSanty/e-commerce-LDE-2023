@@ -126,6 +126,7 @@ public class FieldDataValidator {
      * limpia el textfield
      *
      * textField unTextField
+     * @param textField
      */
     public void cleanField(JTextField textField) {
         textField.setText("");
