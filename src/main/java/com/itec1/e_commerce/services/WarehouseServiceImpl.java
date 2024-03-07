@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Warehouse;
@@ -17,8 +18,8 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     private final WarehouseJpaController warehouseJpaController;
 
-    public WarehouseServiceImpl(WarehouseJpaController warehouseJpaController) {
-        this.warehouseJpaController = warehouseJpaController;
+    public WarehouseServiceImpl() {
+        this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
     }
 
     @Override

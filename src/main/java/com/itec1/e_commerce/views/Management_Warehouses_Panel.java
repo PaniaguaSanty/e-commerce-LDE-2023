@@ -4,11 +4,15 @@
  */
 package com.itec1.e_commerce.views;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 /**
  *
  * @author sjcex
  */
-public class Management_Warehouses_Panel extends javax.swing.JPanel {
+public class Management_Warehouses_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
     /**
      * Creates new form Management_Client_Panel
@@ -470,4 +474,49 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel {
     private javax.swing.JButton seeClients;
     private javax.swing.JTable tableClient;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public JTable getTable() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void selectFromTable() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void changeConditionAllFields(boolean state) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void changeConditionField(JTextField textField, boolean state) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void changeConditionAllButtons(boolean state) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void changeConditionButton(JButton button, boolean state) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void cleanAllFields() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void cleanField(JTextField textfield) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean verifyEmptyFields() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
