@@ -74,14 +74,10 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     }
 
     public ProductCategory findByName(String name) {
-        try {
-            return productCategoryJpaController.findProductCategoryEntities().stream()
-                    .filter(productCategory -> productCategory.getName().equals(name))
-                    .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Product Category with: " + name + " Not found."));
-        } catch (Exception e) {
-            System.err.println("Error while finding a product category: " + e.getMessage());
-            throw new RuntimeException("Failed to find the category. ", e);
-        }
+        return productCategoryJpaController.findProductCategoryEntities().stream()
+                .filter(productCategory -> productCategory.getName().equals(name))
+                .findFirst()
+                .orElseThrow
+        (() -> new EntityNotFoundException("Product Category with: " + name + " Not found."));
     }
 }
