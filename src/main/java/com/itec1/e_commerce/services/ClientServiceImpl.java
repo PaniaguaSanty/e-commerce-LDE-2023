@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 public class ClientServiceImpl implements ICRUD<Client> {
-    
+
     private final ClientJpaController clientJpaController;
-    
+
     public ClientServiceImpl() {
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
     }
-    
+
     @Override
     public Client create(Client entity) {
         try {
@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ICRUD<Client> {
             throw new RuntimeException("Failed to create client.", e);
         }
     }
-    
+
     @Override
     public Client update(Long id, Client entity) throws NonexistentEntityException, Exception {
         Client client = clientJpaController.findClient(id);
@@ -40,18 +40,18 @@ public class ClientServiceImpl implements ICRUD<Client> {
         clientJpaController.edit(client);
         return clientJpaController.findClient(entity.getId());
     }
-    
+
     @Override
     public Client findById(Long id) {
         return clientJpaController.findClient(id);
     }
-    
+
     @Override
     public List<Client> findAll() {
         return clientJpaController.findClientEntities().stream()
                 .filter(client -> client.getEnable()).collect(Collectors.toList());
     }
-    
+
     @Override
     public Client disable(Long id) throws NonexistentEntityException, Exception {
         Client client = clientJpaController.findClient(id);
@@ -59,13 +59,13 @@ public class ClientServiceImpl implements ICRUD<Client> {
         clientJpaController.edit(client);
         return clientJpaController.findClient(id);
     }
-    
+
     @Override
     public Client delete(Long id) throws NonexistentEntityException {
         clientJpaController.destroy(id);
         return clientJpaController.findClient(id);
     }
-    
+
     @Override
     public Client enable(Long id) throws NonexistentEntityException, Exception {
         Client client = clientJpaController.findClient(id);
@@ -73,11 +73,16 @@ public class ClientServiceImpl implements ICRUD<Client> {
         clientJpaController.edit(client);
         return clientJpaController.findClient(id);
     }
-    
+
     public Client findByCuit(String cuit) {
-        return clientJpaController.findClientEntities().stream()
-                .filter(client -> client.getCuit().equals(cuit))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with CUIT: " + cuit));
+        try {
+            return clientJpaController.findClientEntities().stream()
+                    .filter(client -> client.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+            System.err.println("Error while trying to find a client by CUIT");
+            throw new RuntimeException("Error while searching a client for cuit, please Try again");
+            }
     }
 }
