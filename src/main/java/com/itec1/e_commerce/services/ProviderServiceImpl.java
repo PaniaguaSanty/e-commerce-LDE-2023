@@ -84,14 +84,13 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     public Provider findByCuit(String cuit) {
         try {
-            return providerJpaController.findProviderEntities()
-                    .stream()
-                    .filter(provider -> provider.getCuit().equals(cuit))
+            return providerJpaController.findProviderEntities().stream()
+                    .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
                     .orElse(null);
         } catch (Exception e) {
-            System.err.println("Error while finding a provider by cuit: " + e.getMessage());
-            throw new RuntimeException("Failed to find a provider by cuit: ", e);
+            System.err.println("Error while trying to find a client by CUIT");
+            throw new RuntimeException("Error while searching a client for cuit, please Try again");
         }
     }
 }

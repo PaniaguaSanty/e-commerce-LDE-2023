@@ -79,18 +79,14 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         return sectorJpaController.findSectorEntities();
     }
 
+    //TODO: Porqué se crea una lista de sectores si luego trae al primero que coincida y no una lista?
     public Sector findSectorByName(String sectorName, Warehouse entity) {
-        try {
-            List<Sector> sectors = findSectorByWarehouse(entity);
-            return sectors
-                    .stream()
-                    .filter(sector -> sector.getName().equals(sectorName))
-                    .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
-        } catch (Exception e) {
-            System.err.println("Error while finding sector´s by name: " + e.getMessage());
-            throw new RuntimeException("Failed to find the sector.", e);
-        }
+        List<Sector> sectors = findSectorByWarehouse(entity);
+        return sectors
+                .stream()
+                .filter(sector -> sector.getName().equals(sectorName))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
     }
 
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {

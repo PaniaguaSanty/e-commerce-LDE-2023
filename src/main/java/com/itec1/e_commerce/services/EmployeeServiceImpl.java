@@ -74,13 +74,13 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     public Employee findByCuit(String cuit) {
         try {
-            return employeeJpaController.findEmployeeEntities().stream()
-                    .filter(client -> client.getCuit().equals(cuit))
-                    .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Client not found with CUIT: " + cuit));
+        return employeeJpaController.findEmployeeEntities().stream()
+                .filter(client -> client.getCuit().equals(cuit))
+                .findFirst()
+                .orElse(null);
         } catch (Exception e) {
-            System.err.println("Error while searching for client by CUIT: " + e.getMessage());
-            throw new RuntimeException("Error while searching for client by CUIT. Please try again later.", e);
+            System.err.println("Error while searching Employee by cuit.");
+            throw new RuntimeException("Error while searching, please try again.",e);
         }
     }
 
