@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -30,6 +32,8 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
      */
     public Management_Clients_Panel() {
         initComponents();
+
+        jtf_cuitFilter.getDocument().addDocumentListener(new CuitFilterListener());
 
         this.controller = new ClientPanelController(this);
         tableClient.getSelectionModel().addListSelectionListener(new ClientsTableListener(this));
@@ -592,6 +596,25 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
             }
         }
         return false;
+    }
+
+    private class CuitFilterListener implements DocumentListener {
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            clients = controller.updateTable(jtf_cuitFilter.getText());
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            clients = controller.updateTable(jtf_cuitFilter.getText());
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            clients = controller.updateTable(jtf_cuitFilter.getText());
+        }
+        
     }
 
 }
