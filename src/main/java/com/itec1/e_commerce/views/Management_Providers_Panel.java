@@ -461,7 +461,6 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
                 setRedFont();
             } else {
                 saveProvider();
-                setGreenFont();
             }
             resetProviderFieldsAndButtons();
             click = 0;
@@ -488,6 +487,7 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
         newProvider.setEmail(jtf_providerEmail.getText());
         newProvider.setPhone(jtf_providerPhone.getText());
         jlbl_info.setText(providerController.create(newProvider));
+        setGreenFont();
     }
 
 
@@ -501,7 +501,6 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
                 setRedFont();
             } else {
                 enableProvider(jtf_providerCuit.getText());
-                setGreenFont();
             }
             resetProviderFieldsAndButtons();
             click = 0;
@@ -521,6 +520,7 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
     private void enableProvider(String cuit) {
         Provider newClient = providerController.findByCuit(cuit);
         jlbl_info.setText(providerController.enable(newClient.getId()));
+        setGreenFont();
     }
 
     private void setRedFont() {
