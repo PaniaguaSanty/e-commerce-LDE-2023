@@ -17,13 +17,13 @@ import javax.persistence.EntityNotFoundException;
  * @author melina
  */
 public class ProviderServiceImpl implements ICRUD<Provider> {
-
+    
     private final ProviderJpaController providerJpaController;
-
+    
     public ProviderServiceImpl() {
         this.providerJpaController = new ProviderJpaController(Connection.getEmf());
     }
-
+    
     @Override
     public Provider create(Provider entity) {
         try {
@@ -34,7 +34,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
             throw new RuntimeException("Failed to create a provider", e);
         }
     }
-
+    
     @Override
     public Provider update(Long id, Provider entity) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
@@ -47,19 +47,19 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         providerJpaController.edit(provider);
         return providerJpaController.findProvider(entity.getId());
     }
-
+    
     @Override
     public Provider findById(Long id) {
         return providerJpaController.findProvider(id);
     }
-
+    
     @Override
     public List<Provider> findAll() {
         return providerJpaController.findProviderEntities().stream()
                 .filter(provider -> provider.getEnable())
                 .collect(Collectors.toList());
     }
-
+    
     @Override
     public Provider disable(Long id) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
@@ -67,13 +67,13 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         providerJpaController.edit(provider);
         return providerJpaController.findProvider(id);
     }
-
+    
     @Override
     public Provider delete(Long id) throws NonexistentEntityException {
         providerJpaController.destroy(id);
         return providerJpaController.findProvider(id);
     }
-
+    
     @Override
     public Provider enable(Long id) throws NonexistentEntityException, Exception {
         Provider provider = providerJpaController.findProvider(id);
@@ -81,17 +81,12 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         providerJpaController.edit(provider);
         return providerJpaController.findProvider(id);
     }
-
+    
     public Provider findByCuit(String cuit) {
-        try {
-            return providerJpaController.findProviderEntities()
-                    .stream()
-                    .filter(provider -> provider.getCuit().equals(cuit))
-                    .findFirst()
-                    .orElse(null);
-        } catch (Exception e) {
-            System.err.println("Error while finding a provider by cuit: " + e.getMessage());
-            throw new RuntimeException("Failed to find a provider by cuit: ", e);
-        }
+        return providerJpaController.findProviderEntities()
+                .stream()
+                .filter(provider -> provider.getCuit().equals(cuit))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Provider not found with CUIT: " + cuit));
     }
 }
