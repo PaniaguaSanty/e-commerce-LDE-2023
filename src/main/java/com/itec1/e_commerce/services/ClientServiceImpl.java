@@ -48,13 +48,12 @@ public class ClientServiceImpl implements ICRUD<Client> {
     @Override
     public List<Client> findAll() {
         List<Client> clients = new ArrayList<>();
-        for(Client cli:clientJpaController.findClientEntities()){
-            if(cli.getEnable()){
+        for (Client cli : clientJpaController.findClientEntities()) {
+            if (cli.getEnable()) {
                 clients.add(cli);
             }
         }
         return clients;
-        
     }
 
     @Override

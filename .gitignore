@@ -4,3 +4,4 @@ target.*
 src/main/resources/META-INF/persistence.xml
 target/classes/com/itec1/e_commerce/E_commerce.class
 *.lst
+.vscode/
