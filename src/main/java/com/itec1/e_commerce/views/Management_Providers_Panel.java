@@ -660,11 +660,7 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
         fields.add(jtf_providerAddress);
         fields.add(jtf_providerEmail);
         fields.add(jtf_providerPhone);
-        for (JTextField field : fields) {
-            if (field.getText().length() == 0) {
-                return true;
-            }
-        }
-        return false;
+
+        return fields.stream().anyMatch(field -> field.getText().length() == 0);
     }
 }
