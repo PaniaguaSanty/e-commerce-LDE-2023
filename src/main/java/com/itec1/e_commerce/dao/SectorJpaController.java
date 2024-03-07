@@ -5,19 +5,21 @@
 package com.itec1.e_commerce.dao;
 
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
-import com.itec1.e_commerce.entities.Sector;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Sector;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author sjcex
+ * @author turraca
  */
 public class SectorJpaController implements Serializable {
 
@@ -31,11 +33,29 @@ public class SectorJpaController implements Serializable {
     }
 
     public void create(Sector sector) {
+        if (sector.getOrders() == null) {
+            sector.setOrders(new ArrayList<Order>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Order> attachedOrders = new ArrayList<Order>();
+            for (Order ordersOrderToAttach : sector.getOrders()) {
+                ordersOrderToAttach = em.getReference(ordersOrderToAttach.getClass(), ordersOrderToAttach.getId());
+                attachedOrders.add(ordersOrderToAttach);
+            }
+            sector.setOrders(attachedOrders);
             em.persist(sector);
+            for (Order ordersOrder : sector.getOrders()) {
+                Sector oldSectorOfOrdersOrder = ordersOrder.getSector();
+                ordersOrder.setSector(sector);
+                ordersOrder = em.merge(ordersOrder);
+                if (oldSectorOfOrdersOrder != null) {
+                    oldSectorOfOrdersOrder.getOrders().remove(ordersOrder);
+                    oldSectorOfOrdersOrder = em.merge(oldSectorOfOrdersOrder);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,7 +69,34 @@ public class SectorJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Sector persistentSector = em.find(Sector.class, sector.getId());
+            List<Order> ordersOld = persistentSector.getOrders();
+            List<Order> ordersNew = sector.getOrders();
+            List<Order> attachedOrdersNew = new ArrayList<Order>();
+            for (Order ordersNewOrderToAttach : ordersNew) {
+                ordersNewOrderToAttach = em.getReference(ordersNewOrderToAttach.getClass(), ordersNewOrderToAttach.getId());
+                attachedOrdersNew.add(ordersNewOrderToAttach);
+            }
+            ordersNew = attachedOrdersNew;
+            sector.setOrders(ordersNew);
             sector = em.merge(sector);
+            for (Order ordersOldOrder : ordersOld) {
+                if (!ordersNew.contains(ordersOldOrder)) {
+                    ordersOldOrder.setSector(null);
+                    ordersOldOrder = em.merge(ordersOldOrder);
+                }
+            }
+            for (Order ordersNewOrder : ordersNew) {
+                if (!ordersOld.contains(ordersNewOrder)) {
+                    Sector oldSectorOfOrdersNewOrder = ordersNewOrder.getSector();
+                    ordersNewOrder.setSector(sector);
+                    ordersNewOrder = em.merge(ordersNewOrder);
+                    if (oldSectorOfOrdersNewOrder != null && !oldSectorOfOrdersNewOrder.equals(sector)) {
+                        oldSectorOfOrdersNewOrder.getOrders().remove(ordersNewOrder);
+                        oldSectorOfOrdersNewOrder = em.merge(oldSectorOfOrdersNewOrder);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -78,6 +125,11 @@ public class SectorJpaController implements Serializable {
                 sector.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The sector with id " + id + " no longer exists.", enfe);
+            }
+            List<Order> orders = sector.getOrders();
+            for (Order ordersOrder : orders) {
+                ordersOrder.setSector(null);
+                ordersOrder = em.merge(ordersOrder);
             }
             em.remove(sector);
             em.getTransaction().commit();

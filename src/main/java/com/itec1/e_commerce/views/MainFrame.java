@@ -541,6 +541,16 @@ public class MainFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_menu_ExitActionPerformed
 
+    public void changePanel(JPanel newPanel) {
+        if (!this.contentPanel.getComponents().equals(newPanel)) {
+            this.contentPanel.removeAll();
+            newPanel.setSize(800, 600);
+            this.contentPanel.add(newPanel);
+            this.contentPanel.validate();
+            this.contentPanel.repaint();
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem carrier_OverviewReport;
     private javax.swing.JMenuItem carrier_ReportByDate;
