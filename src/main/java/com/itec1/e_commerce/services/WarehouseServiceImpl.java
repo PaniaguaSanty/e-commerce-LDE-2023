@@ -76,4 +76,12 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
                 .toList();
     }
 
+    public List<Warehouse> findByAddress(String Address) {
+        return warehouseJpaController.findWarehouseEntities()
+                .stream()
+                .filter(warehouse -> warehouse.getAddress()
+                .equals(Address))
+                .toList();
+    }
+
 }
