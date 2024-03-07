@@ -8,6 +8,7 @@ import com.itec1.e_commerce.controllers.ClientPanelController;
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.views.resources.ClientsTableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -41,6 +42,8 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         validator.onlyLetters(jtf_lastname);
         changeConditionAllButtons(false);
         changeConditionAllFields(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
     }
 
     /**
@@ -309,6 +312,11 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         jbl_filter.setText("Filtrar por cuit:");
 
         jtf_cuitFilter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_cuitFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_cuitFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_crudLayout = new javax.swing.GroupLayout(jPanel_crud);
         jPanel_crud.setLayout(jPanel_crudLayout);
@@ -361,7 +369,7 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if(click == 0) {
+        if (click == 0) {
             changeConditionAllFields(true);
             changeConditionField(jtf_cuit, false);
             changeConditionAllButtons(false);
@@ -371,6 +379,8 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         } else {
             if (jtf_cuit.getText().length() != 11) {
                 jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+            } else if (verifyEmptyFields()) {
+                jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Client newClient = controller.findByCuit(jtf_cuit.getText());
                 newClient.setName(jtf_name.getText());
@@ -379,48 +389,92 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
                 newClient.setEmail(jtf_email.getText());
                 newClient.setPhone(jtf_phone.getText());
                 jlbl_info.setText(controller.update(newClient.getId(), newClient));
-                changeConditionAllButtons(false);
             }
+            changeConditionAllButtons(false);
+            changeConditionAllFields(false);
+            changeConditionButton(jbn_save, true);
+            changeConditionButton(jbn_restore, true);
             click = 0;
+            cleanAllFields();
+            clients = controller.updateTable("");
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
     private void jbn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteActionPerformed
-        if (jtf_cuit.getText().length() != 11) {
-            jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-        } else {
-            Client newClient = controller.findByCuit(jtf_cuit.getText());
-            jlbl_info.setText(controller.disable(newClient.getId()));
-        }
+        Client newClient = controller.findByCuit(jtf_cuit.getText());
+        jlbl_info.setText(controller.disable(newClient.getId()));
+        cleanAllFields();
+        changeConditionAllButtons(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
+        clients = controller.updateTable("");
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        Client newClient = new Client();
-        if (jtf_cuit.getText().length() != 11) {
-            jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+        if (click == 0) {
+            changeConditionAllFields(true);
+            jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
+            changeConditionAllButtons(false);
+            changeConditionButton(jbn_save, true);
+            click++;
         } else {
-            newClient.setName(jtf_name.getText());
-            newClient.setLastname(jtf_lastname.getText());
-            newClient.setCuit(jtf_cuit.getText());
-            newClient.setAddress(jtf_address.getText());
-            newClient.setEmail(jtf_email.getText());
-            newClient.setPhone(jtf_phone.getText());
-            jlbl_info.setText(controller.create(newClient));
+            if (jtf_cuit.getText().length() != 11) {
+                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+            } else if (verifyEmptyFields()) {
+                jlbl_info.setText("Error: no pueden haber datos vacios");
+            } else {
+                Client newClient = new Client();
+                newClient.setName(jtf_name.getText());
+                newClient.setLastname(jtf_lastname.getText());
+                newClient.setCuit(jtf_cuit.getText());
+                newClient.setAddress(jtf_address.getText());
+                newClient.setEmail(jtf_email.getText());
+                newClient.setPhone(jtf_phone.getText());
+                jlbl_info.setText(controller.create(newClient));
+            }
+            click = 0;
+            cleanAllFields();
+            changeConditionButton(jbn_restore, true);
+            changeConditionAllFields(false);
+            clients = controller.updateTable("");
         }
+
     }//GEN-LAST:event_jbn_saveActionPerformed
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (jtf_cuit.getText().length() != 11) {
-            jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+        if (click == 0) {
+            changeConditionButton(jbn_save, false);
+            changeConditionField(jtf_cuit, true);
+            jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
+            click++;
         } else {
-            Client newClient = controller.findByCuit(jtf_cuit.getText());
-            jlbl_info.setText(controller.enable(newClient.getId()));
+            if (jtf_cuit.getText().length() != 11) {
+                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
+            } else {
+                Client newClient = controller.findByCuit(jtf_cuit.getText());
+                jlbl_info.setText(controller.enable(newClient.getId()));
+            }
+            click = 0;
+            cleanAllFields();
+            changeConditionButton(jbn_save, true);
+            changeConditionAllFields(false);
+            clients = controller.updateTable("");
         }
+
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
     private void seeClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeClientsActionPerformed
         clients = controller.updateTable(jtf_cuitFilter.getText());
+        changeConditionAllButtons(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
+        cleanAllFields();
+        click = 0;
     }//GEN-LAST:event_seeClientsActionPerformed
+
+    private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
+        clients = controller.updateTable(jtf_cuitFilter.getText());
+    }//GEN-LAST:event_jtf_cuitFilterActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -473,7 +527,10 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
             jtf_phone.setText(selected.getPhone());
             changeConditionAllButtons(true);
             jlbl_info.setText("");
+            changeConditionButton(jbn_save, false);
+            changeConditionButton(jbn_restore, false);
         }
+        click = 0;
     }
 
     @Override
@@ -517,6 +574,24 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
     @Override
     public void cleanField(JTextField textField) {
         validator.cleanField(textField);
+    }
+
+    @Override
+    public boolean verifyEmptyFields() {
+        List<JTextField> fields = new ArrayList<>();
+        fields.add(jtf_name);
+        fields.add(jtf_lastname);
+        fields.add(jtf_cuit);
+        fields.add(jtf_address);
+        fields.add(jtf_email);
+        fields.add(jtf_phone);
+
+        for (JTextField field : fields) {
+            if (field.getText().length() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

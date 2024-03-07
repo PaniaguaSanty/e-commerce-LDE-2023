@@ -6,7 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.services.ProviderServiceImpl;
-import com.itec1.e_commerce.views.resources.ValidadorDeCampos;
+import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,16 +21,16 @@ import javax.swing.table.DefaultTableModel;
 public class Management_Providers_Panel extends javax.swing.JPanel {
 
     private final ProviderServiceImpl providerService;
-    private final ValidadorDeCampos validador;
+    private final FieldDataValidator validator;
 
     public Management_Providers_Panel() {
         initComponents();
 
         this.providerService = new ProviderServiceImpl();
-        this.validador = new ValidadorDeCampos();
-        validador.validarSoloNumero(jtf_providerCuit);
-        validador.validarSoloLetras(jtf_providerName);
-        validador.validarSoloLetras(jtf_providerLastname);
+        this.validator = new FieldDataValidator();
+        validator.onlyNumbers(jtf_providerCuit);
+        validator.onlyLetters(jtf_providerName);
+        validator.onlyLetters(jtf_providerLastname);
     }
 
     @SuppressWarnings("unchecked")

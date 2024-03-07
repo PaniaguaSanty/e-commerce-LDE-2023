@@ -28,5 +28,7 @@ public interface InterfaceCrudPanel {
     void cleanAllFields();
     
     void cleanField(JTextField textfield);
+    
+    boolean verifyEmptyFields();
 
 }

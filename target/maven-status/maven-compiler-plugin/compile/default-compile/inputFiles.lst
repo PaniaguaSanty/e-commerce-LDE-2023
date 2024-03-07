@@ -4,15 +4,16 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ProductJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\SectorServiceImpl.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Carriers_Panel.java
-C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\resources\ValidadorDeCampos.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\ProviderServiceImpl.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Providers_Overview_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ClientJpaController.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\resources\FieldDataValidator.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\exceptions\NonexistentEntityException.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Product.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\MainFrame.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Products_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\ClientServiceImpl.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\resources\ClientsTableListener.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ProductCategoryJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\WarehouseJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\WarehouseServiceImpl.java
@@ -20,6 +21,7 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Carriers_ByDate_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Client.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\EmployeeServiceImpl.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\config\UploadDB.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\MainPanel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Clients_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Invoice.java
@@ -38,10 +40,12 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Order_ViewOrderSector_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Sectors_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\CarrierServiceImpl.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\InterfaceCrudPanel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Providers_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Clients_ByDate_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\Order.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Orders_Overview_Panel.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\controllers\ClientPanelController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Providers_ByDate_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\DetailOrderJpaController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\entities\State.java
@@ -55,6 +59,7 @@ C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_c
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\ProductServiceImpl.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\services\InvoiceServiceImpl.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\ProviderJpaController.java
+C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\controllers\IController.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Management_Warehouses_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\views\Reports_Clients_ByCategory_Panel.java
 C:\Users\sjcex\Documents\NetBeansProjects\e-commerce\src\main\java\com\itec1\e_commerce\dao\TrackingOrderJpaController.java
