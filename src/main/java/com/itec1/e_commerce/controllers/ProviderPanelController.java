@@ -72,7 +72,7 @@ public class ProviderPanelController implements IController<Provider> {
         return providerService.findById(id);
     }
 
-    public Provider findByCuit(String cuit) {
+    public Provider findByCuit(String cuit) throws EntityNotFoundException {
         return providerService.findByCuit(cuit);
     }
 

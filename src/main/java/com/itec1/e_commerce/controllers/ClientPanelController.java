@@ -74,7 +74,7 @@ public class ClientPanelController implements IController<Client> {
         return clientService.findById(id);
     }
 
-    public Client findByCuit(String cuit) {
+    public Client findByCuit(String cuit) throws EntityNotFoundException {
         return clientService.findByCuit(cuit);
     }
 
