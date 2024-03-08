@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
@@ -18,8 +19,8 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     private final ProductCategoryJpaController productCategoryJpaController;
 
-    public ProductCategoryServiceImpl(ProductCategoryJpaController productCategoryJpaController) {
-        this.productCategoryJpaController = productCategoryJpaController;
+    public ProductCategoryServiceImpl() {
+        this.productCategoryJpaController = new ProductCategoryJpaController(Connection.getEmf());
     }
 
     @Override
@@ -77,7 +78,6 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
         return productCategoryJpaController.findProductCategoryEntities().stream()
                 .filter(productCategory -> productCategory.getName().equals(name))
                 .findFirst()
-                .orElseThrow
-        (() -> new EntityNotFoundException("Product Category with: " + name + " Not found."));
+                .orElse(null);
     }
 }
