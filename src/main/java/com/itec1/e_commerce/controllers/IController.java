@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface IController<E> {
     
-    List<E> updateTable(String cuit);
+    List<E> updateTable(String string);
     
     boolean verifyCrud(String crudOption);
     

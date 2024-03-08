@@ -20,7 +20,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public class Management_Providers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Providers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
     private final ProviderPanelController providerController;
     private final FieldDataValidator validator;
@@ -661,5 +661,10 @@ public class Management_Providers_Panel extends javax.swing.JPanel implements In
         fields.add(jtf_providerEmail);
         fields.add(jtf_providerPhone);
         return fields.stream().anyMatch(field -> field.getText().length() == 0);
+    }
+
+    @Override
+    public String getStringFilter() {
+        return jtf_cuitFilter.getText();
     }
 }
