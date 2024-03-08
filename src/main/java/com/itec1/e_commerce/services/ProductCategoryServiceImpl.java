@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -9,12 +5,8 @@ import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
+import java.util.stream.Collectors;
 
-/**
- *
- * @author melina
- */
 public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     private final ProductCategoryJpaController productCategoryJpaController;
@@ -49,7 +41,8 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     @Override
     public List<ProductCategory> findAll() {
-        return productCategoryJpaController.findProductCategoryEntities();
+        return productCategoryJpaController.findProductCategoryEntities().stream()
+                .filter(cat -> cat.isEnable()).collect(Collectors.toList());
     }
 
     @Override
