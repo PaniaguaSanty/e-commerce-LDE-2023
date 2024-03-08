@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -173,6 +174,16 @@ public class FieldDataValidator {
      */
     public void enableCombobox(boolean state, JComboBox comboBox) {
         comboBox.setEnabled(state);
+    }
+    
+    /**
+     * Habilita o deshabilita un CheckBox segun el estado
+     *
+     * @param state
+     * @param checkBox
+     */
+    public void enableCheckbox(boolean state, JCheckBox checkBox) {
+        checkBox.setEnabled(state);
     }
 
     /**

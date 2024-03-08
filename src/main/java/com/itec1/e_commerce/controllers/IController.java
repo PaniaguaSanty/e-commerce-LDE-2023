@@ -14,6 +14,8 @@ public interface IController<E> {
     
     List<E> updateTable(String cuit);
     
+    boolean verifyCrud(String crudOption);
+    
     String create(E entity);
 
     String update(Long id, E entity);

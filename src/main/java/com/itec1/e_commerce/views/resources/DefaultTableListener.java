@@ -4,7 +4,7 @@
  */
 package com.itec1.e_commerce.views.resources;
 
-import com.itec1.e_commerce.views.Management_Clients_Panel;
+import com.itec1.e_commerce.views.InterfaceCrudPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -12,17 +12,18 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author turraca
  */
-public class ClientsTableListener implements ListSelectionListener {
+public class DefaultTableListener implements ListSelectionListener {
 
-    private final Management_Clients_Panel clientsPanel;
+    private final InterfaceCrudPanel panel;
     
-    public ClientsTableListener(Management_Clients_Panel clientsPanel) {
-        this.clientsPanel = clientsPanel;
+    public DefaultTableListener(InterfaceCrudPanel panel) {
+        this.panel = panel;
     }
     
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        clientsPanel.selectFromTable();
+        panel.selectFromTable();
     }
     
 }
+    
