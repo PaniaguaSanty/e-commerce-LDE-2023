@@ -42,7 +42,7 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     @Override
     public List<ProductCategory> findAll() {
         return productCategoryJpaController.findProductCategoryEntities().stream()
-                .filter(cat -> cat.isEnable()).collect(Collectors.toList());
+                .filter(cat -> cat.isEnable()).toList();
     }
 
     @Override

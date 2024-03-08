@@ -22,9 +22,9 @@ public class ProductCategoryPanelController implements IController<ProductCatego
     private final ProductCategoryServiceImpl service;
     private final Management_Products_Categories_Panel panel;
 
-    public ProductCategoryPanelController(Management_Products_Categories_Panel productsCategoriesPanel) {
+    public ProductCategoryPanelController(Management_Products_Categories_Panel panel) {
         this.service = new ProductCategoryServiceImpl();
-        this.panel = productsCategoriesPanel;
+        this.panel = panel;
     }
 
     @Override

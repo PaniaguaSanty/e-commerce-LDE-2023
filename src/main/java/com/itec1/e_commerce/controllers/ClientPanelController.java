@@ -19,12 +19,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ClientPanelController implements IController<Client> {
 
-    private final ClientServiceImpl clientService;
-    private final Management_Clients_Panel clientPanel;
+    private final ClientServiceImpl service;
+    private final Management_Clients_Panel panel;
 
     public ClientPanelController(Management_Clients_Panel clientPanel) {
-        this.clientService = new ClientServiceImpl();
-        this.clientPanel = clientPanel;
+        this.service = new ClientServiceImpl();
+        this.panel = clientPanel;
     }
 
     @Override
@@ -33,17 +33,16 @@ public class ClientPanelController implements IController<Client> {
         //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "Apellido", "C.U.I.T.", "Direción", "Correo", "Teléfono"};
         model.setColumnIdentifiers(titles);
-        List<Client> clients = clientService.findAll();
+        List<Client> clients = service.findAll();
         List<Client> result = new ArrayList<>();
         for (Client cl : clients) {
             if (cl.getCuit().startsWith(cuit)) {
-                Object[] object = {cl.getId(), cl.getName(), cl.getLastname(), cl.getCuit(), cl.getAddress(),
-                        cl.getEmail(), cl.getPhone()};
+                Object[] object = {cl.getId(), cl.getName(), cl.getLastname(), cl.getCuit(), cl.getAddress(), cl.getEmail(), cl.getPhone()};
                 model.addRow(object);
                 result.add(cl);
             }
         }
-        this.clientPanel.getTable().setModel(model);
+        this.panel.getTable().setModel(model);
         return result;
     }
 
@@ -52,7 +51,7 @@ public class ClientPanelController implements IController<Client> {
         if(findByCuit(entity.getCuit()) != null) {
             return "ERROR. Este CUIT ya pertenece a un cliente.";
         } else {
-            clientService.create(entity);
+            service.create(entity);
         }
         return "Cliente creado correctamente.";
     }
@@ -60,7 +59,7 @@ public class ClientPanelController implements IController<Client> {
     @Override
     public String update(Long id, Client entity){
         try {
-            clientService.update(id, entity);
+            service.update(id, entity);
         } catch (EntityNotFoundException e) {
             return "ERROR. este cliente no existe";
         } catch (Exception e) {
@@ -71,26 +70,26 @@ public class ClientPanelController implements IController<Client> {
 
     @Override
     public Client findById(Long id) {
-        return clientService.findById(id);
+        return service.findById(id);
     }
 
     public Client findByCuit(String cuit) throws EntityNotFoundException {
-        return clientService.findByCuit(cuit);
+        return service.findByCuit(cuit);
     }
 
     @Override
     public List<Client> findAll() {
-        return clientService.findAll();
+        return service.findAll();
     }
 
     @Override
     public String disable(Long id){
-        Client client = clientService.findById(id);
+        Client client = service.findById(id);
         if(!client.getEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
-                clientService.disable(id);
+                service.disable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Este cliente no existe.";
             } catch (Exception e) {
@@ -102,12 +101,12 @@ public class ClientPanelController implements IController<Client> {
 
     @Override
     public String enable(Long id){
-        Client client = clientService.findById(id);
+        Client client = service.findById(id);
         if(client.getEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {
-                clientService.enable(id);
+                service.enable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Este cliente no existe.";
             } catch (Exception e) {
