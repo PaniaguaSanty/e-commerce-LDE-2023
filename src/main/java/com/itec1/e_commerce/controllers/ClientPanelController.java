@@ -21,6 +21,7 @@ public class ClientPanelController implements IController<Client> {
 
     private final ClientServiceImpl clientService;
     private final Management_Clients_Panel clientPanel;
+    private String crudOption = "";
 
     public ClientPanelController(Management_Clients_Panel clientPanel) {
         this.clientService = new ClientServiceImpl();
@@ -38,7 +39,7 @@ public class ClientPanelController implements IController<Client> {
         for (Client cl : clients) {
             if (cl.getCuit().startsWith(cuit)) {
                 Object[] object = {cl.getId(), cl.getName(), cl.getLastname(), cl.getCuit(), cl.getAddress(),
-                        cl.getEmail(), cl.getPhone()};
+                    cl.getEmail(), cl.getPhone()};
                 model.addRow(object);
                 result.add(cl);
             }
@@ -49,7 +50,7 @@ public class ClientPanelController implements IController<Client> {
 
     @Override
     public String create(Client entity) {
-        if(findByCuit(entity.getCuit()) != null) {
+        if (findByCuit(entity.getCuit()) != null) {
             return "ERROR. Este CUIT ya pertenece a un cliente.";
         } else {
             clientService.create(entity);
@@ -58,7 +59,7 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String update(Long id, Client entity){
+    public String update(Long id, Client entity) {
         try {
             clientService.update(id, entity);
         } catch (EntityNotFoundException e) {
@@ -84,9 +85,9 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String disable(Long id){
+    public String disable(Long id) {
         Client client = clientService.findById(id);
-        if(!client.getEnable()) {
+        if (!client.getEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
@@ -101,9 +102,9 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String enable(Long id){
+    public String enable(Long id) {
         Client client = clientService.findById(id);
-        if(client.getEnable()) {
+        if (client.getEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {
@@ -116,5 +117,14 @@ public class ClientPanelController implements IController<Client> {
         }
         return "Cliente recuperado correctamente.";
     }
-    
+
+    @Override
+    public boolean verifyCrud(String selectedOption) {
+        if (!crudOption.equals(selectedOption)) {
+            crudOption = selectedOption;
+            return true;
+        }
+        return false;
+    }
+
 }

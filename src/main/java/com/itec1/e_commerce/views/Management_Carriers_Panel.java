@@ -7,8 +7,8 @@ package com.itec1.e_commerce.views;
 import com.itec1.e_commerce.controllers.CarrierPanelController;
 import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.views.resources.DefaultTableListener;
-import com.itec1.e_commerce.views.resources.CuitFilterListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -480,7 +480,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void initListener() {
-        jtf_cuitFilter.getDocument().addDocumentListener(new CuitFilterListener(carriers, controller, this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
         tableCarriers.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
     }
 
@@ -588,6 +588,11 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         return (jcb_ground.isSelected() ? false
                 : (jcb_maritime.isSelected() ? false
                 : (!jcb_aerial.isSelected())));
+    }
+
+    @Override
+    public String getStringFilter() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

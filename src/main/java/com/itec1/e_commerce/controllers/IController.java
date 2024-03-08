@@ -14,7 +14,7 @@ public interface IController<E> {
     
     List<E> updateTable(String string);
     
-    boolean verifyCrud(String crudOption);
+    boolean verifyCrud(String selectedOption);
     
     String create(E entity);
 

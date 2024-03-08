@@ -26,7 +26,7 @@ public class CarrierPanelController implements IController<Carrier> {
         this.carrierService = new CarrierServiceImpl();
         this.carriersPanel = carriersPanel;
     }
-      
+
     @Override
     public List<Carrier> updateTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
@@ -46,30 +46,30 @@ public class CarrierPanelController implements IController<Carrier> {
         this.carriersPanel.getTable().setModel(model);
         return result;
     }
-    
+
     private String verifyEnabledTransports(Carrier carrier) {
-        String result = (carrier.getGround() ?
-                (carrier.getMaritime() ?
-                (carrier.getAerial() ?
-                "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre") :
-                (carrier.getAerial() ?
-                (carrier.getMaritime() ?
-                "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
+        String result = (carrier.getGround()
+                ? (carrier.getMaritime()
+                ? (carrier.getAerial()
+                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
+                : (carrier.getAerial()
+                ? (carrier.getMaritime()
+                ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
         return result;
     }
-    
+
     @Override
     public boolean verifyCrud(String selectedOption) {
-        if (crudOption.equals(selectedOption)) {
+        if (!crudOption.equals(selectedOption)) {
             crudOption = selectedOption;
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
-    
+
     @Override
     public String create(Carrier entity) {
-        if(findByCuit(entity.getCuit()) != null) {
+        if (findByCuit(entity.getCuit()) != null) {
             return "ERROR. Este CUIT ya pertenece a un cliente.";
         } else {
             carrierService.create(entity);
@@ -93,7 +93,7 @@ public class CarrierPanelController implements IController<Carrier> {
     public Carrier findById(Long id) {
         return carrierService.findById(id);
     }
-    
+
     public Carrier findByCuit(String cuit) {
         return carrierService.findByCuit(cuit);
     }
@@ -102,7 +102,7 @@ public class CarrierPanelController implements IController<Carrier> {
     public List<Carrier> findAll() {
         return carrierService.findAll();
     }
-    
+
     public List<Carrier> findByTransportType(String transportType) {
         return carrierService.findByTypeOfTransport(transportType);
     }
@@ -110,7 +110,7 @@ public class CarrierPanelController implements IController<Carrier> {
     @Override
     public String disable(Long id) {
         Carrier carrier = carrierService.findById(id);
-        if(!carrier.getEnable()) {
+        if (!carrier.getEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
@@ -126,8 +126,8 @@ public class CarrierPanelController implements IController<Carrier> {
 
     @Override
     public String enable(Long id) {
-         Carrier carrier = carrierService.findById(id);
-        if(carrier.getEnable()) {
+        Carrier carrier = carrierService.findById(id);
+        if (carrier.getEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {
@@ -141,4 +141,4 @@ public class CarrierPanelController implements IController<Carrier> {
         return "Cliente recuperado correctamente.";
     }
 
-    }
+}
