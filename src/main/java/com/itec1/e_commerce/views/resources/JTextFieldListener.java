@@ -40,7 +40,4 @@ public class JTextFieldListener<T, U> implements DocumentListener{
     public void removeUpdate(DocumentEvent e) {
         entities = (List<T>) controller.updateTable(panel.getStringFilter());
     }
-    
-    
-    
 }

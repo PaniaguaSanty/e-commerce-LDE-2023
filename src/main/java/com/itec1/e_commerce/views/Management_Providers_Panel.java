@@ -606,11 +606,17 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_restore, state);
         changeConditionButton(jbn_update, state);
         changeConditionButton(jbn_delete, state);
+
     }
 
     @Override
     public void changeConditionButton(JButton button, boolean state) {
-        validator.enableButton(state, button, null, null, null, null);
+        Color buttonEnabledColor = Color.WHITE;
+        Color textEnabledcolor = Color.BLACK;
+        Color buttonDisabledColor = Color.DARK_GRAY;
+        Color buttonTextDisabledColor = Color.BLACK;
+        validator.enableButton(state, button, buttonEnabledColor, textEnabledcolor, buttonDisabledColor, buttonTextDisabledColor);
+
     }
 
     @Override
