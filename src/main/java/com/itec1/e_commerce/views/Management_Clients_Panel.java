@@ -309,6 +309,9 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
                         .addContainerGap())))
         );
 
+        jtf_cuitFilter.getAccessibleContext().setAccessibleName("");
+        jtf_cuitFilter.getAccessibleContext().setAccessibleDescription("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(

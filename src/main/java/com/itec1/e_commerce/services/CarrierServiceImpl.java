@@ -1,5 +1,6 @@
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import java.util.List;
 
 import com.itec1.e_commerce.dao.CarrierJpaController;
@@ -10,8 +11,8 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
 
     private final CarrierJpaController carrierJpaController;
 
-    public CarrierServiceImpl(CarrierJpaController carrierJpaController) {
-        this.carrierJpaController = carrierJpaController;
+    public CarrierServiceImpl() {
+        this.carrierJpaController = new CarrierJpaController(Connection.getEmf());
     }
 
     @Override
@@ -82,7 +83,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
         }
     }
 
-    public List<Carrier> searchByTypeOfTransport(String transportType) {
+    public List<Carrier> findByTypeOfTransport(String transportType) {
         try {
             return carrierJpaController.findCarrierEntities().stream()
                     .filter(carrier -> {
