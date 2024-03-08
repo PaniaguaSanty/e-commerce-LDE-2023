@@ -11,9 +11,9 @@ import java.util.List;
  * @author turraca
  */
 public interface IController<E> {
-    
-    List<E> updateTable(String cuit);
-    
+
+    List<E> updateTable(String string);
+
     String create(E entity);
 
     String update(Long id, E entity);

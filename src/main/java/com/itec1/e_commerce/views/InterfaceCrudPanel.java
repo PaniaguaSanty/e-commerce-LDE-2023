@@ -30,5 +30,7 @@ public interface InterfaceCrudPanel {
     void cleanField(JTextField textfield);
     
     boolean verifyEmptyFields();
+    
+    String getStringFilter();
 
 }
