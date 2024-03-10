@@ -6,7 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ProductCategoryPanelController;
 import com.itec1.e_commerce.entities.ProductCategory;
-import com.itec1.e_commerce.views.resources.DefaultTableListener;
+import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import java.util.ArrayList;
@@ -414,7 +414,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     @Override
     public void initListener() {
         jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
-        tableCategories.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
+        tableCategories.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override

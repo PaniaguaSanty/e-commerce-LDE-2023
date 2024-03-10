@@ -6,7 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ProviderPanelController;
 import com.itec1.e_commerce.entities.Provider;
-import com.itec1.e_commerce.views.resources.DefaultTableListener;
+import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
@@ -342,7 +342,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if (providerController.verifyCrud("update")) {
+        if (controller.verifyCrud("update")) {
             setupUpdateModeForProvider();
         } else {
             if (!isValidProviderCuit()) {
@@ -355,7 +355,6 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
                 updateProvider();
             }
             resetProviderFieldsAndButtons();
-            click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
             initPanel();
@@ -407,7 +406,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        if (providerController.verifyCrud("save")) {
+        if (controller.verifyCrud("save")) {
             setupSaveMode();
         } else {
             if (!isValidProviderCuit()) {
@@ -420,7 +419,6 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
                 saveProvider();
             }
             resetProviderFieldsAndButtons();
-            click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
             initPanel();
@@ -450,7 +448,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
 
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (providerController.verifyCrud("restore")) {
+        if (controller.verifyCrud("restore")) {
             setupRestoreMode();
         } else {
             if (jtf_providerCuit.getText().length() != 11) {
@@ -460,7 +458,6 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
                 enableProvider(jtf_providerCuit.getText());
             }
             resetProviderFieldsAndButtons();
-            click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
             initPanel();
@@ -497,7 +494,6 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
         cleanAllFields();
-        click = 0;
         initPanel();
     }//GEN-LAST:event_seeProvidersActionPerformed
 
@@ -559,7 +555,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
             changeConditionButton(jbn_save, false);
             changeConditionButton(jbn_restore, false);
         }
-        providerController.verifyCrud("");
+        controller.verifyCrud("");
     }
 
     @Override
@@ -630,8 +626,8 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
 
     @Override
     public void initListener() {
-        tableProvider.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(providers, providerController, this));
+        tableProvider.getSelectionModel().addListSelectionListener(new TableListener(this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(providers, controller, this));
     }
 
     @Override
@@ -643,12 +639,12 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
 
     @Override
     public void initPanel() {
-        this.providers = providerController.updateTable("");
+        this.providers = controller.updateTable("");
         changeConditionAllButtons(false);
         changeConditionAllFields(false);
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
         cleanAllFields();
-        providerController.verifyCrud("");
+        controller.verifyCrud("");
     }
 }
