@@ -6,7 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ClientPanelController;
 import com.itec1.e_commerce.entities.Client;
-import com.itec1.e_commerce.views.resources.DefaultTableListener;
+import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
         initComponents();
         this.controller = new ClientPanelController(this);
         jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
-        tableClient.getSelectionModel().addListSelectionListener(new ClientsTableListener(this));
+        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.clients = controller.updateTable("");
         this.validator = new FieldDataValidator();
         initListener();
@@ -515,7 +515,7 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
     @Override
     public void initListener() {
         jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
-        tableClient.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
+        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override

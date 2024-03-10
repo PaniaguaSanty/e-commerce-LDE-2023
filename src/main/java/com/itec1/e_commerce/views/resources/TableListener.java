@@ -12,11 +12,11 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author turraca
  */
-public class DefaultTableListener implements ListSelectionListener {
+public class TableListener implements ListSelectionListener {
 
     private final InterfaceCrudPanel panel;
     
-    public DefaultTableListener(InterfaceCrudPanel panel) {
+    public TableListener(InterfaceCrudPanel panel) {
         this.panel = panel;
     }
     

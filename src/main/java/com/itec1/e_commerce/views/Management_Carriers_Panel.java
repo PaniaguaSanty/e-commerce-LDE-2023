@@ -6,7 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.CarrierPanelController;
 import com.itec1.e_commerce.entities.Carrier;
-import com.itec1.e_commerce.views.resources.DefaultTableListener;
+import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import java.util.ArrayList;
@@ -481,7 +481,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     @Override
     public void initListener() {
         jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
-        tableCarriers.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
+        tableCarriers.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override
