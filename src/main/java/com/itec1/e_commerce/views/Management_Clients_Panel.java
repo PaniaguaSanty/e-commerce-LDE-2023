@@ -30,6 +30,9 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
     public Management_Clients_Panel() {
         initComponents();
         this.controller = new ClientPanelController(this);
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
+        tableClient.getSelectionModel().addListSelectionListener(new ClientsTableListener(this));
+        this.clients = controller.updateTable("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();

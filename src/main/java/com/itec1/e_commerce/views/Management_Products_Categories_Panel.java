@@ -30,6 +30,9 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     public Management_Products_Categories_Panel() {
         initComponents();
         this.controller = new ProductCategoryPanelController(this);
+        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
+        tableCategories.getSelectionModel().addListSelectionListener(new TableListener(this));
+        this.categories = controller.updateTable("");
         initListener();
         this.validator = new FieldDataValidator();
         initValidator();
@@ -405,7 +408,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
 
     @Override
     public String getStringFilter() {
-        return jtf_name.getText();
+        return jtf_nameFilter.getText();
     }
 
     @Override

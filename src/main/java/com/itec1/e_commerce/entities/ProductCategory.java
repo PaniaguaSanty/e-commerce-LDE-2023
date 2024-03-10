@@ -30,12 +30,12 @@ public class ProductCategory implements Serializable {
     private boolean enable;
 
     public ProductCategory() {
+        this.enable = true;
     }
 
-    public ProductCategory(String name, String description, boolean enable) {
+    public ProductCategory(String name, String description) {
         this.name = name;
         this.description = description;
-        this.enable = enable;
     }
 
     public Long getId() {
