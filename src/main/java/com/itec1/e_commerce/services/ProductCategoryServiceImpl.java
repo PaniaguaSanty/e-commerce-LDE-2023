@@ -5,7 +5,6 @@ import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 

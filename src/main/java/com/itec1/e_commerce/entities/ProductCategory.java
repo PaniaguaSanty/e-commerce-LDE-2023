@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
@@ -34,6 +30,7 @@ public class ProductCategory implements Serializable {
     }
 
     public ProductCategory(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
     }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.itec1.e_commerce.dao.EmployeeJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Employee;
-import javax.persistence.EntityNotFoundException;
 
 public class EmployeeServiceImpl implements ICRUD<Employee> {
 
@@ -83,7 +82,5 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
             throw new RuntimeException("Error while searching, please try again.",e);
         }
     }
-
-    //TODO: RelocateEmployee Function
-    //TODO: SearchEmployeeByWarehouse Function
+    
 }
