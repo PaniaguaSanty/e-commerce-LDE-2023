@@ -21,6 +21,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
 
     private final ProductCategoryServiceImpl service;
     private final Management_Products_Categories_Panel panel;
+    private String crudOption = "";
 
     public ProductCategoryPanelController(Management_Products_Categories_Panel panel) {
         this.service = new ProductCategoryServiceImpl();
@@ -48,7 +49,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
 
     @Override
     public String create(ProductCategory entity) {
-        if(service.findByName(entity.getName()) != null) {
+        if (service.findByName(entity.getName()) != null) {
             return "ERROR. Ya existe esa categoría";
         } else {
             service.create(entity);
@@ -57,7 +58,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
     }
 
     @Override
-    public String update(Long id, ProductCategory entity){
+    public String update(Long id, ProductCategory entity) {
         try {
             service.update(id, entity);
         } catch (EntityNotFoundException e) {
@@ -83,9 +84,9 @@ public class ProductCategoryPanelController implements IController<ProductCatego
     }
 
     @Override
-    public String disable(Long id){
+    public String disable(Long id) {
         ProductCategory cat = service.findById(id);
-        if(!cat.isEnable()) {
+        if (!cat.isEnable()) {
             return "ERROR. La categoría ya está eliminada.";
         } else {
             try {
@@ -100,9 +101,9 @@ public class ProductCategoryPanelController implements IController<ProductCatego
     }
 
     @Override
-    public String enable(Long id){
+    public String enable(Long id) {
         ProductCategory cat = service.findById(id);
-        if(cat.isEnable()) {
+        if (cat.isEnable()) {
             return "ERROR. Esta categoria no se encuentra eliminada.";
         } else {
             try {
@@ -115,5 +116,14 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         }
         return "Categoría recuperada correctamente.";
     }
-    
+
+    @Override
+    public boolean verifyCrud(String selectedOption) {
+        if (!crudOption.equals(selectedOption)) {
+            crudOption = selectedOption;
+            return true;
+        }
+        return false;
+    }
+
 }

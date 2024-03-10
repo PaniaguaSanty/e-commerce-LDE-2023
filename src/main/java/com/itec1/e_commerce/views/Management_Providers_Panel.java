@@ -6,6 +6,7 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ProviderPanelController;
 import com.itec1.e_commerce.entities.Provider;
+import com.itec1.e_commerce.views.resources.DefaultTableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
@@ -26,7 +27,6 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     private final ProviderPanelController controller;
     private final FieldDataValidator validator;
     private List<Provider> providers;
-    private int click = 0;
 
     public Management_Providers_Panel() {
         initComponents();
@@ -35,13 +35,9 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         tableProvider.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.providers = controller.updateTable("");
         this.validator = new FieldDataValidator();
-        validator.onlyNumbers(jtf_providerCuit);
-        validator.onlyLetters(jtf_providerName);
-        validator.onlyLetters(jtf_providerLastname);
-        changeConditionAllButtons(false);
-        changeConditionAllFields(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
+        initListener();
+        initValidator();
+        initPanel();
     }
 
     @SuppressWarnings("unchecked")
@@ -346,9 +342,8 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if (click == 0) {
+        if (providerController.verifyCrud("update")) {
             setupUpdateModeForProvider();
-            click++;
         } else {
             if (!isValidProviderCuit()) {
                 jlbl_info.setText("ERROR: Ingrese un CUIT válido");
@@ -363,6 +358,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
             click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
@@ -411,9 +407,8 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        if (click == 0) {
+        if (providerController.verifyCrud("save")) {
             setupSaveMode();
-            click++;
         } else {
             if (!isValidProviderCuit()) {
                 jlbl_info.setText("ERROR: Ingrese un CUIT válido");
@@ -428,6 +423,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
             click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_saveActionPerformed
 
@@ -454,9 +450,8 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
 
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (click == 0) {
+        if (providerController.verifyCrud("restore")) {
             setupRestoreMode();
-            click++;
         } else {
             if (jtf_providerCuit.getText().length() != 11) {
                 jlbl_info.setText("ERROR: Ingrese un CUIT válido");
@@ -468,6 +463,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
             click = 0;
             cleanAllFields();
             providers = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
@@ -502,6 +498,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_restore, true);
         cleanAllFields();
         click = 0;
+        initPanel();
     }//GEN-LAST:event_seeProvidersActionPerformed
 
     private void jbn_deleteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbn_deleteKeyPressed
@@ -562,7 +559,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
             changeConditionButton(jbn_save, false);
             changeConditionButton(jbn_restore, false);
         }
-        click = 0;
+        providerController.verifyCrud("");
     }
 
     @Override
@@ -586,11 +583,17 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_restore, state);
         changeConditionButton(jbn_update, state);
         changeConditionButton(jbn_delete, state);
+
     }
 
     @Override
     public void changeConditionButton(JButton button, boolean state) {
-        validator.enableButton(state, button, null, null, null, null);
+        Color buttonEnabledColor = Color.WHITE;
+        Color textEnabledcolor = Color.BLACK;
+        Color buttonDisabledColor = Color.DARK_GRAY;
+        Color buttonTextDisabledColor = Color.BLACK;
+        validator.enableButton(state, button, buttonEnabledColor, textEnabledcolor, buttonDisabledColor, buttonTextDisabledColor);
+
     }
 
     @Override
@@ -623,5 +626,29 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     @Override
     public String getStringFilter() {
         return jtf_cuitFilter.getText();
+    }
+
+    @Override
+    public void initListener() {
+        tableProvider.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(providers, providerController, this));
+    }
+
+    @Override
+    public void initValidator() {
+        validator.onlyNumbers(jtf_providerCuit);
+        validator.onlyLetters(jtf_providerName);
+        validator.onlyLetters(jtf_providerLastname);
+    }
+
+    @Override
+    public void initPanel() {
+        this.providers = providerController.updateTable("");
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
+        cleanAllFields();
+        providerController.verifyCrud("");
     }
 }

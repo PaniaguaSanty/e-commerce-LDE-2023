@@ -21,6 +21,7 @@ public class ClientPanelController implements IController<Client> {
 
     private final ClientServiceImpl service;
     private final Management_Clients_Panel panel;
+    private String crudOption = "";
 
     public ClientPanelController(Management_Clients_Panel clientPanel) {
         this.service = new ClientServiceImpl();
@@ -48,7 +49,7 @@ public class ClientPanelController implements IController<Client> {
 
     @Override
     public String create(Client entity) {
-        if(findByCuit(entity.getCuit()) != null) {
+        if (findByCuit(entity.getCuit()) != null) {
             return "ERROR. Este CUIT ya pertenece a un cliente.";
         } else {
             service.create(entity);
@@ -57,7 +58,7 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String update(Long id, Client entity){
+    public String update(Long id, Client entity) {
         try {
             service.update(id, entity);
         } catch (EntityNotFoundException e) {
@@ -115,5 +116,14 @@ public class ClientPanelController implements IController<Client> {
         }
         return "Cliente recuperado correctamente.";
     }
-    
+
+    @Override
+    public boolean verifyCrud(String selectedOption) {
+        if (!crudOption.equals(selectedOption)) {
+            crudOption = selectedOption;
+            return true;
+        }
+        return false;
+    }
+
 }

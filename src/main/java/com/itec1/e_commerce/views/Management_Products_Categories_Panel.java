@@ -6,9 +6,9 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ProductCategoryPanelController;
 import com.itec1.e_commerce.entities.ProductCategory;
+import com.itec1.e_commerce.views.resources.DefaultTableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
-import com.itec1.e_commerce.views.resources.TableListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -24,8 +24,6 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     private final FieldDataValidator validator;
     private List<ProductCategory> categories;
 
-    private int click = 0;
-
     /**
      * Creates new form Management_Client_Panel
      */
@@ -35,13 +33,10 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
         jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
         tableCategories.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.categories = controller.updateTable("");
+        initListener();
         this.validator = new FieldDataValidator();
-        validator.onlyLetters(jtf_name);
-        validator.onlyLetters(jtf_description);
-        changeConditionAllButtons(false);
-        changeConditionAllFields(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
+        initValidator();
+        initPanel();
     }
 
     /**
@@ -255,13 +250,12 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("update")) {
             changeConditionAllFields(true);
             changeConditionField(jtf_name, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
-            click++;
         } else {
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
@@ -271,33 +265,22 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
                 newCat.setDescription(jtf_description.getText());
                 jlbl_info.setText(controller.update(newCat.getId(), newCat));
             }
-            changeConditionAllButtons(false);
-            changeConditionAllFields(false);
-            changeConditionButton(jbn_save, true);
-            changeConditionButton(jbn_restore, true);
-            click = 0;
-            cleanAllFields();
-            categories = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
     private void jbn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteActionPerformed
         ProductCategory newCat = controller.findByName(jtf_name.getText());
         jlbl_info.setText(controller.disable(newCat.getId()));
-        cleanAllFields();
-        changeConditionAllButtons(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
-        categories = controller.updateTable("");
+        initPanel();
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
-            click++;
         } else {
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
@@ -307,40 +290,27 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
                 newCat.setDescription(jtf_description.getText());
                 jlbl_info.setText(controller.create(newCat));
             }
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_restore, true);
-            changeConditionAllFields(false);
-            categories = controller.updateTable("");
+            initPanel();
         }
 
     }//GEN-LAST:event_jbn_saveActionPerformed
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_name, true);
             jlbl_info.setText("Ingrese la categoria a restaurar y vuelva a presionar");
-            click++;
         } else {
             ProductCategory newCat = controller.findByName(jtf_name.getText());
             jlbl_info.setText(controller.enable(newCat.getId()));
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_save, true);
-            changeConditionAllFields(false);
-            categories = controller.updateTable("");
+            initPanel();
         }
 
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
     private void btn_seeCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seeCategoriesActionPerformed
-        categories = controller.updateTable(jtf_nameFilter.getText());
-        changeConditionAllButtons(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
-        cleanAllFields();
-        click = 0;
+
+        initPanel();
     }//GEN-LAST:event_btn_seeCategoriesActionPerformed
 
     private void jtf_nameFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_nameFilterActionPerformed
@@ -384,7 +354,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
             changeConditionButton(jbn_save, false);
             changeConditionButton(jbn_restore, false);
         }
-        click = 0;
+        controller.verifyCrud("");
     }
 
     @Override
@@ -439,6 +409,27 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     @Override
     public String getStringFilter() {
         return jtf_nameFilter.getText();
+    }
+
+    @Override
+    public void initListener() {
+        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
+        tableCategories.getSelectionModel().addListSelectionListener(new DefaultTableListener(this));
+    }
+
+    @Override
+    public void initValidator() {
+        validator.onlyLetters(jtf_name);
+        validator.onlyLetters(jtf_description);
+    }
+
+    @Override
+    public void initPanel() {
+        this.categories = controller.updateTable("");
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
     }
 
 }
