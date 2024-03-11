@@ -23,6 +23,7 @@ public class Warehouse implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
     private String address;
     private String country;
     private Boolean enabled;
@@ -32,7 +33,8 @@ public class Warehouse implements Serializable {
     public Warehouse() {
     }
 
-    public Warehouse(String address, String country, Boolean enabled, String latitude, String longitude) {
+    public Warehouse(String address, String country, Boolean enabled, String latitude, String longitude, String code) {
+        this.code=code;
         this.address = address;
         this.country = country;
         this.enabled = enabled;
@@ -48,6 +50,16 @@ public class Warehouse implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    
 
     public String getAddress() {
         return address;
