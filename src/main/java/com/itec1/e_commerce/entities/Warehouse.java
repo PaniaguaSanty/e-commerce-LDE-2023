@@ -43,6 +43,7 @@ public class Warehouse implements Serializable {
         this.longitude = longitude;
     }
 
+   
     public Long getId() {
         return id;
     }
@@ -58,6 +59,8 @@ public class Warehouse implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+    
+    
 
     public String getAddress() {
         return address;
@@ -98,6 +101,8 @@ public class Warehouse implements Serializable {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+    
+    
 
     @Override
     public int hashCode() {

@@ -9,6 +9,7 @@ import com.itec1.e_commerce.dao.WarehouseJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Warehouse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -20,6 +21,7 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     public WarehouseServiceImpl() {
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
+
     }
 
     @Override
@@ -74,15 +76,16 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
                 .stream()
                 .filter(warehouse -> warehouse.getCountry()
                 .equals(countryName))
-                .toList();
+                .collect(Collectors.toList());
     }
 
-    public List<Warehouse> findByAddress(String Address) {
+    public Warehouse findByCode(String code) {
         return warehouseJpaController.findWarehouseEntities()
                 .stream()
-                .filter(warehouse -> warehouse.getAddress()
-                .equals(Address))
-                .toList();
+                .filter(warehouse -> warehouse.getCode()
+                .equals(code))
+                .findFirst()
+                .orElse(null);
     }
 
 }

@@ -4,6 +4,15 @@
  */
 package com.itec1.e_commerce.views;
 
+import com.itec1.e_commerce.controllers.WarehousePanelController;
+import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.Warehouse;
+import com.itec1.e_commerce.services.SectorServiceImpl;
+import com.itec1.e_commerce.views.resources.TableListener;
+import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -12,13 +21,22 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public class Management_Warehouses_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Warehouses_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
-    /**
-     * Creates new form Management_Client_Panel
-     */
+    private final WarehousePanelController controller;
+    private final FieldDataValidator validator;
+    private List<Warehouse> warehouses;
+    private SectorServiceImpl sectorService;
+
     public Management_Warehouses_Panel() {
         initComponents();
+
+        this.controller = new WarehousePanelController(this);
+        this.validator = new FieldDataValidator();
+        initListener();
+        initValidator();
+        initPanel();
+
     }
 
     /**
@@ -30,67 +48,109 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel_crud = new javax.swing.JPanel();
+        jScrollPaneTabla = new javax.swing.JScrollPane();
+        tableWarehouse = new javax.swing.JTable();
+        seeWarehouses = new javax.swing.JButton();
+        jbl_filter = new javax.swing.JLabel();
+        jtf_codeFilter = new javax.swing.JTextField();
         jPanel_datos1 = new javax.swing.JPanel();
-        jbl_name = new javax.swing.JLabel();
-        jtf_name = new javax.swing.JTextField();
-        jbl_lastname = new javax.swing.JLabel();
-        jtf_lastname = new javax.swing.JTextField();
-        jbl_cuit = new javax.swing.JLabel();
-        jtf_cuit = new javax.swing.JTextField();
-        jlbl_mensaje1 = new javax.swing.JLabel();
-        jlbl_alertaNombre1 = new javax.swing.JLabel();
-        jlbl_alertaApellido1 = new javax.swing.JLabel();
-        jlbl_alertaDNI1 = new javax.swing.JLabel();
-        jlbl_alertaTipoPersona1 = new javax.swing.JLabel();
+        jbl_code = new javax.swing.JLabel();
+        jtf_code = new javax.swing.JTextField();
+        jbl_address = new javax.swing.JLabel();
+        jtf_address = new javax.swing.JTextField();
+        jbl_country = new javax.swing.JLabel();
+        jtf_country = new javax.swing.JTextField();
         jbn_update = new javax.swing.JButton();
         jbn_delete = new javax.swing.JButton();
-        jbl_email = new javax.swing.JLabel();
-        jbl_address = new javax.swing.JLabel();
-        jbl_phone = new javax.swing.JLabel();
-        jtf_address = new javax.swing.JTextField();
-        jtf_email = new javax.swing.JTextField();
-        jtf_phone = new javax.swing.JTextField();
+        jbl_longitude = new javax.swing.JLabel();
+        jbl_latitude = new javax.swing.JLabel();
+        jtf_latitude = new javax.swing.JTextField();
+        jtf_longitude = new javax.swing.JTextField();
         jbn_save = new javax.swing.JButton();
         jbn_restore = new javax.swing.JButton();
         jlbl_info = new javax.swing.JLabel();
-        jPanel_crud = new javax.swing.JPanel();
-        jScrollPaneTabla = new javax.swing.JScrollPane();
-        tableClient = new javax.swing.JTable();
-        seeClients = new javax.swing.JButton();
-        jbl_filter = new javax.swing.JLabel();
-        jtf_cuitFilter = new javax.swing.JTextField();
+
+        jPanel_crud.setBackground(new java.awt.Color(0, 51, 255));
+
+        jScrollPaneTabla.setMaximumSize(new java.awt.Dimension(950, 750));
+        jScrollPaneTabla.setMinimumSize(new java.awt.Dimension(950, 750));
+        jScrollPaneTabla.setPreferredSize(new java.awt.Dimension(950, 750));
+
+        tableWarehouse.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jScrollPaneTabla.setViewportView(tableWarehouse);
+
+        seeWarehouses.setText("VER SUCURSALES");
+        seeWarehouses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seeWarehousesActionPerformed(evt);
+            }
+        });
+
+        jbl_filter.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_filter.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_filter.setText("Filtrar por código:");
+
+        jtf_codeFilter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_codeFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_codeFilterActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_crudLayout = new javax.swing.GroupLayout(jPanel_crud);
+        jPanel_crud.setLayout(jPanel_crudLayout);
+        jPanel_crudLayout.setHorizontalGroup(
+            jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_crudLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel_crudLayout.createSequentialGroup()
+                        .addComponent(jbl_filter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_codeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(seeWarehouses))
+                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(277, Short.MAX_VALUE))
+        );
+        jPanel_crudLayout.setVerticalGroup(
+            jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_crudLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_crudLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(seeWarehouses, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_crudLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtf_codeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
+        );
 
         jPanel_datos1.setBackground(new java.awt.Color(0, 51, 255));
 
-        jbl_name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_name.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_name.setText("NOMBRE");
+        jbl_code.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_code.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_code.setText("CODIGO");
 
-        jtf_name.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_code.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jbl_lastname.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_lastname.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_lastname.setText("APELLIDO");
+        jbl_address.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_address.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_address.setText("DIRECCION");
 
-        jtf_lastname.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_address.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jbl_cuit.setBackground(new java.awt.Color(255, 255, 255));
-        jbl_cuit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_cuit.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_cuit.setText("C.U.I.T.");
+        jbl_country.setBackground(new java.awt.Color(255, 255, 255));
+        jbl_country.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_country.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_country.setText("PAIS");
 
-        jtf_cuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jlbl_mensaje1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlbl_mensaje1.setForeground(new java.awt.Color(255, 0, 0));
-
-        jlbl_alertaNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaApellido1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaDNI1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaTipoPersona1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jtf_country.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jbn_update.setText("MODIFICAR");
         jbn_update.addActionListener(new java.awt.event.ActionListener() {
@@ -106,23 +166,17 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
             }
         });
 
-        jbl_email.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_email.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_email.setText("E-MAIL");
+        jbl_longitude.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_longitude.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_longitude.setText("LONGITUD");
 
-        jbl_address.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_address.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_address.setText("DIRECCIÓN");
+        jbl_latitude.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_latitude.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_latitude.setText("LATITUD");
 
-        jbl_phone.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_phone.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_phone.setText("TELÉFONO");
+        jtf_latitude.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jtf_address.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jtf_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jtf_phone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_longitude.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jbn_save.setText("GUARDAR");
         jbn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -147,108 +201,70 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
             jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_datos1Layout.createSequentialGroup()
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
                         .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(68, 68, 68)
+                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_code, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                                .addComponent(jbl_country, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(70, 70, 70)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(68, 68, 68)
-                                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(70, 70, 70)
-                                        .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(130, 130, 130)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jlbl_alertaNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jlbl_alertaApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jlbl_alertaTipoPersona1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jtf_country, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(769, 769, 769)
-                                .addComponent(jlbl_alertaDNI1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jbl_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(jbn_restore)
-                                .addGap(83, 83, 83)
-                                .addComponent(jbn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
-                                .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                            .addGap(427, 427, 427)
-                            .addComponent(jlbl_mensaje1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jbl_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
+                        .addGap(42, 42, 42)
+                        .addComponent(jbn_restore)
+                        .addGap(83, 83, 83)
+                        .addComponent(jbn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80)
+                        .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
+                        .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
                         .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         jPanel_datos1Layout.setVerticalGroup(
             jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jtf_country, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbl_country, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbl_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jlbl_alertaNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jlbl_alertaApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(9, 9, 9)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jlbl_alertaDNI1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jlbl_alertaTipoPersona1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jlbl_mensaje1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                    .addComponent(jtf_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbl_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
                 .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,66 +273,6 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
                     .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(124, Short.MAX_VALUE))
-        );
-
-        jPanel_crud.setBackground(new java.awt.Color(0, 51, 255));
-
-        jScrollPaneTabla.setMaximumSize(new java.awt.Dimension(950, 750));
-        jScrollPaneTabla.setMinimumSize(new java.awt.Dimension(950, 750));
-        jScrollPaneTabla.setPreferredSize(new java.awt.Dimension(950, 750));
-
-        tableClient.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jScrollPaneTabla.setViewportView(tableClient);
-
-        seeClients.setText("VER CLIENTES");
-        seeClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                seeClientsActionPerformed(evt);
-            }
-        });
-
-        jbl_filter.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_filter.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_filter.setText("Filtrar por cuit:");
-
-        jtf_cuitFilter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtf_cuitFilter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_cuitFilterActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel_crudLayout = new javax.swing.GroupLayout(jPanel_crud);
-        jPanel_crud.setLayout(jPanel_crudLayout);
-        jPanel_crudLayout.setHorizontalGroup(
-            jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_crudLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel_crudLayout.createSequentialGroup()
-                        .addComponent(jbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(seeClients))
-                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(277, Short.MAX_VALUE))
-        );
-        jPanel_crudLayout.setVerticalGroup(
-            jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_crudLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_crudLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(seeClients, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_crudLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -336,111 +292,191 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void seeWarehousesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeWarehousesActionPerformed
+        initPanel();
+    }//GEN-LAST:event_seeWarehousesActionPerformed
+
+    private void jtf_codeFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_codeFilterActionPerformed
+        warehouses = controller.updateTable(jtf_codeFilter.getText());
+    }//GEN-LAST:event_jtf_codeFilterActionPerformed
+
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("update")) {
             changeConditionAllFields(true);
-            changeConditionField(jtf_cuit, false);
+            changeConditionField(jtf_code, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
-            click++;
+
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else if (verifyEmptyFields()) {
+            if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
-                Client newClient = controller.findByCuit(jtf_cuit.getText());
-                newClient.setName(jtf_name.getText());
-                newClient.setLastname(jtf_lastname.getText());
-                newClient.setAddress(jtf_address.getText());
-                newClient.setEmail(jtf_email.getText());
-                newClient.setPhone(jtf_phone.getText());
-                jlbl_info.setText(controller.update(newClient.getId(), newClient));
+                Warehouse newWarehouse = controller.findByCode(jtf_code.getText());
+                newWarehouse.setAddress(jtf_address.getText());
+                newWarehouse.setCountry(jtf_country.getText());
+                newWarehouse.setLatitude(jtf_latitude.getText());
+                newWarehouse.setLongitude(jtf_longitude.getText());
+                jlbl_info.setText(controller.update(newWarehouse.getId(), newWarehouse));
             }
-            changeConditionAllButtons(false);
-            changeConditionAllFields(false);
-            changeConditionButton(jbn_save, true);
-            changeConditionButton(jbn_restore, true);
-            click = 0;
-            cleanAllFields();
-            clients = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
     private void jbn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteActionPerformed
-        Client newClient = controller.findByCuit(jtf_cuit.getText());
-        jlbl_info.setText(controller.disable(newClient.getId()));
-        cleanAllFields();
-        changeConditionAllButtons(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
-        clients = controller.updateTable("");
+        Warehouse newWarehouse = controller.findByCode(jtf_code.getText());
+        jlbl_info.setText(controller.disable(newWarehouse.getId()));
+        initPanel();
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
-            click++;
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else if (verifyEmptyFields()) {
+            if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
-                Client newClient = new Client();
-                newClient.setName(jtf_name.getText());
-                newClient.setLastname(jtf_lastname.getText());
-                newClient.setCuit(jtf_cuit.getText());
-                newClient.setAddress(jtf_address.getText());
-                newClient.setEmail(jtf_email.getText());
-                newClient.setPhone(jtf_phone.getText());
-                jlbl_info.setText(controller.create(newClient));
+                Warehouse newWarehouse = new Warehouse();
+                newWarehouse.setCode(jtf_code.getText());
+                newWarehouse.setAddress(jtf_address.getText());
+                newWarehouse.setCountry(jtf_country.getText());
+                newWarehouse.setLatitude(jtf_latitude.getText());
+                newWarehouse.setLongitude(jtf_longitude.getText());
+                jlbl_info.setText(controller.create(newWarehouse));
             }
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_restore, true);
-            changeConditionAllFields(false);
-            clients = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_saveActionPerformed
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
-            changeConditionField(jtf_cuit, true);
-            jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
-            click++;
+            changeConditionField(jtf_code, true);
+            jlbl_info.setText("Ingrese el códifo a restaurar y vuelva a presionar");
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else {
-                Client newClient = controller.findByCuit(jtf_cuit.getText());
-                jlbl_info.setText(controller.enable(newClient.getId()));
-            }
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_save, true);
-            changeConditionAllFields(false);
-            clients = controller.updateTable("");
+
+            Warehouse warehouse = controller.findByCode(jtf_code.getText());
+            jlbl_info.setText(controller.enable(warehouse.getId()));
+            initPanel();
+
         }
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
-    private void seeClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeClientsActionPerformed
-        clients = controller.updateTable(jtf_cuitFilter.getText());
+    @Override
+    public void initListener() {
+        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(warehouses, controller, this));
+        tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
+    }
+
+    @Override
+    public void initValidator() {
+        validator.onlyNumbers(jtf_code);
+        validator.onlyNumbers(jtf_latitude);
+        validator.onlyNumbers(jtf_longitude);
+        validator.onlyLetters(jtf_country);
+
+    }
+
+    @Override
+    public void initPanel() {
         changeConditionAllButtons(false);
+        changeConditionAllFields(false);
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
+        this.warehouses = controller.updateTable("");
         cleanAllFields();
-        click = 0;
-    }//GEN-LAST:event_seeClientsActionPerformed
+        controller.verifyCrud("");
+    }
 
-    private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        clients = controller.updateTable(jtf_cuitFilter.getText());
-    }//GEN-LAST:event_jtf_cuitFilterActionPerformed
+    @Override
+    public JTable getTable() {
+        return this.tableWarehouse;
+    }
+
+    @Override
+    public void selectFromTable() {
+        int field = tableWarehouse.getSelectedRow();
+        if (field >= 0) {
+            Warehouse selected = warehouses.get(field);
+            jtf_latitude.setText(selected.getAddress());
+            jtf_country.setText(selected.getCountry());
+            jtf_code.setText(selected.getCode());
+            jtf_latitude.setText(selected.getLatitude());
+            jtf_longitude.setText(selected.getLongitude());
+            changeConditionAllButtons(true);
+            jlbl_info.setText("");
+            changeConditionButton(jbn_save, false);
+            changeConditionButton(jbn_restore, false);
+        }
+        controller.verifyCrud("");
+    }
+
+    @Override
+    public void changeConditionAllFields(boolean state) {
+        changeConditionField(jtf_latitude, state);
+        changeConditionField(jtf_country, state);
+        changeConditionField(jtf_code, state);
+        changeConditionField(jtf_latitude, state);
+        changeConditionField(jtf_longitude, state);
+    }
+
+    @Override
+    public void changeConditionField(JTextField textField, boolean state) {
+        validator.enableField(state, textField);
+    }
+
+    @Override
+    public void changeConditionAllButtons(boolean state) {
+        changeConditionButton(jbn_save, state);
+        changeConditionButton(jbn_restore, state);
+        changeConditionButton(jbn_update, state);
+        changeConditionButton(jbn_delete, state);
+    }
+
+    @Override
+    public void changeConditionButton(JButton button, boolean state) {
+        validator.enableButton(state, button, null, null, null, null);
+
+    }
+
+    @Override
+    public void cleanAllFields() {
+        cleanField(jtf_latitude);
+        cleanField(jtf_country);
+        cleanField(jtf_code);
+        cleanField(jtf_latitude);
+        cleanField(jtf_longitude);
+    }
+
+    @Override
+    public void cleanField(JTextField textField) {
+        validator.cleanField(textField);
+    }
+
+    @Override
+    public boolean verifyEmptyFields() {
+        List<JTextField> fields = new ArrayList<>();
+        fields.add(jtf_latitude);
+        fields.add(jtf_country);
+        fields.add(jtf_code);
+        fields.add(jtf_latitude);
+        fields.add(jtf_longitude);
+
+        for (JTextField field : fields) {
+            if (field.getText().length() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String getStringFilter() {
+        return jtf_codeFilter.getText();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -448,75 +484,24 @@ public class Management_Warehouses_Panel extends javax.swing.JPanel implements I
     private javax.swing.JPanel jPanel_datos1;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JLabel jbl_address;
-    private javax.swing.JLabel jbl_cuit;
-    private javax.swing.JLabel jbl_email;
+    private javax.swing.JLabel jbl_code;
+    private javax.swing.JLabel jbl_country;
     private javax.swing.JLabel jbl_filter;
-    private javax.swing.JLabel jbl_lastname;
-    private javax.swing.JLabel jbl_name;
-    private javax.swing.JLabel jbl_phone;
+    private javax.swing.JLabel jbl_latitude;
+    private javax.swing.JLabel jbl_longitude;
     private javax.swing.JButton jbn_delete;
     private javax.swing.JButton jbn_restore;
     private javax.swing.JButton jbn_save;
     private javax.swing.JButton jbn_update;
-    private javax.swing.JLabel jlbl_alertaApellido1;
-    private javax.swing.JLabel jlbl_alertaDNI1;
-    private javax.swing.JLabel jlbl_alertaNombre1;
-    private javax.swing.JLabel jlbl_alertaTipoPersona1;
     private javax.swing.JLabel jlbl_info;
-    private javax.swing.JLabel jlbl_mensaje1;
     private javax.swing.JTextField jtf_address;
-    private javax.swing.JTextField jtf_cuit;
-    private javax.swing.JTextField jtf_cuitFilter;
-    private javax.swing.JTextField jtf_email;
-    private javax.swing.JTextField jtf_lastname;
-    private javax.swing.JTextField jtf_name;
-    private javax.swing.JTextField jtf_phone;
-    private javax.swing.JButton seeClients;
-    private javax.swing.JTable tableClient;
+    private javax.swing.JTextField jtf_code;
+    private javax.swing.JTextField jtf_codeFilter;
+    private javax.swing.JTextField jtf_country;
+    private javax.swing.JTextField jtf_latitude;
+    private javax.swing.JTextField jtf_longitude;
+    private javax.swing.JButton seeWarehouses;
+    private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public JTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void selectFromTable() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void changeConditionAllFields(boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void changeConditionField(JTextField textField, boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void changeConditionAllButtons(boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void changeConditionButton(JButton button, boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void cleanAllFields() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void cleanField(JTextField textfield) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean verifyEmptyFields() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

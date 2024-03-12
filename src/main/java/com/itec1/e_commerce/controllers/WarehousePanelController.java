@@ -18,25 +18,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class WarehousePanelController implements IController<Warehouse> {
 
-    private final WarehouseServiceImpl warehouseServiceImpl;
+    private final WarehouseServiceImpl warehouseService;
     private final Management_Warehouses_Panel warehousePanel;
+    private String crudOption = "";
 
     public WarehousePanelController(Management_Warehouses_Panel warehousePanel) {
-        this.warehouseServiceImpl = new WarehouseServiceImpl();
-        this.warehousePanel = warehousePanel;
+        this.warehouseService = new WarehouseServiceImpl();
+          this.warehousePanel = warehousePanel;
+
     }
 
     @Override
-    public List<Warehouse> updateTable(String direccion) {
+    public List<Warehouse> updateTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
         //agrega los titulos a la columna
-        String[] titles = {"Id", "Pais", "Dirección", "Latitud", "Longitud"};
+        String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
         model.setColumnIdentifiers(titles);
-        List<Warehouse> warehouse = warehouseServiceImpl.findAll();
+        List<Warehouse> warehouses = warehouseService.findAll();
         List<Warehouse> result = new ArrayList<>();
-        for (Warehouse wh : warehouse) {
-            if (wh.getAddress().startsWith(direccion)) {
-                Object[] object = {wh.getCountry(), wh.getAddress(), wh.getLatitude(), wh.getLongitude()};
+        for (Warehouse wh : warehouses) {
+            if (wh.getCode().startsWith(string)) {
+                Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
                 model.addRow(object);
                 result.add(wh);
             }
@@ -46,11 +48,20 @@ public class WarehousePanelController implements IController<Warehouse> {
     }
 
     @Override
+    public boolean verifyCrud(String selectedOption) {
+        if (!crudOption.equals(selectedOption)) {
+            crudOption = selectedOption;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public String create(Warehouse entity) {
-        if (warehouseServiceImpl.findByAddress(entity.getAddress()) != null) {
-            return "ERROR. Esta dirección ya pertenece a una sucursal.";
+        if (warehouseService.findByCode(entity.getCode()) != null) {
+            return "ERROR. Este código ya pertence a una sucursal.";
         } else {
-            warehouseServiceImpl.create(entity);
+            warehouseService.create(entity);
         }
         return "Sucursal creada correctamente.";
     }
@@ -58,9 +69,9 @@ public class WarehousePanelController implements IController<Warehouse> {
     @Override
     public String update(Long id, Warehouse entity) {
         try {
-            warehouseServiceImpl.update(id, entity);
+            warehouseService.update(id, entity);
         } catch (EntityNotFoundException e) {
-            return "ERROR. Esta Sucursal no existe";
+            return "ERROR. estra sucursal no existe";
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
         }
@@ -69,22 +80,22 @@ public class WarehousePanelController implements IController<Warehouse> {
 
     @Override
     public Warehouse findById(Long id) {
-        return warehouseServiceImpl.findById(id);
+        return warehouseService.findById(id);
     }
 
     @Override
     public List<Warehouse> findAll() {
-        return warehouseServiceImpl.findAll();
+        return warehouseService.findAll();
     }
 
     @Override
     public String disable(Long id) {
-        Warehouse warehouse = warehouseServiceImpl.findById(id);
+        Warehouse warehouse = warehouseService.findById(id);
         if (!warehouse.getEnabled()) {
-            return "Error. esta sucursal ya se encuentra eliminada";
+            return "ERROR. Esta sucursal ya se encuentra eliminada.";
         } else {
             try {
-                warehouseServiceImpl.disable(id);
+                warehouseService.disable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Esta sucursal no existe.";
             } catch (Exception e) {
@@ -94,25 +105,14 @@ public class WarehousePanelController implements IController<Warehouse> {
         return "Sucursal eliminada correctamente.";
     }
 
-    public List<Warehouse> findWarehouseByCountry(String countryName) {
-        return warehouseServiceImpl.findWarehouseByCountry(countryName);
-
-    }
-
-    public List<Warehouse> findByAddress(String Address) {
-
-        return warehouseServiceImpl.findByAddress(Address);
-
-    }
-
     @Override
     public String enable(Long id) {
-        Warehouse warehouse = warehouseServiceImpl.findById(id);
+        Warehouse warehouse = warehouseService.findById(id);
         if (warehouse.getEnabled()) {
-            return "ERROR. Esta sucursal no se encuntra eliminada.";
+            return "ERROR. Esta sucursal no se encuentra eliminada.";
         } else {
             try {
-                warehouseServiceImpl.enable(id);
+                warehouseService.enable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Esta sucursal no existe.";
             } catch (Exception e) {
@@ -121,6 +121,11 @@ public class WarehousePanelController implements IController<Warehouse> {
         }
         return "Sucursal recuperada correctamente.";
     }
+
+    public Warehouse findByCode(String code) {
+        return warehouseService.findByCode(code);
+    }
+
+  
+
 }
-
-
