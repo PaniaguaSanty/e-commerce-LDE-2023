@@ -7,7 +7,9 @@ import com.itec1.e_commerce.entities.Provider;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class ProviderServiceImplTest {
 
     @Mock
@@ -49,9 +52,22 @@ class ProviderServiceImplTest {
     }
 
     @Test
+    void testDelete() throws Exception {
+        when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
+        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
+    }
+
+    @Test
     void testFindById() {
         when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
         assertEquals(provider.getId(), providerService.findById(any()).getId());
+    }
+
+    @Test
+    void testFindByCuit() {
+        providerMockDB.add(new Provider("0", "0", "0", "0", "0", "0"));
+        when(providerJpa.findProviderEntities()).thenReturn(providerMockDB);
+        assertEquals(provider.getCuit(), providerService.findByCuit("123").getCuit());
     }
 
     @Test
@@ -62,18 +78,6 @@ class ProviderServiceImplTest {
     }
 
     @Test
-    void testDisable() throws Exception {
-        when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
-        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
-    }
-
-    @Test
-    void testDelete() throws Exception {
-        when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
-        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
-    }
-
-    @Test
     void testEnable() throws Exception {
         provider.setEnable(false);
         when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
@@ -81,9 +85,8 @@ class ProviderServiceImplTest {
     }
 
     @Test
-    void testFindByCuit() {
-        providerMockDB.add(new Provider("0", "0", "0", "0", "0", "0"));
-        when(providerJpa.findProviderEntities()).thenReturn(providerMockDB);
-        assertEquals(provider.getCuit(), providerService.findByCuit("123").getCuit());
+    void testDisable() throws Exception {
+        when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
+        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
     }
 }
