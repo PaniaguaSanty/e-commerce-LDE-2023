@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.SectorJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
@@ -23,9 +24,9 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     private final SectorJpaController sectorJpaController;
     private final OrderJpaController orderJpaController;
 
-    public SectorServiceImpl(SectorJpaController sectorJpaController, OrderJpaController orderJpaController) {
-        this.sectorJpaController = sectorJpaController;
-        this.orderJpaController = orderJpaController;
+    public SectorServiceImpl() {
+        this.sectorJpaController = new SectorJpaController(Connection.getEmf());
+        this.orderJpaController = new OrderJpaController(Connection.getEmf());
     }
 
     @Override
@@ -79,18 +80,14 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         return sectorJpaController.findSectorEntities();
     }
 
+    //TODO: Porqué se crea una lista de sectores si luego trae al primero que coincida y no una lista?
     public Sector findSectorByName(String sectorName, Warehouse entity) {
-        try {
-            List<Sector> sectors = findSectorByWarehouse(entity);
-            return sectors
-                    .stream()
-                    .filter(sector -> sector.getName().equals(sectorName))
-                    .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
-        } catch (Exception e) {
-            System.err.println("Error while finding sector´s by name: " + e.getMessage());
-            throw new RuntimeException("Failed to find the sector.", e);
-        }
+        List<Sector> sectors = findSectorByWarehouse(entity);
+        return sectors
+                .stream()
+                .filter(sector -> sector.getName().equals(sectorName))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
     }
 
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
@@ -104,6 +101,14 @@ public class SectorServiceImpl implements ICRUD<Sector> {
             System.err.println("Error while finding sector´s by warehouse." + e.getMessage());
             throw new RuntimeException("Failed to find sector´s by warehouse", e);
         }
+    }
+    
+    public Sector findByCode(String string){
+        return sectorJpaController.findSectorEntities()
+                .stream()
+                .filter(sector -> sector.getCode().equals(string))
+                .findFirst()
+                .orElse(null);
     }
 
     public Order changeSector(Order order, Sector sector) throws Exception {

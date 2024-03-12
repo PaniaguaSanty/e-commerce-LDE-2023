@@ -20,6 +20,7 @@ public class ProviderPanelController implements IController<Provider> {
 
     private final ProviderServiceImpl providerService;
     private final Management_Providers_Panel providerPanel;
+    String crudOption = "";
 
     public ProviderPanelController(Management_Providers_Panel providerPanel) {
         this.providerService = new ProviderServiceImpl();
@@ -72,7 +73,7 @@ public class ProviderPanelController implements IController<Provider> {
         return providerService.findById(id);
     }
 
-    public Provider findByCuit(String cuit) {
+    public Provider findByCuit(String cuit) throws EntityNotFoundException {
         return providerService.findByCuit(cuit);
     }
 
@@ -113,5 +114,14 @@ public class ProviderPanelController implements IController<Provider> {
             }
         }
         return "Provedor recuperado correctamente.";
+    }
+
+    @Override
+    public boolean verifyCrud(String selectedOption) {
+        if (!crudOption.equals(selectedOption)) {
+            crudOption = selectedOption;
+            return true;
+        }
+        return false;
     }
 }

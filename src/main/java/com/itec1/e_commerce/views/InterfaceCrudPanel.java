@@ -13,6 +13,12 @@ import javax.swing.JTextField;
  */
 public interface InterfaceCrudPanel {
     
+    void initListener();
+    
+    void initValidator();
+    
+    void initPanel();
+    
     javax.swing.JTable getTable();
     
     void selectFromTable();
@@ -30,5 +36,7 @@ public interface InterfaceCrudPanel {
     void cleanField(JTextField textfield);
     
     boolean verifyEmptyFields();
+    
+    String getStringFilter();
 
 }

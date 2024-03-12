@@ -6,48 +6,37 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ClientPanelController;
 import com.itec1.e_commerce.entities.Client;
-import com.itec1.e_commerce.views.resources.ClientsTableListener;
+import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author sjcex
  */
-public class Management_Clients_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Clients_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
     private final ClientPanelController controller;
     private final FieldDataValidator validator;
     private List<Client> clients;
-
-    private int click = 0;
 
     /**
      * Creates new form Management_Client_Panel
      */
     public Management_Clients_Panel() {
         initComponents();
-
-        jtf_cuitFilter.getDocument().addDocumentListener(new CuitFilterListener());
-
         this.controller = new ClientPanelController(this);
-        tableClient.getSelectionModel().addListSelectionListener(new ClientsTableListener(this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
+        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.clients = controller.updateTable("");
-
         this.validator = new FieldDataValidator();
-        validator.onlyNumbers(jtf_cuit);
-        validator.onlyNumbers(jtf_phone);
-        validator.onlyLetters(jtf_name);
-        validator.onlyLetters(jtf_lastname);
-        changeConditionAllButtons(false);
-        changeConditionAllFields(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
+        initListener();
+        initValidator();
+        initPanel();
     }
 
     /**
@@ -68,11 +57,6 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         jtf_lastname = new javax.swing.JTextField();
         jbl_cuit = new javax.swing.JLabel();
         jtf_cuit = new javax.swing.JTextField();
-        jlbl_mensaje1 = new javax.swing.JLabel();
-        jlbl_alertaNombre1 = new javax.swing.JLabel();
-        jlbl_alertaApellido1 = new javax.swing.JLabel();
-        jlbl_alertaDNI1 = new javax.swing.JLabel();
-        jlbl_alertaTipoPersona1 = new javax.swing.JLabel();
         jbn_update = new javax.swing.JButton();
         jbn_delete = new javax.swing.JButton();
         jbl_email = new javax.swing.JLabel();
@@ -116,17 +100,6 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         jbl_cuit.setText("C.U.I.T.");
 
         jtf_cuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jlbl_mensaje1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlbl_mensaje1.setForeground(new java.awt.Color(255, 0, 0));
-
-        jlbl_alertaNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaApellido1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaDNI1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        jlbl_alertaTipoPersona1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jbn_update.setText("MODIFICAR");
         jbn_update.addActionListener(new java.awt.event.ActionListener() {
@@ -183,107 +156,77 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
             jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_datos1Layout.createSequentialGroup()
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
                         .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(68, 68, 68)
+                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                                .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(70, 70, 70)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(68, 68, 68)
-                                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(70, 70, 70)
-                                        .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                        .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(130, 130, 130)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jlbl_alertaNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jlbl_alertaApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jlbl_alertaTipoPersona1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(769, 769, 769)
-                                .addComponent(jlbl_alertaDNI1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(jbn_restore)
-                                .addGap(83, 83, 83)
-                                .addComponent(jbn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
-                                .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                            .addGap(427, 427, 427)
-                            .addComponent(jlbl_mensaje1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                                .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
+                        .addGap(42, 42, 42)
+                        .addComponent(jbn_restore)
+                        .addGap(83, 83, 83)
+                        .addComponent(jbn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80)
+                        .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
+                        .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
                         .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         jPanel_datos1Layout.setVerticalGroup(
             jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jlbl_alertaNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jlbl_alertaApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(9, 9, 9)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jlbl_alertaDNI1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbl_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jlbl_alertaTipoPersona1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jlbl_mensaje1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbl_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_phone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -355,6 +298,9 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
                         .addContainerGap())))
         );
 
+        jtf_cuitFilter.getAccessibleContext().setAccessibleName("");
+        jtf_cuitFilter.getAccessibleContext().setAccessibleDescription("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -373,17 +319,15 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("update")) {
             changeConditionAllFields(true);
             changeConditionField(jtf_cuit, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
-            click++;
+
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else if (verifyEmptyFields()) {
+            if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Client newClient = controller.findByCuit(jtf_cuit.getText());
@@ -394,37 +338,24 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
                 newClient.setPhone(jtf_phone.getText());
                 jlbl_info.setText(controller.update(newClient.getId(), newClient));
             }
-            changeConditionAllButtons(false);
-            changeConditionAllFields(false);
-            changeConditionButton(jbn_save, true);
-            changeConditionButton(jbn_restore, true);
-            click = 0;
-            cleanAllFields();
-            clients = controller.updateTable("");
+            initPanel();
         }
     }//GEN-LAST:event_jbn_updateActionPerformed
 
     private void jbn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteActionPerformed
         Client newClient = controller.findByCuit(jtf_cuit.getText());
         jlbl_info.setText(controller.disable(newClient.getId()));
-        cleanAllFields();
-        changeConditionAllButtons(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
-        clients = controller.updateTable("");
+        initPanel();
     }//GEN-LAST:event_jbn_deleteActionPerformed
 
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
-            click++;
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else if (verifyEmptyFields()) {
+            if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Client newClient = new Client();
@@ -436,44 +367,27 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
                 newClient.setPhone(jtf_phone.getText());
                 jlbl_info.setText(controller.create(newClient));
             }
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_restore, true);
-            changeConditionAllFields(false);
-            clients = controller.updateTable("");
+            initPanel();
         }
 
     }//GEN-LAST:event_jbn_saveActionPerformed
 
     private void jbn_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreActionPerformed
-        if (click == 0) {
+        if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_cuit, true);
             jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
-            click++;
         } else {
-            if (jtf_cuit.getText().length() != 11) {
-                jlbl_info.setText("ERROR.Ingrese un CUIT válido");
-            } else {
-                Client newClient = controller.findByCuit(jtf_cuit.getText());
-                jlbl_info.setText(controller.enable(newClient.getId()));
-            }
-            click = 0;
-            cleanAllFields();
-            changeConditionButton(jbn_save, true);
-            changeConditionAllFields(false);
-            clients = controller.updateTable("");
+
+            Client newClient = controller.findByCuit(jtf_cuit.getText());
+            jlbl_info.setText(controller.enable(newClient.getId()));
+            initPanel();
         }
 
     }//GEN-LAST:event_jbn_restoreActionPerformed
 
     private void seeClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeClientsActionPerformed
-        clients = controller.updateTable(jtf_cuitFilter.getText());
-        changeConditionAllButtons(false);
-        changeConditionButton(jbn_save, true);
-        changeConditionButton(jbn_restore, true);
-        cleanAllFields();
-        click = 0;
+        initPanel();
     }//GEN-LAST:event_seeClientsActionPerformed
 
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
@@ -496,12 +410,7 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
     private javax.swing.JButton jbn_restore;
     private javax.swing.JButton jbn_save;
     private javax.swing.JButton jbn_update;
-    private javax.swing.JLabel jlbl_alertaApellido1;
-    private javax.swing.JLabel jlbl_alertaDNI1;
-    private javax.swing.JLabel jlbl_alertaNombre1;
-    private javax.swing.JLabel jlbl_alertaTipoPersona1;
     private javax.swing.JLabel jlbl_info;
-    private javax.swing.JLabel jlbl_mensaje1;
     private javax.swing.JTextField jtf_address;
     private javax.swing.JTextField jtf_cuit;
     private javax.swing.JTextField jtf_cuitFilter;
@@ -534,7 +443,7 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
             changeConditionButton(jbn_save, false);
             changeConditionButton(jbn_restore, false);
         }
-        click = 0;
+        controller.verifyCrud("");
     }
 
     @Override
@@ -598,23 +507,34 @@ public class Management_Clients_Panel extends javax.swing.JPanel implements Inte
         return false;
     }
 
-    private class CuitFilterListener implements DocumentListener {
+    @Override
+    public String getStringFilter() {
+        return jtf_cuitFilter.getText();
+    }
 
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            clients = controller.updateTable(jtf_cuitFilter.getText());
-        }
+    @Override
+    public void initListener() {
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
+        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
+    }
 
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            clients = controller.updateTable(jtf_cuitFilter.getText());
-        }
+    @Override
+    public void initValidator() {
+        validator.onlyNumbers(jtf_cuit);
+        validator.onlyNumbers(jtf_phone);
+        validator.onlyLetters(jtf_name);
+        validator.onlyLetters(jtf_lastname);
+    }
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            clients = controller.updateTable(jtf_cuitFilter.getText());
-        }
-        
+    @Override
+    public void initPanel() {
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
+        changeConditionButton(jbn_save, true);
+        changeConditionButton(jbn_restore, true);
+        this.clients = controller.updateTable("");
+        cleanAllFields();
+        controller.verifyCrud("");
     }
 
 }

@@ -4,6 +4,9 @@
  */
 package com.itec1.e_commerce.views.resources;
 
+import com.itec1.e_commerce.controllers.IController;
+import com.itec1.e_commerce.views.InterfaceCrudPanel;
+import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -11,23 +14,30 @@ import javax.swing.event.DocumentListener;
  *
  * @author sjcex
  */
-public class JTextFieldListener implements DocumentListener{
+public class JTextFieldListener<T, U> implements DocumentListener{
+    
+    private List<T> entities;
+    private final IController<U> controller;
+    private final InterfaceCrudPanel panel;
 
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public JTextFieldListener(List<T> entities, IController<U> controller, InterfaceCrudPanel panel) {
+        this.entities = entities;
+        this.controller = controller;
+        this.panel = panel;
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        entities = (List<T>) controller.updateTable(panel.getStringFilter());
     }
-    
-    
-    
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        entities = (List<T>) controller.updateTable(panel.getStringFilter());
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        entities = (List<T>) controller.updateTable(panel.getStringFilter());
+    }
 }

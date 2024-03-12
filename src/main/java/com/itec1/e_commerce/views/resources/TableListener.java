@@ -4,25 +4,26 @@
  */
 package com.itec1.e_commerce.views.resources;
 
-import com.itec1.e_commerce.views.Management_Providers_Panel;
+import com.itec1.e_commerce.views.InterfaceCrudPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
  *
- * @author pania
+ * @author turraca
  */
-public class ProviderTableListener implements ListSelectionListener{
+public class TableListener implements ListSelectionListener {
+
+    private final InterfaceCrudPanel panel;
     
-    private final Management_Providers_Panel providersPanel;
-    
-    public ProviderTableListener(Management_Providers_Panel providersPanel) {
-        this.providersPanel = providersPanel;
+    public TableListener(InterfaceCrudPanel panel) {
+        this.panel = panel;
     }
     
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        providersPanel.selectFromTable();
+        panel.selectFromTable();
     }
     
 }
+    

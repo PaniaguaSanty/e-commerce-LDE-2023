@@ -10,7 +10,6 @@ import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -83,15 +82,9 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     public Provider findByCuit(String cuit) {
-        try {
-            return providerJpaController.findProviderEntities()
-                    .stream()
-                    .filter(provider -> provider.getCuit().equals(cuit))
+            return providerJpaController.findProviderEntities().stream()
+                    .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
                     .orElse(null);
-        } catch (Exception e) {
-            System.err.println("Error while finding a provider by cuit: " + e.getMessage());
-            throw new RuntimeException("Failed to find a provider by cuit: ", e);
-        }
     }
 }

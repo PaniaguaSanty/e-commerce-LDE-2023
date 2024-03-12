@@ -1,25 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
+import java.util.stream.Collectors;
 
-/**
- *
- * @author melina
- */
 public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     private final ProductCategoryJpaController productCategoryJpaController;
 
-    public ProductCategoryServiceImpl(ProductCategoryJpaController productCategoryJpaController) {
-        this.productCategoryJpaController = productCategoryJpaController;
+    public ProductCategoryServiceImpl() {
+        this.productCategoryJpaController = new ProductCategoryJpaController(Connection.getEmf());
     }
 
     @Override
@@ -48,7 +41,8 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     @Override
     public List<ProductCategory> findAll() {
-        return productCategoryJpaController.findProductCategoryEntities();
+        return productCategoryJpaController.findProductCategoryEntities().stream()
+                .filter(cat -> cat.isEnable()).toList();
     }
 
     @Override
@@ -74,14 +68,9 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     }
 
     public ProductCategory findByName(String name) {
-        try {
-            return productCategoryJpaController.findProductCategoryEntities().stream()
-                    .filter(productCategory -> productCategory.getName().equals(name))
-                    .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("Product Category with: " + name + " Not found."));
-        } catch (Exception e) {
-            System.err.println("Error while finding a product category: " + e.getMessage());
-            throw new RuntimeException("Failed to find the category. ", e);
-        }
+        return productCategoryJpaController.findProductCategoryEntities().stream()
+                .filter(productCategory -> productCategory.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }

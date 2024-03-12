@@ -29,6 +29,7 @@ public class Sector implements Serializable {
 
     private String name;
     private Boolean enabled;
+    private String code;
 
     @ManyToOne
     private Warehouse warehouse;
@@ -38,14 +39,15 @@ public class Sector implements Serializable {
 
     public Sector() {
         orders = new ArrayList<>();
+        this.enabled = true;
     }
 
-    public Sector(String name, Boolean enabled, Warehouse warehouse, List<Order> orders) {
+    public Sector(String name, Warehouse warehouse, String code) {
         this();
         this.name = name;
-        this.enabled = enabled;
         this.warehouse = warehouse;
-        this.orders = orders;
+        this.code = code;
+
     }
 
     public Long getId() {
@@ -55,7 +57,18 @@ public class Sector implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-     public String getName() {
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    
+
+    public String getName() {
         return name;
     }
 
