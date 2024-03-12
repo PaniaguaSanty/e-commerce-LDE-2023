@@ -114,7 +114,6 @@ public class SectorPanelController implements IController<Sector> {
     @Override
     public String disable(Long id) {
         Sector sector = sectorService.findById(id);
-
         if (!sector.getEnabled()) {
             return "ERROR. Este sector ya se encuentra eliminado.";
         } else {
@@ -132,7 +131,6 @@ public class SectorPanelController implements IController<Sector> {
     @Override
     public String enable(Long id) {
        Sector sector = sectorService.findById(id);
-
         if (sector.getEnabled()) {
             return "ERROR. Este sector no se encuentra eliminado.";
         } else {
