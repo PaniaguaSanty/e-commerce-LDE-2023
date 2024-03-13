@@ -5,6 +5,8 @@ import java.util.List;
 import com.itec1.e_commerce.dao.EmployeeJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Employee;
+import com.itec1.e_commerce.entities.Warehouse;
+import java.util.stream.Collectors;
 
 public class EmployeeServiceImpl implements ICRUD<Employee> {
 
@@ -73,14 +75,30 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     public Employee findByCuit(String cuit) {
         try {
-        return employeeJpaController.findEmployeeEntities().stream()
-                .filter(client -> client.getCuit().equals(cuit))
-                .findFirst()
-                .orElse(null);
+            return employeeJpaController.findEmployeeEntities().stream()
+                    .filter(client -> client.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElse(null);
         } catch (Exception e) {
             System.err.println("Error while searching Employee by cuit.");
-            throw new RuntimeException("Error while searching, please try again.",e);
+            throw new RuntimeException("Error while searching, please try again.", e);
         }
     }
-    
+  
+  public List<Employee> searchByWarehouse(String warehouseToSearch) {
+        return employeeJpaController.findEmployeeEntities().stream()
+                .filter(employee -> employee.getWarehouse().getAddress().equalsIgnoreCase(warehouseToSearch))
+                .collect(Collectors.toList());
+    }
+
+    //Verificar
+    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) {
+        Employee employeeToRelocate = findByCuit(employeeCuitToRelocate);
+        if (employeeToRelocate != null && employeeToRelocate.getEnable()) {
+            employeeToRelocate.setWarehouse(warehouseToRelocate);
+            return employeeToRelocate;
+        }
+        return null;
+    }
+  
 }

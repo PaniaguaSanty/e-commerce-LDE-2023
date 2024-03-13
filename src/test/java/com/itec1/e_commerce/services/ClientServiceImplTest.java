@@ -26,7 +26,7 @@ class ClientServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        this.client = new Client("name","lastname", "address", "123", "email", "phone");
+        this.client = new Client("name", "lastname", "address", "123", "email", "phone");
         this.clientMockDB = new ArrayList<>();
         this.clientMockDB.add(client);
         this.clientService = new ClientServiceImpl();
@@ -46,19 +46,19 @@ class ClientServiceImplTest {
     }
 
     @Test
+    void testDelete() throws Exception {
+        when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
+        assertNotEquals(client.getEnable(), clientService.disable(client.getId()).getEnable());
+    }
+
+    @Test
     void testFindById() {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
         assertEquals(client.getId(), clientService.findById(any()).getId());
     }
 
     @Test
-    void testFindAll() {
-        clientMockDB.add(client);
-        when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
-        assertEquals(2, clientService.findAll().size());
-    }
 
-    @Test
     void testDisable() throws Exception {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
         assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
@@ -68,6 +68,19 @@ class ClientServiceImplTest {
     void testDelete() throws Exception {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
         assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
+
+    void testFindByCuit() {
+        clientMockDB.add(new Client("0", "0", "0", "0", "0", "0"));
+        when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
+        assertEquals(client.getCuit(), clientService.findByCuit("123").getCuit());
+    }
+
+    @Test
+    void testFindAll() {
+        clientMockDB.add(client);
+        when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
+        assertEquals(2, clientService.findAll().size());
+
     }
 
     @Test
@@ -78,9 +91,8 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testFindByCuit() {
-        clientMockDB.add(new Client("0","0","0","0","0","0"));
-        when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
-        assertEquals(client.getCuit(), clientService.findByCuit("123").getCuit());
+    void testDisable() throws Exception {
+        when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
+        assertNotEquals(client.getEnable(), clientService.disable(client.getId()).getEnable());
     }
 }
