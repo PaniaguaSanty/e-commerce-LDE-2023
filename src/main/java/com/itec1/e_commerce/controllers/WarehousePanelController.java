@@ -4,9 +4,7 @@
  */
 package com.itec1.e_commerce.controllers;
 
-import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
-import com.itec1.e_commerce.services.SectorServiceImpl;
 import com.itec1.e_commerce.services.WarehouseServiceImpl;
 import com.itec1.e_commerce.views.Management_Warehouses_Panel;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class WarehousePanelController implements IController<Warehouse> {
         List<Warehouse> result = new ArrayList<>();
         for (Warehouse wh : warehouses) {
             if (wh.getCode().startsWith(string)) {
-                Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
+                Object[] object = {wh.getId(),wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
                 model.addRow(object);
                 result.add(wh);
             }

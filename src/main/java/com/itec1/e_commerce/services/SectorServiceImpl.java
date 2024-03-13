@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.SectorJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
@@ -19,15 +20,15 @@ import javax.persistence.EntityNotFoundException;
  * @author pania
  */
 public class SectorServiceImpl implements ICRUD<Sector> {
-
+    
     private final SectorJpaController sectorJpaController;
     private final OrderJpaController orderJpaController;
-
-    public SectorServiceImpl(SectorJpaController sectorJpaController, OrderJpaController orderJpaController) {
-        this.sectorJpaController = sectorJpaController;
-        this.orderJpaController = orderJpaController;
+    
+    public SectorServiceImpl() {
+        this.sectorJpaController = new SectorJpaController(Connection.getEmf());
+        this.orderJpaController = new OrderJpaController(Connection.getEmf());
     }
-
+    
     @Override
     public Sector create(Sector entity) {
         try {
@@ -38,7 +39,7 @@ public class SectorServiceImpl implements ICRUD<Sector> {
             throw new RuntimeException("Failed to create a sector", e);
         }
     }
-
+    
     @Override
     public Sector update(Long id, Sector entity) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
@@ -46,7 +47,7 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         sectorJpaController.edit(entity);
         return sectorJpaController.findSector(entity.getId());
     }
-
+    
     @Override
     public Sector disable(Long id) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
@@ -54,13 +55,13 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         sectorJpaController.edit(sector);
         return sectorJpaController.findSector(id);
     }
-
+    
     @Override
     public Sector delete(Long id) throws NonexistentEntityException {
         sectorJpaController.destroy(id);
         return sectorJpaController.findSector(id);
     }
-
+    
     @Override
     public Sector enable(Long id) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
@@ -68,15 +69,16 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         sectorJpaController.edit(sector);
         return sectorJpaController.findSector(id);
     }
-
+    
     @Override
     public Sector findById(Long id) {
         return sectorJpaController.findSector(id);
     }
-
+    
     @Override
     public List<Sector> findAll() {
-        return sectorJpaController.findSectorEntities();
+        return sectorJpaController.findSectorEntities().stream()
+        .filter(sector -> sector.getEnabled()).collect(Collectors.toList());
     }
 
     //TODO: Porqué se crea una lista de sectores si luego trae al primero que coincida y no una lista?
@@ -88,7 +90,7 @@ public class SectorServiceImpl implements ICRUD<Sector> {
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
     }
-
+    
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
         try {
             return sectorJpaController.findSectorEntities()
@@ -101,11 +103,19 @@ public class SectorServiceImpl implements ICRUD<Sector> {
             throw new RuntimeException("Failed to find sector´s by warehouse", e);
         }
     }
-
+    
+    public Sector findByCode(String string) {
+        return sectorJpaController.findSectorEntities()
+                .stream()
+                .filter(sector -> sector.getCode().equals(string))
+                .findFirst()
+                .orElse(null);
+    }
+    
     public Order changeSector(Order order, Sector sector) throws Exception {
         order.setSector(sector);
         orderJpaController.edit(order);
         return orderJpaController.findOrder(order.getId());
     }
-
+    
 }

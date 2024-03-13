@@ -29,6 +29,7 @@ public class Sector implements Serializable {
 
     private String name;
     private Boolean enabled;
+    private String code;
 
     @ManyToOne
     private Warehouse warehouse;
@@ -38,14 +39,14 @@ public class Sector implements Serializable {
 
     public Sector() {
         orders = new ArrayList<>();
+        this.enabled = true;
     }
 
-    public Sector(String name, Boolean enabled, Warehouse warehouse, List<Order> orders) {
+    public Sector(String name, Warehouse warehouse, String code) {
         this();
         this.name = name;
-        this.enabled = enabled;
         this.warehouse = warehouse;
-        this.orders = orders;
+        this.code = code;
     }
 
     public Long getId() {
@@ -55,7 +56,18 @@ public class Sector implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-     public String getName() {
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    
+
+    public String getName() {
         return name;
     }
 
@@ -85,26 +97,6 @@ public class Sector implements Serializable {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sector)) {
-            return false;
-        }
-        Sector other = (Sector) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

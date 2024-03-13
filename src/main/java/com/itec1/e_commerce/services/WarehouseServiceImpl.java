@@ -46,7 +46,10 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     @Override
     public List<Warehouse> findAll() {
-        return warehouseJpaController.findWarehouseEntities();
+        return warehouseJpaController.findWarehouseEntities().stream()
+        .filter(warehouse -> warehouse.getEnabled())
+        .collect(Collectors.toList());
+
     }
 
     @Override
