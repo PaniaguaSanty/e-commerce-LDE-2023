@@ -102,14 +102,14 @@ class ClientTest {
     @Test
     void testGetEnable() {
         boolean expected = true;
-        assertEquals(expected, client.getEnable());
+        assertEquals(expected, client.isEnable());
     }
 
     @Test
     void testSetAndGetEnable() {
         client.setEnable(false);
         boolean expected = false;
-        assertEquals(expected, client.getEnable());
+        assertEquals(expected, client.isEnable());
     }
 
     @Test

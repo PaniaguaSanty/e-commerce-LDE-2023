@@ -85,7 +85,7 @@ public class ProviderPanelController implements IController<Provider> {
     @Override
     public String disable(Long id) {
         Provider provider = providerService.findById(id);
-        if (!provider.getEnable()) {
+        if (!provider.isEnable()) {
             return "ERROR. Este provedor ya se encuentra eliminado.";
         } else {
             try {
@@ -102,7 +102,7 @@ public class ProviderPanelController implements IController<Provider> {
     @Override
     public String enable(Long id) {
         Provider provider = providerService.findById(id);
-        if (provider.getEnable()) {
+        if (provider.isEnable()) {
             return "ERROR. Este provedor no se encuentra eliminado.";
         } else {
             try {

@@ -56,7 +56,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     @Override
     public List<Provider> findAll() {
         return providerJpaController.findProviderEntities().stream()
-                .filter(provider -> provider.getEnable())
+                .filter(provider -> provider.isEnable())
                 .collect(Collectors.toList());
     }
 

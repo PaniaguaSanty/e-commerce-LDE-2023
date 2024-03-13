@@ -2,7 +2,6 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ProviderPanelController;
 import com.itec1.e_commerce.entities.Provider;
-import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;

@@ -97,9 +97,9 @@
                                       <Component id="lbl_provider" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="comboBox_category" pref="179" max="32767" attributes="0"/>
-                                      <Component id="comboBox_provider" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="comboBox_provider" min="-2" pref="179" max="-2" attributes="0"/>
+                                      <Component id="comboBox_category" min="-2" pref="179" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -359,16 +359,6 @@
             <Property name="text" type="java.lang.String" value="PROVEEDOR"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="comboBox_category">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;ProductCategory&gt;"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JComboBox" name="comboBox_provider">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -377,6 +367,16 @@
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Provider&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboBox_category">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;ProductCategory&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -394,12 +394,14 @@
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="284" max="-2" attributes="0"/>
-                          <Component id="jbl_filter" pref="167" max="32767" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="187" max="-2" attributes="0"/>
+                          <Component id="jbl_filter" pref="170" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jtf_nameFilter" min="-2" pref="266" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="btn_limpiar" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jScrollPaneTabla" min="-2" pref="704" max="-2" attributes="0"/>
                       </Group>
@@ -417,6 +419,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jbl_filter" alignment="3" max="32767" attributes="0"/>
                       <Component id="jtf_nameFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_limpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -482,6 +485,14 @@
           </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtf_nameFilterActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btn_limpiar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpiar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_limpiarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

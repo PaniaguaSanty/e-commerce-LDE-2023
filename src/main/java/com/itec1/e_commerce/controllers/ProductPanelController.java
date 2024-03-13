@@ -33,13 +33,14 @@ public class ProductPanelController implements IController<Product> {
     public List<Product> updateTable(String name) {
         DefaultTableModel model = new DefaultTableModel();
         //agrega los titulos a la columna
-        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor"};
+        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor", "Habilitado"};
         model.setColumnIdentifiers(titles);
-        List<Product> categories = service.findAll();
+        List<Product> products = service.findAll();
         List<Product> result = new ArrayList<>();
-        for (Product prod : categories) {
-            if (prod.getName().startsWith(name)) {
-                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName()};
+        String lowerName = name.toLowerCase();
+        for (Product prod : products) {
+            if (prod.getName().toLowerCase().startsWith(lowerName)) {
+                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName(), prod.isEnable()};
                 model.addRow(object);
                 result.add(prod);
             }

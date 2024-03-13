@@ -111,7 +111,7 @@ public class Product implements Serializable {
         return enable;
     }
 
-    public void setEnabled(boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 

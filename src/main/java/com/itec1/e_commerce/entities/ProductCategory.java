@@ -1,6 +1,7 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,6 +67,30 @@ public class ProductCategory implements Serializable {
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProductCategory other = (ProductCategory) obj;
+        return Objects.equals(this.id, other.id);
+    }
+    
+    
 
     @Override
     public String toString() {

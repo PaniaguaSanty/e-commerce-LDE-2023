@@ -61,20 +61,20 @@ class ClientServiceImplTest {
     @Test
     void testDisable() throws Exception {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
-        assertNotEquals(client.getEnable(), clientService.disable(client.getId()).getEnable());
+        assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
     }
 
     @Test
     void testDelete() throws Exception {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
-        assertNotEquals(client.getEnable(), clientService.disable(client.getId()).getEnable());
+        assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
     }
 
     @Test
     void testEnable() throws Exception {
         client.setEnable(false);
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
-        assertNotEquals(client.getEnable(), clientService.enable(client.getId()).getEnable());
+        assertNotEquals(client.isEnable(), clientService.enable(client.getId()).isEnable());
     }
 
     @Test
