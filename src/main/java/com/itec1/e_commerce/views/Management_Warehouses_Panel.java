@@ -401,7 +401,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
         int field = tableWarehouse.getSelectedRow();
         if (field >= 0) {
             Warehouse selected = warehouses.get(field);
-            jtf_latitude.setText(selected.getAddress());
+            jtf_address.setText(selected.getAddress());
             jtf_country.setText(selected.getCountry());
             jtf_code.setText(selected.getCode());
             jtf_latitude.setText(selected.getLatitude());
@@ -416,7 +416,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
 
     @Override
     public void changeConditionAllFields(boolean state) {
-        changeConditionField(jtf_latitude, state);
+        changeConditionField(jtf_address, state);
         changeConditionField(jtf_country, state);
         changeConditionField(jtf_code, state);
         changeConditionField(jtf_latitude, state);
@@ -444,7 +444,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
 
     @Override
     public void cleanAllFields() {
-        cleanField(jtf_latitude);
+        cleanField(jtf_address);
         cleanField(jtf_country);
         cleanField(jtf_code);
         cleanField(jtf_latitude);
@@ -459,7 +459,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
     @Override
     public boolean verifyEmptyFields() {
         List<JTextField> fields = new ArrayList<>();
-        fields.add(jtf_latitude);
+        fields.add(jtf_address);
         fields.add(jtf_country);
         fields.add(jtf_code);
         fields.add(jtf_latitude);
