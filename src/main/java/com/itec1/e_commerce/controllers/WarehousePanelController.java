@@ -38,7 +38,7 @@ public class WarehousePanelController implements IController<Warehouse> {
         List<Warehouse> result = new ArrayList<>();
         for (Warehouse wh : warehouses) {
             if (wh.getCode().startsWith(string)) {
-                Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
+                Object[] object = {wh.getId(),wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
                 model.addRow(object);
                 result.add(wh);
             }

@@ -41,7 +41,7 @@ public class SectorPanelController implements IController<Sector> {
         List<Sector> sectors = sectorService.findAll();
         List<Sector> result = new ArrayList<>();
         for (Sector sec : sectors) {
-            if (sec.getCode().startsWith(string)) {
+            if (sec.getWarehouse().getCode().equals(string)) {
                 Object[] object = {sec.getId(),sec.getCode(), sec.getName(), sec.getOrders().size()};
                 model.addRow(object);
                 result.add(sec);
@@ -135,7 +135,7 @@ public class SectorPanelController implements IController<Sector> {
             return "ERROR. Este sector no se encuentra eliminado.";
         } else {
             try {
-                sectorService.disable(id);
+                sectorService.enable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Este sector no existe.";
             } catch (Exception e) {
