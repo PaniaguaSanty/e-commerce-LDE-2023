@@ -1,10 +1,12 @@
 package com.itec1.e_commerce.config;
 
 import com.itec1.e_commerce.entities.Client;
+import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.services.ClientServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
+import com.itec1.e_commerce.services.ProductServiceImpl;
 import com.itec1.e_commerce.services.ProviderServiceImpl;
 
 public class UploadDB {
@@ -12,12 +14,14 @@ public class UploadDB {
     private final ClientServiceImpl clientService;
     private final ProviderServiceImpl providerService;
     private final ProductCategoryServiceImpl categoryService;
+    private final ProductServiceImpl productService;
 
     public UploadDB() {
         
         this.clientService = new ClientServiceImpl();
         this.providerService = new ProviderServiceImpl();
-        this.categoryService = new ProductCategoryServiceImpl();        
+        this.categoryService = new ProductCategoryServiceImpl(); 
+        this.productService = new ProductServiceImpl();       
         
         clientService.create(new Client("Kevin", "Turraca", "Dirección", "20424052753", "kevin@gmail.com", "123456"));
         clientService.create(new Client("Chano", "Perez", "Dirección2", "12345678910", "chano@gmail.com", "123456"));
@@ -33,6 +37,11 @@ public class UploadDB {
         categoryService.create(new ProductCategory("Indumentaria masculina", "Ropa y prendas de vestir para hombre"));
         categoryService.create(new ProductCategory("Indumentaria femenina", "Ropa y prendas de vestir para mujer"));
         categoryService.create(new ProductCategory("Libros", "Libros, revistas y periódicos"));
+
+        productService.create(new Product("Mouse", "Mouse gamer", 22.1f, 33.2f, 44.3f, 55.4f, categoryService.findByName("Electronica"), providerService.findByName("Juan")));
+        productService.create(new Product("Zapatos", "Zapatos deportivos", 22.1f, 33.2f, 44.3f, 55.4f, categoryService.findByName("Indumentaria femenina"), providerService.findByName("Ana")));
+        productService.create(new Product("Camisa", "Camisa de polo", 22.1f, 33.2f, 44.3f, 55.4f, categoryService.findByName("Indumentaria femenina"), providerService.findByName("Luis")));
+        productService.create(new Product("Libro", "Libro de programación", 22.1f, 33.2f, 44.3f, 55.4f, categoryService.findByName("Libros"), providerService.findByName("Diego")));
 
     }
 }

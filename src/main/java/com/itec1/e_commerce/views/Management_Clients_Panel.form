@@ -30,8 +30,13 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel_crud" alignment="0" min="-2" max="-2" attributes="0"/>
-          <Component id="jPanel_datos1" alignment="0" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jPanel_crud" max="32767" attributes="0"/>
+                  <Component id="jPanel_datos1" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="236" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -109,7 +114,7 @@
                           <Component id="jlbl_info" min="-2" pref="500" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="297" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -160,7 +165,7 @@
                       <Component id="jbn_update" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="jbn_delete" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="124" max="32767" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -341,7 +346,7 @@
                       </Group>
                       <Component id="jScrollPaneTabla" min="-2" pref="725" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="277" max="32767" attributes="0"/>
+                  <EmptySpace pref="47" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

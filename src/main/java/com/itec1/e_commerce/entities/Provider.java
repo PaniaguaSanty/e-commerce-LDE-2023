@@ -20,6 +20,7 @@ public class Provider implements Serializable {
     private Long id;
 
     private String name;
+    
     private String lastname;
     private String address;
     private String cuit;
@@ -127,7 +128,7 @@ public class Provider implements Serializable {
 
     @Override
     public String toString() {
-        return "provider{" + "id=" + id + ", name=" + name + ", surname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enable=" + enable + '}';
+        return name + " " + lastname;
     }
 
 }

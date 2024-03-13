@@ -7,6 +7,7 @@ package com.itec1.e_commerce.dao;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -131,6 +133,16 @@ public class ProviderJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+        }
+    }
+    
+    public void getProviderCMB(JComboBox<Provider> comboBox_provider) {
+        EntityManager em = getEntityManager();
+        Iterator it = em.createQuery("SELECT p FROM Provider p").getResultList().iterator();
+        Provider provider;
+        while (it.hasNext()) {
+            provider = (Provider) it.next();
+            comboBox_provider.addItem(provider);
         }
     }
     

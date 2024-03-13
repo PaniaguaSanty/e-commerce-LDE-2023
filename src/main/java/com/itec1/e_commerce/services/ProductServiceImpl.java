@@ -4,22 +4,19 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author melina
- */
 public class ProductServiceImpl implements ICRUD<Product> {
 
     private final ProductJpaController productJpaController;
 
-    public ProductServiceImpl(ProductJpaController productJpaController) {
-        this.productJpaController = productJpaController;
+    public ProductServiceImpl() {
+        this.productJpaController = new ProductJpaController(Connection.getEmf());
     }
 
     @Override
@@ -116,5 +113,12 @@ public class ProductServiceImpl implements ICRUD<Product> {
         product.setProductCategory(entity.getProductCategory());
         productJpaController.edit(product);
         return productJpaController.findProduct(id);
+    }
+
+    public Product findByName(String name) {
+        return productJpaController.findProductEntities().stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }
