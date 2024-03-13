@@ -5,13 +5,13 @@
 package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.SectorPanelController;
-import com.itec1.e_commerce.controllers.WarehousePanelController;
+
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
-import java.awt.Color;
+
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  * @author sjcex
  */
 public class Management_Sectors_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
-    
+
     private final SectorPanelController controller;
     private final FieldDataValidator validator;
     private List<Sector> sectors;
@@ -38,7 +38,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         initListener();
         initValidator();
         initPanel();
-        
+
     }
 
     /**
@@ -196,31 +196,32 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
                         .addComponent(jbn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
                         .addComponent(jbn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel_datos1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(75, 75, 75)
+                            .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_datos1Layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addComponent(jScrollPaneTabla3, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(181, 181, 181)
-                        .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83)
-                        .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_datos1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPaneTabla3, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(288, Short.MAX_VALUE))
+                        .addGap(139, 139, 139)
+                        .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         jPanel_datos1Layout.setVerticalGroup(
             jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_datos1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jScrollPaneTabla3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbn_restore, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +243,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
                 .addComponent(jPanel_crud2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel_datos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -260,7 +261,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
             jlbl_info.setText("Modifique el nombre y vuelva a pulsar");
-            
+
         } else {
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no puede tener nombre vacío");
@@ -291,7 +292,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
             } else {
                 Sector newSector = new Sector();
                 newSector.setName(jtf_name.getText());
-                newSector.setCode(warehouses.get(tableWarehouse.getSelectedRow()).getCode()+jtf_name.getText());
+                newSector.setCode(warehouses.get(tableWarehouse.getSelectedRow()).getCode() + jtf_name.getText());
                 newSector.setWarehouse(warehouses.get(tableWarehouse.getSelectedRow()));
                 jlbl_info.setText(controller.create(newSector));
             }
@@ -310,19 +311,19 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
             initPanel();
         }
     }//GEN-LAST:event_jbn_restoreActionPerformed
-    
+
     @Override
     public void initListener() {
         tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
         tableSectors.getSelectionModel().addListSelectionListener(new TableListener(this));
         jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(warehouses, controller, this));
     }
-    
+
     @Override
     public void initValidator() {
-        
+
     }
-    
+
     @Override
     public void initPanel() {
         this.warehouses = controller.getWarehouses("");
@@ -330,21 +331,22 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         changeConditionAllButtons(false);
         changeConditionAllFields(false);
         cleanAllFields();
-        
+        controller.verifyCrud("");
+
     }
-    
+
     @Override
     public JTable getTable() {
         return tableSectors;
     }
-    
+
     public JTable getTableWarehouse() {
         return tableWarehouse;
     }
-    
+
     @Override
     public void selectFromTable() {
-        
+
         jlbl_info.setText("");
         int fieldWarehouse = tableWarehouse.getSelectedRow();
         int fieldSectors = tableSectors.getSelectedRow();
@@ -363,17 +365,17 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         }
         controller.verifyCrud("");
     }
-    
+
     @Override
     public void changeConditionAllFields(boolean state) {
         changeConditionField(jtf_name, state);
     }
-    
+
     @Override
     public void changeConditionField(JTextField textField, boolean state) {
         validator.enableField(state, textField);
     }
-    
+
     @Override
     public void changeConditionAllButtons(boolean state) {
         changeConditionButton(jbn_save, state);
@@ -381,29 +383,28 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         changeConditionButton(jbn_update, state);
         changeConditionButton(jbn_delete, state);
     }
-    
+
     @Override
     public void changeConditionButton(JButton button, boolean state) {
         validator.enableButton(state, button, null, null, null, null);
     }
-    
+
     @Override
     public void cleanAllFields() {
         cleanField(jtf_name);
     }
-    
+
     @Override
     public void cleanField(JTextField textfield) {
         validator.cleanField(textfield);
     }
-    
+
     @Override
     public boolean verifyEmptyFields() {
-        
         return (jtf_name.getText().length() == 0);
-        
+
     }
-    
+
     @Override
     public String getStringFilter() {
         return jtf_codeFilter.getText();
@@ -411,12 +412,8 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel_crud;
-    private javax.swing.JPanel jPanel_crud1;
     private javax.swing.JPanel jPanel_crud2;
     private javax.swing.JPanel jPanel_datos1;
-    private javax.swing.JScrollPane jScrollPaneTabla;
-    private javax.swing.JScrollPane jScrollPaneTabla1;
     private javax.swing.JScrollPane jScrollPaneTabla2;
     private javax.swing.JScrollPane jScrollPaneTabla3;
     private javax.swing.JLabel jbl_filter;
@@ -428,11 +425,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     private javax.swing.JLabel jlbl_info;
     private javax.swing.JTextField jtf_codeFilter;
     private javax.swing.JTextField jtf_name;
-    private javax.swing.JButton seeClients;
-    private javax.swing.JButton seeClients1;
     private javax.swing.JButton seeWarehouse;
-    private javax.swing.JTable tableClient;
-    private javax.swing.JTable tableClient1;
     private javax.swing.JTable tableSectors;
     private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
