@@ -5,7 +5,8 @@ import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.swing.JComboBox;
 
 public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
@@ -69,8 +70,12 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
 
     public ProductCategory findByName(String name) {
         return productCategoryJpaController.findProductCategoryEntities().stream()
-                .filter(productCategory -> productCategory.getName().equals(name))
+                .filter(category -> category.getName().equals(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void getCategoryCMB(JComboBox comboBox_category) {
+        productCategoryJpaController.getCategoryCMB(comboBox_category);
     }
 }

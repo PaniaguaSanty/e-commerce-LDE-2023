@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.itec1.e_commerce.views;
 
 import java.awt.BorderLayout;
@@ -38,12 +35,12 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
 
         initComponents();
-        
+
         mainPanel = new MainPanel();
         mainPanel.setSize(800, 660);
         contentPanel.add(mainPanel);
 
-        setSize(800, 660);  // Cambiar el tamaño del frame
+        setSize(800, 660); // Cambiar el tamaño del frame
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -52,106 +49,127 @@ public class MainFrame extends javax.swing.JFrame {
     private JPanel getPanel(String panelName) {
         switch (panelName) {
             case "Main_Panel":
+                mainPanel = null;
                 if (mainPanel == null) {
                     mainPanel = new MainPanel();
                 }
                 return mainPanel;
             case "Management_Carriers_Panel":
+                carriersPanel = null;
                 if (carriersPanel == null) {
                     carriersPanel = new Management_Carriers_Panel();
                 }
                 return carriersPanel;
             case "Management_Clients_Panel":
+                clientsPanel = null;
                 if (clientsPanel == null) {
                     clientsPanel = new Management_Clients_Panel();
                 }
                 return clientsPanel;
             case "Management_Products_Categories_Panel":
+                productsCategoriesPanel = null;
                 if (productsCategoriesPanel == null) {
                     productsCategoriesPanel = new Management_Products_Categories_Panel();
                 }
                 return productsCategoriesPanel;
             case "Management_Products_Panel":
+                productsPanel = null;
                 if (productsPanel == null) {
                     productsPanel = new Management_Products_Panel();
                 }
                 return productsPanel;
             case "Management_Providers_Panel":
+                providersPanel = null;
                 if (providersPanel == null) {
                     providersPanel = new Management_Providers_Panel();
                 }
                 return providersPanel;
             case "Management_Sectors_Panel":
+                sectorsPanel = null;
                 if (sectorsPanel == null) {
                     sectorsPanel = new Management_Sectors_Panel();
                 }
                 return sectorsPanel;
             case "Management_Warehouses_Panel":
+                warehouseHouse = null;
                 if (warehouseHouse == null) {
                     warehouseHouse = new Management_Warehouses_Panel();
                 }
                 return warehouseHouse;
             case "Order_NewOrder_Panel":
+                newOrderPanel = null;
                 if (newOrderPanel == null) {
                     newOrderPanel = new Order_NewOrder_Panel();
                 }
                 return newOrderPanel;
             case "Order_ViewOrderSector_Panel":
+                wiewOrderSectorPanel = null;
                 if (wiewOrderSectorPanel == null) {
                     wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
                 }
                 return wiewOrderSectorPanel;
             case "Order_ViewOrderStatuses_Panel":
+                orderStatusesPanel = null;
                 if (orderStatusesPanel == null) {
                     orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
                 }
                 return orderStatusesPanel;
             case "Reports_Carriers_ByDate_Panel":
+                carriersByDatePanel = null;
                 if (carriersByDatePanel == null) {
                     carriersByDatePanel = new Reports_Carriers_ByDate_Panel();
                 }
                 return carriersByDatePanel;
             case "Reports_Carriers_Overview_Panel":
+                reportsCarriersOverviewPanel = null;
                 if (reportsCarriersOverviewPanel == null) {
                     reportsCarriersOverviewPanel = new Reports_Carriers_Overview_Panel();
                 }
                 return reportsCarriersOverviewPanel;
             case "Reports_Clients_ByCategory_Panel":
+                reportsClientsByCategoryPanel = null;
                 if (reportsClientsByCategoryPanel == null) {
                     reportsClientsByCategoryPanel = new Reports_Clients_ByCategory_Panel();
                 }
                 return reportsClientsByCategoryPanel;
             case "Reports_Clients_ByDate_Panel":
+                reportsClientsByDatePanel = null;
                 if (reportsClientsByDatePanel == null) {
                     reportsClientsByDatePanel = new Reports_Clients_ByDate_Panel();
                 }
                 return reportsClientsByDatePanel;
             case "Reports_Clients_Overview_Panel":
+                reportsClientsOverviewPanel = null;
                 if (reportsClientsOverviewPanel == null) {
                     reportsClientsOverviewPanel = new Reports_Clients_Overview_Panel();
                 }
                 return reportsClientsOverviewPanel;
             case "Reports_Orders_ByDate_Panel":
+                reportsOrdersByDatePanel = null;
                 if (reportsOrdersByDatePanel == null) {
                     reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
                 }
                 return reportsOrdersByDatePanel;
             case "Reports_Orders_ByStatuses_Panel":
+                reportsOrdersByStatusesPanel = null;
                 if (reportsOrdersByStatusesPanel == null) {
                     reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
                 }
                 return reportsOrdersByStatusesPanel;
             case "Reports_Orders_Overview_Panel":
+                reportsOrdersOverviewPanel = null;
                 if (reportsOrdersOverviewPanel == null) {
                     reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
                 }
                 return reportsOrdersOverviewPanel;
             case "Reports_Providers_ByDate_Panel":
+                providersByDatePanel = null;
                 if (providersByDatePanel == null) {
                     providersByDatePanel = new Reports_Providers_ByDate_Panel();
                 }
                 return providersByDatePanel;
             case "Reports_Providers_Overview_Panel":
+                reportsProvidersOverviewPanel = null;
                 if (reportsProvidersOverviewPanel == null) {
                     reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
                 }
@@ -173,6 +191,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -453,103 +472,93 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ClientsActionPerformed
+    private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel("Management_Clients_Panel");
-    }//GEN-LAST:event_menu_ClientsActionPerformed
+    }// GEN-LAST:event_menu_ClientsActionPerformed
 
-    private void menu_CarriersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CarriersActionPerformed
+    private void menu_CarriersActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CarriersActionPerformed
         changePanel("Management_Carriers_Panel");
-    }//GEN-LAST:event_menu_CarriersActionPerformed
+    }// GEN-LAST:event_menu_CarriersActionPerformed
 
-    private void menu_ProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProvidersActionPerformed
+    private void menu_ProvidersActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ProvidersActionPerformed
         changePanel("Management_Providers_Panel");
-    }//GEN-LAST:event_menu_ProvidersActionPerformed
+    }// GEN-LAST:event_menu_ProvidersActionPerformed
 
-    private void menu_ProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProductsActionPerformed
+    private void menu_ProductsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ProductsActionPerformed
         changePanel("Management_Products_Panel");
-    }//GEN-LAST:event_menu_ProductsActionPerformed
+    }// GEN-LAST:event_menu_ProductsActionPerformed
 
-    private void menu_WarehousesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_WarehousesActionPerformed
+    private void menu_WarehousesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_WarehousesActionPerformed
         changePanel("Management_Warehouses_Panel");
-    }//GEN-LAST:event_menu_WarehousesActionPerformed
+    }// GEN-LAST:event_menu_WarehousesActionPerformed
 
-    private void menu_ProductCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ProductCategoriesActionPerformed
+    private void menu_ProductCategoriesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ProductCategoriesActionPerformed
         changePanel("Management_Products_Categories_Panel");
-    }//GEN-LAST:event_menu_ProductCategoriesActionPerformed
+    }// GEN-LAST:event_menu_ProductCategoriesActionPerformed
 
-    private void menu_SectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_SectorsActionPerformed
+    private void menu_SectorsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_SectorsActionPerformed
         changePanel("Management_Sectors_Panel");
-    }//GEN-LAST:event_menu_SectorsActionPerformed
+    }// GEN-LAST:event_menu_SectorsActionPerformed
 
-    private void client_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_OverviewReportActionPerformed
+    private void client_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_client_OverviewReportActionPerformed
         changePanel("Reports_Clients_Overview_Panel");
-    }//GEN-LAST:event_client_OverviewReportActionPerformed
+    }// GEN-LAST:event_client_OverviewReportActionPerformed
 
-    private void client_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_ReportByDateActionPerformed
+    private void client_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_client_ReportByDateActionPerformed
         changePanel("Reports_Clients_ByDate_Panel");
-    }//GEN-LAST:event_client_ReportByDateActionPerformed
+    }// GEN-LAST:event_client_ReportByDateActionPerformed
 
-    private void client_ReportByCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_ReportByCategoryActionPerformed
+    private void client_ReportByCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_client_ReportByCategoryActionPerformed
         changePanel("Reports_Clients_ByCategory_Panel");
-    }//GEN-LAST:event_client_ReportByCategoryActionPerformed
+    }// GEN-LAST:event_client_ReportByCategoryActionPerformed
 
-    private void provider_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_provider_OverviewReportActionPerformed
+    private void provider_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_provider_OverviewReportActionPerformed
         changePanel("Reports_Providers_Overview_Panel");
-    }//GEN-LAST:event_provider_OverviewReportActionPerformed
+    }// GEN-LAST:event_provider_OverviewReportActionPerformed
 
-    private void provider_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_provider_ReportByDateActionPerformed
+    private void provider_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_provider_ReportByDateActionPerformed
         changePanel("Reports_Providers_ByDate_Panel");
-    }//GEN-LAST:event_provider_ReportByDateActionPerformed
+    }// GEN-LAST:event_provider_ReportByDateActionPerformed
 
-    private void carrier_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrier_OverviewReportActionPerformed
+    private void carrier_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_carrier_OverviewReportActionPerformed
         changePanel("Reports_Carriers_Overview_Panel");
-    }//GEN-LAST:event_carrier_OverviewReportActionPerformed
+    }// GEN-LAST:event_carrier_OverviewReportActionPerformed
 
-    private void carrier_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrier_ReportByDateActionPerformed
+    private void carrier_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_carrier_ReportByDateActionPerformed
         changePanel("Reports_Carriers_ByDate_Panel");
-    }//GEN-LAST:event_carrier_ReportByDateActionPerformed
+    }// GEN-LAST:event_carrier_ReportByDateActionPerformed
 
-    private void order_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_OverviewReportActionPerformed
+    private void order_OverviewReportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_order_OverviewReportActionPerformed
         changePanel("Reports_Orders_Overview_Panel");
-    }//GEN-LAST:event_order_OverviewReportActionPerformed
+    }// GEN-LAST:event_order_OverviewReportActionPerformed
 
-    private void order_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_ReportByDateActionPerformed
+    private void order_ReportByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_order_ReportByDateActionPerformed
         changePanel("Reports_Orders_ByDate_Panel");
-    }//GEN-LAST:event_order_ReportByDateActionPerformed
+    }// GEN-LAST:event_order_ReportByDateActionPerformed
 
-    private void order_ReportByStatusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_ReportByStatusesActionPerformed
+    private void order_ReportByStatusesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_order_ReportByStatusesActionPerformed
         changePanel("Reports_Orders_ByStatuses_Panel");
-    }//GEN-LAST:event_order_ReportByStatusesActionPerformed
+    }// GEN-LAST:event_order_ReportByStatusesActionPerformed
 
-    private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newOrderActionPerformed
+    private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_newOrderActionPerformed
         changePanel("Order_NewOrder_Panel");
-    }//GEN-LAST:event_menu_newOrderActionPerformed
+    }// GEN-LAST:event_menu_newOrderActionPerformed
 
-    private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
+    private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
         changePanel("Order_ViewOrderSector_Panel");
-    }//GEN-LAST:event_menu_ViewOrderSectorActionPerformed
+    }// GEN-LAST:event_menu_ViewOrderSectorActionPerformed
 
-    private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed
+    private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed
         changePanel("Order_ViewOrderStatuses_Panel");
-    }//GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
+    }// GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
-    private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CloseActionPerformed
+    private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CloseActionPerformed
         changePanel("Main_Panel");
-    }//GEN-LAST:event_menu_CloseActionPerformed
+    }// GEN-LAST:event_menu_CloseActionPerformed
 
-    private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ExitActionPerformed
+    private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ExitActionPerformed
         this.dispose();
-    }//GEN-LAST:event_menu_ExitActionPerformed
-
-    public void changePanel(JPanel newPanel) {
-        if (!this.contentPanel.getComponents().equals(newPanel)) {
-            this.contentPanel.removeAll();
-            newPanel.setSize(800, 600);
-            this.contentPanel.add(newPanel);
-            this.contentPanel.validate();
-            this.contentPanel.repaint();
-        }
-    }
+    }// GEN-LAST:event_menu_ExitActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem carrier_OverviewReport;

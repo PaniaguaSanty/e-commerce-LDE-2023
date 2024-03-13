@@ -58,6 +58,17 @@ class ClientServiceImplTest {
     }
 
     @Test
+
+    void testDisable() throws Exception {
+        when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
+        assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
+    }
+
+    @Test
+    void testDelete() throws Exception {
+        when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
+        assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
+
     void testFindByCuit() {
         clientMockDB.add(new Client("0", "0", "0", "0", "0", "0"));
         when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
@@ -69,13 +80,14 @@ class ClientServiceImplTest {
         clientMockDB.add(client);
         when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
         assertEquals(2, clientService.findAll().size());
+
     }
 
     @Test
     void testEnable() throws Exception {
         client.setEnable(false);
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
-        assertNotEquals(client.getEnable(), clientService.enable(client.getId()).getEnable());
+        assertNotEquals(client.isEnable(), clientService.enable(client.getId()).isEnable());
     }
 
     @Test

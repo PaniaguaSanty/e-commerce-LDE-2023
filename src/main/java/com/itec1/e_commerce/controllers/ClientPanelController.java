@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Client;
@@ -86,7 +82,7 @@ public class ClientPanelController implements IController<Client> {
     @Override
     public String disable(Long id){
         Client client = service.findById(id);
-        if(!client.getEnable()) {
+        if(!client.isEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
@@ -103,7 +99,7 @@ public class ClientPanelController implements IController<Client> {
     @Override
     public String enable(Long id){
         Client client = service.findById(id);
-        if(client.getEnable()) {
+        if(client.isEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {

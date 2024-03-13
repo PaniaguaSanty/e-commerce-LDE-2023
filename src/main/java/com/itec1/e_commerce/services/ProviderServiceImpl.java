@@ -10,6 +10,7 @@ import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -55,7 +56,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     @Override
     public List<Provider> findAll() {
         return providerJpaController.findProviderEntities().stream()
-                .filter(provider -> provider.getEnable())
+                .filter(provider -> provider.isEnable())
                 .collect(Collectors.toList());
     }
 
@@ -86,5 +87,16 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
                     .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
                     .orElse(null);
+    }
+
+    public Provider findByName(String name) {
+        return providerJpaController.findProviderEntities().stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+    
+    public void getProviderCMB(JComboBox comboBox_provider) {
+        providerJpaController.getProviderCMB(comboBox_provider);
     }
 }

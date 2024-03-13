@@ -48,7 +48,8 @@ public class ClientServiceImpl implements ICRUD<Client> {
     @Override
     public List<Client> findAll() {
         return clientJpaController.findClientEntities().stream()
-                .filter(client -> client.getEnable()).collect(Collectors.toList());
+                .filter(client -> client.isEnable())
+                .toList();
     }
 
     @Override

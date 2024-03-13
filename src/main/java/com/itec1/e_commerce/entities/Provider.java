@@ -5,6 +5,7 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -20,12 +21,13 @@ public class Provider implements Serializable {
     private Long id;
 
     private String name;
+    
     private String lastname;
     private String address;
     private String cuit;
     private String email;
     private String phone;
-    private Boolean enable;
+    private boolean enable;
 
     public Provider() {
         this.enable = true;
@@ -97,37 +99,41 @@ public class Provider implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enabled) {
-        this.enable = enabled;
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Provider)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Provider other = (Provider) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+        final Provider other = (Provider) obj;
+        return Objects.equals(this.id, other.id);
     }
+
+    
 
     @Override
     public String toString() {
-        return "provider{" + "id=" + id + ", name=" + name + ", surname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enable=" + enable + '}';
+        return name + " " + lastname;
     }
 
 }

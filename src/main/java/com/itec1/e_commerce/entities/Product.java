@@ -20,12 +20,13 @@ public class Product implements Serializable {
     private Long id;
 
     private String name;
+    
     private String description;
     private Float weight;
     private Float high;
     private Float width;
     private Float depth;
-    private Boolean enabled;
+    private boolean enable;
 
     @ManyToOne
     private ProductCategory productCategory;
@@ -34,16 +35,18 @@ public class Product implements Serializable {
     private Provider provider;
 
     public Product() {
+        this.enable = true;
     }
 
-    public Product(String name, String description, Float weight, Float high, Float width, Float depth, Boolean enabled, ProductCategory productCategory, Provider provider) {
+    public Product(String name, String description, Float weight, Float high, Float width, Float depth,
+            ProductCategory productCategory, Provider provider) {
+        this();
         this.name = name;
         this.description = description;
         this.weight = weight;
         this.high = high;
         this.width = width;
         this.depth = depth;
-        this.enabled = enabled;
         this.productCategory = productCategory;
         this.provider = provider;
     }
@@ -104,12 +107,12 @@ public class Product implements Serializable {
         this.depth = depth;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public boolean isEnable() {
+        return enable;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     public ProductCategory getProductCategory() {
@@ -150,7 +153,9 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "product{" + "id=" + id + ", name=" + name + ", description=" + description + ", weight=" + weight + ", high=" + high + ", width=" + width + ", depth=" + depth + ", enabled=" + enabled + ", productCategory=" + productCategory + ", provider=" + provider + '}';
+        return "product{" + "id=" + id + ", name=" + name + ", description=" + description + ", weight=" + weight
+                + ", high=" + high + ", width=" + width + ", depth=" + depth + ", enable=" + enable
+                + ", productCategory=" + productCategory + ", provider=" + provider + '}';
     }
 
 }

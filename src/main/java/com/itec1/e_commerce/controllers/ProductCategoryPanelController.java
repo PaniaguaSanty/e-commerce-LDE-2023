@@ -36,8 +36,9 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         model.setColumnIdentifiers(titles);
         List<ProductCategory> categories = service.findAll();
         List<ProductCategory> result = new ArrayList<>();
+        String lowerName = name.toLowerCase();
         for (ProductCategory cat : categories) {
-            if (cat.getName().startsWith(name)) {
+            if (cat.getName().toLowerCase().startsWith(lowerName)) {
                 Object[] object = {cat.getId(), cat.getName(), cat.getDescription()};
                 model.addRow(object);
                 result.add(cat);

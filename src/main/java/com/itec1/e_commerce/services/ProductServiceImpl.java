@@ -4,22 +4,19 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author melina
- */
 public class ProductServiceImpl implements ICRUD<Product> {
 
     private final ProductJpaController productJpaController;
 
-    public ProductServiceImpl(ProductJpaController productJpaController) {
-        this.productJpaController = productJpaController;
+    public ProductServiceImpl() {
+        this.productJpaController = new ProductJpaController(Connection.getEmf());
     }
 
     @Override
@@ -42,6 +39,8 @@ public class ProductServiceImpl implements ICRUD<Product> {
         product.setHigh(entity.getHigh());
         product.setWidth(entity.getWidth());
         product.setDepth(entity.getDepth());
+        product.setProductCategory(entity.getProductCategory());
+        product.setProvider(entity.getProvider());
         productJpaController.edit(product);
         return productJpaController.findProduct(id);
     }
@@ -59,7 +58,7 @@ public class ProductServiceImpl implements ICRUD<Product> {
     @Override
     public Product disable(Long id) throws NonexistentEntityException, Exception {
         Product product = productJpaController.findProduct(id);
-        product.setEnabled(false);
+        product.setEnable(false);
         productJpaController.edit(product);
         return productJpaController.findProduct(id);
     }
@@ -73,7 +72,7 @@ public class ProductServiceImpl implements ICRUD<Product> {
     @Override
     public Product enable(Long id) throws NonexistentEntityException, Exception {
         Product product = productJpaController.findProduct(id);
-        product.setEnabled(false);
+        product.setEnable(true);
         productJpaController.edit(product);
         return productJpaController.findProduct(id);
     }
@@ -82,7 +81,7 @@ public class ProductServiceImpl implements ICRUD<Product> {
         try {
             return productJpaController.findProductEntities().stream()
                     .filter(product -> product.getName().contains(name))
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             System.err.println("Error while finding a product named}: " + e.getMessage());
             throw new RuntimeException("Failed to find products by name.", e);
@@ -93,7 +92,7 @@ public class ProductServiceImpl implements ICRUD<Product> {
         try {
             return productJpaController.findProductEntities().stream()
                     .filter(product -> product.getProductCategory().getName().contains(category))
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             System.err.println("Error while finding products by category: " + e.getMessage());
             throw new RuntimeException("Failed to find products by category.", e);
@@ -104,7 +103,7 @@ public class ProductServiceImpl implements ICRUD<Product> {
         try {
             return productJpaController.findProductEntities().stream()
                     .filter(product -> product.getProvider().getCuit().equals(cuit))
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             System.err.println("Error while finding products by provider´s nonexistent cuit: " + e.getMessage());
             throw new RuntimeException("Failed to find products  by  provider´s cuit: ", e);
@@ -116,5 +115,12 @@ public class ProductServiceImpl implements ICRUD<Product> {
         product.setProductCategory(entity.getProductCategory());
         productJpaController.edit(product);
         return productJpaController.findProduct(id);
+    }
+
+    public Product findByName(String name) {
+        return productJpaController.findProductEntities().stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }

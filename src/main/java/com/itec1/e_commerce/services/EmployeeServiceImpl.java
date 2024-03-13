@@ -84,8 +84,8 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
             throw new RuntimeException("Error while searching, please try again.", e);
         }
     }
-
-    public List<Employee> searchByWarehouse(String warehouseToSearch) {
+  
+  public List<Employee> searchByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
                 .filter(employee -> employee.getWarehouse().getAddress().equalsIgnoreCase(warehouseToSearch))
                 .collect(Collectors.toList());
@@ -100,4 +100,5 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         }
         return null;
     }
+  
 }

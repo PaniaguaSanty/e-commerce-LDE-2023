@@ -35,7 +35,7 @@ public class Client implements Serializable {
 
     private String phone;
 
-    private Boolean enable;
+    private boolean enable;
 
     public Client() {
         this.enable = true;
@@ -107,11 +107,11 @@ public class Client implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
