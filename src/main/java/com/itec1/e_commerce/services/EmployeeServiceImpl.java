@@ -1,19 +1,19 @@
 package com.itec1.e_commerce.services;
 
-import java.util.List;
-
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.EmployeeJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Employee;
 import com.itec1.e_commerce.entities.Warehouse;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     private final EmployeeJpaController employeeJpaController;
 
-    public EmployeeServiceImpl(EmployeeJpaController employeeJpaController) {
-        this.employeeJpaController = employeeJpaController;
+    public EmployeeServiceImpl() {
+        this.employeeJpaController = new EmployeeJpaController(Connection.getEmf());
     }
 
     @Override
