@@ -102,14 +102,14 @@ class ProviderTest {
     @Test
     void testGetEnable() {
         boolean expected = true;
-        assertEquals(expected, provider.getEnable());
+        assertEquals(expected, provider.isEnable());
     }
 
     @Test
     void testSetAndGetEnable() {
         provider.setEnable(false);
         boolean expected = false;
-        assertEquals(expected, provider.getEnable());
+        assertEquals(expected, provider.isEnable());
     }
 
     @Test

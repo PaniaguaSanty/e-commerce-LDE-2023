@@ -60,7 +60,7 @@ class DetailOrderTest {
 
     @Test
     void testSetAndGetProduct() {
-        Product newProduct = new Product(any(), any(), any(), any(), any(), any(), false, any(), any());
+        Product newProduct = new Product("any()", "any()", 0f, 0f, 0f, 0f, any(), any());
         detailOrder.setProduct(newProduct);
         assertEquals(newProduct, detailOrder.getProduct());
     }

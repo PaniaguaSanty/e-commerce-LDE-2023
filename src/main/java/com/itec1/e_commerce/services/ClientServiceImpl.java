@@ -16,6 +16,10 @@ public class ClientServiceImpl implements ICRUD<Client> {
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
     }
 
+    public ClientServiceImpl(ClientJpaController jpa) {
+        this.clientJpaController = jpa;
+    }
+
     @Override
     public Client create(Client entity) {
         try {
