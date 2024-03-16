@@ -66,6 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void startPanels() {
+        
         carriersPanel = new Management_Carriers_Panel();
         clientsPanel = new Management_Clients_Panel();
         productsCategoriesPanel = new Management_Products_Categories_Panel();
@@ -74,9 +75,11 @@ public class MainFrame extends javax.swing.JFrame {
         sectorsPanel = new Management_Sectors_Panel();
         employeesPanel = new Management_Employees_Panel();
         warehouseHouse = new Management_Warehouses_Panel();
+        
         newOrderPanel = new Order_NewOrder_Panel();
         wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
+        
         carriersByDatePanel = new Reports_Carriers_ByDate_Panel();
         reportsCarriersOverviewPanel = new Reports_Carriers_Overview_Panel();
         reportsClientsByCategoryPanel = new Reports_Clients_ByCategory_Panel();
@@ -87,6 +90,7 @@ public class MainFrame extends javax.swing.JFrame {
         reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
         providersByDatePanel = new Reports_Providers_ByDate_Panel();
         reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -465,7 +469,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
     private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CloseActionPerformed
-        changePanel(sectorsPanel);
+        changePanel(mainPanel);
     }// GEN-LAST:event_menu_CloseActionPerformed
 
     private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ExitActionPerformed

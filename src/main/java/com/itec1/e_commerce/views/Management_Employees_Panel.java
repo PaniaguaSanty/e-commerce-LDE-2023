@@ -369,8 +369,9 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateActionPerformed
         if (controller.verifyCrud("update")) {
-            changeConditionField(jtf_name, true);
             changeConditionAllButtons(false);
+            changeConditionAllFields(true);
+            changeConditionField(jtf_cuit, false);
             changeConditionButton(jbn_update, true);
             jlbl_info.setText("Modifique los datos que requiera y vuelva a pulsar");
         } else {
@@ -378,6 +379,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
                 jlbl_info.setText("Error: no puede tener nombre vacío");
             } else {
                 Employee employeeUpdated = fillEmployeeData();
+                employeeUpdated.setId(controller.findByCuit(jtf_cuit.getText()).getId());
                 jlbl_info.setText(controller.update(employeeUpdated.getId(), employeeUpdated));
             }
             initPanel();
@@ -392,6 +394,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
         entity.setAddress(jtf_address.getText());
         entity.setEmail(jtf_email.getText());
         entity.setPhone(jtf_phone.getText());
+        entity.setWarehouse(warehouses.get(tableWarehouse.getSelectedRow()));
         return entity;
     }
 
@@ -424,7 +427,6 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
     private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
 
-
     @Override
     public void initListener() {
         tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
@@ -442,16 +444,14 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
 
     @Override
     public void initPanel() {
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
         if (tableWarehouse.getSelectedRow() >= 0) {
             selectFromTable();
         } else {
             this.warehouses = controller.getWarehouses("");
             this.employees = controller.updateTable("");
-            changeConditionAllButtons(false);
-            changeConditionAllFields(false);
         }
-        controller.verifyCrud("");
-        cleanAllFields();
     }
 
     @Override
@@ -472,6 +472,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
             employees = controller.updateTable(selected.getCode());
             changeConditionButton(jbn_save, true);
             changeConditionButton(jbn_restore, true);
+            cleanAllFields();
         }
         if (fieldSectors >= 0) {
             Employee selected = employees.get(fieldSectors);
@@ -552,5 +553,5 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
     public String getStringFilter() {
         return jtf_codeFilter.getText();
     }
-        
+
 }
