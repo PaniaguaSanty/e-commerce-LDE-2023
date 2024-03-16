@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.InvoiceJpaController;
 import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Invoice;
@@ -20,8 +21,8 @@ public class InvoiceServiceImpl {
 
     private final InvoiceJpaController invoiceJpaController;
 
-    public InvoiceServiceImpl(InvoiceJpaController invoiceJpaController) {
-        this.invoiceJpaController = invoiceJpaController;
+    public InvoiceServiceImpl() {
+        this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
     public Invoice create(Invoice entity) {
