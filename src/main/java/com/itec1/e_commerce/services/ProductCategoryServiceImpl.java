@@ -16,6 +16,10 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
         this.productCategoryJpaController = new ProductCategoryJpaController(Connection.getEmf());
     }
 
+    public ProductCategoryServiceImpl(ProductCategoryJpaController jpaController) {
+        this.productCategoryJpaController = jpaController;
+    }
+
     @Override
     public ProductCategory create(ProductCategory entity) {
         try {
@@ -28,10 +32,14 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     }
 
     @Override
-    public ProductCategory update(Long id, ProductCategory entity) throws NonexistentEntityException, Exception {
+    public ProductCategory update(Long id, ProductCategory entity) {
         ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
         productCategory.setDescription(entity.getDescription());
-        productCategoryJpaController.edit(productCategory);
+        try {
+            productCategoryJpaController.edit(productCategory);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return productCategoryJpaController.findProductCategory(id);
     }
 
