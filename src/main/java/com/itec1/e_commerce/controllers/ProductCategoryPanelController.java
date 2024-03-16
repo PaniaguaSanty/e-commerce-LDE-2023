@@ -55,10 +55,10 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         } else {
             service.create(entity);
         }
-        return "Cliente creado correctamente.";
+        return "Categoría creada correctamente.";
     }
 
-    @Override
+    @Override   
     public String update(Long id, ProductCategory entity) {
         try {
             service.update(id, entity);
@@ -67,7 +67,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
         }
-        return "Cliente actualizado correctamente";
+        return "Categoría actualizada correctamente";
     }
 
     @Override
