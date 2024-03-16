@@ -31,7 +31,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     public Employee update(Long id, Employee entity) throws NonexistentEntityException, Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setName(entity.getName());
-        employee.setSurname(entity.getSurname());
+        employee.setLastname(entity.getLastname());
         employee.setAddress(entity.getAddress());
         employee.setCuit(entity.getCuit());
         employee.setEmail(entity.getEmail());

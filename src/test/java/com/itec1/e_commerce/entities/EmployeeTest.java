@@ -39,14 +39,14 @@ class EmployeeTest {
     @Test
     void testGetLastname() {
         String expected = "lastname";
-        assertEquals(expected, employee.getSurname());
+        assertEquals(expected, employee.getLastname());
     }
 
     @Test
     void testSetAndGetLastname() {
-        employee.setSurname("other lastname");
+        employee.setLastname("other lastname");
         String expected = "other lastname";
-        assertEquals(expected, employee.getSurname());
+        assertEquals(expected, employee.getLastname());
     }
 
     @Test

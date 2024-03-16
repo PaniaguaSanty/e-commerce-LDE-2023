@@ -5,10 +5,10 @@
 package com.itec1.e_commerce.views.resources;
 
 import com.itec1.e_commerce.controllers.IController;
-import com.itec1.e_commerce.views.InterfaceCrudPanel;
 import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import com.itec1.e_commerce.views.InterfacePanel;
 
 /**
  *
@@ -18,9 +18,9 @@ public class JTextFieldListener<T, U> implements DocumentListener{
     
     private List<T> entities;
     private final IController<U> controller;
-    private final InterfaceCrudPanel panel;
+    private final InterfacePanel panel;
 
-    public JTextFieldListener(List<T> entities, IController<U> controller, InterfaceCrudPanel panel) {
+    public JTextFieldListener(List<T> entities, IController<U> controller, InterfacePanel panel) {
         this.entities = entities;
         this.controller = controller;
         this.panel = panel;

@@ -25,7 +25,7 @@ public class Employee implements Serializable {
     private Long id;
     
     private String name;
-    private String surname;
+    private String lastname;
     private String address;
     private String cuit;
     private String email;
@@ -42,7 +42,7 @@ public class Employee implements Serializable {
     public Employee(String name, String surname, String address, String cuit, String email, String phone, Warehouse warehouse) {
         this();
         this.name = name;
-        this.surname = surname;
+        this.lastname = surname;
         this.address = address;
         this.cuit = cuit;
         this.email = email;
@@ -68,12 +68,12 @@ public class Employee implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAddress() {
@@ -146,7 +146,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enable + ", warehouse=" + warehouse + '}';
+        return "Employee{" + "id=" + id + ", name=" + name + ", surname=" + lastname + ", address=" + address + ", cuit=" + cuit + ", email=" + email + ", phone=" + phone + ", enabled=" + enable + ", warehouse=" + warehouse + '}';
     }
 
 

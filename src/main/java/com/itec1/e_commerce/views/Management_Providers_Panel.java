@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public final class Management_Providers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Providers_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ProviderPanelController controller;
     private final FieldDataValidator validator;
