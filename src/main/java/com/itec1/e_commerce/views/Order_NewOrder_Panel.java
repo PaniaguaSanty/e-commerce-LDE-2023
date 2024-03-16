@@ -2,6 +2,8 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.OrderPanelController;
 import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.ProductCategory;
+import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.TableListener;
 import java.util.List;
