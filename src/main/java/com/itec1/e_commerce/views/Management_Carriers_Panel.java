@@ -19,7 +19,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public final class Management_Carriers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Carriers_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final CarrierPanelController controller;
     private final FieldDataValidator validator;

@@ -21,7 +21,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public class Management_Sectors_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public class Management_Sectors_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final SectorPanelController controller;
     private final FieldDataValidator validator;

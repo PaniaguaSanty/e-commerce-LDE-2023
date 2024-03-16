@@ -11,7 +11,7 @@ import javax.swing.JTextField;
  *
  * @author turraca
  */
-public interface InterfaceCrudPanel {
+public interface InterfacePanel {
     
     void initListener();
     

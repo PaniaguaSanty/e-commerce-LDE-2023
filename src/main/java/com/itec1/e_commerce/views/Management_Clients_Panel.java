@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public final class Management_Clients_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Clients_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ClientPanelController controller;
     private final FieldDataValidator validator;
