@@ -4,6 +4,7 @@
  */
 package com.itec1.e_commerce.services;
 
+import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.dao.DetailOrderJpaController;
 import com.itec1.e_commerce.dao.InvoiceJpaController;
@@ -39,14 +40,14 @@ public class OrderServiceImpl {
     private SectorServiceImpl sectorServiceImpl;
     private State state;
 
-    public OrderServiceImpl(ClientJpaController clientJpaController, WarehouseJpaController warehouseJpaController, DetailOrderJpaController detailOrderJpaController, ProductJpaController productJpaController, TrackingOrderJpaController trackingOrderJpaController, OrderJpaController orderJpaController, InvoiceJpaController invoiceJpaController) {
-        this.clientJpaController = clientJpaController;
-        this.warehouseJpaController = warehouseJpaController;
-        this.detailOrderJpaController = detailOrderJpaController;
-        this.productJpaController = productJpaController;
-        this.trackingOrderJpaController = trackingOrderJpaController;
-        this.orderJpaController = orderJpaController;
-        this.invoiceJpaController = invoiceJpaController;
+    public OrderServiceImpl() {
+        this.clientJpaController = new ClientJpaController(Connection.getEmf());
+        this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
+        this.detailOrderJpaController = new DetailOrderJpaController(Connection.getEmf());
+        this.productJpaController = new ProductJpaController(Connection.getEmf());
+        this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
+        this.orderJpaController = new OrderJpaController(Connection.getEmf());
+        this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
     //Los métodos con find tienen RuntimeException en vez de EntityNotFoundException porque
@@ -174,8 +175,8 @@ public class OrderServiceImpl {
 
     public void create(Invoice invoice) {
         try {
-        invoiceJpaController.create(invoice);
-        }catch (Exception e) {
+            invoiceJpaController.create(invoice);
+        } catch (Exception e) {
             System.err.println("Error while creating invoice. " + e.getMessage());
             throw new RuntimeException("Failed to create Invoice", e);
         }
