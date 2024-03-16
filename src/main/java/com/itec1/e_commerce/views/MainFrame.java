@@ -9,9 +9,8 @@ import java.awt.Component;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    private final MainPanel mainPanel;
     private InterfacePanel activePanel;
-    
+
     private Management_Carriers_Panel carriersPanel;
     private Management_Clients_Panel clientsPanel;
     private Management_Products_Categories_Panel productsCategoriesPanel;
@@ -20,11 +19,11 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Sectors_Panel sectorsPanel;
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
-    
+
     private Order_NewOrder_Panel newOrderPanel;
     private Order_ViewOrderSector_Panel wiewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
-    
+
     private Reports_Carriers_ByDate_Panel carriersByDatePanel;
     private Reports_Carriers_Overview_Panel reportsCarriersOverviewPanel;
     private Reports_Clients_ByCategory_Panel reportsClientsByCategoryPanel;
@@ -40,9 +39,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         initComponents();
 
-        mainPanel = new MainPanel();
-        mainPanel.setSize(800, 660);
-        contentPanel.add(mainPanel);
+        contentPanel.setSize(800, 600);
+        contentPanel.add(Welcome);
 
         setSize(800, 660); // Cambiar el tamaño del frame
         setLocationRelativeTo(null);
@@ -54,7 +52,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void changePanel(InterfacePanel newPanel) {
-        if (!newPanel.equals(activePanel)){
+        if (!newPanel.equals(activePanel)) {
             activePanel = newPanel;
             contentPanel.removeAll();
             contentPanel.setLayout(new BorderLayout());
@@ -66,7 +64,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void startPanels() {
-        
+
         carriersPanel = new Management_Carriers_Panel();
         clientsPanel = new Management_Clients_Panel();
         productsCategoriesPanel = new Management_Products_Categories_Panel();
@@ -75,11 +73,11 @@ public class MainFrame extends javax.swing.JFrame {
         sectorsPanel = new Management_Sectors_Panel();
         employeesPanel = new Management_Employees_Panel();
         warehouseHouse = new Management_Warehouses_Panel();
-        
+
         newOrderPanel = new Order_NewOrder_Panel();
         wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
-        
+
         carriersByDatePanel = new Reports_Carriers_ByDate_Panel();
         reportsCarriersOverviewPanel = new Reports_Carriers_Overview_Panel();
         reportsClientsByCategoryPanel = new Reports_Clients_ByCategory_Panel();
@@ -90,7 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
         reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
         providersByDatePanel = new Reports_Providers_ByDate_Panel();
         reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -99,6 +97,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         contentPanel = new javax.swing.JPanel();
+        Welcome = new javax.swing.JPanel();
+        jlbl_welcome = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menu_Close = new javax.swing.JMenuItem();
@@ -133,23 +134,62 @@ public class MainFrame extends javax.swing.JFrame {
         order_ReportByStatuses = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 660));
         setMinimumSize(new java.awt.Dimension(800, 660));
-        setPreferredSize(new java.awt.Dimension(800, 660));
         setResizable(false);
 
         contentPanel.setMaximumSize(new java.awt.Dimension(800, 600));
         contentPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+        contentPanel.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                contentPanelComponentAdded(evt);
+            }
+        });
+
+        Welcome.setBackground(new java.awt.Color(0, 51, 153));
+        Welcome.setMaximumSize(new java.awt.Dimension(800, 660));
+        Welcome.setMinimumSize(new java.awt.Dimension(800, 660));
+
+        jlbl_welcome.setBackground(new java.awt.Color(0, 51, 153));
+        jlbl_welcome.setFont(new java.awt.Font("Laksaman", 0, 24)); // NOI18N
+        jlbl_welcome.setForeground(new java.awt.Color(255, 255, 255));
+        jlbl_welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlbl_welcome.setText("Bienvenido a nuestro E-commerce");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pngegg1.png"))); // NOI18N
+
+        javax.swing.GroupLayout WelcomeLayout = new javax.swing.GroupLayout(Welcome);
+        Welcome.setLayout(WelcomeLayout);
+        WelcomeLayout.setHorizontalGroup(
+            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeLayout.createSequentialGroup()
+                .addComponent(jlbl_welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeLayout.createSequentialGroup()
+                .addGap(0, 135, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(135, 135, 135))
+        );
+        WelcomeLayout.setVerticalGroup(
+            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlbl_welcome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(265, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenu1.setText("File");
@@ -381,12 +421,18 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        contentPanel.getAccessibleContext().setAccessibleDescription("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void menu_EmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_EmployeesActionPerformed
         changePanel(employeesPanel);
     }//GEN-LAST:event_menu_EmployeesActionPerformed
+
+    private void contentPanelComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_contentPanelComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contentPanelComponentAdded
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -469,7 +515,11 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
     private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CloseActionPerformed
-        changePanel(mainPanel);
+        contentPanel.removeAll();
+        contentPanel.add(Welcome);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+        activePanel = null;
     }// GEN-LAST:event_menu_CloseActionPerformed
 
     private void menu_ExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ExitActionPerformed
@@ -477,14 +527,17 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_menu_ExitActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Welcome;
     private javax.swing.JMenuItem carrier_OverviewReport;
     private javax.swing.JMenuItem carrier_ReportByDate;
     private javax.swing.JMenuItem client_OverviewReport;
     private javax.swing.JMenuItem client_ReportByCategory;
     private javax.swing.JMenuItem client_ReportByDate;
     private javax.swing.JPanel contentPanel;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jlbl_welcome;
     private javax.swing.JMenuItem menu_Carriers;
     private javax.swing.JMenu menu_CarriersReport;
     private javax.swing.JMenu menu_ClientReports;
