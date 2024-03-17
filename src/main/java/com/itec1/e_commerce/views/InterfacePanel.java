@@ -38,5 +38,4 @@ public interface InterfacePanel {
     boolean verifyEmptyFields();
     
     String getStringFilter();
-
 }

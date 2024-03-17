@@ -102,4 +102,16 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
             throw new RuntimeException("Error while searching for carriers by type of transport. Please try again later.", e);
         }
     }
+    
+    
+    public String verifyEnabledTransports(Carrier carrier) {
+        String result = (carrier.getGround()
+                ? (carrier.getMaritime()
+                ? (carrier.getAerial()
+                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
+                : (carrier.getAerial()
+                ? (carrier.getMaritime()
+                ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
+        return result;
+    }
 }

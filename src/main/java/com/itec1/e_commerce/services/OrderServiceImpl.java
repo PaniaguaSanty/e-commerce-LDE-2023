@@ -50,9 +50,7 @@ public class OrderServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
-    //Los métodos con find tienen RuntimeException en vez de EntityNotFoundException porque
-    //para implementar la  misma hay que cambiar los constructores :(.
-    public Order create(Order entity) {
+    public Order createOrder(Order entity) {
         try {
             orderJpaController.create(entity);
             return orderJpaController.findOrder(entity.getId());
@@ -63,21 +61,11 @@ public class OrderServiceImpl {
     }
 
     public Order findById(Long id) {
-        try {
-            return orderJpaController.findOrder(id);
-        } catch (Exception e) {
-            System.err.println("Error while finding order by ID: " + e.getMessage());
-            throw new RuntimeException("Failed to find order by ID.", e);
-        }
+        return orderJpaController.findOrder(id);
     }
 
     public List<Order> findAll() {
-        try {
-            return orderJpaController.findOrderEntities();
-        } catch (Exception e) {
-            System.err.println("Error while finding all orders: " + e.getMessage());
-            throw new RuntimeException("Failed to find all orders.", e);
-        }
+        return orderJpaController.findOrderEntities();
     }
 
     public List<TrackingOrder> findByOrder(Order order) {
@@ -91,11 +79,11 @@ public class OrderServiceImpl {
         }
     }
 
-    public List<Order> findByWarehouse(Warehouse entity) {
+    public List<Order> findByWarehouse(Warehouse orderByWarehouse) {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getSector().getWarehouse().getId()
-                    .equals(entity.getId()))
+                    .equals(orderByWarehouse.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by Warehouse: " + e.getMessage());
@@ -104,11 +92,11 @@ public class OrderServiceImpl {
 
     }
 
-    public List<Order> findByClient(Client entity) {
+    public List<Order> findByClient(Client orderByClient) {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getClient().getId()
-                    .equals(entity.getId()))
+                    .equals(orderByClient.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by client." + e.getMessage());
@@ -116,11 +104,11 @@ public class OrderServiceImpl {
         }
     }
 
-    public List<Order> findBySector(Sector entity) {
+    public List<Order> findBySector(Sector orderBySector) {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getSector().getId()
-                    .equals(entity.getId()))
+                    .equals(orderBySector.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by sector");
@@ -129,7 +117,7 @@ public class OrderServiceImpl {
 
     }
 
-    public TrackingOrder create(TrackingOrder entity) {
+    public TrackingOrder createTrackingOrder(TrackingOrder entity) {
         try {
             trackingOrderJpaController.create(entity);
             return trackingOrderJpaController.findTrackingOrder(entity.getId());
@@ -139,7 +127,7 @@ public class OrderServiceImpl {
         }
     }
 
-    public void changeState(Order order) {
+    public void changeOrderState(Order order) {
         State[] states = State.values();
         int nextState = findByOrder(order).size() + 1;
         if (nextState < 7) {
@@ -173,7 +161,7 @@ public class OrderServiceImpl {
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
 
-    public void create(Invoice invoice) {
+    public void createInvoice(Invoice invoice) {
         try {
             invoiceJpaController.create(invoice);
         } catch (Exception e) {
@@ -194,7 +182,7 @@ public class OrderServiceImpl {
         detailOrderJpaController.edit(detail);
     }
 
-    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
+    public void qualifyCarrier(Invoice invoice, int star) throws Exception{
         invoice.setCarrierQualification(star);
         invoiceJpaController.edit(invoice);
     }
@@ -207,6 +195,6 @@ public class OrderServiceImpl {
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);
-        create(tracking);
+        createTrackingOrder(tracking);
     }
 }

@@ -38,23 +38,12 @@ public class CarrierPanelController implements IController<Carrier> {
         for (Carrier carrier : clients) {
             if (carrier.getCuit().startsWith(cuit)) {
                 Object[] object = {carrier.getId(), carrier.getName(),
-                    carrier.getCuit(), carrier.getPhone(), verifyEnabledTransports(carrier)};
+                    carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
                 model.addRow(object);
                 result.add(carrier);
             }
         }
         this.carriersPanel.getTable().setModel(model);
-        return result;
-    }
-
-    private String verifyEnabledTransports(Carrier carrier) {
-        String result = (carrier.getGround()
-                ? (carrier.getMaritime()
-                ? (carrier.getAerial()
-                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
-                : (carrier.getAerial()
-                ? (carrier.getMaritime()
-                ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
         return result;
     }
 
