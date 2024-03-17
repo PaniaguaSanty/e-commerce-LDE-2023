@@ -6,7 +6,6 @@ import java.util.List;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Client;
-import java.util.stream.Collectors;
 
 public class ClientServiceImpl implements ICRUD<Client> {
 
