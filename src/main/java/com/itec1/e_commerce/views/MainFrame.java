@@ -503,7 +503,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_order_ReportByStatusesActionPerformed
 
     private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_newOrderActionPerformed
-        changePanel(sectorsPanel);
+        changePanel(newOrderPanel);
     }// GEN-LAST:event_menu_newOrderActionPerformed
 
     private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
