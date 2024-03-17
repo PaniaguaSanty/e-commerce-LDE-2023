@@ -1,11 +1,15 @@
 package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.OrderPanelController;
+import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Provider;
+import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.TableListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -15,17 +19,22 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public final class Order_NewOrder_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Order_NewOrder_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final OrderPanelController controller;
     private final FieldDataValidator validator;
     private List<Order> orders;
+    private List<Product> products;
+    private List<Carrier> carriers;
+    private List<Warehouse> warehouses;
 
     public Order_NewOrder_Panel() {
         initComponents();
         this.controller = new OrderPanelController(this);
         tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
-
+        this.products = controller.updateTableProduct("");
+        this.carriers = controller.updateTable("");
+        this.warehouses = controller.updateTableWarehouse("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();
@@ -46,10 +55,10 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         jbl_filterByName = new javax.swing.JLabel();
         jbl_filter5 = new javax.swing.JLabel();
         jbl_productName = new javax.swing.JLabel();
-        productNameFilter = new javax.swing.JTextField();
+        jtf_productNameFilter = new javax.swing.JTextField();
         jbl_filter7 = new javax.swing.JLabel();
         categoryFilterComboBox = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        Jbtn_findClientByCuit = new javax.swing.JButton();
         jbl_filter8 = new javax.swing.JLabel();
         jbl_filter9 = new javax.swing.JLabel();
         jAmountSpinner = new javax.swing.JSpinner();
@@ -62,12 +71,12 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         jbl_filter11 = new javax.swing.JLabel();
         jbl_filterByCountry = new javax.swing.JLabel();
         jbl_filter13 = new javax.swing.JLabel();
-        warehouseFilter = new javax.swing.JTextField();
+        jtf_warehouseFilter = new javax.swing.JTextField();
         jbl_filter14 = new javax.swing.JLabel();
         groundCheckBox = new javax.swing.JCheckBox();
         aerialCheckBox = new javax.swing.JCheckBox();
         maritimeCheckBox = new javax.swing.JCheckBox();
-        jbtn_addCarrier = new javax.swing.JButton();
+        jbtn_ConfirmCarrier = new javax.swing.JButton();
         jbtn_createNewOrder = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 51, 255));
@@ -116,7 +125,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
 
         categoryFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton2.setText("ACEPTAR");
+        Jbtn_findClientByCuit.setText("ACEPTAR");
 
         jbl_filter8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbl_filter8.setForeground(new java.awt.Color(255, 255, 255));
@@ -165,7 +174,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
 
         maritimeCheckBox.setText("Marítimo");
 
-        jbtn_addCarrier.setText("ACEPTAR  TRANSPORTISTA");
+        jbtn_ConfirmCarrier.setText("CONFIRMAR TRANSPORTISTA");
 
         jbtn_createNewOrder.setText("FINALIZAR PEDIDO");
 
@@ -180,11 +189,11 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                         .addComponent(jbl_filter5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(648, 648, 648))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                        .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtf_nameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Jbtn_findClientByCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(269, 269, 269))
                     .addComponent(jbl_filter8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -198,46 +207,52 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                             .addComponent(jbl_filter10)
                             .addComponent(jbl_filterByCountry)
                             .addComponent(jbl_filter13)
-                            .addComponent(warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtf_warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPaneTabla1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(aerialCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(maritimeCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jbtn_createNewOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jbl_filter14)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(groundCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jbtn_addCarrier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPaneTabla1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jAmountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jbtn_addDetailOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jbl_filterByName)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jbl_filter7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(categoryFilterComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jbl_filterByName)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jbl_productName)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(productNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jbl_filter9))))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtf_productNameFilter)))
+                                .addGap(12, 12, 12))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jAmountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbtn_addDetailOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jbl_filter9))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(aerialCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(maritimeCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                                .addGap(10, 10, 10)
+                                .addComponent(jbtn_createNewOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbl_filter14)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(groundCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbtn_ConfirmCarrier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -252,7 +267,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtf_nameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2))
+                    .addComponent(Jbtn_findClientByCuit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbl_filter5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,17 +278,17 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbl_productName)
-                            .addComponent(productNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                            .addComponent(jtf_productNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbl_filter7)
                             .addComponent(categoryFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbl_filter9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jAmountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbtn_addDetailOrder))))
+                        .addComponent(jbl_filter9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtn_addDetailOrder)
+                            .addComponent(jAmountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -281,7 +296,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbl_filter13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtf_warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbl_filter10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -298,7 +313,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                         .addComponent(jbl_filter14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbtn_addCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbtn_ConfirmCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(groundCheckBox))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -343,160 +358,141 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         return this.tableChooseCarrier;
     }
 
+    public javax.swing.JTable getWarehouseTable() {
+        return this.tableChooseWarehouse;
+    }
+
+    public javax.swing.JTable getProductTable() {
+        return this.tableChooseProduct;
+    }
+
     @Override
     public void initListener() {
         tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tableChooseProduct.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tableChooseWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override
     public void initValidator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        validator.onlyNumbers(jtf_nameFilter);
+        validator.onlyLetters(jtf_warehouseFilter);
+        validator.onlyLetters(jtf_productNameFilter);
     }
 
     @Override
     public void initPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.products = controller.updateTableProduct("");
+        this.carriers = controller.updateTable("");
+        this.warehouses = controller.updateTableWarehouse("");
+        changeConditionAllButtons(false);
+        changeConditionAllFields(false);
+        changeConditionButton(Jbtn_findClientByCuit, true);
+        changeConditionButton(jbtn_addDetailOrder, true);
+        changeConditionButton(jbtn_warehouseOrigin, true);
+        changeConditionButton(jbtn_ConfirmCarrier, true);
+        changeConditionButton(jbtn_createNewOrder, true);
+        cleanAllFields();
     }
 
     @Override
     public void selectFromTable() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void changeConditionAllFields(boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void changeConditionField(JTextField textField, boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void changeConditionAllButtons(boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        changeConditionButton(Jbtn_findClientByCuit, state);
+        changeConditionButton(jbtn_addDetailOrder, state);
+        changeConditionButton(jbtn_warehouseOrigin, state);
+        changeConditionButton(jbtn_warehouseDestiny, state);
+        changeConditionButton(jbtn_ConfirmCarrier, state);
+        changeConditionButton(jbtn_createNewOrder, state);
     }
 
     @Override
     public void changeConditionButton(JButton button, boolean state) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        validator.enableButton(state, button, null, null, null, null);
     }
 
     @Override
     public void cleanAllFields() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        cleanField(jtf_nameFilter);
+        cleanField(jtf_productNameFilter);
+        cleanField(jtf_warehouseFilter);
     }
 
     @Override
     public void cleanField(JTextField textfield) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        validator.cleanField(textfield);
     }
 
     @Override
     public boolean verifyEmptyFields() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<JTextField> fields = new ArrayList<>();
+        fields.add(jtf_productNameFilter);
+        fields.add(jtf_warehouseFilter);
+
+        for (JTextField field : fields) {
+            if (field.getText().length() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public String getStringFilter() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return jtf_nameFilter.getText();
+    }
+
+    public String getProductStringFilter() {
+        return jtf_productNameFilter.getText();
+    }
+
+    public String getWarehouseStringFilter() {
+        return jtf_warehouseFilter.getText();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Jbtn_findClientByCuit;
     private javax.swing.JCheckBox aerialCheckBox;
-    private javax.swing.JButton btn_limpiar1;
-    private javax.swing.JButton btn_limpiar2;
-    private javax.swing.JButton btn_limpiar3;
     private javax.swing.JComboBox<String> categoryFilterComboBox;
-    private javax.swing.JComboBox<ProductCategory> comboBox_category;
-    private javax.swing.JComboBox<ProductCategory> comboBox_category1;
-    private javax.swing.JComboBox<Provider> comboBox_provider;
-    private javax.swing.JComboBox<Provider> comboBox_provider1;
     private javax.swing.JCheckBox groundCheckBox;
     private javax.swing.JSpinner jAmountSpinner;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel_crud1;
-    private javax.swing.JPanel jPanel_crud2;
-    private javax.swing.JPanel jPanel_crud3;
-    private javax.swing.JPanel jPanel_datos1;
-    private javax.swing.JPanel jPanel_datos2;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JScrollPane jScrollPaneTabla1;
     private javax.swing.JScrollPane jScrollPaneTabla2;
-    private javax.swing.JScrollPane jScrollPaneTabla3;
-    private javax.swing.JScrollPane jScrollPaneTabla4;
-    private javax.swing.JScrollPane jScrollPaneTabla5;
-    private javax.swing.JLabel jbl_address;
-    private javax.swing.JLabel jbl_address1;
-    private javax.swing.JLabel jbl_email;
-    private javax.swing.JLabel jbl_email1;
     private javax.swing.JLabel jbl_filter;
-    private javax.swing.JLabel jbl_filter1;
     private javax.swing.JLabel jbl_filter10;
     private javax.swing.JLabel jbl_filter11;
     private javax.swing.JLabel jbl_filter13;
     private javax.swing.JLabel jbl_filter14;
-    private javax.swing.JLabel jbl_filter3;
-    private javax.swing.JLabel jbl_filter4;
     private javax.swing.JLabel jbl_filter5;
     private javax.swing.JLabel jbl_filter7;
     private javax.swing.JLabel jbl_filter8;
     private javax.swing.JLabel jbl_filter9;
     private javax.swing.JLabel jbl_filterByCountry;
     private javax.swing.JLabel jbl_filterByName;
-    private javax.swing.JLabel jbl_phone;
-    private javax.swing.JLabel jbl_phone1;
     private javax.swing.JLabel jbl_productName;
-    private javax.swing.JButton jbn_delete;
-    private javax.swing.JButton jbn_delete1;
-    private javax.swing.JButton jbn_restore;
-    private javax.swing.JButton jbn_restore1;
-    private javax.swing.JButton jbn_save;
-    private javax.swing.JButton jbn_save1;
-    private javax.swing.JButton jbn_update;
-    private javax.swing.JButton jbn_update1;
-    private javax.swing.JButton jbtn_addCarrier;
+    private javax.swing.JButton jbtn_ConfirmCarrier;
     private javax.swing.JButton jbtn_addDetailOrder;
     private javax.swing.JButton jbtn_createNewOrder;
     private javax.swing.JButton jbtn_warehouseDestiny;
     private javax.swing.JButton jbtn_warehouseOrigin;
-    private javax.swing.JLabel jlbl_info;
-    private javax.swing.JLabel jlbl_info1;
-    private javax.swing.JTextField jtf_depth;
-    private javax.swing.JTextField jtf_depth1;
-    private javax.swing.JTextField jtf_description;
-    private javax.swing.JTextField jtf_description1;
-    private javax.swing.JTextField jtf_high;
-    private javax.swing.JTextField jtf_high1;
-    private javax.swing.JTextField jtf_name;
-    private javax.swing.JTextField jtf_name1;
     private javax.swing.JTextField jtf_nameFilter;
-    private javax.swing.JTextField jtf_nameFilter1;
-    private javax.swing.JTextField jtf_nameFilter2;
-    private javax.swing.JTextField jtf_nameFilter3;
-    private javax.swing.JTextField jtf_weight;
-    private javax.swing.JTextField jtf_weight1;
-    private javax.swing.JTextField jtf_width;
-    private javax.swing.JTextField jtf_width1;
-    private javax.swing.JLabel lbl_category;
-    private javax.swing.JLabel lbl_category1;
-    private javax.swing.JLabel lbl_description;
-    private javax.swing.JLabel lbl_description1;
-    private javax.swing.JLabel lbl_name;
-    private javax.swing.JLabel lbl_name1;
-    private javax.swing.JLabel lbl_provider;
-    private javax.swing.JLabel lbl_provider1;
-    private javax.swing.JLabel lbl_weight;
-    private javax.swing.JLabel lbl_weight1;
+    private javax.swing.JTextField jtf_productNameFilter;
+    private javax.swing.JTextField jtf_warehouseFilter;
     private javax.swing.JCheckBox maritimeCheckBox;
-    private javax.swing.JTextField productNameFilter;
-    private javax.swing.JTable productTable1;
-    private javax.swing.JTable productTable2;
-    private javax.swing.JTable productTable3;
     private javax.swing.JTable tableChooseCarrier;
     private javax.swing.JTable tableChooseProduct;
     private javax.swing.JTable tableChooseWarehouse;
-    private javax.swing.JTextField warehouseFilter;
     // End of variables declaration//GEN-END:variables
 
 }

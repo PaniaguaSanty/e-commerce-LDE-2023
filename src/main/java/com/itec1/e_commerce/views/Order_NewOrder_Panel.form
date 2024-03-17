@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="33" red="0" type="rgb"/>
@@ -32,11 +32,11 @@
                       <EmptySpace min="648" pref="648" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jbl_filter" pref="224" max="32767" attributes="0"/>
+                      <Component id="jbl_filter" pref="217" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jtf_nameFilter" min="-2" pref="204" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="80" max="-2" attributes="0"/>
+                      <Component id="Jbtn_findClientByCuit" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jbl_filter8" alignment="0" max="32767" attributes="0"/>
@@ -52,58 +52,67 @@
                           <Component id="jbl_filter10" min="-2" max="-2" attributes="0"/>
                           <Component id="jbl_filterByCountry" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jbl_filter13" min="-2" max="-2" attributes="0"/>
-                          <Component id="warehouseFilter" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
+                          <Component id="jtf_warehouseFilter" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
+                      <Component id="jScrollPaneTabla1" min="-2" pref="500" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPaneTabla" min="-2" pref="500" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="aerialCheckBox" max="32767" attributes="0"/>
-                                          <Component id="maritimeCheckBox" pref="76" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Component id="jbtn_createNewOrder" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jbl_filter14" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="groundCheckBox" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jbtn_addCarrier" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jScrollPaneTabla1" min="-2" pref="500" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jAmountSpinner" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jbtn_addDetailOrder" min="-2" pref="80" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jbl_filterByName" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jbl_filter7" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="categoryFilterComboBox" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jbl_filterByName" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
                                       <Component id="jbl_productName" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="productNameFilter" min="-2" pref="188" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jtf_productNameFilter" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                      <Component id="jAmountSpinner" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jbtn_addDetailOrder" min="-2" pref="80" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jbl_filter9" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPaneTabla" min="-2" pref="500" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="aerialCheckBox" max="32767" attributes="0"/>
+                                  <Component id="maritimeCheckBox" pref="76" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="jbtn_createNewOrder" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jbl_filter14" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="groundCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jbtn_ConfirmCarrier" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -126,31 +135,31 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jtf_nameFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbl_filter" alignment="3" max="32767" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Jbtn_findClientByCuit" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jbl_filter5" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jScrollPaneTabla1" min="-2" pref="160" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jbl_filterByName" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jbl_productName" alignment="3" max="-2" attributes="0"/>
-                          <Component id="productNameFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jtf_productNameFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jbl_filter7" alignment="3" max="-2" attributes="0"/>
                           <Component id="categoryFilterComboBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jbl_filter9" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jAmountSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbtn_addDetailOrder" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbl_filter9" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jbtn_addDetailOrder" min="-2" max="-2" attributes="0"/>
+                          <Component id="jAmountSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -161,7 +170,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jbl_filter13" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="warehouseFilter" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtf_warehouseFilter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jbl_filter10" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -181,7 +190,7 @@
                       <Component id="jbl_filter14" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jbtn_addCarrier" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jbtn_ConfirmCarrier" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="groundCheckBox" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -329,7 +338,7 @@
         <Property name="text" type="java.lang.String" value="nombre:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="productNameFilter">
+    <Component class="javax.swing.JTextField" name="jtf_productNameFilter">
     </Component>
     <Component class="javax.swing.JLabel" name="jbl_filter7">
       <Properties>
@@ -357,7 +366,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="Jbtn_findClientByCuit">
       <Properties>
         <Property name="text" type="java.lang.String" value="ACEPTAR"/>
       </Properties>
@@ -477,7 +486,7 @@
         <Property name="text" type="java.lang.String" value="pa&#xed;s:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="warehouseFilter">
+    <Component class="javax.swing.JTextField" name="jtf_warehouseFilter">
     </Component>
     <Component class="javax.swing.JLabel" name="jbl_filter14">
       <Properties>
@@ -505,9 +514,9 @@
         <Property name="text" type="java.lang.String" value="Mar&#xed;timo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jbtn_addCarrier">
+    <Component class="javax.swing.JButton" name="jbtn_ConfirmCarrier">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ACEPTAR  TRANSPORTISTA"/>
+        <Property name="text" type="java.lang.String" value="CONFIRMAR TRANSPORTISTA"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jbtn_createNewOrder">
