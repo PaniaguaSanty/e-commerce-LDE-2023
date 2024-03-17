@@ -50,7 +50,7 @@ public class OrderServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
-    public Order create(Order entity) {
+    public Order createOrder(Order entity) {
         try {
             orderJpaController.create(entity);
             return orderJpaController.findOrder(entity.getId());

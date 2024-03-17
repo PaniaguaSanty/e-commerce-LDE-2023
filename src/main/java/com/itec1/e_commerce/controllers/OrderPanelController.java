@@ -37,32 +37,28 @@ public class OrderPanelController {
     private final OrderServiceImpl orderService;
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
-    private final ProviderServiceImpl providerService;
     private final WarehouseServiceImpl warehouseService;
     private final InvoiceServiceImpl invoiceService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategory;
-    private final EmployeeServiceImpl employeeService;
 
     public OrderPanelController(Order_NewOrder_Panel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
         this.clientService = new ClientServiceImpl();
         this.productService = new ProductServiceImpl();
-        this.providerService = new ProviderServiceImpl();
         this.warehouseService = new WarehouseServiceImpl();
         this.invoiceService = new InvoiceServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategory = new ProductCategoryServiceImpl();
-        this.employeeService = new EmployeeServiceImpl();
     }
 
     //Orders
-    public String create(Order entity) {
+    public String createOrder(Order entity) {
         if (orderService.findById(entity.getId()) != null) {
-            return "Este pedido ya existe.";
+            return "No se pudo generar el pedido, por favor, inténtelo nuevamente.";
         } else {
-            orderService.create(entity);
+            orderService.createOrder(entity);
         }
         return "Pedido creado correctamente.";
     }
@@ -75,21 +71,26 @@ public class OrderPanelController {
         return orderService.findAll();
     }
 
-    public List<Order> findOrderByWarehouse(Warehouse orderByWharehouse) {
-        return orderService.findByWarehouse(orderByWharehouse);
+    public List<Order> findOrderByWarehouse(Warehouse ordersByWharehouse) {
+        return orderService.findByWarehouse(ordersByWharehouse);
     }
 
-    public List<Order> findOrderByClient(Client orderByClient) {
-        return orderService.findByClient(orderByClient);
+    public List<Order> findOrderByClient(Client ordersByClient) {
+        return orderService.findByClient(ordersByClient);
     }
 
-    public List<Order> findOrderBySector(Sector orderBySector) {
-        return orderService.findBySector(orderBySector);
+    public List<Order> findOrderBySector(Sector ordersBySector) {
+        return orderService.findBySector(ordersBySector);
     }
 
     //TrackingOrder
-    public TrackingOrder createTrackingOrder(TrackingOrder trackingOrder) { //try-catch
-        return orderService.createTrackingOrder(trackingOrder);
+    public String createTrackingOrder(TrackingOrder trackingOrder) {
+        if (orderService.findById(trackingOrder.getId()) != null) {
+            return "No se pudo generar el tracking, por favor inténtelo de nuevo.";
+        } else {
+            orderService.createTrackingOrder(trackingOrder);
+        }
+        return "Tracking generado correctamente.";
     }
 
     public List<TrackingOrder> findByOrder(Order order) {
@@ -112,8 +113,13 @@ public class OrderPanelController {
         orderService.returnOrder(order);
     }
 
-    public void createInvoice(Invoice invoice) { //try-catch
-        orderService.createInvoice(invoice);
+    public String createInvoice(Invoice invoice) {
+        if (orderService.findById(invoice.getId()) != null) {
+            return "No se pudo generar el remito, por favor inténtelo nuevamente.";
+        } else {
+            orderService.createInvoice(invoice);
+        }
+        return "Remito generado correctamente.";
     }
 
     //detail Order.
@@ -130,8 +136,13 @@ public class OrderPanelController {
     }
 
     //Client.
-    public Client findByCuit(String cuit) { //String(?
-        return clientService.findByCuit(cuit);
+    public String findByCuit(String cuit) {
+        try {
+            clientService.findByCuit(cuit);
+            return "Cliente encontrado con éxito";
+        } catch (Exception e) {
+            return "Ingrese un cuit existente.";
+        }
     }
 
     //Product.
@@ -176,7 +187,6 @@ public class OrderPanelController {
                 result.add(wh);
             }
         }
-        //verificar
         this.panel.getWarehouseTable().setModel(model);
         return result;
     }
@@ -185,14 +195,24 @@ public class OrderPanelController {
         return warehouseService.findWarehouseByCountry(countryName);
     }
 
-    //seleccionar origen.
-    //seleccionar destino.
+    public void chooseOrigin(Order order, Warehouse warehouseOrigin) {
+        order.setWarehouseOrigin(warehouseOrigin);
+    }
+
+    public void chooseDestiny(Order order, Warehouse warehouseOrigin) {
+        order.setWarehouseOrigin(warehouseOrigin);
+    }
+
     //Carrier
     public List<Carrier> findByTypeOfTransport(String transportType) {
         return carrierService.findByTypeOfTransport(transportType);
     }
 
     //confirmar transportista.
+    public void chooseCarrier() {
+
+    }
+
     public List<Carrier> updateTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
