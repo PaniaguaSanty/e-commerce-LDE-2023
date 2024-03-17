@@ -5,6 +5,14 @@
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Product;
+import com.itec1.e_commerce.entities.Warehouse;
+import com.itec1.e_commerce.entities.Carrier;
+import com.itec1.e_commerce.entities.Client;
+import com.itec1.e_commerce.entities.DetailOrder;
+import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
 import com.itec1.e_commerce.services.EmployeeServiceImpl;
@@ -15,6 +23,9 @@ import com.itec1.e_commerce.services.ProductServiceImpl;
 import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.services.WarehouseServiceImpl;
 import com.itec1.e_commerce.views.Order_NewOrder_Panel;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,29 +35,30 @@ public class OrderPanelController {
 
     private final Order_NewOrder_Panel panel;
     private final OrderServiceImpl orderService;
-    private final ClientServiceImpl clientServiceImpl;
-    private final ProductServiceImpl productServiceImpl;
-    private final ProviderServiceImpl providerServiceImpl;
-    private final WarehouseServiceImpl warehouseServiceImpl;
-    private final InvoiceServiceImpl invoiceServiceImpl;
-    private final CarrierServiceImpl carrierServiceImpl;
-    private final ProductCategoryServiceImpl productCategoryImpl;
-    private final EmployeeServiceImpl employeeServiceImpl;
+    private final ClientServiceImpl clientService;
+    private final ProductServiceImpl productService;
+    private final ProviderServiceImpl providerService;
+    private final WarehouseServiceImpl warehouseService;
+    private final InvoiceServiceImpl invoiceService;
+    private final CarrierServiceImpl carrierService;
+    private final ProductCategoryServiceImpl productCategory;
+    private final EmployeeServiceImpl employeeService;
 
     public OrderPanelController(Order_NewOrder_Panel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
-        this.clientServiceImpl = new ClientServiceImpl();
-        this.productServiceImpl = new ProductServiceImpl();
-        this.providerServiceImpl = new ProviderServiceImpl();
-        this.warehouseServiceImpl = new WarehouseServiceImpl();
-        this.invoiceServiceImpl = new InvoiceServiceImpl();
-        this.carrierServiceImpl = new CarrierServiceImpl();
-        this.productCategoryImpl = new ProductCategoryServiceImpl();
-        this.employeeServiceImpl = new EmployeeServiceImpl();
+        this.clientService = new ClientServiceImpl();
+        this.productService = new ProductServiceImpl();
+        this.providerService = new ProviderServiceImpl();
+        this.warehouseService = new WarehouseServiceImpl();
+        this.invoiceService = new InvoiceServiceImpl();
+        this.carrierService = new CarrierServiceImpl();
+        this.productCategory = new ProductCategoryServiceImpl();
+        this.employeeService = new EmployeeServiceImpl();
     }
 
-    private String create(Order entity) {
+    //Orders
+    public String create(Order entity) {
         if (orderService.findById(entity.getId()) != null) {
             return "Este pedido ya existe.";
         } else {
@@ -55,4 +67,147 @@ public class OrderPanelController {
         return "Pedido creado correctamente.";
     }
 
+    public Order findById(Long id) {
+        return orderService.findById(id);
+    }
+
+    public List<Order> findAll() {
+        return orderService.findAll();
+    }
+
+    public List<Order> findOrderByWarehouse(Warehouse orderByWharehouse) {
+        return orderService.findByWarehouse(orderByWharehouse);
+    }
+
+    public List<Order> findOrderByClient(Client orderByClient) {
+        return orderService.findByClient(orderByClient);
+    }
+
+    public List<Order> findOrderBySector(Sector orderBySector) {
+        return orderService.findBySector(orderBySector);
+    }
+
+    //TrackingOrder
+    public TrackingOrder createTrackingOrder(TrackingOrder trackingOrder) { //try-catch
+        return orderService.createTrackingOrder(trackingOrder);
+    }
+
+    public List<TrackingOrder> findByOrder(Order order) {
+        return orderService.findByOrder(order);
+    }
+
+    public void changeOrderState(Order order) {
+        orderService.changeOrderState(order);
+    }
+
+    public void orderInTransit(Order order, String latitude, String longitude) {
+        orderService.orderInTransit(order, latitude, longitude);
+    }
+
+    public void cancelOrder(Order order) throws Exception {
+        orderService.cancelOrder(order);
+    }
+
+    public void returnOrder(Order order) throws Exception {
+        orderService.returnOrder(order);
+    }
+
+    public void createInvoice(Invoice invoice) { //try-catch
+        orderService.createInvoice(invoice);
+    }
+
+    //detail Order.
+    public void addDetail(Order order, List<DetailOrder> details) {
+        orderService.addDetail(order, details);
+    }
+
+    public void qualifyProvider(DetailOrder detail, int star) throws Exception {
+        orderService.qualifyProvider(detail, star);
+    }
+
+    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
+        orderService.qualifyCarrier(invoice, star);
+    }
+
+    //Client.
+    public Client findByCuit(String cuit) { //String(?
+        return clientService.findByCuit(cuit);
+    }
+
+    //Product.
+    public List<Product> findProductsByName(String name) {
+        return productService.findProductsByName(name);
+    }
+
+    public List<Product> findProductsByCategory(String category) {
+        return productService.findProductsByCategory(category);
+    }
+
+    //función determinar cantidad  de productos. ->
+    public List<Product> updateTableProduct(String name) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor", "Habilitado"};
+        model.setColumnIdentifiers(titles);
+        List<Product> products = productService.findAll();
+        List<Product> result = new ArrayList<>();
+        String lowerName = name.toLowerCase();
+        for (Product prod : products) {
+            if (prod.getName().toLowerCase().startsWith(lowerName)) {
+                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName(), prod.isEnable()};
+                model.addRow(object);
+                result.add(prod);
+            }
+        }
+        this.panel.getProductTable().setModel(model);
+        return result;
+    }
+
+    //Warehouse
+    public List<Warehouse> updateTableWarehouse(String string) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
+        model.setColumnIdentifiers(titles);
+        List<Warehouse> warehouses = warehouseService.findAll();
+        List<Warehouse> result = new ArrayList<>();
+        for (Warehouse wh : warehouses) {
+            if (wh.getCode().startsWith(string)) {
+                Object[] object = {wh.getId(), wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
+                model.addRow(object);
+                result.add(wh);
+            }
+        }
+        //verificar
+        this.panel.getWarehouseTable().setModel(model);
+        return result;
+    }
+
+    public List<Warehouse> findWarehouseByCountry(String countryName) {
+        return warehouseService.findWarehouseByCountry(countryName);
+    }
+
+    //seleccionar origen.
+    //seleccionar destino.
+    //Carrier
+    public List<Carrier> findByTypeOfTransport(String transportType) {
+        return carrierService.findByTypeOfTransport(transportType);
+    }
+
+    //confirmar transportista.
+    public List<Carrier> updateTable(String cuit) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
+        model.setColumnIdentifiers(titles);
+        List<Carrier> clients = carrierService.findAll();
+        List<Carrier> result = new ArrayList<>();
+        for (Carrier carrier : clients) {
+            if (carrier.getCuit().startsWith(cuit)) {
+                Object[] object = {carrier.getId(), carrier.getName(),
+                    carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
+                model.addRow(object);
+                result.add(carrier);
+            }
+        }
+        this.panel.getTable().setModel(model);
+        return result;
+    }
 }
