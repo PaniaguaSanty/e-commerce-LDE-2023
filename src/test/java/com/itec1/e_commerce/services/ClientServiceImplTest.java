@@ -3,7 +3,7 @@ package com.itec1.e_commerce.services;
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,6 +66,7 @@ class ClientServiceImplTest {
         when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
         assertEquals(2, clientService.findAll().size());
     }
+
 
     @Test
     void testEnable() throws Exception {

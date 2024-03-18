@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
  * @author melina
  */
 @Entity
@@ -23,7 +22,7 @@ public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
     private String lastname;
     private String address;
@@ -31,7 +30,7 @@ public class Employee implements Serializable {
     private String email;
     private String phone;
     private Boolean enable;
-    
+
     @ManyToOne
     private Warehouse warehouse;
 
@@ -39,18 +38,17 @@ public class Employee implements Serializable {
         this.enable = true;
     }
 
-    public Employee(String name, String surname, String address, String cuit, String email, String phone, Warehouse warehouse) {
+    public Employee(String name, String lastname, String address, String cuit, String email, String phone, Warehouse warehouse) {
         this();
         this.name = name;
-        this.lastname = surname;
+        this.lastname = lastname;
         this.address = address;
         this.cuit = cuit;
         this.email = email;
         this.phone = phone;
         this.warehouse = warehouse;
     }
-    
-        
+
 
     public Long getId() {
         return id;
@@ -123,7 +121,7 @@ public class Employee implements Serializable {
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

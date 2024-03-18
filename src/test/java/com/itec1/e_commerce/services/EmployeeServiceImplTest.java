@@ -50,7 +50,7 @@ class EmployeeServiceImplTest {
         Employee employee = new Employee();
         employee.setId(1L);
         employee.setName("Melina");
-        employee.setSurname("gamarra");
+        employee.setLastname("gamarra");
         employee.setEmail("email");
         employee.setAddress("address");
         employee.setPhone("phone");

@@ -16,6 +16,10 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         this.employeeJpaController = new EmployeeJpaController(Connection.getEmf());
     }
 
+    public EmployeeServiceImpl(EmployeeJpaController employeeJpaController) {
+        this.employeeJpaController = employeeJpaController;
+    }
+
     @Override
     public Employee create(Employee entity) {
         try {
