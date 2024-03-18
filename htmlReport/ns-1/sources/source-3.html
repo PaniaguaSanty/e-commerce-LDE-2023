@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EmployeeServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: EmployeeServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EmployeeServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18,2%
+  </span>
+  <span class="absValue">
+    (2/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,1%
+  </span>
+  <span class="absValue">
+    (4/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.dao.EmployeeJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.Employee;
+&nbsp;import com.itec1.e_commerce.entities.Warehouse;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public class EmployeeServiceImpl implements ICRUD&lt;Employee&gt; {
+&nbsp;
+&nbsp;    private final EmployeeJpaController employeeJpaController;
+&nbsp;
+<b class="fc">&nbsp;    public EmployeeServiceImpl(EmployeeJpaController employeeJpaController) {</b>
+<b class="fc">&nbsp;        this.employeeJpaController = employeeJpaController;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee create(Employee entity) {
+&nbsp;        try {
+<b class="fc">&nbsp;            employeeJpaController.create(entity);</b>
+<b class="fc">&nbsp;            return entity;</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error when creating the employee&quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create employee&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee update(Long id, Employee entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Employee employee = employeeJpaController.findEmployee(id);</b>
+<b class="nc">&nbsp;        employee.setName(entity.getName());</b>
+<b class="nc">&nbsp;        employee.setSurname(entity.getSurname());</b>
+<b class="nc">&nbsp;        employee.setAddress(entity.getAddress());</b>
+<b class="nc">&nbsp;        employee.setCuit(entity.getCuit());</b>
+<b class="nc">&nbsp;        employee.setEmail(entity.getEmail());</b>
+<b class="nc">&nbsp;        employee.setPhone(entity.getPhone());</b>
+<b class="nc">&nbsp;        employee.setWarehouse(entity.getWarehouse());</b>
+<b class="nc">&nbsp;        employeeJpaController.edit(employee);</b>
+<b class="nc">&nbsp;        return employeeJpaController.findEmployee(entity.getId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee findById(Long id) {
+<b class="nc">&nbsp;        return employeeJpaController.findEmployee(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Employee&gt; findAll() {
+<b class="nc">&nbsp;        return employeeJpaController.findEmployeeEntities();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Employee employee = employeeJpaController.findEmployee(id);</b>
+<b class="nc">&nbsp;        employee.setEnable(false);</b>
+<b class="nc">&nbsp;        employeeJpaController.edit(employee);</b>
+<b class="nc">&nbsp;        return employeeJpaController.findEmployee(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        employeeJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return employeeJpaController.findEmployee(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Employee enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Employee employee = employeeJpaController.findEmployee(id);</b>
+<b class="nc">&nbsp;        employee.setEnable(true);</b>
+<b class="nc">&nbsp;        employeeJpaController.edit(employee);</b>
+<b class="nc">&nbsp;        return employeeJpaController.findEmployee(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Employee findByCuit(String cuit) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return employeeJpaController.findEmployeeEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(client -&gt; client.getCuit().equals(cuit))</b>
+<b class="nc">&nbsp;                    .findFirst()</b>
+<b class="nc">&nbsp;                    .orElse(null);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while searching Employee by cuit.&quot;);</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Error while searching, please try again.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;  
+&nbsp;  public List&lt;Employee&gt; searchByWarehouse(String warehouseToSearch) {
+<b class="nc">&nbsp;        return employeeJpaController.findEmployeeEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(employee -&gt; employee.getWarehouse().getAddress().equalsIgnoreCase(warehouseToSearch))</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Verificar
+&nbsp;    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) {
+<b class="nc">&nbsp;        Employee employeeToRelocate = findByCuit(employeeCuitToRelocate);</b>
+<b class="nc">&nbsp;        if (employeeToRelocate != null &amp;&amp; employeeToRelocate.getEnable()) {</b>
+<b class="nc">&nbsp;            employeeToRelocate.setWarehouse(warehouseToRelocate);</b>
+<b class="nc">&nbsp;            return employeeToRelocate;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

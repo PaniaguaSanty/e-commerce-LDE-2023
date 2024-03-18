@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SectorServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: SectorServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SectorServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+&nbsp; */
+&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.config.Connection;
+&nbsp;import com.itec1.e_commerce.dao.OrderJpaController;
+&nbsp;import com.itec1.e_commerce.dao.SectorJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.Order;
+&nbsp;import com.itec1.e_commerce.entities.Sector;
+&nbsp;import com.itec1.e_commerce.entities.Warehouse;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import javax.persistence.EntityNotFoundException;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author pania
+&nbsp; */
+&nbsp;public class SectorServiceImpl implements ICRUD&lt;Sector&gt; {
+&nbsp;    
+&nbsp;    private final SectorJpaController sectorJpaController;
+&nbsp;    private final OrderJpaController orderJpaController;
+&nbsp;    
+<b class="nc">&nbsp;    public SectorServiceImpl() {</b>
+<b class="nc">&nbsp;        this.sectorJpaController = new SectorJpaController(Connection.getEmf());</b>
+<b class="nc">&nbsp;        this.orderJpaController = new OrderJpaController(Connection.getEmf());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector create(Sector entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            sectorJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return sectorJpaController.findSector(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating a new sector: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create a sector&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector update(Long id, Sector entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Sector sector = sectorJpaController.findSector(id);</b>
+<b class="nc">&nbsp;        sector.setName(entity.getName());</b>
+<b class="nc">&nbsp;        sectorJpaController.edit(entity);</b>
+<b class="nc">&nbsp;        return sectorJpaController.findSector(entity.getId());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Sector sector = sectorJpaController.findSector(id);</b>
+<b class="nc">&nbsp;        sector.setEnabled(false);</b>
+<b class="nc">&nbsp;        sectorJpaController.edit(sector);</b>
+<b class="nc">&nbsp;        return sectorJpaController.findSector(id);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        sectorJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return sectorJpaController.findSector(id);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Sector sector = sectorJpaController.findSector(id);</b>
+<b class="nc">&nbsp;        sector.setEnabled(true);</b>
+<b class="nc">&nbsp;        sectorJpaController.edit(sector);</b>
+<b class="nc">&nbsp;        return sectorJpaController.findSector(id);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public Sector findById(Long id) {
+<b class="nc">&nbsp;        return sectorJpaController.findSector(id);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public List&lt;Sector&gt; findAll() {
+<b class="nc">&nbsp;        return sectorJpaController.findSectorEntities().stream()</b>
+<b class="nc">&nbsp;        .filter(sector -&gt; sector.getEnabled()).collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //TODO: Porqué se crea una lista de sectores si luego trae al primero que coincida y no una lista?
+&nbsp;    public Sector findSectorByName(String sectorName, Warehouse entity) {
+<b class="nc">&nbsp;        List&lt;Sector&gt; sectors = findSectorByWarehouse(entity);</b>
+<b class="nc">&nbsp;        return sectors</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .filter(sector -&gt; sector.getName().equals(sectorName))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElseThrow(() -&gt; new EntityNotFoundException(&quot;Sector not found&quot;));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public List&lt;Sector&gt; findSectorByWarehouse(Warehouse warehouse) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return sectorJpaController.findSectorEntities()</b>
+<b class="nc">&nbsp;                    .stream()</b>
+<b class="nc">&nbsp;                    .filter(sector -&gt; sector.getWarehouse().getId()</b>
+<b class="nc">&nbsp;                    .equals(warehouse.getId()))</b>
+<b class="nc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding sector´s by warehouse.&quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find sector´s by warehouse&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Sector findByCode(String string) {
+<b class="nc">&nbsp;        return sectorJpaController.findSectorEntities()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .filter(sector -&gt; sector.getCode().equals(string))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Order changeSector(Order order, Sector sector) throws Exception {
+<b class="nc">&nbsp;        order.setSector(sector);</b>
+<b class="nc">&nbsp;        orderJpaController.edit(order);</b>
+<b class="nc">&nbsp;        return orderJpaController.findOrder(order.getId());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

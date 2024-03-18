@@ -20,7 +20,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     public Employee create(Employee entity) {
         try {
             employeeJpaController.create(entity);
-            return employeeJpaController.findEmployee(entity.getId());
+            return entity;
         } catch (Exception e) {
             System.err.println("Error when creating the employee" + e.getMessage());
             throw new RuntimeException("Failed to create employee", e);
@@ -87,18 +87,20 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
   
   public List<Employee> searchByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
-                .filter(employee -> employee.getWarehouse().getAddress().equalsIgnoreCase(warehouseToSearch))
+                .filter(employee -> employee.getWarehouse().getCode().equalsIgnoreCase(warehouseToSearch))
                 .collect(Collectors.toList());
     }
 
     //Verificar
-    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) {
+    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) throws Exception {
         Employee employeeToRelocate = findByCuit(employeeCuitToRelocate);
         if (employeeToRelocate != null && employeeToRelocate.getEnable()) {
             employeeToRelocate.setWarehouse(warehouseToRelocate);
+            employeeJpaController.edit(employeeToRelocate);
             return employeeToRelocate;
         }
         return null;
     }
-  
+
+
 }
