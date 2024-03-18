@@ -6,7 +6,6 @@ import java.util.List;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Client;
-import java.util.stream.Collectors;
 
 public class ClientServiceImpl implements ICRUD<Client> {
 
@@ -14,6 +13,10 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     public ClientServiceImpl() {
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
+    }
+
+    public ClientServiceImpl(ClientJpaController jpa) {
+        this.clientJpaController = jpa;
     }
 
     @Override

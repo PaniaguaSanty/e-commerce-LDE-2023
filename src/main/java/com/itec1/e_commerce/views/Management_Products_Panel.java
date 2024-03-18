@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumnModel;
 
-public final class Management_Products_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Products_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ProductPanelController controller;
     private final FieldDataValidator validator;

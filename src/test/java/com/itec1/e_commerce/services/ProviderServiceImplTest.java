@@ -8,6 +8,7 @@ import com.itec1.e_commerce.entities.Provider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -24,18 +25,18 @@ class ProviderServiceImplTest {
     @Mock
     private ProviderJpaController providerJpa;
 
+    private ProviderServiceImpl providerService;
     private Provider provider;
-
     private List<Provider> providerMockDB;
 
-    private ProviderServiceImpl providerService;
+
 
     @BeforeEach
     void setUp() {
+        this.providerService = new ProviderServiceImpl(providerJpa);
         this.provider = new Provider("name", "lastname", "address", "123", "email", "phone");
         this.providerMockDB = new ArrayList<>();
         this.providerMockDB.add(provider);
-        this.providerService = new ProviderServiceImpl();
     }
 
     @Test
@@ -54,7 +55,7 @@ class ProviderServiceImplTest {
     @Test
     void testDelete() throws Exception {
         when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
-        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
+        assertNotEquals(provider.isEnable(), providerService.disable(provider.getId()).isEnable());
     }
 
     @Test
@@ -81,13 +82,13 @@ class ProviderServiceImplTest {
     void testEnable() throws Exception {
         provider.setEnable(false);
         when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
-        assertNotEquals(provider.getEnable(), providerService.enable(provider.getId()).getEnable());
+        assertNotEquals(provider.isEnable(), providerService.enable(provider.getId()).isEnable());
     }
 
     @Test
     void testDisable() throws Exception {
         when(providerJpa.findProvider(any())).thenReturn(providerMockDB.get(0));
-        assertNotEquals(provider.getEnable(), providerService.disable(provider.getId()).getEnable());
+        assertNotEquals(provider.isEnable(), providerService.disable(provider.getId()).isEnable());
     }
 }
 

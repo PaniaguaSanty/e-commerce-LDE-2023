@@ -24,6 +24,10 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         this.providerJpaController = new ProviderJpaController(Connection.getEmf());
     }
 
+    public ProviderServiceImpl(ProviderJpaController jpa) {
+        this.providerJpaController = jpa;
+    }
+
     @Override
     public Provider create(Provider entity) {
         try {
@@ -36,7 +40,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     @Override
-    public Provider update(Long id, Provider entity) throws NonexistentEntityException, Exception {
+    public Provider update(Long id, Provider entity) throws Exception {
         Provider provider = providerJpaController.findProvider(id);
         provider.setCuit(entity.getCuit());
         provider.setName(entity.getName());
@@ -56,12 +60,12 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     @Override
     public List<Provider> findAll() {
         return providerJpaController.findProviderEntities().stream()
-                .filter(provider -> provider.isEnable())
+                .filter(Provider::isEnable)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Provider disable(Long id) throws NonexistentEntityException, Exception {
+    public Provider disable(Long id) throws Exception {
         Provider provider = providerJpaController.findProvider(id);
         provider.setEnable(false);
         providerJpaController.edit(provider);
@@ -75,7 +79,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     @Override
-    public Provider enable(Long id) throws NonexistentEntityException, Exception {
+    public Provider enable(Long id) throws Exception {
         Provider provider = providerJpaController.findProvider(id);
         provider.setEnable(true);
         providerJpaController.edit(provider);
