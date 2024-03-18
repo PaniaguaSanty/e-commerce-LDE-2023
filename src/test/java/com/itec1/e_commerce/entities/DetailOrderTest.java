@@ -84,3 +84,4 @@ class DetailOrderTest {
         assertEquals(expected, detailOrder.toString());
     }
 }
+

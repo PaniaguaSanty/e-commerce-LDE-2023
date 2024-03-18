@@ -79,4 +79,6 @@ class ClientServiceImplTest {
         when(clientJpa.findClient(any())).thenReturn(clientMockDB.get(0));
         assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
     }
+
+
 }

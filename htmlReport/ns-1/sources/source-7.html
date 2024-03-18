@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProductServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+&nbsp; */
+&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.config.Connection;
+&nbsp;import com.itec1.e_commerce.dao.ProductJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.Product;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public class ProductServiceImpl implements ICRUD&lt;Product&gt; {
+&nbsp;
+&nbsp;    private final ProductJpaController productJpaController;
+&nbsp;
+<b class="nc">&nbsp;    public ProductServiceImpl() {</b>
+<b class="nc">&nbsp;        this.productJpaController = new ProductJpaController(Connection.getEmf());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product create(Product entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            productJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return productJpaController.findProduct(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating a new product: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create a product&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product update(Long id, Product entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Product product = productJpaController.findProduct(id);</b>
+<b class="nc">&nbsp;        product.setName(entity.getName());</b>
+<b class="nc">&nbsp;        product.setDescription(entity.getDescription());</b>
+<b class="nc">&nbsp;        product.setWeight(entity.getWeight());</b>
+<b class="nc">&nbsp;        product.setHigh(entity.getHigh());</b>
+<b class="nc">&nbsp;        product.setWidth(entity.getWidth());</b>
+<b class="nc">&nbsp;        product.setDepth(entity.getDepth());</b>
+<b class="nc">&nbsp;        product.setProductCategory(entity.getProductCategory());</b>
+<b class="nc">&nbsp;        product.setProvider(entity.getProvider());</b>
+<b class="nc">&nbsp;        productJpaController.edit(product);</b>
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product findById(Long id) {
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Product&gt; findAll() {
+<b class="nc">&nbsp;        return productJpaController.findProductEntities();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Product product = productJpaController.findProduct(id);</b>
+<b class="nc">&nbsp;        product.setEnable(false);</b>
+<b class="nc">&nbsp;        productJpaController.edit(product);</b>
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        productJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Product product = productJpaController.findProduct(id);</b>
+<b class="nc">&nbsp;        product.setEnable(true);</b>
+<b class="nc">&nbsp;        productJpaController.edit(product);</b>
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; findProductsByName(String name) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return productJpaController.findProductEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(product -&gt; product.getName().contains(name))</b>
+<b class="nc">&nbsp;                    .toList();</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding a product named}: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find products by name.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; findProductsByCategory(String category) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return productJpaController.findProductEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(product -&gt; product.getProductCategory().getName().contains(category))</b>
+<b class="nc">&nbsp;                    .toList();</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding products by category: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find products by category.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; findProductsByProvider(String cuit) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return productJpaController.findProductEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(product -&gt; product.getProvider().getCuit().equals(cuit))</b>
+<b class="nc">&nbsp;                    .toList();</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding products by provider´s nonexistent cuit: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find products  by  provider´s cuit: &quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product updateProductCategory(Long id, Product entity) throws Exception {
+<b class="nc">&nbsp;        Product product = productJpaController.findProduct(id);</b>
+<b class="nc">&nbsp;        product.setProductCategory(entity.getProductCategory());</b>
+<b class="nc">&nbsp;        productJpaController.edit(product);</b>
+<b class="nc">&nbsp;        return productJpaController.findProduct(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product findByName(String name) {
+<b class="nc">&nbsp;        return productJpaController.findProductEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(product -&gt; product.getName().equals(name))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

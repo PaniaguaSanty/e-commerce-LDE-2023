@@ -91,3 +91,4 @@ class ProviderServiceImplTest {
         assertNotEquals(provider.isEnable(), providerService.disable(provider.getId()).isEnable());
     }
 }
+

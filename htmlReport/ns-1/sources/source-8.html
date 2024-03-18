@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProviderServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ProviderServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProviderServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+&nbsp; */
+&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.config.Connection;
+&nbsp;import com.itec1.e_commerce.dao.ProviderJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.Provider;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import javax.swing.JComboBox;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author melina
+&nbsp; */
+&nbsp;public class ProviderServiceImpl implements ICRUD&lt;Provider&gt; {
+&nbsp;
+&nbsp;    private final ProviderJpaController providerJpaController;
+&nbsp;
+<b class="nc">&nbsp;    public ProviderServiceImpl() {</b>
+<b class="nc">&nbsp;        this.providerJpaController = new ProviderJpaController(Connection.getEmf());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider create(Provider entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            providerJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return providerJpaController.findProvider(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating a provider: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create a provider&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider update(Long id, Provider entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Provider provider = providerJpaController.findProvider(id);</b>
+<b class="nc">&nbsp;        provider.setCuit(entity.getCuit());</b>
+<b class="nc">&nbsp;        provider.setName(entity.getName());</b>
+<b class="nc">&nbsp;        provider.setLastname(entity.getLastname());</b>
+<b class="nc">&nbsp;        provider.setAddress(entity.getAddress());</b>
+<b class="nc">&nbsp;        provider.setEmail(entity.getEmail());</b>
+<b class="nc">&nbsp;        provider.setPhone(entity.getPhone());</b>
+<b class="nc">&nbsp;        providerJpaController.edit(provider);</b>
+<b class="nc">&nbsp;        return providerJpaController.findProvider(entity.getId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider findById(Long id) {
+<b class="nc">&nbsp;        return providerJpaController.findProvider(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Provider&gt; findAll() {
+<b class="nc">&nbsp;        return providerJpaController.findProviderEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(provider -&gt; provider.isEnable())</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Provider provider = providerJpaController.findProvider(id);</b>
+<b class="nc">&nbsp;        provider.setEnable(false);</b>
+<b class="nc">&nbsp;        providerJpaController.edit(provider);</b>
+<b class="nc">&nbsp;        return providerJpaController.findProvider(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        providerJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return providerJpaController.findProvider(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Provider enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Provider provider = providerJpaController.findProvider(id);</b>
+<b class="nc">&nbsp;        provider.setEnable(true);</b>
+<b class="nc">&nbsp;        providerJpaController.edit(provider);</b>
+<b class="nc">&nbsp;        return providerJpaController.findProvider(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Provider findByCuit(String cuit) {
+<b class="nc">&nbsp;            return providerJpaController.findProviderEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(client -&gt; client.getCuit().equals(cuit))</b>
+<b class="nc">&nbsp;                    .findFirst()</b>
+<b class="nc">&nbsp;                    .orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Provider findByName(String name) {
+<b class="nc">&nbsp;        return providerJpaController.findProviderEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(product -&gt; product.getName().equals(name))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public void getProviderCMB(JComboBox comboBox_provider) {
+<b class="nc">&nbsp;        providerJpaController.getProviderCMB(comboBox_provider);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>
