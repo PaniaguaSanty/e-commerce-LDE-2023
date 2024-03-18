@@ -22,17 +22,12 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     @Override
     public Employee create(Employee entity) {
-        try {
-            employeeJpaController.create(entity);
-            return entity;
-        } catch (Exception e) {
-            System.err.println("Error when creating the employee" + e.getMessage());
-            throw new RuntimeException("Failed to create employee", e);
-        }
+        employeeJpaController.create(entity);
+        return entity;
     }
 
     @Override
-    public Employee update(Long id, Employee entity) throws NonexistentEntityException, Exception {
+    public Employee update(Long id, Employee entity) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setName(entity.getName());
         employee.setLastname(entity.getLastname());
@@ -56,7 +51,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     @Override
-    public Employee disable(Long id) throws NonexistentEntityException, Exception {
+    public Employee disable(Long id) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(false);
         employeeJpaController.edit(employee);
@@ -70,7 +65,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     @Override
-    public Employee enable(Long id) throws NonexistentEntityException, Exception {
+    public Employee enable(Long id) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(true);
         employeeJpaController.edit(employee);
@@ -78,21 +73,16 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     public Employee findByCuit(String cuit) {
-        try {
-            return employeeJpaController.findEmployeeEntities().stream()
+        return employeeJpaController.findEmployeeEntities().stream()
                     .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
                     .orElse(null);
-        } catch (Exception e) {
-            System.err.println("Error while searching Employee by cuit.");
-            throw new RuntimeException("Error while searching, please try again.", e);
-        }
     }
   
   public List<Employee> searchByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
-                .filter(employee -> employee.getWarehouse().getCode().equalsIgnoreCase(warehouseToSearch))
-                .collect(Collectors.toList());
+                .filter(employee -> employee.getWarehouse().getCode().
+                        equals(warehouseToSearch)).toList();
     }
 
     //Verificar

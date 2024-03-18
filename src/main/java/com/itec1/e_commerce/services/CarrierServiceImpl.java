@@ -4,9 +4,8 @@ import com.itec1.e_commerce.config.Connection;
 import java.util.List;
 
 import com.itec1.e_commerce.dao.CarrierJpaController;
-import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
-import java.util.stream.Collectors;
+
 public class CarrierServiceImpl implements ICRUD<Carrier> {
 
     private final CarrierJpaController carrierJpaController;
@@ -17,17 +16,12 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
 
     @Override
     public Carrier create(Carrier entity) {
-        try {
-            carrierJpaController.create(entity);
-            return carrierJpaController.findCarrier(entity.getId());
-        } catch (Exception e) {
-            System.err.println("Error when creating the carrier: " + e.getMessage());
-            throw new RuntimeException("Failed to create carrier.", e);
-        }
+        carrierJpaController.create(entity);
+        return carrierJpaController.findCarrier(entity.getId());
     }
 
     @Override
-    public Carrier update(Long id, Carrier entity) throws NonexistentEntityException, Exception {
+    public Carrier update(Long id, Carrier entity) throws Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
         carrier.setName(entity.getName());
         carrier.setCuit(entity.getCuit());
@@ -36,7 +30,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
         carrier.setMaritime(entity.getMaritime());
         carrier.setAerial(entity.getAerial());
         carrierJpaController.edit(carrier);
-        return carrierJpaController.findCarrier(entity.getId());
+        return carrierJpaController.findCarrier(id);
     }
 
     @Override
@@ -50,7 +44,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     @Override
-    public Carrier disable(Long id) throws NonexistentEntityException, Exception {
+    public Carrier disable(Long id) throws Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
         carrier.setEnable(false);
         carrierJpaController.edit(carrier);
@@ -58,13 +52,13 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     @Override
-    public Carrier delete(Long id) throws NonexistentEntityException {
+    public Carrier delete(Long id) throws Exception {
         carrierJpaController.destroy(id);
         return carrierJpaController.findCarrier(id);
     }
 
     @Override
-    public Carrier enable(Long id) throws NonexistentEntityException, Exception {
+    public Carrier enable(Long id) throws Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
         carrier.setEnable(true);
         carrierJpaController.edit(carrier);
@@ -72,46 +66,32 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     public Carrier findByCuit(String cuit) {
-        try {
         return carrierJpaController.findCarrierEntities().stream()
                 .filter(carrier -> carrier.getCuit().equals(cuit))
                 .findFirst()
                 .orElse(null);
-        } catch (Exception e) {
-            System.err.println("Error while trying to find a carrier by cuit.");
-            throw new RuntimeException("Error while searching, please try again.", e);
-        }
     }
 
     public List<Carrier> findByTypeOfTransport(String transportType) {
-        try {
-            return carrierJpaController.findCarrierEntities().stream()
-                    .filter(carrier -> {
-                        if (transportType.equalsIgnoreCase("aerial")) {
-                            return carrier.getAerial() == true;
-                        } else if (transportType.equalsIgnoreCase("ground")) {
-                            return carrier.getGround() == true;
-                        } else if (transportType.equalsIgnoreCase("maritime")) {
-                            return carrier.getMaritime() == true;
-                        }
-                        return false;
-                    })
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while searching for carriers by type of transport: " + e.getMessage());
-            throw new RuntimeException("Error while searching for carriers by type of transport. Please try again later.", e);
-        }
+        return carrierJpaController.findCarrierEntities().stream()
+                .filter(carrier -> switch (transportType) {
+                    case "aerial" -> carrier.getAerial();
+                    case "ground" -> carrier.getGround();
+                    case "maritime" -> carrier.getMaritime();
+                    default -> false;
+                })
+                .toList();
     }
     
     
     public String verifyEnabledTransports(Carrier carrier) {
-        String result = (carrier.getGround()
+        return (carrier.getGround()
                 ? (carrier.getMaritime()
                 ? (carrier.getAerial()
-                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
-                : (carrier.getAerial()
-                ? (carrier.getMaritime()
-                ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
-        return result;
+                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : (carrier.getAerial()
+                ? "Terrestre y Aéreo" : "Terrestre")) : (carrier.getMaritime()
+                ? (carrier.getAerial()
+                ? "Marítimo y Aéreo" : "Marítimo") : "Aéreo"));
     }
+
 }
