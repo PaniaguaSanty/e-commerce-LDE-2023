@@ -9,7 +9,6 @@ import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ICRUD<Product> {
 
@@ -17,6 +16,10 @@ public class ProductServiceImpl implements ICRUD<Product> {
 
     public ProductServiceImpl() {
         this.productJpaController = new ProductJpaController(Connection.getEmf());
+    }
+
+    public ProductServiceImpl(ProductJpaController productJpaController) {
+        this.productJpaController = productJpaController;
     }
 
     @Override
