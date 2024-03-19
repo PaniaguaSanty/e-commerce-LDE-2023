@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.ProductCategory;
@@ -13,10 +9,6 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author turraca
- */
 public class ProductCategoryPanelController implements IController<ProductCategory> {
 
     private final ProductCategoryServiceImpl service;

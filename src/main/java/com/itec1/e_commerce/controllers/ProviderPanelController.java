@@ -18,13 +18,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ProviderPanelController implements IController<Provider> {
 
-    private final ProviderServiceImpl providerService;
-    private final Management_Providers_Panel providerPanel;
+    private final ProviderServiceImpl service;
+    private final Management_Providers_Panel panel;
     String crudOption = "";
 
     public ProviderPanelController(Management_Providers_Panel providerPanel) {
-        this.providerService = new ProviderServiceImpl();
-        this.providerPanel = providerPanel;
+        this.service = new ProviderServiceImpl();
+        this.panel = providerPanel;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ProviderPanelController implements IController<Provider> {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Nombre", "Apellido", "C.U.I.T.", "Direción", "Correo", "Teléfono"};
         model.setColumnIdentifiers(titles);
-        List<Provider> providers = providerService.findAll();
+        List<Provider> providers = service.findAll();
         List<Provider> result = new ArrayList<>();
         for (Provider pr : providers) {
             if (pr.getCuit().startsWith(cuit)) {
@@ -42,7 +42,7 @@ public class ProviderPanelController implements IController<Provider> {
                 result.add(pr);
             }
         }
-        this.providerPanel.getTable().setModel(model);
+        this.panel.getTable().setModel(model);
         return result;
     }
 
@@ -51,7 +51,7 @@ public class ProviderPanelController implements IController<Provider> {
         if (findByCuit(entity.getCuit()) != null) {
             return "ERROR. Este CUIT ya pertenece a un provedor.";
         } else {
-            providerService.create(entity);
+            service.create(entity);
         }
         return "Provedor creado correctamente.";
     }
@@ -59,7 +59,7 @@ public class ProviderPanelController implements IController<Provider> {
     @Override
     public String update(Long id, Provider entity) {
         try {
-            providerService.update(id, entity);
+            service.update(id, entity);
         } catch (EntityNotFoundException e) {
             return "ERROR. este provedor no existe";
         } catch (Exception e) {
@@ -70,26 +70,26 @@ public class ProviderPanelController implements IController<Provider> {
 
     @Override
     public Provider findById(Long id) {
-        return providerService.findById(id);
+        return service.findById(id);
     }
 
     public Provider findByCuit(String cuit) throws EntityNotFoundException {
-        return providerService.findByCuit(cuit);
+        return service.findByCuit(cuit);
     }
 
     @Override
     public List<Provider> findAll() {
-        return providerService.findAll();
+        return service.findAll();
     }
 
     @Override
     public String disable(Long id) {
-        Provider provider = providerService.findById(id);
+        Provider provider = service.findById(id);
         if (!provider.isEnable()) {
             return "ERROR. Este provedor ya se encuentra eliminado.";
         } else {
             try {
-                providerService.disable(id);
+                service.disable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Este provedor no existe.";
             } catch (Exception e) {
@@ -101,12 +101,12 @@ public class ProviderPanelController implements IController<Provider> {
 
     @Override
     public String enable(Long id) {
-        Provider provider = providerService.findById(id);
+        Provider provider = service.findById(id);
         if (provider.isEnable()) {
             return "ERROR. Este provedor no se encuentra eliminado.";
         } else {
             try {
-                providerService.enable(id);
+                service.enable(id);
             } catch (EntityNotFoundException e) {
                 return "ERROR. Este provedor no existe.";
             } catch (Exception e) {

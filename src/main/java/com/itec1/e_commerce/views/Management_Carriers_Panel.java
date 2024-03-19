@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.CarrierPanelController;
@@ -15,32 +11,22 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-/**
- *
- * @author sjcex
- */
 public final class Management_Carriers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
 
     private final CarrierPanelController controller;
     private final FieldDataValidator validator;
     private List<Carrier> carriers;
 
-    /**
-     * Creates new form Management_Carriers_Panel
-     */
     public Management_Carriers_Panel() {
         initComponents();
-
         this.controller = new CarrierPanelController(this);
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
+        tableCarriers.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.carriers = controller.updateTable("");
-
         initListener();
-
         this.validator = new FieldDataValidator();
         initValidator();
-
         initPanel();
-
     }
 
     /**
@@ -79,6 +65,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jPanel.setBackground(new java.awt.Color(255, 255, 255));
         jPanel.setMaximumSize(new java.awt.Dimension(800, 600));
         jPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+        jPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel_datos.setBackground(new java.awt.Color(0, 51, 255));
 
@@ -161,19 +148,18 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                                     .addComponent(jcb_maritime)
                                     .addComponent(jcb_ground)
                                     .addComponent(jcb_aerial)))
-                            .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel_datosLayout.createSequentialGroup()
-                                    .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jbl_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jbl_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(68, 68, 68)
-                                    .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jtf_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jtf_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel_datosLayout.createSequentialGroup()
-                                    .addComponent(jbl_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(68, 68, 68)
-                                    .addComponent(jtf_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel_datosLayout.createSequentialGroup()
+                                .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbl_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbl_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(68, 68, 68)
+                                .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel_datosLayout.createSequentialGroup()
+                                .addComponent(jbl_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jtf_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel_datosLayout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jbn_restoreCarrier)
@@ -186,7 +172,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                                 .addComponent(jbn_updateCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(64, 64, 64)
                                 .addComponent(jbn_deleteCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(629, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_datosLayout.setVerticalGroup(
             jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,7 +254,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                         .addGap(18, 18, 18)
                         .addComponent(seeCarriers))
                     .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel_crudLayout.setVerticalGroup(
             jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,8 +277,11 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_crud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel_datos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel_crud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(380, 380, 380))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,16 +296,16 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1366, Short.MAX_VALUE)
+            .addGap(0, 812, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(452, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 714, Short.MAX_VALUE)
+            .addGap(0, 612, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -336,7 +325,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
-                Carrier newCarrier = controller.findByCuit(jtf_cuit.getText());
+                Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
                 newCarrier.setName(jtf_CarrierName.getText());
                 newCarrier.setPhone(jtf_CarrierPhone.getText());
                 jlbl_info.setText(controller.update(newCarrier.getId(), newCarrier));
@@ -346,7 +335,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     }//GEN-LAST:event_jbn_updateCarrierActionPerformed
 
     private void jbn_deleteCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteCarrierActionPerformed
-        Carrier newCarrier = controller.findByCuit(jtf_cuit.getText());
+        Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
         jlbl_info.setText(controller.disable(newCarrier.getId()));
         initPanel();
     }//GEN-LAST:event_jbn_deleteCarrierActionPerformed
@@ -377,10 +366,10 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     private void jbn_restoreCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreCarrierActionPerformed
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_saveCarrier, false);
-            changeConditionField(jtf_cuit, true);
+            changeConditionField(jtf_CarrierCuit, true);
             jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
         } else {
-            Carrier newCarrier = controller.findByCuit(jtf_cuit.getText());
+            Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
             jlbl_info.setText(controller.enable(newCarrier.getId()));
         }
         initPanel();
@@ -388,92 +377,36 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     }//GEN-LAST:event_jbn_restoreCarrierActionPerformed
 
     private void seeCarriersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeCarriersActionPerformed
-        initPanel();
+        // TODO add your handling code here:
     }//GEN-LAST:event_seeCarriersActionPerformed
 
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        carriers = controller.updateTable(jtf_cuitFilter.getText());
+        // TODO add your handling code here:
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel_crud;
     private javax.swing.JPanel jPanel_datos;
-    private javax.swing.JPanel jPanel_datos1;
-    private javax.swing.JPanel jPanel_datos2;
-    private javax.swing.JPanel jPanel_datos3;
-    private javax.swing.JPanel jPanel_datos4;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JLabel jbl_CarrierCuit;
     private javax.swing.JLabel jbl_CarrierName;
     private javax.swing.JLabel jbl_CarrierPhone;
     private javax.swing.JLabel jbl_CarrierTransport;
-    private javax.swing.JLabel jbl_cuit;
-    private javax.swing.JLabel jbl_cuit1;
-    private javax.swing.JLabel jbl_cuit2;
-    private javax.swing.JLabel jbl_cuit3;
     private javax.swing.JLabel jbl_filter;
-    private javax.swing.JLabel jbl_lastname;
-    private javax.swing.JLabel jbl_lastname1;
-    private javax.swing.JLabel jbl_lastname2;
-    private javax.swing.JLabel jbl_lastname3;
-    private javax.swing.JLabel jbl_name;
-    private javax.swing.JLabel jbl_name1;
-    private javax.swing.JLabel jbl_name2;
-    private javax.swing.JLabel jbl_name3;
     private javax.swing.JButton jbn_deleteCarrier;
     private javax.swing.JButton jbn_restoreCarrier;
     private javax.swing.JButton jbn_saveCarrier;
-    private javax.swing.JButton jbn_update;
-    private javax.swing.JButton jbn_update1;
-    private javax.swing.JButton jbn_update2;
-    private javax.swing.JButton jbn_update3;
     private javax.swing.JButton jbn_updateCarrier;
     private javax.swing.JCheckBox jcb_aerial;
     private javax.swing.JCheckBox jcb_ground;
     private javax.swing.JCheckBox jcb_maritime;
-    private javax.swing.JLabel jlbl_alertaApellido1;
-    private javax.swing.JLabel jlbl_alertaApellido2;
-    private javax.swing.JLabel jlbl_alertaApellido3;
-    private javax.swing.JLabel jlbl_alertaApellido4;
-    private javax.swing.JLabel jlbl_alertaDNI1;
-    private javax.swing.JLabel jlbl_alertaDNI2;
-    private javax.swing.JLabel jlbl_alertaDNI3;
-    private javax.swing.JLabel jlbl_alertaDNI4;
-    private javax.swing.JLabel jlbl_alertaNombre1;
-    private javax.swing.JLabel jlbl_alertaNombre2;
-    private javax.swing.JLabel jlbl_alertaNombre3;
-    private javax.swing.JLabel jlbl_alertaNombre4;
-    private javax.swing.JLabel jlbl_alertaTipoPersona1;
-    private javax.swing.JLabel jlbl_alertaTipoPersona2;
-    private javax.swing.JLabel jlbl_alertaTipoPersona3;
-    private javax.swing.JLabel jlbl_alertaTipoPersona4;
     private javax.swing.JLabel jlbl_info;
-    private javax.swing.JLabel jlbl_mensaje1;
-    private javax.swing.JLabel jlbl_mensaje2;
-    private javax.swing.JLabel jlbl_mensaje3;
-    private javax.swing.JLabel jlbl_mensaje4;
     private javax.swing.JTextField jtf_CarrierCuit;
     private javax.swing.JTextField jtf_CarrierName;
     private javax.swing.JTextField jtf_CarrierPhone;
-    private javax.swing.JTextField jtf_cuit;
-    private javax.swing.JTextField jtf_cuit1;
-    private javax.swing.JTextField jtf_cuit2;
-    private javax.swing.JTextField jtf_cuit3;
     private javax.swing.JTextField jtf_cuitFilter;
-    private javax.swing.JTextField jtf_lastname;
-    private javax.swing.JTextField jtf_lastname1;
-    private javax.swing.JTextField jtf_lastname2;
-    private javax.swing.JTextField jtf_lastname3;
-    private javax.swing.JTextField jtf_name;
-    private javax.swing.JTextField jtf_name1;
-    private javax.swing.JTextField jtf_name2;
-    private javax.swing.JTextField jtf_name3;
     private javax.swing.JButton seeCarriers;
     private javax.swing.JTable tableCarriers;
     // End of variables declaration//GEN-END:variables
@@ -489,6 +422,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         validator.onlyNumbers(jtf_CarrierCuit);
         validator.onlyNumbers(jtf_CarrierPhone);
         validator.onlyLetters(jtf_CarrierName);
+        validator.onlyNumbers(jtf_cuitFilter);
     }
 
     @Override
@@ -592,7 +526,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public String getStringFilter() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return jtf_cuitFilter.getText();
     }
 
 }

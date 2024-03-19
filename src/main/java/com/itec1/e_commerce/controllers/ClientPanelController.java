@@ -9,19 +9,15 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author turraca
- */
 public class ClientPanelController implements IController<Client> {
 
     private final ClientServiceImpl service;
     private final Management_Clients_Panel panel;
     private String crudOption = "";
 
-    public ClientPanelController(Management_Clients_Panel clientPanel) {
+    public ClientPanelController(Management_Clients_Panel panel) {
         this.service = new ClientServiceImpl();
-        this.panel = clientPanel;
+        this.panel = panel;
     }
 
     @Override
