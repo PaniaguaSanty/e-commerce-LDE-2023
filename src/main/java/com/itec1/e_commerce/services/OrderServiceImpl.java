@@ -51,6 +51,7 @@ public class OrderServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
+
     public OrderServiceImpl(OrderJpaController orderJpaController) {
         this.orderJpaController = orderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
@@ -62,14 +63,9 @@ public class OrderServiceImpl {
 
     }
 
-    public Order createOrder(Order entity) {
-        try {
-            orderJpaController.create(entity);
-            return orderJpaController.findOrder(entity.getId());
-        } catch (Exception e) {
-            System.err.println("Error while creating the order: " + e.getMessage());
-            throw new RuntimeException("Failed to create order.", e);
-        }
+    public Order createOrder(Order entity) throws Exception {
+        orderJpaController.create(entity);
+        return orderJpaController.findOrder(entity.getId());
     }
 
     public Order findById(Long id) {

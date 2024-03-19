@@ -19,7 +19,13 @@ import com.itec1.e_commerce.services.InvoiceServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
+
+
+import com.itec1.e_commerce.services.ProviderServiceImpl;
+import com.itec1.e_commerce.services.SectorServiceImpl;
 import com.itec1.e_commerce.services.WarehouseServiceImpl;
+import com.itec1.e_commerce.views.InterfacePanel;
+import com.itec1.e_commerce.views.Order_NewOrder_FirstPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +37,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OrderPanelController {
 
-    private final Order_NewOrder_Panel panel;
+    private static Order order = new Order();
+    private static List<DetailOrder> details;
+    private final InterfacePanel panel;
     private final OrderServiceImpl orderService;
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
@@ -39,8 +47,9 @@ public class OrderPanelController {
     private final InvoiceServiceImpl invoiceService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategory;
+    private final SectorServiceImpl sectorService;
 
-    public OrderPanelController(Order_NewOrder_Panel panel) {
+    public OrderPanelController(InterfacePanel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
         this.clientService = new ClientServiceImpl();
@@ -49,14 +58,20 @@ public class OrderPanelController {
         this.invoiceService = new InvoiceServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategory = new ProductCategoryServiceImpl();
+        this.sectorService = new SectorServiceImpl();
     }
 
     //Orders
-    public String createOrder(Order entity) {
-        if (orderService.findById(entity.getId()) != null) {
+    public String createOrder() {
+        if (orderService.findById(order.getId()) != null) {
             return "No se pudo generar el pedido, por favor, inténtelo nuevamente.";
         } else {
-            orderService.createOrder(entity);
+            try {
+                orderService.createOrder(order);
+                this.addDetail(order, details);
+            } catch (Exception e) {
+                return "ERROR: " + e.getMessage();
+            }
         }
         return "Pedido creado correctamente.";
     }
@@ -79,6 +94,19 @@ public class OrderPanelController {
 
     public List<Order> findOrderBySector(Sector ordersBySector) {
         return orderService.findBySector(ordersBySector);
+    }
+
+    public void setClient(Client client) {
+        order.setClient(client);
+    }
+
+    public void setWarehouseOrigin(Warehouse warehouseOrigin) {
+        order.setWarehouseOrigin(warehouseOrigin);          //cambiar
+        order.setSector(sectorService.findSectorByName("recibidos", warehouseOrigin));
+    }
+
+    public void setWarehouseDestiny(Warehouse warehouseDestiny) {
+        order.setWarehouseOrigin(warehouseDestiny);
     }
 
     //TrackingOrder
@@ -134,13 +162,8 @@ public class OrderPanelController {
     }
 
     //Client.
-    public String findByCuit(String cuit) {
-        try {
-            clientService.findByCuit(cuit);
-            return "Cliente encontrado con éxito";
-        } catch (Exception e) {
-            return "Ingrese un cuit existente.";
-        }
+    public Client findByCuit(String cuit) {
+        return clientService.findByCuit(cuit);
     }
 
     //Product.
@@ -167,7 +190,6 @@ public class OrderPanelController {
                 result.add(prod);
             }
         }
-        this.panel.getProductTable().setModel(model);
         return result;
     }
 
@@ -185,7 +207,6 @@ public class OrderPanelController {
                 result.add(wh);
             }
         }
-        this.panel.getWarehouseTable().setModel(model);
         return result;
     }
 
@@ -225,7 +246,6 @@ public class OrderPanelController {
                 result.add(carrier);
             }
         }
-        this.panel.getTable().setModel(model);
         return result;
     }
 }
