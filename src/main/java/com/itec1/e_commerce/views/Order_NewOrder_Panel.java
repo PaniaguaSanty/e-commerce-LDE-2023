@@ -137,6 +137,11 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         });
 
         Jbtn_findClientByCuit.setText("ACEPTAR");
+        Jbtn_findClientByCuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Jbtn_findClientByCuitActionPerformed(evt);
+            }
+        });
 
         jbl_filter8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbl_filter8.setForeground(new java.awt.Color(255, 255, 255));
@@ -222,7 +227,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                                        .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtf_clientCuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(20, 20, 20)
@@ -255,7 +260,7 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
                                             .addComponent(categoryFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jbl_filter14)
-                                .addGap(0, 183, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(59, 59, 59))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,6 +405,10 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_warehouseDestinyActionPerformed
 
+    private void Jbtn_findClientByCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Jbtn_findClientByCuitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Jbtn_findClientByCuitActionPerformed
+
     @Override
     public javax.swing.JTable getTable() {
         return this.tableChooseCarrier;
@@ -435,11 +444,6 @@ public final class Order_NewOrder_Panel extends javax.swing.JPanel implements In
         changeConditionAllButtons(false);
         changeConditionAllFields(true);
         changeConditionButton(Jbtn_findClientByCuit, true);
-        changeConditionButton(jbtn_addDetailOrder, true);
-        changeConditionButton(jbtn_warehouseOrigin, true);
-        changeConditionButton(jbtn_warehouseDestiny, true);
-        changeConditionButton(jbtn_ConfirmCarrier, true);
-        changeConditionButton(jbtn_createNewOrder, false);
 
         cleanAllFields();
     }
