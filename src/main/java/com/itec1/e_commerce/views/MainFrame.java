@@ -20,7 +20,8 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
 
-    private Order_NewOrder_Panel newOrderPanel;
+    private Order_NewOrder_FirstPanel newOrderFirstPanel;
+    private Order_NewOrder_SecondPanel newOrderSecondPanel;
     private Order_ViewOrderSector_Panel wiewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
@@ -74,7 +75,8 @@ public class MainFrame extends javax.swing.JFrame {
         employeesPanel = new Management_Employees_Panel();
         warehouseHouse = new Management_Warehouses_Panel();
 
-        newOrderPanel = new Order_NewOrder_Panel();
+        newOrderFirstPanel = new Order_NewOrder_FirstPanel(this);
+        newOrderSecondPanel = new Order_NewOrder_SecondPanel(this);
         wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 
@@ -89,6 +91,20 @@ public class MainFrame extends javax.swing.JFrame {
         providersByDatePanel = new Reports_Providers_ByDate_Panel();
         reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
 
+    }
+
+    public void changeOrderPanel() {
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        if (newOrderFirstPanel.equals(activePanel)) {
+            contentPanel.add(newOrderSecondPanel, BorderLayout.CENTER);
+            activePanel = newOrderSecondPanel;
+        } else {
+            contentPanel.add(newOrderFirstPanel, BorderLayout.CENTER);
+            activePanel = newOrderFirstPanel;
+        }
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     @SuppressWarnings("unchecked")
@@ -503,7 +519,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_order_ReportByStatusesActionPerformed
 
     private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_newOrderActionPerformed
-        changePanel(newOrderPanel);
+        changeOrderPanel();
     }// GEN-LAST:event_menu_newOrderActionPerformed
 
     private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
