@@ -48,12 +48,12 @@ public class CarrierPanelController implements IController<Carrier> {
     }
 
     private String verifyEnabledTransports(Carrier carrier) {
-        String result = (carrier.getGround()
-                ? (carrier.getMaritime()
-                ? (carrier.getAerial()
+        String result = (carrier.isGround()
+                ? (carrier.isMaritime()
+                ? (carrier.isAerial()
                 ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
-                : (carrier.getAerial()
-                ? (carrier.getMaritime()
+                : (carrier.isAerial()
+                ? (carrier.isMaritime()
                 ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
         return result;
     }
@@ -110,7 +110,7 @@ public class CarrierPanelController implements IController<Carrier> {
     @Override
     public String disable(Long id) {
         Carrier carrier = carrierService.findById(id);
-        if (!carrier.getEnable()) {
+        if (!carrier.isEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
@@ -127,7 +127,7 @@ public class CarrierPanelController implements IController<Carrier> {
     @Override
     public String enable(Long id) {
         Carrier carrier = carrierService.findById(id);
-        if (carrier.getEnable()) {
+        if (carrier.isEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {

@@ -32,10 +32,6 @@ class ProductServiceImplTest {
 
     private ProductServiceImpl productService;
 
-    private ProductCategoryServiceImpl categoryService;
-
-    private ProviderServiceImpl providerService;
-
     private Product product;
 
     private ProductCategory category;
@@ -44,25 +40,15 @@ class ProductServiceImplTest {
 
     private List<Product> productMockDB;
 
-    private List<ProductCategory> categoryMockDB;
-
-    private List<Provider> providerMockDB;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         productService = new ProductServiceImpl(productJpaController);
-        categoryService = new ProductCategoryServiceImpl(categoryJpaController);
-        providerService = new ProviderServiceImpl(providerJpaController);
         category = new ProductCategory("test", "test");
         provider = new Provider("test", "test", "test", "11222222223", "test@test.com", "1234567890");
         product = new Product("test", "test", 1.1F, 2.2F, 3.3F, 4.4F, category, provider);
         productMockDB = new ArrayList<>();
-        categoryMockDB = new ArrayList<>();
-        providerMockDB = new ArrayList<>();
         productMockDB.add(product);
-        categoryMockDB.add(category);
-        providerMockDB.add(provider);
     }
 
     @Test

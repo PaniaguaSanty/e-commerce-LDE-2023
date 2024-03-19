@@ -26,10 +26,10 @@ public class Carrier implements Serializable {
     private String name;
     private String cuit;
     private String phone;
-    private Boolean enable;
-    private Boolean ground;
-    private Boolean maritime;
-    private Boolean aerial;
+    private boolean enable;
+    private boolean ground;
+    private boolean maritime;
+    private boolean aerial;
 
     public Carrier() {
         this.enable = true;
@@ -77,35 +77,35 @@ public class Carrier implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
-    public Boolean getGround() {
+    public boolean isGround() {
         return ground;
     }
 
-    public void setGround(Boolean ground) {
+    public void setGround(boolean ground) {
         this.ground = ground;
     }
 
-    public Boolean getMaritime() {
+    public boolean isMaritime() {
         return maritime;
     }
 
-    public void setMaritime(Boolean maritime) {
+    public void setMaritime(boolean maritime) {
         this.maritime = maritime;
     }
 
-    public Boolean getAerial() {
+    public boolean isAerial() {
         return aerial;
     }
 
-    public void setAerial(Boolean aerial) {
+    public void setAerial(boolean aerial) {
         this.aerial = aerial;
     }
 

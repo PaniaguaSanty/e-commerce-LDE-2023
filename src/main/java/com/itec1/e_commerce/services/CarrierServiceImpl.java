@@ -1,18 +1,25 @@
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
+
 import java.util.List;
 
 import com.itec1.e_commerce.dao.CarrierJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
+
 import java.util.stream.Collectors;
+
 public class CarrierServiceImpl implements ICRUD<Carrier> {
 
     private final CarrierJpaController carrierJpaController;
 
     public CarrierServiceImpl() {
         this.carrierJpaController = new CarrierJpaController(Connection.getEmf());
+    }
+
+    public CarrierServiceImpl(CarrierJpaController carrierJpaController) {
+        this.carrierJpaController = carrierJpaController;
     }
 
     @Override
@@ -32,9 +39,9 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
         carrier.setName(entity.getName());
         carrier.setCuit(entity.getCuit());
         carrier.setPhone(entity.getPhone());
-        carrier.setGround(entity.getGround());
-        carrier.setMaritime(entity.getMaritime());
-        carrier.setAerial(entity.getAerial());
+        carrier.setGround(entity.isGround());
+        carrier.setMaritime(entity.isMaritime());
+        carrier.setAerial(entity.isAerial());
         carrierJpaController.edit(carrier);
         return carrierJpaController.findCarrier(entity.getId());
     }
@@ -73,10 +80,10 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
 
     public Carrier findByCuit(String cuit) {
         try {
-        return carrierJpaController.findCarrierEntities().stream()
-                .filter(carrier -> carrier.getCuit().equals(cuit))
-                .findFirst()
-                .orElse(null);
+            return carrierJpaController.findCarrierEntities().stream()
+                    .filter(carrier -> carrier.getCuit().equals(cuit))
+                    .findFirst()
+                    .orElse(null);
         } catch (Exception e) {
             System.err.println("Error while trying to find a carrier by cuit.");
             throw new RuntimeException("Error while searching, please try again.", e);
@@ -88,11 +95,11 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
             return carrierJpaController.findCarrierEntities().stream()
                     .filter(carrier -> {
                         if (transportType.equalsIgnoreCase("aerial")) {
-                            return carrier.getAerial() == true;
+                            return carrier.isAerial() == true;
                         } else if (transportType.equalsIgnoreCase("ground")) {
-                            return carrier.getGround() == true;
+                            return carrier.isGround() == true;
                         } else if (transportType.equalsIgnoreCase("maritime")) {
-                            return carrier.getMaritime() == true;
+                            return carrier.isMaritime() == true;
                         }
                         return false;
                     })
