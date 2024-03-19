@@ -136,13 +136,8 @@ public class OrderPanelController {
     }
 
     //Client.
-    public String findByCuit(String cuit) {
-        try {
-            clientService.findByCuit(cuit);
-            return "Cliente encontrado con éxito";
-        } catch (Exception e) {
-            return "Ingrese un cuit existente.";
-        }
+    public Client findByCuit(String cuit) {
+        return clientService.findByCuit(cuit);
     }
 
     //Product.
