@@ -20,12 +20,13 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
+
+import javax.persistence.EntityManagerFactory;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author melina
  */
 public class OrderServiceImpl {
@@ -48,6 +49,18 @@ public class OrderServiceImpl {
         this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
         this.orderJpaController = new OrderJpaController(Connection.getEmf());
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
+    }
+
+
+    public OrderServiceImpl(OrderJpaController orderJpaController) {
+        this.orderJpaController = orderJpaController;
+        this.clientJpaController = new ClientJpaController(Connection.getEmf());
+        this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
+        this.detailOrderJpaController = new DetailOrderJpaController(Connection.getEmf());
+        this.productJpaController = new ProductJpaController(Connection.getEmf());
+        this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
+        this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
+
     }
 
     public Order createOrder(Order entity) throws Exception {
@@ -78,7 +91,7 @@ public class OrderServiceImpl {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getSector().getWarehouse().getId()
-                    .equals(orderByWarehouse.getId()))
+                            .equals(orderByWarehouse.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by Warehouse: " + e.getMessage());
@@ -91,7 +104,7 @@ public class OrderServiceImpl {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getClient().getId()
-                    .equals(orderByClient.getId()))
+                            .equals(orderByClient.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by client." + e.getMessage());
@@ -103,7 +116,7 @@ public class OrderServiceImpl {
         try {
             return orderJpaController.findOrderEntities().stream()
                     .filter(order -> order.getSector().getId()
-                    .equals(orderBySector.getId()))
+                            .equals(orderBySector.getId()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error while finding orders by sector");
@@ -191,5 +204,11 @@ public class OrderServiceImpl {
         tracking.setLongitude(longitude);
         tracking.setState(state);
         createTrackingOrder(tracking);
+    }
+
+    public Order changeSector(Order order, Sector sector) throws Exception {
+        order.setSector(sector);
+        orderJpaController.edit(order);
+        return orderJpaController.findOrder(order.getId());
     }
 }

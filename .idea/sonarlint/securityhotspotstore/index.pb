@@ -1,6 +1,4 @@
 
-v
-Fsrc/test/java/com/itec1/e_commerce/services/ClientServiceImplTest.java,f\a\fa14efb5fa98564b4e086c92623ff6b8732a3c7c
 p
 @src/test/java/com/itec1/e_commerce/entities/DetailOrderTest.java,8\6\8641eba29cc274ec468abdb98accff90f6f9d199
 m
@@ -9,7 +7,5 @@ r
 Bsrc/main/java/com/itec1/e_commerce/services/ClientServiceImpl.java,7\f\7f31d09858eccb169486e662b04569dba032af6d
 f
 6src/main/java/com/itec1/e_commerce/services/ICRUD.java,8\0\80713ea7f5998d5753c264167f93c1f4d990108c
-t
-Dsrc/main/java/com/itec1/e_commerce/services/EmployeeServiceImpl.java,1\c\1c485d33140df1ac7f0c0e60669700db1fd224aa
 s
 Csrc/main/java/com/itec1/e_commerce/services/CarrierServiceImpl.java,7\8\780732eee7f8ab756abd2793d272ed4f07be3906
