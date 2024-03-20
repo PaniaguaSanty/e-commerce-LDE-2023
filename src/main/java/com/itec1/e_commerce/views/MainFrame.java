@@ -102,6 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             contentPanel.add(newOrderFirstPanel, BorderLayout.CENTER);
             activePanel = newOrderFirstPanel;
+            newOrderFirstPanel.initPanel();
         }
         contentPanel.revalidate();
         contentPanel.repaint();

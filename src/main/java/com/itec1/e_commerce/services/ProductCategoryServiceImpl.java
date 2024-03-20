@@ -43,11 +43,12 @@ public class ProductCategoryServiceImpl implements ICRUD<ProductCategory> {
     @Override
     public List<ProductCategory> findAll() {
         return productCategoryJpaController.findProductCategoryEntities().stream()
-                .filter(cat -> cat.isEnable()).toList();
+                .filter(ProductCategory::isEnable)
+                .toList();
     }
 
     @Override
-    public ProductCategory disable(Long id) throws NonexistentEntityException, Exception {
+    public ProductCategory disable(Long id) throws Exception {
         ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);
         productCategory.setEnable(false);
         productCategoryJpaController.edit(productCategory);
