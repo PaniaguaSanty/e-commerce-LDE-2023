@@ -11,6 +11,7 @@ import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
@@ -29,6 +30,7 @@ import com.itec1.e_commerce.views.Order_NewOrder_FirstPanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -46,7 +48,7 @@ public class OrderPanelController {
     private final WarehouseServiceImpl warehouseService;
     private final InvoiceServiceImpl invoiceService;
     private final CarrierServiceImpl carrierService;
-    private final ProductCategoryServiceImpl productCategory;
+    private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
 
     public OrderPanelController(InterfacePanel panel) {
@@ -57,7 +59,7 @@ public class OrderPanelController {
         this.warehouseService = new WarehouseServiceImpl();
         this.invoiceService = new InvoiceServiceImpl();
         this.carrierService = new CarrierServiceImpl();
-        this.productCategory = new ProductCategoryServiceImpl();
+        this.productCategoryService = new ProductCategoryServiceImpl();
         this.sectorService = new SectorServiceImpl();
     }
 
@@ -167,6 +169,27 @@ public class OrderPanelController {
     }
 
     //Product.
+    public List<Product> updateProductTable(String name,String category) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor"};
+        model.setColumnIdentifiers(titles);
+        List<Product> products = productService.findAll();
+        List<Product> result = new ArrayList<>();
+        String lowerName = name.toLowerCase();
+        if(productCategoryService.findByName(category) == null) {
+            category = "";
+        }
+        for (Product prod : products) {
+            if (prod.getName().toLowerCase().startsWith(lowerName) && prod.getProductCategory().getName().startsWith(category)) {
+                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName()};
+                model.addRow(object);
+                result.add(prod);
+            }
+        }
+        this.panel.getTable().setModel(model);
+        return result;
+    }
+
     public List<Product> findProductsByName(String name) {
         return productService.findProductsByName(name);
     }
@@ -175,26 +198,13 @@ public class OrderPanelController {
         return productService.findProductsByCategory(category);
     }
 
-    //función determinar cantidad  de productos. ->
-    public List<Product> updateTableProduct(String name) {
-        DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor", "Habilitado"};
-        model.setColumnIdentifiers(titles);
-        List<Product> products = productService.findAll();
-        List<Product> result = new ArrayList<>();
-        String lowerName = name.toLowerCase();
-        for (Product prod : products) {
-            if (prod.getName().toLowerCase().startsWith(lowerName)) {
-                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName(), prod.isEnable()};
-                model.addRow(object);
-                result.add(prod);
-            }
-        }
-        return result;
+    public List<ProductCategory> getCategories() {
+        return productCategoryService.findAll();
     }
 
+    //función determinar cantidad  de productos. ->
     //Warehouse
-    public List<Warehouse> updateTableWarehouse(String string) {
+    public List<Warehouse> updateWarehouseTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
         model.setColumnIdentifiers(titles);
@@ -232,7 +242,7 @@ public class OrderPanelController {
 
     }
 
-    public List<Carrier> updateTable(String cuit) {
+    public List<Carrier> updateCarrierTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
@@ -248,4 +258,5 @@ public class OrderPanelController {
         }
         return result;
     }
+
 }

@@ -14,8 +14,8 @@ import com.itec1.e_commerce.views.InterfacePanel;
  *
  * @author sjcex
  */
-public class JTextFieldListener<T, U> implements DocumentListener{
-    
+public class JTextFieldListener<T, U> implements DocumentListener {
+
     private List<T> entities;
     private final IController<U> controller;
     private final InterfacePanel panel;

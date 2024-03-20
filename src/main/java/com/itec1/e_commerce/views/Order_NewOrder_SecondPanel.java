@@ -34,8 +34,8 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
         this.controller = new OrderPanelController(this);
         this.mainFrame = mainFrame;
         tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.carriers = controller.updateTable("");
-        this.warehouses = controller.updateTableWarehouse("");
+        this.carriers = controller.updateCarrierTable("");
+        this.warehouses = controller.updateWarehouseTable("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();
@@ -336,8 +336,8 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
 
         @Override
         public void initPanel() {
-            this.carriers = controller.updateTable("");
-            this.warehouses = controller.updateTableWarehouse("");
+            this.carriers = controller.updateCarrierTable("");
+            this.warehouses = controller.updateWarehouseTable("");
             changeConditionAllButtons(false);
             changeConditionAllFields(true);
             cleanAllFields();
