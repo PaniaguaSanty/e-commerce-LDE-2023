@@ -21,5 +21,4 @@ public class CustomCellRender extends DefaultTableCellRenderer {
         
         return c;
     }
-
 }

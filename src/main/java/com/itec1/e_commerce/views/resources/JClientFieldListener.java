@@ -14,13 +14,13 @@ import com.itec1.e_commerce.views.Order_NewOrder_FirstPanel;
  *
  * @author sjcex
  */
-public class JOrderFieldListener<T, U> implements DocumentListener {
+public class JClientFieldListener<T, U> implements DocumentListener {
 
     private List<T> entities;
     private final OrderPanelController controller;
     private final Order_NewOrder_FirstPanel panel;
 
-    public JOrderFieldListener(List<T> entities, OrderPanelController controller, Order_NewOrder_FirstPanel panel) {
+    public JClientFieldListener(List<T> entities, OrderPanelController controller, Order_NewOrder_FirstPanel panel) {
         this.entities = entities;
         this.controller = controller;
         this.panel = panel;
@@ -28,16 +28,16 @@ public class JOrderFieldListener<T, U> implements DocumentListener {
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        entities = (List<T>) controller.updateProductTable(panel.getStringFilter(), panel.getCategoryStringFilter());
+        entities = (List<T>) controller.updateTable((panel.getClientFilter()));
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        entities = (List<T>) controller.updateProductTable(panel.getStringFilter(), panel.getCategoryStringFilter());
+        entities = (List<T>) controller.updateTable((panel.getClientFilter()));
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        entities = (List<T>) controller.updateProductTable(panel.getStringFilter(), panel.getCategoryStringFilter());
+        entities = (List<T>) controller.updateTable(panel.getClientFilter());
     }
 }
