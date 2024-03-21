@@ -443,7 +443,11 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
 
     @Override
     public void selectFromTable() {
-        int field = tableChooseProduct.getSelectedRow();
+        int field = tableChooseClient.getSelectedRow();
+        if (field >= 0) {
+            Client selected = clients.get(field);
+            jtf_clientCuitFilter.setText(selected.getCuit());
+        }
     }
 
     @Override
