@@ -1,8 +1,6 @@
 package com.itec1.e_commerce.services;
 
-import com.itec1.e_commerce.dao.ProductCategoryJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
-import com.itec1.e_commerce.dao.ProviderJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.ProductCategory;
@@ -23,12 +21,6 @@ class ProductServiceImplTest {
 
     @Mock
     private ProductJpaController productJpaController;
-
-    @Mock
-    private ProductCategoryJpaController categoryJpaController;
-
-    @Mock
-    private ProviderJpaController providerJpaController;
 
     private ProductServiceImpl productService;
 

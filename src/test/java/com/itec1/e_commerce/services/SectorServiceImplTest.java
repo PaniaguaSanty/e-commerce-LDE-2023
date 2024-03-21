@@ -1,6 +1,5 @@
 package com.itec1.e_commerce.services;
 
-import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.SectorJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 
@@ -11,10 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;

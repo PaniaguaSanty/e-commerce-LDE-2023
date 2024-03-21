@@ -81,9 +81,9 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     public List<Carrier> findByTypeOfTransport(String transportType) {
         return carrierJpaController.findCarrierEntities().stream()
                 .filter(carrier -> switch (transportType) {
-                    case "aerial" -> carrier.getAerial();
-                    case "ground" -> carrier.getGround();
-                    case "maritime" -> carrier.getMaritime();
+                    case "aerial" -> carrier.isAerial();
+                    case "ground" -> carrier.isGround();
+                    case "maritime" -> carrier.isMaritime();
                     default -> false;
                 })
                 .toList();
@@ -91,12 +91,12 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     
     
     public String verifyEnabledTransports(Carrier carrier) {
-        return (carrier.getGround()
-                ? (carrier.getMaritime()
-                ? (carrier.getAerial()
-                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : (carrier.getAerial()
-                ? "Terrestre y Aéreo" : "Terrestre")) : (carrier.getMaritime()
-                ? (carrier.getAerial()
+        return (carrier.isGround()
+                ? (carrier.isMaritime()
+                ? (carrier.isAerial()
+                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : (carrier.isAerial()
+                ? "Terrestre y Aéreo" : "Terrestre")) : (carrier.isMaritime()
+                ? (carrier.isAerial()
                 ? "Marítimo y Aéreo" : "Marítimo") : "Aéreo"));
     }
 
