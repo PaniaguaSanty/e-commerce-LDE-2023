@@ -16,21 +16,15 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
-import com.itec1.e_commerce.services.InvoiceServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
-
-import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.services.SectorServiceImpl;
 import com.itec1.e_commerce.services.WarehouseServiceImpl;
 import com.itec1.e_commerce.views.InterfaceOrderPanel;
-import com.itec1.e_commerce.views.InterfacePanel;
-import com.itec1.e_commerce.views.Order_NewOrder_FirstPanel;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -46,7 +40,6 @@ public class OrderPanelController {
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
     private final WarehouseServiceImpl warehouseService;
-    private final InvoiceServiceImpl invoiceService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
@@ -57,7 +50,6 @@ public class OrderPanelController {
         this.clientService = new ClientServiceImpl();
         this.productService = new ProductServiceImpl();
         this.warehouseService = new WarehouseServiceImpl();
-        this.invoiceService = new InvoiceServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
         this.sectorService = new SectorServiceImpl();
@@ -86,16 +78,33 @@ public class OrderPanelController {
         return orderService.findAll();
     }
 
-    public List<Order> findOrderByWarehouse(Warehouse ordersByWharehouse) {
-        return orderService.findByWarehouse(ordersByWharehouse);
+    public List<Order> findOrdersByClient(Client ordersByClient) {
+        try {
+            return orderService.findOrdersByClient(ordersByClient);
+
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by client." + e.getMessage());
+            throw new RuntimeException("Failed to found the order by Client.", e);
+        }
     }
 
-    public List<Order> findOrderByClient(Client ordersByClient) {
-        return orderService.findByClient(ordersByClient);
+    public List<Order> findOrdersBySector(Sector ordersBySector) {
+        try {
+            return orderService.findOrdersBySector(ordersBySector);
+
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by sector");
+            throw new RuntimeException("Failed to found orders by sector", e);
+        }
     }
 
-    public List<Order> findOrderBySector(Sector ordersBySector) {
-        return orderService.findBySector(ordersBySector);
+    public List<Order> findOrdersByWarehouse(Warehouse ordersByWharehouse) {
+        try {
+            return orderService.findOrdersByWarehouse(ordersByWharehouse);
+        } catch (Exception e) {
+            System.err.println("Error while finding orders by Warehouse: " + e.getMessage());
+            throw new RuntimeException("Failed to found the order.", e);
+        }
     }
 
     public void setClient(Client client) {
@@ -108,7 +117,7 @@ public class OrderPanelController {
     }
 
     public void setWarehouseDestiny(Warehouse warehouseDestiny) {
-        order.setWarehouseOrigin(warehouseDestiny);
+        order.setWarehouseDestiny(warehouseDestiny);
     }
 
     //TrackingOrder
@@ -116,54 +125,64 @@ public class OrderPanelController {
         if (orderService.findById(trackingOrder.getId()) != null) {
             return "No se pudo generar el tracking, por favor inténtelo de nuevo.";
         } else {
-            orderService.createTrackingOrder(trackingOrder);
+            try {
+                orderService.createTrackingOrder(trackingOrder);
+            } catch (Exception e) {
+                System.err.println("Error while creating the tracking order." + e.getMessage());
+                throw new RuntimeException("Failed to  create the Tracking order: ", e);
+            }
         }
         return "Tracking generado correctamente.";
     }
 
     public List<TrackingOrder> findByOrder(Order order) {
-        return orderService.findByOrder(order);
+        try {
+            return orderService.findByOrder(order);
+        } catch (Exception e) {
+            System.err.println("Error while finding tracking orders: " + e.getMessage());
+            throw new RuntimeException("Failed to found the order.", e);
+        }
     }
 
-    public void changeOrderState(Order order) {
-        orderService.changeOrderState(order);
-    }
-
-    public void orderInTransit(Order order, String latitude, String longitude) {
-        orderService.orderInTransit(order, latitude, longitude);
+    public void putOrderInTransit(Order order, String latitude, String longitude) {
+        try {
+            orderService.putOrderInTransit(order, latitude, longitude);
+        } catch (Exception e) {
+            System.err.println("Error while trying to put order in transit." + e.getMessage());
+        }
     }
 
     public void cancelOrder(Order order) throws Exception {
-        orderService.cancelOrder(order);
+        try {
+            orderService.cancelOrder(order);
+        } catch (Exception e) {
+            System.err.println("Error while trying to cancel the order." + e.getMessage());
+        }
     }
 
     public void returnOrder(Order order) throws Exception {
-        orderService.returnOrder(order);
+        try {
+            orderService.returnOrder(order);
+        } catch (Exception e) {
+            System.err.println("Error while trying to return the order." + e.getMessage());
+        }
     }
 
-    public String createInvoice(Invoice invoice) {
-        if (orderService.findById(invoice.getId()) != null) {
-            return "No se pudo generar el remito, por favor inténtelo nuevamente.";
-        } else {
-            orderService.createInvoice(invoice);
+    public void changeOrderState(Order order) {
+        try {
+            orderService.changeOrderState(order);
+        } catch (Exception e) {
+            System.err.println("Error while trying to change state." + e.getMessage());
         }
-        return "Remito generado correctamente.";
     }
 
     //detail Order.
-    public void updateDetailTable() {
-        DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Cantidad", "Producto"};
-        model.setColumnIdentifiers(titles);
-        for (DetailOrder detail : details) {
-            Object[] object = {detail.getAmount(), detail.getProduct().getName()};
-            model.addRow(object);
-        }
-        this.panel.getDetailOrdersTable().setModel(model);
-    }
-
     public void addDetail(Order order, List<DetailOrder> details) {
-        orderService.addDetail(order, details);
+        try {
+            orderService.addDetail(order, details);
+        } catch (Exception e) {
+            System.err.println("Error while trying to add detail.");
+        }
     }
 
     public void insertNewDetail(DetailOrder detailOrder) {
@@ -177,21 +196,28 @@ public class OrderPanelController {
     }
 
     public boolean verifyDetail(Product receivedProduct) {
-        for (DetailOrder detail : details) {
-            if (detail.getProduct().equals(receivedProduct)) {
-                return false;
-            }
-        }
-        return true;
+        return !details.stream() // " ! " retorna FALSE
+                .anyMatch(detail -> detail.getProduct().equals(receivedProduct));
     }
 
     public void changeDetailAmount(Product receivedProduct, int amount) {
+        details.stream()
+                .filter(detail -> detail.getProduct().equals(receivedProduct))
+                .forEach(detail -> {
+                    int newAmount = detail.getAmount() + amount;
+                    detail.setAmount(newAmount);
+                });
+    }
+
+    public void updateDetailTable() {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Cantidad", "Producto"};
+        model.setColumnIdentifiers(titles);
         for (DetailOrder detail : details) {
-            if (detail.getProduct().equals(receivedProduct)) {
-                int newAmount = detail.getAmount() + amount;
-                detail.setAmount(newAmount);
-            }
+            Object[] object = {detail.getAmount(), detail.getProduct().getName()};
+            model.addRow(object);
         }
+        this.panel.getDetailOrdersTable().setModel(model);
     }
 
     public void qualifyProvider(DetailOrder detail, int star) throws Exception {
@@ -225,6 +251,18 @@ public class OrderPanelController {
     }
 
     //Product.
+    public List<Product> findProductsByName(String name) {
+        return productService.findProductsByName(name);
+    }
+
+    public List<Product> findProductsByCategory(String category) {
+        return productService.findProductsByCategory(category);
+    }
+
+    public List<ProductCategory> getCategories() {
+        return productCategoryService.findAll();
+    }
+
     public List<Product> updateProductTable(String name, String category) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad"};
@@ -246,20 +284,19 @@ public class OrderPanelController {
         return result;
     }
 
-    public List<Product> findProductsByName(String name) {
-        return productService.findProductsByName(name);
-    }
-
-    public List<Product> findProductsByCategory(String category) {
-        return productService.findProductsByCategory(category);
-    }
-
-    public List<ProductCategory> getCategories() {
-        return productCategoryService.findAll();
-    }
-
-    //función determinar cantidad  de productos. ->
     //Warehouse
+    public List<Warehouse> findWarehouseByCountry(String countryName) {
+        return warehouseService.findWarehouseByCountry(countryName);
+    }
+
+    public void chooseOrigin(Order order, Warehouse warehouseOrigin) {
+        order.setWarehouseOrigin(warehouseOrigin);
+    }
+
+    public void chooseDestiny(Order order, Warehouse warehouseOrigin) {
+        order.setWarehouseDestiny(warehouseOrigin);
+    }
+
     public List<Warehouse> updateWarehouseTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Código", "Dirección", "País"};
@@ -277,26 +314,9 @@ public class OrderPanelController {
         return result;
     }
 
-    public List<Warehouse> findWarehouseByCountry(String countryName) {
-        return warehouseService.findWarehouseByCountry(countryName);
-    }
-
-    public void chooseOrigin(Order order, Warehouse warehouseOrigin) {
-        order.setWarehouseOrigin(warehouseOrigin);
-    }
-
-    public void chooseDestiny(Order order, Warehouse warehouseOrigin) {
-        order.setWarehouseOrigin(warehouseOrigin);
-    }
-
     //Carrier
     public List<Carrier> findByTypeOfTransport(String transportType) {
         return carrierService.findByTypeOfTransport(transportType);
-    }
-
-    //confirmar transportista.
-    public void chooseCarrier() {
-
     }
 
     public List<Carrier> updateCarrierTable(String cuit) {
@@ -315,5 +335,20 @@ public class OrderPanelController {
         }
         this.panel.getCarriersTable().setModel(model);
         return result;
+    }
+
+    //invoice
+    public String createInvoice(Invoice invoice) {
+        if (orderService.findById(invoice.getId()) != null) {
+            return "No se pudo generar el remito, por favor inténtelo nuevamente.";
+        } else {
+            try {
+                orderService.createInvoice(invoice);
+            } catch (Exception e) {
+                System.err.println("Error while finding orders by sector");
+                throw new RuntimeException("Failed to found orders by sector", e);
+            }
+        }
+        return "Remito generado con éxito.";
     }
 }
