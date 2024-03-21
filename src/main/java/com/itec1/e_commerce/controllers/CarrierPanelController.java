@@ -31,7 +31,7 @@ public class CarrierPanelController implements IController<Carrier> {
         for (Carrier carrier : carriers) {
             if (carrier.getCuit().startsWith(cuit)) {
                 Object[] object = {carrier.getId(), carrier.getName(),
-                    carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
+                    carrier.getCuit(), carrier.getPhone(), service.verifyEnabledTransports(carrier)};
                 model.addRow(object);
                 result.add(carrier);
             }

@@ -458,9 +458,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
             jtf_carrierName.setText(selected.getName());
             jtf_carrierCuit.setText(selected.getCuit());
             jtf_carrierPhone.setText(selected.getPhone());
-            jcb_ground.setSelected(selected.getGround());
-            jcb_maritime.setSelected(selected.getGround());
-            jcb_aerial.setSelected(selected.getGround());
+            jcb_ground.setSelected(selected.isGround());
+            jcb_maritime.setSelected(selected.isGround());
+            jcb_aerial.setSelected(selected.isGround());
             changeConditionAllButtons(true);
             changeConditionButton(jbn_saveCarrier, false);
             changeConditionButton(jbn_restoreCarrier, false);

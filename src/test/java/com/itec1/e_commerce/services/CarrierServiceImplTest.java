@@ -1,7 +1,6 @@
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.dao.CarrierJpaController;
-import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Carrier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,7 +72,7 @@ class CarrierServiceImplTest {
     }
 
     @Test
-    void delete() throws NonexistentEntityException {
+    void delete() throws Exception {
         Mockito.doNothing().when(carrierJpaController).destroy(carrier.getId());
         carrierService.delete(carrier.getId());
         Mockito.verify(carrierJpaController).destroy(carrier.getId());
