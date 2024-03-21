@@ -102,7 +102,6 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             contentPanel.add(newOrderFirstPanel, BorderLayout.CENTER);
             activePanel = newOrderFirstPanel;
-            newOrderFirstPanel.initPanel();
         }
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -520,6 +519,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_order_ReportByStatusesActionPerformed
 
     private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_newOrderActionPerformed
+        newOrderFirstPanel.initPanel();
         changeOrderPanel();
     }// GEN-LAST:event_menu_newOrderActionPerformed
 

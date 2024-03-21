@@ -137,7 +137,7 @@
                   <Component id="jbl_filter14" alignment="3" max="-2" attributes="0"/>
                   <Component id="jbtn_ConfirmCarrier" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="59" max="32767" attributes="0"/>
+              <EmptySpace pref="56" max="32767" attributes="0"/>
               <Component id="jbl_filterByCountry3" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

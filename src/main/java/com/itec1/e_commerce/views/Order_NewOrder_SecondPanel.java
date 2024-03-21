@@ -19,7 +19,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel implements InterfacePanel {
+public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
 
     private final OrderPanelController controller;
     private final FieldDataValidator validator;
@@ -27,7 +27,7 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
     private List<Client> clients;
     private List<Carrier> carriers;
     private List<Warehouse> warehouses;
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
 
     public Order_NewOrder_SecondPanel(MainFrame mainFrame) {
         initComponents();
@@ -260,7 +260,7 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
                     .addComponent(categoryFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbl_filter14)
                     .addComponent(jbtn_ConfirmCarrier))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jbl_filterByCountry3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -314,98 +314,160 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
         mainFrame.changeOrderPanel();
     }//GEN-LAST:event_jbtn_createNewOrderActionPerformed
 
-        @Override
-        public javax.swing.JTable getTable() {
-            return this.tableChooseCarrier;
-        }
+    @Override
+    public javax.swing.JTable getTable() {
+        return this.tableChooseCarrier;
+    }
 
-        public javax.swing.JTable getWarehouseTable() {
-            return this.tableChooseWarehouse;
-        }
+    @Override
+    public JTable getCarriersTable() {
+        return this.tableChooseCarrier;
+    }
 
-        @Override
-        public void initListener() {
-            tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
-            tableChooseWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
-        }
+    @Override
+    public JTable getWarehousesTable() {
+        return this.tableChooseWarehouse;
+    }
 
-        @Override
-        public void initValidator() {
-            validator.onlyLetters(jtf_warehouseFilter);
-        }
+    @Override
+    public JTable getClientsTable() {
+        return null;
+    }
 
-        @Override
-        public void initPanel() {
-            this.carriers = controller.updateCarrierTable("");
-            this.warehouses = controller.updateWarehouseTable("");
-            changeConditionAllButtons(false);
-            changeConditionAllFields(true);
-            cleanAllFields();
-        }
+    @Override
+    public JTable getProductsTable() {
+        return null;
+    }
 
-        @Override
-        public void selectFromTable() {
-            int field = tableChooseWarehouse.getSelectedRow();
-            if (field >= 0) {
-                Warehouse selected = warehouses.get(field);
-                jtf_warehouseFilter.setText(selected.getCountry());
+    @Override
+    public JTable getSectorsTable() {
+        return null;
+    }
+
+    @Override
+    public JTable getOrdersTable() {
+        return null;
+    }
+
+    @Override
+    public JTable getDetailOrdersTable() {
+        return null;
+    }
+
+    @Override
+    public void initListener() {
+        tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tableChooseWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
+    }
+
+    @Override
+    public void initValidator() {
+        validator.onlyLetters(jtf_warehouseFilter);
+    }
+
+    @Override
+    public void initPanel() {
+        this.carriers = controller.updateCarrierTable("");
+        this.warehouses = controller.updateWarehouseTable("");
+        changeConditionAllButtons(false);
+        changeConditionAllFields(true);
+        cleanAllFields();
+    }
+
+    @Override
+    public void selectFromTable() {
+        int field = tableChooseWarehouse.getSelectedRow();
+        if (field >= 0) {
+            Warehouse selected = warehouses.get(field);
+            jtf_warehouseFilter.setText(selected.getCountry());
+        }
+    }
+
+    @Override
+    public void changeConditionAllFields(boolean state) {
+        changeConditionField(jtf_warehouseFilter, state);
+    }
+
+    @Override
+    public void changeConditionField(JTextField textField, boolean state) {
+        validator.enableField(state, textField);
+    }
+
+    @Override
+    public void changeConditionAllButtons(boolean state) {
+        changeConditionButton(jbtn_warehouseOrigin, state);
+        changeConditionButton(jbtn_warehouseDestiny, state);
+        changeConditionButton(jbtn_ConfirmCarrier, state);
+        changeConditionButton(jbtn_createNewOrder, state);
+    }
+
+    @Override
+    public void changeConditionButton(JButton button, boolean state) {
+        Color buttonEnabledColor = Color.GREEN;
+        Color textEnabledcolor = Color.BLACK;
+        Color buttonDisabledColor = Color.DARK_GRAY;
+        Color buttonTextDisabledColor = Color.BLACK;
+        validator.enableButton(state, button, buttonEnabledColor, textEnabledcolor, buttonDisabledColor, buttonTextDisabledColor);
+    }
+
+    @Override
+    public void cleanAllFields() {
+        cleanField(jtf_warehouseFilter);
+    }
+
+    @Override
+    public void cleanField(JTextField textfield) {
+        validator.cleanField(textfield);
+    }
+
+    @Override
+    public boolean verifyEmptyFields() {
+        List<JTextField> fields = new ArrayList<>();
+        fields.add(jtf_warehouseFilter);
+
+        for (JTextField field : fields) {
+            if (field.getText().length() == 0) {
+                return true;
             }
         }
+        return false;
+    }
 
-        @Override
-        public void changeConditionAllFields(boolean state) {
-            changeConditionField(jtf_warehouseFilter, state);
-        }
+    @Override
+    public String getCarrierFilter() {
+        return categoryFilterComboBox.getItemAt(categoryFilterComboBox.getSelectedIndex());
+    }
 
-        @Override
-        public void changeConditionField(JTextField textField, boolean state) {
-            validator.enableField(state, textField);
-        }
+    @Override
+    public String getWarehouseFilter() {
+        return jtf_warehouseFilter.getText();
+    }
 
-        @Override
-        public void changeConditionAllButtons(boolean state) {
-            changeConditionButton(jbtn_warehouseOrigin, state);
-            changeConditionButton(jbtn_warehouseDestiny, state);
-            changeConditionButton(jbtn_ConfirmCarrier, state);
-            changeConditionButton(jbtn_createNewOrder, state);
-        }
+    @Override
+    public String getStringFilter() {
+        return null;
+    }
 
-        @Override
-        public void changeConditionButton(JButton button, boolean state) {
-            Color buttonEnabledColor = Color.GREEN;
-            Color textEnabledcolor = Color.BLACK;
-            Color buttonDisabledColor = Color.DARK_GRAY;
-            Color buttonTextDisabledColor = Color.BLACK;
-            validator.enableButton(state, button, buttonEnabledColor, textEnabledcolor, buttonDisabledColor, buttonTextDisabledColor);
-        }
+    @Override
+    public String getProductFilter() {
+        return null;
+    }
 
-        @Override
-        public void cleanAllFields() {
-            cleanField(jtf_warehouseFilter);
-        }
+    @Override
+    public String getClientFilter() {
+        return null;
+    }
 
-        @Override
-        public void cleanField(JTextField textfield) {
-            validator.cleanField(textfield);
-        }
+    @Override
+    public String getSectorFilter() {
+        return null;
+    }
 
-        @Override
-        public boolean verifyEmptyFields() {
-            List<JTextField> fields = new ArrayList<>();
-            fields.add(jtf_warehouseFilter);
+    @Override
+    public String getOrderFilter() {
+        return null;
+    }
 
-            for (JTextField field : fields) {
-                if (field.getText().length() == 0) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public String getStringFilter() {
-            return jtf_warehouseFilter.getText();
-        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> categoryFilterComboBox;

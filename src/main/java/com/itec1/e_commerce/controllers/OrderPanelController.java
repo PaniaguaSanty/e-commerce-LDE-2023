@@ -21,10 +21,10 @@ import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
 
-
 import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.services.SectorServiceImpl;
 import com.itec1.e_commerce.services.WarehouseServiceImpl;
+import com.itec1.e_commerce.views.InterfaceOrderPanel;
 import com.itec1.e_commerce.views.InterfacePanel;
 import com.itec1.e_commerce.views.Order_NewOrder_FirstPanel;
 
@@ -40,8 +40,8 @@ import javax.swing.table.DefaultTableModel;
 public class OrderPanelController {
 
     private static Order order = new Order();
-    private static List<DetailOrder> details;
-    private final InterfacePanel panel;
+    private static List<DetailOrder> details = new ArrayList<>();
+    private final InterfaceOrderPanel panel;
     private final OrderServiceImpl orderService;
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
@@ -51,7 +51,7 @@ public class OrderPanelController {
     private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
 
-    public OrderPanelController(InterfacePanel panel) {
+    public OrderPanelController(InterfaceOrderPanel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
         this.clientService = new ClientServiceImpl();
@@ -151,8 +151,47 @@ public class OrderPanelController {
     }
 
     //detail Order.
+    public void updateDetailTable() {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Cantidad", "Producto"};
+        model.setColumnIdentifiers(titles);
+        for (DetailOrder detail : details) {
+            Object[] object = {detail.getAmount(), detail.getProduct().getName()};
+            model.addRow(object);
+        }
+        this.panel.getDetailOrdersTable().setModel(model);
+    }
+
     public void addDetail(Order order, List<DetailOrder> details) {
         orderService.addDetail(order, details);
+    }
+
+    public void insertNewDetail(DetailOrder detailOrder) {
+        detailOrder.setOrder(order);
+        detailOrder.setProviderQualification(0);
+        details.add(detailOrder);
+    }
+
+    public void removeNewDetail(int remove) {
+        details.remove(remove);
+    }
+
+    public boolean verifyDetail(Product receivedProduct) {
+        for (DetailOrder detail : details) {
+            if (detail.getProduct().equals(receivedProduct)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void changeDetailAmount(Product receivedProduct, int amount) {
+        for (DetailOrder detail : details) {
+            if (detail.getProduct().equals(receivedProduct)) {
+                int newAmount = detail.getAmount() + amount;
+                detail.setAmount(newAmount);
+            }
+        }
     }
 
     public void qualifyProvider(DetailOrder detail, int star) throws Exception {
@@ -168,25 +207,42 @@ public class OrderPanelController {
         return clientService.findByCuit(cuit);
     }
 
-    //Product.
-    public List<Product> updateProductTable(String name,String category) {
+    public List<Client> updateTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor"};
+        String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
+        model.setColumnIdentifiers(titles);
+        List<Client> clients = clientService.findAll();
+        List<Client> result = new ArrayList<>();
+        for (Client cl : clients) {
+            if (cl.getCuit().startsWith(cuit)) {
+                Object[] object = {cl.getName(), cl.getLastname(), cl.getCuit()};
+                model.addRow(object);
+                result.add(cl);
+            }
+        }
+        this.panel.getClientsTable().setModel(model);
+        return result;
+    }
+
+    //Product.
+    public List<Product> updateProductTable(String name, String category) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad"};
         model.setColumnIdentifiers(titles);
         List<Product> products = productService.findAll();
         List<Product> result = new ArrayList<>();
         String lowerName = name.toLowerCase();
-        if(productCategoryService.findByName(category) == null) {
+        if (productCategoryService.findByName(category) == null) {
             category = "";
         }
         for (Product prod : products) {
             if (prod.getName().toLowerCase().startsWith(lowerName) && prod.getProductCategory().getName().startsWith(category)) {
-                Object[] object = {prod.getId(), prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth(), prod.getProductCategory().getName(), prod.getProvider().getName()};
+                Object[] object = {prod.getName(), prod.getDescription(), prod.getWeight(), prod.getHigh(), prod.getWidth(), prod.getDepth()};
                 model.addRow(object);
                 result.add(prod);
             }
         }
-        this.panel.getTable().setModel(model);
+        this.panel.getProductsTable().setModel(model);
         return result;
     }
 
@@ -206,17 +262,18 @@ public class OrderPanelController {
     //Warehouse
     public List<Warehouse> updateWarehouseTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
+        String[] titles = {"Código", "Dirección", "País"};
         model.setColumnIdentifiers(titles);
         List<Warehouse> warehouses = warehouseService.findAll();
         List<Warehouse> result = new ArrayList<>();
         for (Warehouse wh : warehouses) {
             if (wh.getCode().startsWith(string)) {
-                Object[] object = {wh.getId(), wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
+                Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry()};
                 model.addRow(object);
                 result.add(wh);
             }
         }
+        this.panel.getWarehousesTable().setModel(model);
         return result;
     }
 
@@ -244,19 +301,19 @@ public class OrderPanelController {
 
     public List<Carrier> updateCarrierTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
+        String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
         List<Carrier> clients = carrierService.findAll();
         List<Carrier> result = new ArrayList<>();
         for (Carrier carrier : clients) {
             if (carrier.getCuit().startsWith(cuit)) {
-                Object[] object = {carrier.getId(), carrier.getName(),
+                Object[] object = {carrier.getName(),
                     carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
                 model.addRow(object);
                 result.add(carrier);
             }
         }
+        this.panel.getCarriersTable().setModel(model);
         return result;
     }
-
 }
