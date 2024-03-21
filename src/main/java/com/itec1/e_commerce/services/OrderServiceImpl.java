@@ -51,7 +51,6 @@ public class OrderServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
-
     public OrderServiceImpl(OrderJpaController orderJpaController) {
         this.orderJpaController = orderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
@@ -76,126 +75,39 @@ public class OrderServiceImpl {
         return orderJpaController.findOrderEntities();
     }
 
-    public List<TrackingOrder> findByOrder(Order order) {
-        try {
-            return trackingOrderJpaController.findTrackingOrderEntities().stream()
-                    .filter(trackingOrder -> trackingOrder.getOrder().getId().equals(order.getId()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while finding tracking orders: " + e.getMessage());
-            throw new RuntimeException("Failed to found the order.", e);
-        }
+    public List<Order> findOrdersByClient(Client orderByClient) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getClient().getId()
+                .equals(orderByClient.getId()))
+                .collect(Collectors.toList());
     }
 
-    public List<Order> findByWarehouse(Warehouse orderByWarehouse) {
-        try {
-            return orderJpaController.findOrderEntities().stream()
-                    .filter(order -> order.getSector().getWarehouse().getId()
-                            .equals(orderByWarehouse.getId()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while finding orders by Warehouse: " + e.getMessage());
-            throw new RuntimeException("Failed to found the order.", e);
-        }
-
+    public List<Order> findOrdersBySector(Sector orderBySector) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getSector().getId()
+                .equals(orderBySector.getId()))
+                .collect(Collectors.toList());
     }
 
-    public List<Order> findByClient(Client orderByClient) {
-        try {
-            return orderJpaController.findOrderEntities().stream()
-                    .filter(order -> order.getClient().getId()
-                            .equals(orderByClient.getId()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while finding orders by client." + e.getMessage());
-            throw new RuntimeException("Failed to found the order by Client.", e);
-        }
-    }
-
-    public List<Order> findBySector(Sector orderBySector) {
-        try {
-            return orderJpaController.findOrderEntities().stream()
-                    .filter(order -> order.getSector().getId()
-                            .equals(orderBySector.getId()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while finding orders by sector");
-            throw new RuntimeException("Failed to found orders by sector", e);
-        }
-
+    public List<Order> findOrdersByWarehouse(Warehouse orderByWarehouse) {
+        return orderJpaController.findOrderEntities().stream()
+                .filter(order -> order.getSector().getWarehouse().getId()
+                .equals(orderByWarehouse.getId()))
+                .collect(Collectors.toList());
     }
 
     public TrackingOrder createTrackingOrder(TrackingOrder entity) {
-        try {
-            trackingOrderJpaController.create(entity);
-            return trackingOrderJpaController.findTrackingOrder(entity.getId());
-        } catch (Exception e) {
-            System.err.println("Error while creating the tracking order." + e.getMessage());
-            throw new RuntimeException("Failed to  create the Tracking order: ", e);
-        }
+        trackingOrderJpaController.create(entity);
+        return trackingOrderJpaController.findTrackingOrder(entity.getId());
     }
 
-    public void changeOrderState(Order order) {
-        State[] states = State.values();
-        int nextState = findByOrder(order).size() + 1;
-        if (nextState < 7) {
-            createTracking(order, order.getWarehouseOrigin().getLatitude(),
-                    order.getWarehouseOrigin().getLongitude(), states[nextState]);
-        } else {
-            createTracking(order, order.getWarehouseDestiny().getLatitude(),
-                    order.getWarehouseDestiny().getLongitude(), states[nextState]);
-        }
+    public List<TrackingOrder> findByOrder(Order order) {
+        return trackingOrderJpaController.findTrackingOrderEntities().stream()
+                .filter(trackingOrder -> trackingOrder.getOrder().getId().equals(order.getId()))
+                .collect(Collectors.toList());
     }
 
-    public void orderInTransit(Order order, String latitude, String longitude) {
-        createTracking(order, latitude, longitude, State.IN_TRANSIT);
-    }
-
-    public void cancelOrder(Order order) throws Exception {
-        createTracking(order,
-                order.getWarehouseOrigin().getLatitude(),
-                order.getWarehouseOrigin().getLongitude(),
-                State.CANCELED);
-        sectorServiceImpl.changeSector(order,
-                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
-    }
-
-    public void returnOrder(Order order) throws Exception {
-        createTracking(order,
-                order.getWarehouseDestiny().getLatitude(),
-                order.getWarehouseDestiny().getLongitude(),
-                State.RETURNED);
-        sectorServiceImpl.changeSector(order,
-                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
-    }
-
-    public void createInvoice(Invoice invoice) {
-        try {
-            invoiceJpaController.create(invoice);
-        } catch (Exception e) {
-            System.err.println("Error while creating invoice. " + e.getMessage());
-            throw new RuntimeException("Failed to create Invoice", e);
-        }
-    }
-
-    public void addDetail(Order order, List<DetailOrder> details) {
-        for (DetailOrder detail : details) {
-            detail.setOrder(orderJpaController.findOrder(order.getId()));
-            detailOrderJpaController.create(detail);
-        }
-    }
-
-    public void qualifyProvider(DetailOrder detail, int star) throws Exception {
-        detail.setProviderQualification(star);
-        detailOrderJpaController.edit(detail);
-    }
-
-    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
-        invoice.setCarrierQualification(star);
-        invoiceJpaController.edit(invoice);
-    }
-
-    private void createTracking(Order order, String latitude, String longitude, State state) {
+    private void generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
         tracking.setDate(new Date());
@@ -206,9 +118,65 @@ public class OrderServiceImpl {
         createTrackingOrder(tracking);
     }
 
+    public void changeOrderState(Order order) {
+        State[] states = State.values();
+        int nextState = findByOrder(order).size() + 1;
+        if (nextState < 7) {
+            generateTracking(order, order.getWarehouseOrigin().getLatitude(),
+                    order.getWarehouseOrigin().getLongitude(), states[nextState]);
+        } else {
+            generateTracking(order, order.getWarehouseDestiny().getLatitude(),
+                    order.getWarehouseDestiny().getLongitude(), states[nextState]);
+        }
+    }
+
     public Order changeSector(Order order, Sector sector) throws Exception {
         order.setSector(sector);
         orderJpaController.edit(order);
         return orderJpaController.findOrder(order.getId());
+    }
+
+    public void putOrderInTransit(Order order, String latitude, String longitude) {
+        generateTracking(order, latitude, longitude, State.IN_TRANSIT);
+    }
+
+    public void cancelOrder(Order order) throws Exception {
+        generateTracking(order,
+                order.getWarehouseOrigin().getLatitude(),
+                order.getWarehouseOrigin().getLongitude(),
+                State.CANCELED);
+        sectorServiceImpl.changeSector(order,
+                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
+    }
+
+    public void returnOrder(Order order) throws Exception {
+        generateTracking(order,
+                order.getWarehouseDestiny().getLatitude(),
+                order.getWarehouseDestiny().getLongitude(),
+                State.RETURNED);
+        sectorServiceImpl.changeSector(order,
+                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
+    }
+
+    public Invoice createInvoice(Invoice invoice) {
+        invoiceJpaController.create(invoice);
+        return invoiceJpaController.findInvoice(invoice.getId());
+    }
+
+    public void addDetail(Order order, List<DetailOrder> details) {
+        details.forEach(detail -> {
+            detail.setOrder(orderJpaController.findOrder(order.getId()));
+            detailOrderJpaController.create(detail);
+        });
+    }
+
+    public void qualifyProvider(DetailOrder detail, int star) throws Exception {
+        detail.setProviderQualification(star);
+        detailOrderJpaController.edit(detail);
+    }
+
+    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
+        invoice.setCarrierQualification(star);
+        invoiceJpaController.edit(invoice);
     }
 }

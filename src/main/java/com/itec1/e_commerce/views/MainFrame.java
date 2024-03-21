@@ -20,8 +20,8 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
 
-    private Order_NewOrder_FirstPanel newOrderFirstPanel;
-    private Order_NewOrder_SecondPanel newOrderSecondPanel;
+    private NewOrder_FirstPanel newOrderFirstPanel;
+    private NewOrder_SecondPanel newOrderSecondPanel;
     private Order_ViewOrderSector_Panel wiewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
@@ -75,8 +75,8 @@ public class MainFrame extends javax.swing.JFrame {
         employeesPanel = new Management_Employees_Panel();
         warehouseHouse = new Management_Warehouses_Panel();
 
-        newOrderFirstPanel = new Order_NewOrder_FirstPanel(this);
-        newOrderSecondPanel = new Order_NewOrder_SecondPanel(this);
+        newOrderFirstPanel = new NewOrder_FirstPanel(this);
+        newOrderSecondPanel = new NewOrder_SecondPanel(this);
         wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 

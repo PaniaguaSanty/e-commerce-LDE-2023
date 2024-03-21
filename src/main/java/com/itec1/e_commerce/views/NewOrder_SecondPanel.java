@@ -4,7 +4,6 @@ import com.itec1.e_commerce.controllers.OrderPanelController;
 import com.itec1.e_commerce.entities.Carrier;
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.TableListener;
@@ -19,7 +18,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
+public final class NewOrder_SecondPanel extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
 
     private final OrderPanelController controller;
     private final FieldDataValidator validator;
@@ -29,7 +28,7 @@ public final class Order_NewOrder_SecondPanel extends javax.swing.JPanel impleme
     private List<Warehouse> warehouses;
     private final MainFrame mainFrame;
 
-    public Order_NewOrder_SecondPanel(MainFrame mainFrame) {
+    public NewOrder_SecondPanel(MainFrame mainFrame) {
         initComponents();
         this.controller = new OrderPanelController(this);
         this.mainFrame = mainFrame;
