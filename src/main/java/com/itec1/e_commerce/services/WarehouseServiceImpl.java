@@ -7,6 +7,7 @@ package com.itec1.e_commerce.services;
 import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,15 +19,19 @@ import java.util.stream.Collectors;
 public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     private final WarehouseJpaController warehouseJpaController;
+    private final SectorServiceImpl sectorService;
 
     public WarehouseServiceImpl() {
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
-
+        this.sectorService=new SectorServiceImpl();
     }
 
     @Override
     public Warehouse create(Warehouse entity) {
         warehouseJpaController.create(entity);
+        sectorService.create(new Sector("entregados",entity,"001"));
+        sectorService.create(new Sector("devueltos",entity,"002"));
+        sectorService.create(new Sector("recepcion",entity,"003"));
         return warehouseJpaController.findWarehouse(entity.getId());
     }
 

@@ -31,7 +31,7 @@ public class CarrierPanelController implements IController<Carrier> {
         for (Carrier carrier : carriers) {
             if (carrier.getCuit().startsWith(cuit)) {
                 Object[] object = {carrier.getId(), carrier.getName(),
-                    carrier.getCuit(), carrier.getPhone(), verifyEnabledTransports(carrier)};
+                    carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
                 model.addRow(object);
                 result.add(carrier);
             }
@@ -39,7 +39,7 @@ public class CarrierPanelController implements IController<Carrier> {
         this.panel.getTable().setModel(model);
         return result;
     }
-
+  
     private String verifyEnabledTransports(Carrier carrier) {
         String result = (carrier.isGround()
                 ? (carrier.isMaritime()
@@ -50,7 +50,7 @@ public class CarrierPanelController implements IController<Carrier> {
                 ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
         return result;
     }
-
+  
     @Override
     public boolean verifyCrud(String selectedOption) {
         if (!crudOption.equals(selectedOption)) {

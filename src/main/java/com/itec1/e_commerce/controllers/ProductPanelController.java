@@ -32,7 +32,6 @@ public class ProductPanelController implements IController<Product> {
     @Override
     public List<Product> updateTable(String name) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "Descripción", "Peso", "Alto", "Ancho", "Profundidad", "Categoria", "Proveedor", "Habilitado"};
         model.setColumnIdentifiers(titles);
         List<Product> products = service.findAll();

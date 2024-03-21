@@ -6,7 +6,6 @@ import java.util.List;
 import com.itec1.e_commerce.dao.ClientJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Client;
-import java.util.stream.Collectors;
 
 public class ClientServiceImpl implements ICRUD<Client> {
 
@@ -22,17 +21,12 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     @Override
     public Client create(Client entity) {
-        try {
-            clientJpaController.create(entity);
-            return clientJpaController.findClient(entity.getId());
-        } catch (Exception e) {
-            System.err.println("Error when creating the client: " + e.getMessage());
-            throw new RuntimeException("Failed to create client.", e);
-        }
+        clientJpaController.create(entity);
+        return clientJpaController.findClient(entity.getId());
     }
 
     @Override
-    public Client update(Long id, Client entity) throws NonexistentEntityException, Exception {
+    public Client update(Long id, Client entity) throws Exception {
         Client client = clientJpaController.findClient(id);
         client.setName(entity.getName());
         client.setLastname(entity.getLastname());
@@ -52,12 +46,12 @@ public class ClientServiceImpl implements ICRUD<Client> {
     @Override
     public List<Client> findAll() {
         return clientJpaController.findClientEntities().stream()
-                .filter(client -> client.isEnable())
+                .filter(Client::isEnable)
                 .toList();
     }
 
     @Override
-    public Client disable(Long id) throws NonexistentEntityException, Exception {
+    public Client disable(Long id) throws Exception {
         Client client = clientJpaController.findClient(id);
         client.setEnable(false);
         clientJpaController.edit(client);
@@ -65,13 +59,13 @@ public class ClientServiceImpl implements ICRUD<Client> {
     }
 
     @Override
-    public Client delete(Long id) throws NonexistentEntityException {
+    public Client delete(Long id) throws Exception {
         clientJpaController.destroy(id);
         return clientJpaController.findClient(id);
     }
 
     @Override
-    public Client enable(Long id) throws NonexistentEntityException, Exception {
+    public Client enable(Long id) throws Exception {
         Client client = clientJpaController.findClient(id);
         client.setEnable(true);
         clientJpaController.edit(client);

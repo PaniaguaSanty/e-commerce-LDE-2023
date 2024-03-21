@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public final class Management_Clients_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Clients_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ClientPanelController controller;
     private final FieldDataValidator validator;
@@ -76,6 +76,11 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
         jbl_name.setText("NOMBRE");
 
         jtf_name.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_nameActionPerformed(evt);
+            }
+        });
 
         jbl_lastname.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbl_lastname.setForeground(new java.awt.Color(255, 255, 255));
@@ -385,6 +390,10 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
         clients = controller.updateTable(jtf_cuitFilter.getText());
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
+
+    private void jtf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_nameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

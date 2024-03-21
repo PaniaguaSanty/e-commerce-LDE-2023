@@ -4,9 +4,9 @@
  */
 package com.itec1.e_commerce.views.resources;
 
-import com.itec1.e_commerce.views.InterfaceCrudPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import com.itec1.e_commerce.views.InterfacePanel;
 
 /**
  *
@@ -14,9 +14,9 @@ import javax.swing.event.ListSelectionListener;
  */
 public class TableListener implements ListSelectionListener {
 
-    private final InterfaceCrudPanel panel;
+    private final InterfacePanel panel;
     
-    public TableListener(InterfaceCrudPanel panel) {
+    public TableListener(InterfacePanel panel) {
         this.panel = panel;
     }
     

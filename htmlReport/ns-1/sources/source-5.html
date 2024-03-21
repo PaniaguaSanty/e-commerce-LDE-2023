@@ -1,0 +1,315 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > OrderServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrderServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+&nbsp; */
+&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.dao.ClientJpaController;
+&nbsp;import com.itec1.e_commerce.dao.DetailOrderJpaController;
+&nbsp;import com.itec1.e_commerce.dao.InvoiceJpaController;
+&nbsp;import com.itec1.e_commerce.dao.OrderJpaController;
+&nbsp;import com.itec1.e_commerce.dao.ProductJpaController;
+&nbsp;import com.itec1.e_commerce.dao.TrackingOrderJpaController;
+&nbsp;import com.itec1.e_commerce.dao.WarehouseJpaController;
+&nbsp;import com.itec1.e_commerce.entities.Client;
+&nbsp;import com.itec1.e_commerce.entities.DetailOrder;
+&nbsp;import com.itec1.e_commerce.entities.Invoice;
+&nbsp;import com.itec1.e_commerce.entities.Order;
+&nbsp;import com.itec1.e_commerce.entities.Sector;
+&nbsp;import com.itec1.e_commerce.entities.State;
+&nbsp;import com.itec1.e_commerce.entities.TrackingOrder;
+&nbsp;import com.itec1.e_commerce.entities.Warehouse;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author melina
+&nbsp; */
+&nbsp;public class OrderServiceImpl {
+&nbsp;
+&nbsp;    private final ClientJpaController clientJpaController;
+&nbsp;    private final WarehouseJpaController warehouseJpaController;
+&nbsp;    private final DetailOrderJpaController detailOrderJpaController;
+&nbsp;    private final ProductJpaController productJpaController;
+&nbsp;    private final TrackingOrderJpaController trackingOrderJpaController;
+&nbsp;    private final OrderJpaController orderJpaController;
+&nbsp;    private final InvoiceJpaController invoiceJpaController;
+&nbsp;    private SectorServiceImpl sectorServiceImpl;
+&nbsp;    private State state;
+&nbsp;
+<b class="nc">&nbsp;    public OrderServiceImpl(ClientJpaController clientJpaController, WarehouseJpaController warehouseJpaController, DetailOrderJpaController detailOrderJpaController, ProductJpaController productJpaController, TrackingOrderJpaController trackingOrderJpaController, OrderJpaController orderJpaController, InvoiceJpaController invoiceJpaController) {</b>
+<b class="nc">&nbsp;        this.clientJpaController = clientJpaController;</b>
+<b class="nc">&nbsp;        this.warehouseJpaController = warehouseJpaController;</b>
+<b class="nc">&nbsp;        this.detailOrderJpaController = detailOrderJpaController;</b>
+<b class="nc">&nbsp;        this.productJpaController = productJpaController;</b>
+<b class="nc">&nbsp;        this.trackingOrderJpaController = trackingOrderJpaController;</b>
+<b class="nc">&nbsp;        this.orderJpaController = orderJpaController;</b>
+<b class="nc">&nbsp;        this.invoiceJpaController = invoiceJpaController;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Los métodos con find tienen RuntimeException en vez de EntityNotFoundException porque
+&nbsp;    //para implementar la  misma hay que cambiar los constructores :(.
+&nbsp;    public Order create(Order entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            orderJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return orderJpaController.findOrder(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating the order: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create order.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Order findById(Long id) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return orderJpaController.findOrder(id);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding order by ID: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find order by ID.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Order&gt; findAll() {
+&nbsp;        try {
+<b class="nc">&nbsp;            return orderJpaController.findOrderEntities();</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding all orders: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to find all orders.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;TrackingOrder&gt; findByOrder(Order order) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return trackingOrderJpaController.findTrackingOrderEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(trackingOrder -&gt; trackingOrder.getOrder().getId().equals(order.getId()))</b>
+<b class="nc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding tracking orders: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to found the order.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Order&gt; findByWarehouse(Warehouse entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return orderJpaController.findOrderEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(order -&gt; order.getSector().getWarehouse().getId()</b>
+<b class="nc">&nbsp;                    .equals(entity.getId()))</b>
+<b class="nc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding orders by Warehouse: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to found the order.&quot;, e);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Order&gt; findByClient(Client entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return orderJpaController.findOrderEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(order -&gt; order.getClient().getId()</b>
+<b class="nc">&nbsp;                    .equals(entity.getId()))</b>
+<b class="nc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding orders by client.&quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to found the order by Client.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Order&gt; findBySector(Sector entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            return orderJpaController.findOrderEntities().stream()</b>
+<b class="nc">&nbsp;                    .filter(order -&gt; order.getSector().getId()</b>
+<b class="nc">&nbsp;                    .equals(entity.getId()))</b>
+<b class="nc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while finding orders by sector&quot;);</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to found orders by sector&quot;, e);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public TrackingOrder create(TrackingOrder entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            trackingOrderJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return trackingOrderJpaController.findTrackingOrder(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating the tracking order.&quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to  create the Tracking order: &quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeState(Order order) {
+<b class="nc">&nbsp;        State[] states = State.values();</b>
+<b class="nc">&nbsp;        int nextState = findByOrder(order).size() + 1;</b>
+<b class="nc">&nbsp;        if (nextState &lt; 7) {</b>
+<b class="nc">&nbsp;            createTracking(order, order.getWarehouseOrigin().getLatitude(),</b>
+<b class="nc">&nbsp;                    order.getWarehouseOrigin().getLongitude(), states[nextState]);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            createTracking(order, order.getWarehouseDestiny().getLatitude(),</b>
+<b class="nc">&nbsp;                    order.getWarehouseDestiny().getLongitude(), states[nextState]);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void orderInTransit(Order order, String latitude, String longitude) {
+<b class="nc">&nbsp;        createTracking(order, latitude, longitude, State.IN_TRANSIT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void cancelOrder(Order order) throws Exception {
+<b class="nc">&nbsp;        createTracking(order,</b>
+<b class="nc">&nbsp;                order.getWarehouseOrigin().getLatitude(),</b>
+<b class="nc">&nbsp;                order.getWarehouseOrigin().getLongitude(),</b>
+&nbsp;                State.CANCELED);
+<b class="nc">&nbsp;        sectorServiceImpl.changeSector(order,</b>
+<b class="nc">&nbsp;                sectorServiceImpl.findSectorByName(&quot;returned&quot;, order.getSector().getWarehouse()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void returnOrder(Order order) throws Exception {
+<b class="nc">&nbsp;        createTracking(order,</b>
+<b class="nc">&nbsp;                order.getWarehouseDestiny().getLatitude(),</b>
+<b class="nc">&nbsp;                order.getWarehouseDestiny().getLongitude(),</b>
+&nbsp;                State.RETURNED);
+<b class="nc">&nbsp;        sectorServiceImpl.changeSector(order,</b>
+<b class="nc">&nbsp;                sectorServiceImpl.findSectorByName(&quot;returned&quot;, order.getSector().getWarehouse()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void create(Invoice invoice) {
+&nbsp;        try {
+<b class="nc">&nbsp;        invoiceJpaController.create(invoice);</b>
+<b class="nc">&nbsp;        }catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating invoice. &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create Invoice&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addDetail(Order order, List&lt;DetailOrder&gt; details) {
+<b class="nc">&nbsp;        for (DetailOrder detail : details) {</b>
+<b class="nc">&nbsp;            detail.setOrder(orderJpaController.findOrder(order.getId()));</b>
+<b class="nc">&nbsp;            detailOrderJpaController.create(detail);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void qualifyProvider(DetailOrder detail, int star) throws Exception {
+<b class="nc">&nbsp;        detail.setProviderQualification(star);</b>
+<b class="nc">&nbsp;        detailOrderJpaController.edit(detail);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void qualifyCarrier(Invoice invoice, int star) throws Exception {
+<b class="nc">&nbsp;        invoice.setCarrierQualification(star);</b>
+<b class="nc">&nbsp;        invoiceJpaController.edit(invoice);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void createTracking(Order order, String latitude, String longitude, State state) {
+<b class="nc">&nbsp;        TrackingOrder tracking = new TrackingOrder();</b>
+<b class="nc">&nbsp;        tracking.setOrder(order);</b>
+<b class="nc">&nbsp;        tracking.setDate(new Date());</b>
+<b class="nc">&nbsp;        tracking.setHour(new Date());</b>
+<b class="nc">&nbsp;        tracking.setLatitude(latitude);</b>
+<b class="nc">&nbsp;        tracking.setLongitude(longitude);</b>
+<b class="nc">&nbsp;        tracking.setState(state);</b>
+<b class="nc">&nbsp;        create(tracking);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

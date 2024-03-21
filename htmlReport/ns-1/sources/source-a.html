@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WarehouseServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: WarehouseServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WarehouseServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+&nbsp; * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+&nbsp; */
+&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.config.Connection;
+&nbsp;import com.itec1.e_commerce.dao.WarehouseJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.Warehouse;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author pania
+&nbsp; */
+&nbsp;public class WarehouseServiceImpl implements ICRUD&lt;Warehouse&gt; {
+&nbsp;
+&nbsp;    private final WarehouseJpaController warehouseJpaController;
+&nbsp;
+<b class="nc">&nbsp;    public WarehouseServiceImpl() {</b>
+<b class="nc">&nbsp;        this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse create(Warehouse entity) {
+<b class="nc">&nbsp;        warehouseJpaController.create(entity);</b>
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(entity.getId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse update(Long id, Warehouse entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Warehouse warehouse = warehouseJpaController.findWarehouse(id);</b>
+<b class="nc">&nbsp;        warehouse.setAddress(entity.getAddress());</b>
+<b class="nc">&nbsp;        warehouse.setCountry(entity.getCountry());</b>
+<b class="nc">&nbsp;        warehouseJpaController.edit(entity);</b>
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(entity.getId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse findById(Long id) {
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Warehouse&gt; findAll() {
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouseEntities().stream()</b>
+<b class="nc">&nbsp;        .filter(warehouse -&gt; warehouse.getEnabled())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Warehouse warehouse = warehouseJpaController.findWarehouse(id);</b>
+<b class="nc">&nbsp;        warehouse.setEnabled(false);</b>
+<b class="nc">&nbsp;        warehouseJpaController.edit(warehouse);</b>
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        warehouseJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Warehouse enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        Warehouse warehouse = warehouseJpaController.findWarehouse(id);</b>
+<b class="nc">&nbsp;        warehouse.setEnabled(true);</b>
+<b class="nc">&nbsp;        warehouseJpaController.edit(warehouse);</b>
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouse(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Warehouse&gt; findWarehouseByCountry(String countryName) {
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouseEntities()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .filter(warehouse -&gt; warehouse.getCountry()</b>
+<b class="nc">&nbsp;                .equals(countryName))</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Warehouse findByCode(String code) {
+<b class="nc">&nbsp;        return warehouseJpaController.findWarehouseEntities()</b>
+<b class="nc">&nbsp;                .stream()</b>
+<b class="nc">&nbsp;                .filter(warehouse -&gt; warehouse.getCode()</b>
+<b class="nc">&nbsp;                .equals(code))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumnModel;
 
-public final class Management_Products_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+public final class Management_Products_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ProductPanelController controller;
     private final FieldDataValidator validator;
@@ -37,7 +37,6 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
         initValidator();
         initPanel();
         productTable.setDefaultRenderer(Object.class, new CustomCellRender());
-        
     }
 
     /**
@@ -162,6 +161,12 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
         lbl_provider.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbl_provider.setForeground(new java.awt.Color(255, 255, 255));
         lbl_provider.setText("PROVEEDOR");
+
+        comboBox_category.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_categoryActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_datos1Layout = new javax.swing.GroupLayout(jPanel_datos1);
         jPanel_datos1.setLayout(jPanel_datos1Layout);
@@ -342,6 +347,10 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboBox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_categoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBox_categoryActionPerformed
 
     private void jbn_updateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jbn_updateActionPerformed
         if (controller.verifyCrud("update")) {

@@ -7,6 +7,7 @@ import com.itec1.e_commerce.views.Management_Products_Categories_Panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 public class ProductCategoryPanelController implements IController<ProductCategory> {
@@ -23,7 +24,6 @@ public class ProductCategoryPanelController implements IController<ProductCatego
     @Override
     public List<ProductCategory> updateTable(String name) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "Descripción"};
         model.setColumnIdentifiers(titles);
         List<ProductCategory> categories = service.findAll();
@@ -47,7 +47,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         } else {
             service.create(entity);
         }
-        return "Cliente creado correctamente.";
+        return "Categoría creada correctamente.";
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
         }
-        return "Cliente actualizado correctamente";
+        return "Categoría actualizada correctamente";
     }
 
     @Override
@@ -119,4 +119,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         return false;
     }
 
+    public void getCategoryCombobox(JComboBox categoryCombobox) {
+        service.getCategoryCMB(categoryCombobox);
+    }
 }

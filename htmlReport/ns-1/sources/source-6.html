@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProductCategoryServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.itec1.e_commerce.services</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductCategoryServiceImpl (com.itec1.e_commerce.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductCategoryServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.itec1.e_commerce.services;
+&nbsp;
+&nbsp;import com.itec1.e_commerce.config.Connection;
+&nbsp;import com.itec1.e_commerce.dao.ProductCategoryJpaController;
+&nbsp;import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
+&nbsp;import com.itec1.e_commerce.entities.ProductCategory;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import javax.swing.JComboBox;
+&nbsp;
+&nbsp;public class ProductCategoryServiceImpl implements ICRUD&lt;ProductCategory&gt; {
+&nbsp;
+&nbsp;    private final ProductCategoryJpaController productCategoryJpaController;
+&nbsp;
+<b class="nc">&nbsp;    public ProductCategoryServiceImpl() {</b>
+<b class="nc">&nbsp;        this.productCategoryJpaController = new ProductCategoryJpaController(Connection.getEmf());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory create(ProductCategory entity) {
+&nbsp;        try {
+<b class="nc">&nbsp;            productCategoryJpaController.create(entity);</b>
+<b class="nc">&nbsp;            return productCategoryJpaController.findProductCategory(entity.getId());</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Error while creating the product category: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Failed to create the product category&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory update(Long id, ProductCategory entity) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);</b>
+<b class="nc">&nbsp;        productCategory.setDescription(entity.getDescription());</b>
+<b class="nc">&nbsp;        productCategoryJpaController.edit(productCategory);</b>
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory findById(Long id) {
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ProductCategory&gt; findAll() {
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategoryEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(cat -&gt; cat.isEnable()).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory disable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);</b>
+<b class="nc">&nbsp;        productCategory.setEnable(false);</b>
+<b class="nc">&nbsp;        productCategoryJpaController.edit(productCategory);</b>
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory delete(Long id) throws NonexistentEntityException {
+<b class="nc">&nbsp;        productCategoryJpaController.destroy(id);</b>
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ProductCategory enable(Long id) throws NonexistentEntityException, Exception {
+<b class="nc">&nbsp;        ProductCategory productCategory = productCategoryJpaController.findProductCategory(id);</b>
+<b class="nc">&nbsp;        productCategory.setEnable(true);</b>
+<b class="nc">&nbsp;        productCategoryJpaController.edit(productCategory);</b>
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ProductCategory findByName(String name) {
+<b class="nc">&nbsp;        return productCategoryJpaController.findProductCategoryEntities().stream()</b>
+<b class="nc">&nbsp;                .filter(category -&gt; category.getName().equals(name))</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void getCategoryCMB(JComboBox comboBox_category) {
+<b class="nc">&nbsp;        productCategoryJpaController.getCategoryCMB(comboBox_category);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-15 00:57</div>
+</div>
+</body>
+</html>

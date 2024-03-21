@@ -16,22 +16,21 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         this.employeeJpaController = new EmployeeJpaController(Connection.getEmf());
     }
 
-    @Override
-    public Employee create(Employee entity) {
-        try {
-            employeeJpaController.create(entity);
-            return employeeJpaController.findEmployee(entity.getId());
-        } catch (Exception e) {
-            System.err.println("Error when creating the employee" + e.getMessage());
-            throw new RuntimeException("Failed to create employee", e);
-        }
+    public EmployeeServiceImpl(EmployeeJpaController employeeJpaController) {
+        this.employeeJpaController = employeeJpaController;
     }
 
     @Override
-    public Employee update(Long id, Employee entity) throws NonexistentEntityException, Exception {
+    public Employee create(Employee entity) {
+        employeeJpaController.create(entity);
+        return entity;
+    }
+
+    @Override
+    public Employee update(Long id, Employee entity) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setName(entity.getName());
-        employee.setSurname(entity.getSurname());
+        employee.setLastname(entity.getLastname());
         employee.setAddress(entity.getAddress());
         employee.setCuit(entity.getCuit());
         employee.setEmail(entity.getEmail());
@@ -52,7 +51,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     @Override
-    public Employee disable(Long id) throws NonexistentEntityException, Exception {
+    public Employee disable(Long id) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(false);
         employeeJpaController.edit(employee);
@@ -66,7 +65,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     @Override
-    public Employee enable(Long id) throws NonexistentEntityException, Exception {
+    public Employee enable(Long id) throws Exception {
         Employee employee = employeeJpaController.findEmployee(id);
         employee.setEnable(true);
         employeeJpaController.edit(employee);
@@ -74,31 +73,28 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     }
 
     public Employee findByCuit(String cuit) {
-        try {
-            return employeeJpaController.findEmployeeEntities().stream()
+        return employeeJpaController.findEmployeeEntities().stream()
                     .filter(client -> client.getCuit().equals(cuit))
                     .findFirst()
                     .orElse(null);
-        } catch (Exception e) {
-            System.err.println("Error while searching Employee by cuit.");
-            throw new RuntimeException("Error while searching, please try again.", e);
-        }
     }
   
   public List<Employee> searchByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
-                .filter(employee -> employee.getWarehouse().getAddress().equalsIgnoreCase(warehouseToSearch))
-                .collect(Collectors.toList());
+                .filter(employee -> employee.getWarehouse().getCode().
+                        equals(warehouseToSearch)).toList();
     }
 
     //Verificar
-    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) {
+    public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) throws Exception {
         Employee employeeToRelocate = findByCuit(employeeCuitToRelocate);
         if (employeeToRelocate != null && employeeToRelocate.getEnable()) {
             employeeToRelocate.setWarehouse(warehouseToRelocate);
+            employeeJpaController.edit(employeeToRelocate);
             return employeeToRelocate;
         }
         return null;
     }
-  
+
+
 }

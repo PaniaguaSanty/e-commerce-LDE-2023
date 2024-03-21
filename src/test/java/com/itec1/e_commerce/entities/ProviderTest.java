@@ -114,8 +114,9 @@ class ProviderTest {
 
     @Test
     void testToString() {
-        String expected = "provider{" + "id=" + provider.getId() + ", name=name, surname=lastname, address=address, cuit=cuit, email=email, phone=phone, enable=true}";
+        String expected = "name lastname";
         assertEquals(expected, provider.toString());
     }
 
 }
+

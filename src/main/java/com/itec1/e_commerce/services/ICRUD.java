@@ -16,16 +16,16 @@ public interface ICRUD<T> {
 
     T create(T entity);
 
-    T update(Long id, T entity) throws NonexistentEntityException, Exception;
+    T update(Long id, T entity) throws Exception;
 
     T findById(Long id);
 
     List<T> findAll();
 
-    T disable(Long id) throws NonexistentEntityException, Exception;
+    T disable(Long id) throws Exception;
 
-    T delete(Long id) throws NonexistentEntityException;
+    T delete(Long id) throws Exception;
 
-    T enable(Long id) throws NonexistentEntityException, Exception;
+    T enable(Long id) throws Exception;
 
 }

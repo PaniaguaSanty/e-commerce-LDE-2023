@@ -55,7 +55,9 @@ public class ProductServiceImpl implements ICRUD<Product> {
 
     @Override
     public List<Product> findAll() {
-        return productJpaController.findProductEntities();
+        return productJpaController.findProductEntities().stream()
+                .filter(Product::isEnable)
+                .toList();
     }
 
     @Override

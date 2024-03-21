@@ -11,7 +11,11 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public final class Management_Carriers_Panel extends javax.swing.JPanel implements InterfaceCrudPanel {
+/**
+ *
+ * @author sjcex
+ */
+public final class Management_Carriers_Panel extends javax.swing.JPanel implements InterfacePanel {
 
     private final CarrierPanelController controller;
     private final FieldDataValidator validator;
@@ -41,11 +45,11 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jPanel = new javax.swing.JPanel();
         jPanel_datos = new javax.swing.JPanel();
         jbl_CarrierName = new javax.swing.JLabel();
-        jtf_CarrierName = new javax.swing.JTextField();
+        jtf_carrierName = new javax.swing.JTextField();
         jbl_CarrierCuit = new javax.swing.JLabel();
-        jtf_CarrierCuit = new javax.swing.JTextField();
+        jtf_carrierCuit = new javax.swing.JTextField();
         jbl_CarrierPhone = new javax.swing.JLabel();
-        jtf_CarrierPhone = new javax.swing.JTextField();
+        jtf_carrierPhone = new javax.swing.JTextField();
         jlbl_info = new javax.swing.JLabel();
         jbn_updateCarrier = new javax.swing.JButton();
         jbn_deleteCarrier = new javax.swing.JButton();
@@ -73,14 +77,14 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jbl_CarrierName.setForeground(new java.awt.Color(255, 255, 255));
         jbl_CarrierName.setText("NOMBRE");
 
-        jtf_CarrierName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_carrierName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jbl_CarrierCuit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbl_CarrierCuit.setForeground(new java.awt.Color(255, 255, 255));
         jbl_CarrierCuit.setText("C.U.I.T.");
         jbl_CarrierCuit.setName("jbl_cuit"); // NOI18N
 
-        jtf_CarrierCuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_carrierCuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jbl_CarrierPhone.setBackground(new java.awt.Color(255, 255, 255));
         jbl_CarrierPhone.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -88,7 +92,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jbl_CarrierPhone.setText("TELÉFONO");
         jbl_CarrierPhone.setName("jbl_CarrierPhone"); // NOI18N
 
-        jtf_CarrierPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_carrierPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jlbl_info.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlbl_info.setForeground(new java.awt.Color(255, 0, 0));
@@ -154,12 +158,12 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                                     .addComponent(jbl_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(68, 68, 68)
                                 .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtf_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jtf_carrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_carrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel_datosLayout.createSequentialGroup()
                                 .addComponent(jbl_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(68, 68, 68)
-                                .addComponent(jtf_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jtf_carrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel_datosLayout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jbn_restoreCarrier)
@@ -180,16 +184,16 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                 .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel_datosLayout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(jtf_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtf_carrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_datosLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtf_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_carrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbl_CarrierName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbl_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_CarrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtf_carrierCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbl_CarrierPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
@@ -296,46 +300,42 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 812, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 458, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_updateCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_updateCarrierActionPerformed
         if (controller.verifyCrud("update")) {
             changeConditionAllFields(true);
-            changeConditionField(jtf_CarrierCuit, false);
+            changeConditionField(jtf_carrierCuit, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_updateCarrier, true);
+            changeConditionCheckBox(true);
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a presionar");
         } else {
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
+            } else if (verifyEmptyTransport()) {
+                jlbl_info.setText("Error: seleccione un transporte");
             } else {
-                Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
-                newCarrier.setName(jtf_CarrierName.getText());
-                newCarrier.setPhone(jtf_CarrierPhone.getText());
-                jlbl_info.setText(controller.update(newCarrier.getId(), newCarrier));
+                Carrier carrierUpdated = fillCarrierData();
+                carrierUpdated.setId(controller.findByCuit(jtf_carrierCuit.getText()).getId());
+                jlbl_info.setText(controller.update(carrierUpdated.getId(), carrierUpdated));
             }
             initPanel();
         }
     }//GEN-LAST:event_jbn_updateCarrierActionPerformed
 
     private void jbn_deleteCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_deleteCarrierActionPerformed
-        Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
+        Carrier newCarrier = controller.findByCuit(jtf_carrierCuit.getText());
         jlbl_info.setText(controller.disable(newCarrier.getId()));
         initPanel();
     }//GEN-LAST:event_jbn_deleteCarrierActionPerformed
@@ -346,17 +346,14 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_saveCarrier, true);
+            changeConditionCheckBox(true);
         } else {
             if (verifyEmptyFields()) {
                 jlbl_info.setText("Error: no pueden haber datos vacios");
+            } else if (verifyEmptyTransport()) {
+                jlbl_info.setText("Error: seleccione un transporte");
             } else {
-                Carrier newCarrier = new Carrier();
-                newCarrier.setName(jtf_CarrierName.getText());
-                newCarrier.setCuit(jtf_CarrierCuit.getText());
-                newCarrier.setPhone(jtf_CarrierPhone.getText());
-                newCarrier.setGround(jcb_ground.isSelected());
-                newCarrier.setGround(jcb_maritime.isSelected());
-                newCarrier.setGround(jcb_aerial.isSelected());
+                Carrier newCarrier = fillCarrierData();
                 jlbl_info.setText(controller.create(newCarrier));
             }
             initPanel();
@@ -366,15 +363,26 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     private void jbn_restoreCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_restoreCarrierActionPerformed
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_saveCarrier, false);
-            changeConditionField(jtf_CarrierCuit, true);
+            changeConditionField(jtf_carrierCuit, true);
             jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
         } else {
-            Carrier newCarrier = controller.findByCuit(jtf_CarrierCuit.getText());
+            Carrier newCarrier = controller.findByCuit(jtf_carrierCuit.getText());
             jlbl_info.setText(controller.enable(newCarrier.getId()));
         }
         initPanel();
 
     }//GEN-LAST:event_jbn_restoreCarrierActionPerformed
+
+    private Carrier fillCarrierData() {
+        Carrier entity = new Carrier();
+        entity.setName(jtf_carrierName.getText());
+        entity.setCuit(jtf_carrierCuit.getText());
+        entity.setPhone(jtf_carrierPhone.getText());
+        entity.setGround(jcb_ground.isSelected());
+        entity.setMaritime(jcb_maritime.isSelected());
+        entity.setAerial(jcb_aerial.isSelected());
+        return entity;
+    }
 
     private void seeCarriersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeCarriersActionPerformed
         // TODO add your handling code here:
@@ -403,9 +411,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     private javax.swing.JCheckBox jcb_ground;
     private javax.swing.JCheckBox jcb_maritime;
     private javax.swing.JLabel jlbl_info;
-    private javax.swing.JTextField jtf_CarrierCuit;
-    private javax.swing.JTextField jtf_CarrierName;
-    private javax.swing.JTextField jtf_CarrierPhone;
+    private javax.swing.JTextField jtf_carrierCuit;
+    private javax.swing.JTextField jtf_carrierName;
+    private javax.swing.JTextField jtf_carrierPhone;
     private javax.swing.JTextField jtf_cuitFilter;
     private javax.swing.JButton seeCarriers;
     private javax.swing.JTable tableCarriers;
@@ -419,10 +427,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void initValidator() {
-        validator.onlyNumbers(jtf_CarrierCuit);
-        validator.onlyNumbers(jtf_CarrierPhone);
-        validator.onlyLetters(jtf_CarrierName);
-        validator.onlyNumbers(jtf_cuitFilter);
+        validator.onlyNumbers(jtf_carrierCuit);
+        validator.onlyNumbers(jtf_carrierPhone);
+        validator.onlyLetters(jtf_carrierName);
     }
 
     @Override
@@ -448,12 +455,12 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         int field = tableCarriers.getSelectedRow();
         if (field >= 0) {
             Carrier selected = carriers.get(field);
-            jtf_CarrierName.setText(selected.getName());
-            jtf_CarrierCuit.setText(selected.getCuit());
-            jtf_CarrierPhone.setText(selected.getPhone());
-            jcb_ground.setSelected(selected.isGround());
-            jcb_ground.setSelected(selected.isGround());
-            jcb_ground.setSelected(selected.isGround());
+            jtf_carrierName.setText(selected.getName());
+            jtf_carrierCuit.setText(selected.getCuit());
+            jtf_carrierPhone.setText(selected.getPhone());
+            jcb_ground.setSelected(selected.getGround());
+            jcb_maritime.setSelected(selected.getGround());
+            jcb_aerial.setSelected(selected.getGround());
             changeConditionAllButtons(true);
             changeConditionButton(jbn_saveCarrier, false);
             changeConditionButton(jbn_restoreCarrier, false);
@@ -463,9 +470,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void changeConditionAllFields(boolean state) {
-        changeConditionField(jtf_CarrierName, state);
-        changeConditionField(jtf_CarrierCuit, state);
-        changeConditionField(jtf_CarrierPhone, state);
+        changeConditionField(jtf_carrierName, state);
+        changeConditionField(jtf_carrierCuit, state);
+        changeConditionField(jtf_carrierPhone, state);
     }
 
     @Override
@@ -494,9 +501,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void cleanAllFields() {
-        cleanField(jtf_CarrierName);
-        cleanField(jtf_CarrierCuit);
-        cleanField(jtf_CarrierPhone);
+        cleanField(jtf_carrierName);
+        cleanField(jtf_carrierCuit);
+        cleanField(jtf_carrierPhone);
     }
 
     @Override
@@ -507,9 +514,9 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     @Override
     public boolean verifyEmptyFields() {
         List<JTextField> fields = new ArrayList<>();
-        fields.add(jtf_CarrierName);
-        fields.add(jtf_CarrierCuit);
-        fields.add(jtf_CarrierPhone);
+        fields.add(jtf_carrierName);
+        fields.add(jtf_carrierCuit);
+        fields.add(jtf_carrierPhone);
         for (JTextField field : fields) {
             if (field.getText().length() == 0) {
                 return true;
