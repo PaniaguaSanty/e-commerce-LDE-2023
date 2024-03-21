@@ -63,53 +63,53 @@ class CarrierTest {
     @Test
     void testGetEnable() {
         boolean expected = true;
-        assertEquals(expected, carrier.getEnable());
+        assertEquals(expected, carrier.isEnable());
     }
 
     @Test
     void testSetAndGetEnable() {
         carrier.setEnable(false);
         boolean expected = false;
-        assertEquals(expected, carrier.getEnable());
+        assertEquals(expected, carrier.isEnable());
     }
 
     @Test
     void testGetGround() {
         boolean expected = true;
-        assertEquals(expected, carrier.getGround());
+        assertEquals(expected, carrier.isGround());
     }
 
     @Test
     void testSetAndGetGround() {
         carrier.setGround(false);
         boolean expected = false;
-        assertEquals(expected, carrier.getGround());
+        assertEquals(expected, carrier.isGround());
     }
 
     @Test
     void testGetMaritime() {
         boolean expected = true;
-        assertEquals(expected, carrier.getMaritime());
+        assertEquals(expected, carrier.isMaritime());
     }
 
     @Test
     void testSetAndGetMaritime() {
         carrier.setMaritime(false);
         boolean expected = false;
-        assertEquals(expected, carrier.getMaritime());
+        assertEquals(expected, carrier.isMaritime());
     }
 
     @Test
     void testGetAerial() {
         boolean expected = true;
-        assertEquals(expected, carrier.getAerial());
+        assertEquals(expected, carrier.isAerial());
     }
 
     @Test
     void testSetAndGetAerial() {
         carrier.setAerial(false);
         boolean expected = false;
-        assertEquals(expected, carrier.getAerial());
+        assertEquals(expected, carrier.isAerial());
     }
 
     @Test

@@ -18,6 +18,10 @@ public class ProductServiceImpl implements ICRUD<Product> {
         this.productJpaController = new ProductJpaController(Connection.getEmf());
     }
 
+    public ProductServiceImpl(ProductJpaController productJpaController) {
+        this.productJpaController = productJpaController;
+    }
+
     @Override
     public Product create(Product entity) {
         try {

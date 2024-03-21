@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.CarrierPanelController;
@@ -25,22 +21,16 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     private final FieldDataValidator validator;
     private List<Carrier> carriers;
 
-    /**
-     * Creates new form Management_Carriers_Panel
-     */
     public Management_Carriers_Panel() {
         initComponents();
-
         this.controller = new CarrierPanelController(this);
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
+        tableCarriers.getSelectionModel().addListSelectionListener(new TableListener(this));
         this.carriers = controller.updateTable("");
-
         initListener();
-
         this.validator = new FieldDataValidator();
         initValidator();
-
         initPanel();
-
     }
 
     /**
@@ -79,6 +69,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jPanel.setBackground(new java.awt.Color(255, 255, 255));
         jPanel.setMaximumSize(new java.awt.Dimension(800, 600));
         jPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+        jPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel_datos.setBackground(new java.awt.Color(0, 51, 255));
 
@@ -185,7 +176,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                                 .addComponent(jbn_updateCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(64, 64, 64)
                                 .addComponent(jbn_deleteCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(629, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_datosLayout.setVerticalGroup(
             jPanel_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +258,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
                         .addGap(18, 18, 18)
                         .addComponent(seeCarriers))
                     .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel_crudLayout.setVerticalGroup(
             jPanel_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,8 +281,11 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_crud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel_datos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel_crud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(380, 380, 380))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,11 +385,11 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     }
 
     private void seeCarriersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeCarriersActionPerformed
-        initPanel();
+        // TODO add your handling code here:
     }//GEN-LAST:event_seeCarriersActionPerformed
 
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        carriers = controller.updateTable(jtf_cuitFilter.getText());
+        // TODO add your handling code here:
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
 
 
@@ -539,7 +533,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public String getStringFilter() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return jtf_cuitFilter.getText();
     }
 
 }
