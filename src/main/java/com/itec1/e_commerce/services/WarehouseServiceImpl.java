@@ -10,7 +10,6 @@ import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -23,15 +22,15 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     public WarehouseServiceImpl() {
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
-        this.sectorService=new SectorServiceImpl();
+        this.sectorService = new SectorServiceImpl();
     }
 
     @Override
     public Warehouse create(Warehouse entity) {
         warehouseJpaController.create(entity);
-        sectorService.create(new Sector("entregados",entity,"001"));
-        sectorService.create(new Sector("devueltos",entity,"002"));
-        sectorService.create(new Sector("recepcion",entity,"003"));
+        sectorService.create(new Sector("entregados", entity, "001"));
+        sectorService.create(new Sector("devueltos", entity, "002"));
+        sectorService.create(new Sector("recepcion", entity, "003"));
         return warehouseJpaController.findWarehouse(entity.getId());
     }
 
@@ -51,16 +50,18 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
 
     @Override
     public List<Warehouse> findAll() {
-        return warehouseJpaController.findWarehouseEntities().stream()
-        .filter(warehouse -> warehouse.getEnabled())
-        .collect(Collectors.toList());
+        return warehouseJpaController.findWarehouseEntities();
+    }
 
+    @Override
+    public List<Warehouse> findAllEnabled() {
+        return findAll().stream().filter(Warehouse::isEnable).toList();
     }
 
     @Override
     public Warehouse disable(Long id) throws NonexistentEntityException, Exception {
         Warehouse warehouse = warehouseJpaController.findWarehouse(id);
-        warehouse.setEnabled(false);
+        warehouse.setEnable(false);
         warehouseJpaController.edit(warehouse);
         return warehouseJpaController.findWarehouse(id);
     }
@@ -74,26 +75,21 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
     @Override
     public Warehouse enable(Long id) throws NonexistentEntityException, Exception {
         Warehouse warehouse = warehouseJpaController.findWarehouse(id);
-        warehouse.setEnabled(true);
+        warehouse.setEnable(true);
         warehouseJpaController.edit(warehouse);
         return warehouseJpaController.findWarehouse(id);
     }
 
     public List<Warehouse> findWarehouseByCountry(String countryName) {
-        return warehouseJpaController.findWarehouseEntities()
-                .stream()
+        return findAll().stream()
                 .filter(warehouse -> warehouse.getCountry()
-                .equals(countryName))
-                .collect(Collectors.toList());
+                .equals(countryName)).toList();
     }
 
     public Warehouse findByCode(String code) {
-        return warehouseJpaController.findWarehouseEntities()
-                .stream()
+        return findAll().stream()
                 .filter(warehouse -> warehouse.getCode()
-                .equals(code))
-                .findFirst()
-                .orElse(null);
+                .equals(code)).findFirst().orElse(null);
     }
 
 }

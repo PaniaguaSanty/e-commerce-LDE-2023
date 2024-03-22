@@ -32,7 +32,7 @@ public class ProviderPanelController implements IController<Provider> {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Nombre", "Apellido", "C.U.I.T.", "Direción", "Correo", "Teléfono"};
         model.setColumnIdentifiers(titles);
-        List<Provider> providers = service.findAll();
+        List<Provider> providers = service.findAllEnabled();
         List<Provider> result = new ArrayList<>();
         for (Provider pr : providers) {
             if (pr.getCuit().startsWith(cuit)) {

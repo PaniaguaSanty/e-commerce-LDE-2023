@@ -49,6 +49,11 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     @Override
+    public List<Carrier> findAllEnabled() {
+        return findAll().stream().filter(Carrier::isEnable).toList();
+    }
+
+    @Override
     public Carrier disable(Long id) throws Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
         carrier.setEnable(false);
@@ -71,7 +76,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     public Carrier findByCuit(String cuit) {
-      
+
         return carrierJpaController.findCarrierEntities().stream()
                 .filter(carrier -> carrier.getCuit().equals(cuit))
                 .findFirst()
@@ -79,17 +84,18 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     public List<Carrier> findByTypeOfTransport(String transportType) {
-        return carrierJpaController.findCarrierEntities().stream()
-                .filter(carrier -> switch (transportType) {
-                    case "aerial" -> carrier.isAerial();
-                    case "ground" -> carrier.isGround();
-                    case "maritime" -> carrier.isMaritime();
-                    default -> false;
-                })
-                .toList();
+        return findAllEnabled().stream().filter(carrier -> switch (transportType) {
+            case "aerial" ->
+                carrier.isAerial();
+            case "ground" ->
+                carrier.isGround();
+            case "maritime" ->
+                carrier.isMaritime();
+            default ->
+                false;
+        }).toList();
     }
-    
-    
+
     public String verifyEnabledTransports(Carrier carrier) {
         return (carrier.isGround()
                 ? (carrier.isMaritime()

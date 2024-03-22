@@ -62,7 +62,7 @@ class SectorServiceImplTest {
     void testDisableEmployee() throws Exception {
         Mockito.when(sectorJpa.findSector(sectors.get(0).getId())).thenReturn(sectors.get(0));
         serviceImplTest.disable(sectors.get(0).getId());
-        assertFalse(sectors.get(0).getEnabled());
+        assertFalse(sectors.get(0).isEnable());
     }
 
     @Test
@@ -78,7 +78,7 @@ class SectorServiceImplTest {
     void enable() throws Exception {
         Mockito.when(sectorJpa.findSector(sectors.get(0).getId())).thenReturn(sectors.get(0));
         serviceImplTest.enable(sectors.get(0).getId());
-        assertTrue(sectors.get(0).getEnabled());
+        assertTrue(sectors.get(0).isEnable());
     }
 
     @Test

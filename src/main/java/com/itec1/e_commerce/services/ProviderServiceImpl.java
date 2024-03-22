@@ -59,10 +59,14 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     @Override
     public List<Provider> findAll() {
-        return providerJpaController.findProviderEntities().stream()
-                .filter(Provider::isEnable)
-                .collect(Collectors.toList());
+        return providerJpaController.findProviderEntities();
     }
+    
+    @Override
+    public List<Provider> findAllEnabled() {
+        return findAll().stream().filter(Provider::isEnable).toList();
+    }
+    
 
     @Override
     public Provider disable(Long id) throws Exception {
@@ -87,17 +91,15 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     public Provider findByCuit(String cuit) {
-            return providerJpaController.findProviderEntities().stream()
+            return findAll().stream()
                     .filter(client -> client.getCuit().equals(cuit))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst().orElse(null);
     }
 
     public Provider findByName(String name) {
-        return providerJpaController.findProviderEntities().stream()
+        return findAll().stream()
                 .filter(product -> product.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
     
     public void getProviderCMB(JComboBox comboBox_provider) {

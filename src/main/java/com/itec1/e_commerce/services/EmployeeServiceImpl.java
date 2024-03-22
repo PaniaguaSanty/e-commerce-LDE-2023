@@ -49,6 +49,11 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     public List<Employee> findAll() {
         return employeeJpaController.findEmployeeEntities();
     }
+    
+    @Override
+    public List<Employee> findAllEnabled() {
+        return findAll().stream().filter(Employee::isEnable).toList();
+    }
 
     @Override
     public Employee disable(Long id) throws Exception {
@@ -88,7 +93,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     //Verificar
     public Employee relocateEmployee(String employeeCuitToRelocate, Warehouse warehouseToRelocate) throws Exception {
         Employee employeeToRelocate = findByCuit(employeeCuitToRelocate);
-        if (employeeToRelocate != null && employeeToRelocate.getEnable()) {
+        if (employeeToRelocate != null && employeeToRelocate.isEnable()) {
             employeeToRelocate.setWarehouse(warehouseToRelocate);
             employeeJpaController.edit(employeeToRelocate);
             return employeeToRelocate;

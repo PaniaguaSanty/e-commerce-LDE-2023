@@ -26,7 +26,7 @@ public class ProductCategoryPanelController implements IController<ProductCatego
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Id", "Nombre", "Descripción"};
         model.setColumnIdentifiers(titles);
-        List<ProductCategory> categories = service.findAll();
+        List<ProductCategory> categories = service.findAllEnabled();
         List<ProductCategory> result = new ArrayList<>();
         String lowerName = name.toLowerCase();
         for (ProductCategory cat : categories) {

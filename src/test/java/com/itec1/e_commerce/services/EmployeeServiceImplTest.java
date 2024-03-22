@@ -81,7 +81,7 @@ class EmployeeServiceImplTest {
         Employee employee = employee();
         when(employeeJpa.findEmployee(employee.getId())).thenReturn(employee);
         employeeService.disable(employee.getId());
-        assertFalse(employee.getEnable());
+        assertFalse(employee.isEnable());
     }
 
 
@@ -90,7 +90,7 @@ class EmployeeServiceImplTest {
 
         when(employeeJpa.findEmployee(employee().getId())).thenReturn(employee());
         employeeService.enable(employee().getId());
-        assertTrue(employee().getEnable());
+        assertTrue(employee().isEnable());
     }
 
     @Test

@@ -102,16 +102,16 @@ class EmployeeTest {
     }
 
     @Test
-    void testGetEnable() {
+    void testIsEnable() {
         boolean expected = true;
-        assertEquals(expected, employee.getEnable());
+        assertEquals(expected, employee.isEnable());
     }
 
     @Test
     void testSetAndGetEnable() {
         employee.setEnable(false);
         boolean expected = false;
-        assertEquals(expected, employee.getEnable());
+        assertEquals(expected, employee.isEnable());
     }
 
     @Test

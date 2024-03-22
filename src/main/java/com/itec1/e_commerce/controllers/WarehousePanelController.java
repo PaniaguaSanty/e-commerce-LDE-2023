@@ -34,7 +34,7 @@ public class WarehousePanelController implements IController<Warehouse> {
         //agrega los titulos a la columna
         String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
         model.setColumnIdentifiers(titles);
-        List<Warehouse> warehouses = warehouseService.findAll();
+        List<Warehouse> warehouses = warehouseService.findAllEnabled();
         List<Warehouse> result = new ArrayList<>();
         for (Warehouse wh : warehouses) {
             if (wh.getCode().startsWith(string)) {
@@ -91,7 +91,7 @@ public class WarehousePanelController implements IController<Warehouse> {
     @Override
     public String disable(Long id) {
         Warehouse warehouse = warehouseService.findById(id);
-        if (!warehouse.getEnabled()) {
+        if (!warehouse.isEnable()) {
             return "ERROR. Esta sucursal ya se encuentra eliminada.";
         } else {
             try {
@@ -108,7 +108,7 @@ public class WarehousePanelController implements IController<Warehouse> {
     @Override
     public String enable(Long id) {
         Warehouse warehouse = warehouseService.findById(id);
-        if (warehouse.getEnabled()) {
+        if (warehouse.isEnable()) {
             return "ERROR. Esta sucursal no se encuentra eliminada.";
         } else {
             try {
