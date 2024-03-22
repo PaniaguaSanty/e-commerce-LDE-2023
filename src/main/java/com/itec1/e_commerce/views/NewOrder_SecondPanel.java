@@ -6,11 +6,13 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import com.itec1.e_commerce.views.resources.JWarehouseTableFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -32,9 +34,6 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         initComponents();
         this.controller = new OrderPanelController(this);
         this.mainFrame = mainFrame;
-        tableChooseCarrier.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.carriers = controller.updateCarrierTable("");
-        this.warehouses = controller.updateWarehouseTable("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();
@@ -54,17 +53,22 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         jbl_filter11 = new javax.swing.JLabel();
         jbl_filterByCountry = new javax.swing.JLabel();
         jbl_filter13 = new javax.swing.JLabel();
-        jtf_warehouseFilter = new javax.swing.JTextField();
+        jtf_warehouseOriginSelected = new javax.swing.JTextField();
         jbtn_ConfirmCarrier = new javax.swing.JButton();
         jbl_filterByCountry1 = new javax.swing.JLabel();
-        categoryFilterComboBox = new javax.swing.JComboBox<>();
+        carrierFilterComboBox = new javax.swing.JComboBox<>();
         jbl_filter14 = new javax.swing.JLabel();
         jbl_clientCuitInfo = new javax.swing.JLabel();
-        jbl_filterByCountry2 = new javax.swing.JLabel();
+        jbl_selectInfo = new javax.swing.JLabel();
         jbtn_warehouseDestiny = new javax.swing.JButton();
         jbtn_previewOrderPanel = new javax.swing.JButton();
         jbtn_createNewOrder = new javax.swing.JButton();
-        jbl_filterByCountry3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtf_warehouseFilter = new javax.swing.JTextField();
+        jtf_warehouseDestinySelected = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jtf_carrierSelected = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 51, 255));
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -106,9 +110,9 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         jbl_filter13.setForeground(new java.awt.Color(255, 255, 255));
         jbl_filter13.setText("país:");
 
-        jtf_warehouseFilter.addActionListener(new java.awt.event.ActionListener() {
+        jtf_warehouseOriginSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_warehouseFilterActionPerformed(evt);
+                jtf_warehouseOriginSelectedActionPerformed(evt);
             }
         });
 
@@ -123,10 +127,10 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         jbl_filterByCountry1.setForeground(new java.awt.Color(255, 255, 255));
         jbl_filterByCountry1.setText("FILTRAR POR:");
 
-        categoryFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        categoryFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
+        carrierFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aéreo", "Marítimo", "Terrestre" }));
+        carrierFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryFilterComboBoxActionPerformed(evt);
+                carrierFilterComboBoxActionPerformed(evt);
             }
         });
 
@@ -137,9 +141,9 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         jbl_clientCuitInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbl_clientCuitInfo.setForeground(new java.awt.Color(255, 255, 255));
 
-        jbl_filterByCountry2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_filterByCountry2.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_filterByCountry2.setText("SELECCIONAR COMO:");
+        jbl_selectInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_selectInfo.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_selectInfo.setText("SELECCIONAR COMO:");
 
         jbtn_warehouseDestiny.setText("DESTINO");
         jbtn_warehouseDestiny.addActionListener(new java.awt.event.ActionListener() {
@@ -162,9 +166,23 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
             }
         });
 
-        jbl_filterByCountry3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_filterByCountry3.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_filterByCountry3.setText("SELECCIONAR COMO:");
+        jLabel1.setText("ORIGEN:");
+
+        jLabel2.setText("DESTINO:");
+
+        jtf_warehouseFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_warehouseFilterActionPerformed(evt);
+            }
+        });
+
+        jtf_warehouseDestinySelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_warehouseDestinySelectedActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("TRANSPORTISTA:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -174,25 +192,6 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbl_clientCuitInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbl_filter14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(categoryFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbtn_ConfirmCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jbl_filterByCountry1)
-                            .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbl_filter8)
-                            .addComponent(jbl_filter11))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -204,6 +203,10 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
                         .addComponent(jbtn_previewOrderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(311, 311, 311)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(jbtn_createNewOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -214,17 +217,43 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
                                 .addGap(6, 6, 6)
                                 .addComponent(jbl_filter13))
                             .addComponent(jbl_filterByCountry)
-                            .addComponent(jbl_filterByCountry2)
+                            .addComponent(jbl_selectInfo)
                             .addComponent(jtf_warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jbtn_createNewOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbl_filterByCountry3)
-                .addGap(44, 44, 44))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbl_filter8)
+                            .addComponent(jbl_filter11))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbl_filterByCountry1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_warehouseOriginSelected, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_warehouseDestinySelected, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jbl_filter14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(carrierFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtf_carrierSelected)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbtn_ConfirmCarrier, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(372, 372, 372)))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,34 +263,45 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
                 .addGap(10, 10, 10)
                 .addComponent(jbl_filter11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPaneTabla2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbl_filterByCountry)
                         .addGap(4, 4, 4)
                         .addComponent(jbl_filter13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jtf_warehouseFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(jbl_filterByCountry2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbtn_warehouseDestiny)
-                            .addComponent(jbtn_warehouseOrigin))))
+                        .addGap(12, 12, 12)
+                        .addComponent(jbl_selectInfo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbtn_warehouseOrigin)
+                            .addComponent(jbtn_warehouseDestiny))))
                 .addGap(18, 18, 18)
                 .addComponent(jbl_filter8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtf_warehouseOriginSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_warehouseDestinySelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbl_filterByCountry1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(categoryFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbl_filter14)
-                    .addComponent(jbtn_ConfirmCarrier))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jbl_filterByCountry3)
+                    .addComponent(carrierFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbl_filter14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jtf_carrierSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtn_ConfirmCarrier))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtn_previewOrderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtn_createNewOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -287,22 +327,38 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
     private void jbtn_warehouseOriginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_warehouseOriginActionPerformed
 
+        int selectedWarehouse = tableChooseWarehouse.getSelectedRow();
+        if (selectedWarehouse > 0) {
+            Warehouse warehouse = warehouses.get(selectedWarehouse);
+            jtf_warehouseOriginSelected.setText(warehouse.getCode());
+            validator.enableField(false, jtf_warehouseOriginSelected);
+        }
+
     }//GEN-LAST:event_jbtn_warehouseOriginActionPerformed
 
     private void jbtn_ConfirmCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_ConfirmCarrierActionPerformed
-        // TODO add your handling code here:
+        int selectedCarrier = tableChooseCarrier.getSelectedRow();
+        if (selectedCarrier > 0) {
+            Carrier carrier = carriers.get(selectedCarrier);
+            jtf_carrierSelected.setText(carrier.getCuit());
+            changeConditionButton(jbtn_createNewOrder, true);
+        }
     }//GEN-LAST:event_jbtn_ConfirmCarrierActionPerformed
 
-    private void categoryFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryFilterComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_categoryFilterComboBoxActionPerformed
+    private void carrierFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrierFilterComboBoxActionPerformed
+        carriers = controller.updateCarrierTable(getCarrierFilter());
+    }//GEN-LAST:event_carrierFilterComboBoxActionPerformed
 
-    private void jtf_warehouseFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_warehouseFilterActionPerformed
-        controller.findWarehouseByCountry(jtf_warehouseFilter.getText());
-    }//GEN-LAST:event_jtf_warehouseFilterActionPerformed
+    private void jtf_warehouseOriginSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_warehouseOriginSelectedActionPerformed
+        warehouses = controller.updateWarehouseTable(getWarehouseFilter());
+    }//GEN-LAST:event_jtf_warehouseOriginSelectedActionPerformed
 
     private void jbtn_warehouseDestinyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_warehouseDestinyActionPerformed
-        // TODO add your handling code here:
+        int selectedWarehouse = tableChooseWarehouse.getSelectedRow();
+        if (selectedWarehouse > 0) {
+            Warehouse warehouse = warehouses.get(selectedWarehouse);
+            jtf_warehouseDestinySelected.setText(warehouse.getCode());
+        }
     }//GEN-LAST:event_jbtn_warehouseDestinyActionPerformed
 
     private void jbtn_previewOrderPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_previewOrderPanelActionPerformed
@@ -310,12 +366,21 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     }//GEN-LAST:event_jbtn_previewOrderPanelActionPerformed
 
     private void jbtn_createNewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_createNewOrderActionPerformed
-        mainFrame.changeOrderPanel();
+        JOptionPane.showMessageDialog(mainFrame, "VIVA LA LIBERTAD CARAJO!.");
+        
     }//GEN-LAST:event_jbtn_createNewOrderActionPerformed
+
+    private void jtf_warehouseFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_warehouseFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_warehouseFilterActionPerformed
+
+    private void jtf_warehouseDestinySelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_warehouseDestinySelectedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_warehouseDestinySelectedActionPerformed
 
     @Override
     public javax.swing.JTable getTable() {
-        return this.tableChooseCarrier;
+        return null;
     }
 
     @Override
@@ -361,7 +426,10 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
     @Override
     public void initValidator() {
-        validator.onlyLetters(jtf_warehouseFilter);
+        validator.enableField(false, jtf_carrierSelected);
+        validator.enableField(false, jtf_warehouseOriginSelected);
+        validator.enableField(false, jtf_warehouseDestinySelected);
+        validator.onlyLetters(jtf_warehouseOriginSelected);
     }
 
     @Override
@@ -370,21 +438,23 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         this.warehouses = controller.updateWarehouseTable("");
         changeConditionAllButtons(false);
         changeConditionAllFields(true);
+        changeConditionButton(jbtn_warehouseOrigin, true);
+        changeConditionButton(jbtn_warehouseDestiny, true);
+        changeConditionButton(jbtn_ConfirmCarrier, false);
         cleanAllFields();
     }
 
     @Override
     public void selectFromTable() {
-        int field = tableChooseWarehouse.getSelectedRow();
-        if (field >= 0) {
-            Warehouse selected = warehouses.get(field);
-            jtf_warehouseFilter.setText(selected.getCountry());
+        int selectedCarrier = tableChooseCarrier.getSelectedRow();
+        if (!jtf_warehouseOriginSelected.getText().isEmpty() && !jtf_warehouseDestinySelected.getText().isEmpty()) {
+            changeConditionButton(jbtn_ConfirmCarrier, true);
         }
     }
 
     @Override
     public void changeConditionAllFields(boolean state) {
-        changeConditionField(jtf_warehouseFilter, state);
+        changeConditionField(jtf_warehouseOriginSelected, state);
     }
 
     @Override
@@ -411,7 +481,7 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
     @Override
     public void cleanAllFields() {
-        cleanField(jtf_warehouseFilter);
+        cleanField(jtf_warehouseOriginSelected);
     }
 
     @Override
@@ -422,8 +492,7 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     @Override
     public boolean verifyEmptyFields() {
         List<JTextField> fields = new ArrayList<>();
-        fields.add(jtf_warehouseFilter);
-
+        fields.add(jtf_warehouseOriginSelected);
         for (JTextField field : fields) {
             if (field.getText().length() == 0) {
                 return true;
@@ -434,12 +503,22 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
     @Override
     public String getCarrierFilter() {
-        return categoryFilterComboBox.getItemAt(categoryFilterComboBox.getSelectedIndex());
+        String transportType = carrierFilterComboBox.getItemAt(carrierFilterComboBox.getSelectedIndex());
+        return switch (transportType) {
+            case "Marítimo" ->
+                "maritime";
+            case "Aéreo" ->
+                "aerial";
+            case "Terrestre" ->
+                "ground";
+            default ->
+                "";
+        };
     }
 
     @Override
     public String getWarehouseFilter() {
-        return jtf_warehouseFilter.getText();
+        return jtf_warehouseOriginSelected.getText();
     }
 
     @Override
@@ -469,7 +548,10 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> categoryFilterComboBox;
+    private javax.swing.JComboBox<String> carrierFilterComboBox;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JScrollPane jScrollPaneTabla2;
     private javax.swing.JLabel jbl_clientCuitInfo;
@@ -479,14 +561,16 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     private javax.swing.JLabel jbl_filter8;
     private javax.swing.JLabel jbl_filterByCountry;
     private javax.swing.JLabel jbl_filterByCountry1;
-    private javax.swing.JLabel jbl_filterByCountry2;
-    private javax.swing.JLabel jbl_filterByCountry3;
+    private javax.swing.JLabel jbl_selectInfo;
     private javax.swing.JButton jbtn_ConfirmCarrier;
     private javax.swing.JButton jbtn_createNewOrder;
     private javax.swing.JButton jbtn_previewOrderPanel;
     private javax.swing.JButton jbtn_warehouseDestiny;
     private javax.swing.JButton jbtn_warehouseOrigin;
+    private javax.swing.JTextField jtf_carrierSelected;
+    private javax.swing.JTextField jtf_warehouseDestinySelected;
     private javax.swing.JTextField jtf_warehouseFilter;
+    private javax.swing.JTextField jtf_warehouseOriginSelected;
     private javax.swing.JTable tableChooseCarrier;
     private javax.swing.JTable tableChooseWarehouse;
     // End of variables declaration//GEN-END:variables
