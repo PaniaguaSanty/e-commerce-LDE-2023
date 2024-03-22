@@ -297,14 +297,15 @@ public class OrderPanelController {
         order.setWarehouseDestiny(warehouseOrigin);
     }
 
-    public List<Warehouse> updateWarehouseTable(String string) {
+    public List<Warehouse> updateWarehouseTable(String countryName) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Código", "Dirección", "País"};
         model.setColumnIdentifiers(titles);
         List<Warehouse> warehouses = warehouseService.findAll();
         List<Warehouse> result = new ArrayList<>();
+        String lowerCountryName = countryName.toLowerCase();
         for (Warehouse wh : warehouses) {
-            if (wh.getCode().startsWith(string)) {
+            if (wh.getCountry().toLowerCase().startsWith(lowerCountryName)) {
                 Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry()};
                 model.addRow(object);
                 result.add(wh);
@@ -319,14 +320,19 @@ public class OrderPanelController {
         return carrierService.findByTypeOfTransport(transportType);
     }
 
-    public List<Carrier> updateCarrierTable(String cuit) {
+    public List<Carrier> updateCarrierTable(String transportType) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
-        List<Carrier> clients = carrierService.findAll();
+        List<Carrier> carriers = new ArrayList<>();
         List<Carrier> result = new ArrayList<>();
-        for (Carrier carrier : clients) {
-            if (carrier.getCuit().startsWith(cuit)) {
+        if (transportType.equals("")) {
+            carriers = carrierService.findAll();
+        } else {
+            carriers = findByTypeOfTransport(transportType);
+        }
+        for (Carrier carrier : carriers) {
+            if (carrier.isEnable()) {
                 Object[] object = {carrier.getName(),
                     carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
                 model.addRow(object);

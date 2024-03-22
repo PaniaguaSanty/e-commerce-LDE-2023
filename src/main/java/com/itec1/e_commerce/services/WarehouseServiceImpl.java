@@ -95,5 +95,4 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
                 .findFirst()
                 .orElse(null);
     }
-
 }
