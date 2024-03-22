@@ -134,10 +134,7 @@ public class MainFrame extends javax.swing.JFrame {
         menu_ViewOrderSector = new javax.swing.JMenuItem();
         menu_ViewOrderStatuses = new javax.swing.JMenuItem();
         menu_Reports = new javax.swing.JMenu();
-        menu_ClientReports = new javax.swing.JMenu();
-        client_OverviewReport = new javax.swing.JMenuItem();
-        client_ReportByDate = new javax.swing.JMenuItem();
-        client_ReportByCategory = new javax.swing.JMenuItem();
+        menu_newOrder1 = new javax.swing.JMenuItem();
         menu_ProvidersReport = new javax.swing.JMenu();
         provider_OverviewReport = new javax.swing.JMenuItem();
         provider_ReportByDate = new javax.swing.JMenuItem();
@@ -326,33 +323,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         menu_Reports.setText("Informes");
 
-        menu_ClientReports.setText("Generar informe de Clientes");
-
-        client_OverviewReport.setText("Informe general");
-        client_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+        menu_newOrder1.setText("Generar informe de Clientes");
+        menu_newOrder1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                client_OverviewReportActionPerformed(evt);
+                menu_newOrder1ActionPerformed(evt);
             }
         });
-        menu_ClientReports.add(client_OverviewReport);
-
-        client_ReportByDate.setText("Informe por fecha");
-        client_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                client_ReportByDateActionPerformed(evt);
-            }
-        });
-        menu_ClientReports.add(client_ReportByDate);
-
-        client_ReportByCategory.setText("Informe por categoria de productos");
-        client_ReportByCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                client_ReportByCategoryActionPerformed(evt);
-            }
-        });
-        menu_ClientReports.add(client_ReportByCategory);
-
-        menu_Reports.add(menu_ClientReports);
+        menu_Reports.add(menu_newOrder1);
 
         menu_ProvidersReport.setText("Generar informe de Proveedores");
 
@@ -449,6 +426,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void contentPanelComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_contentPanelComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_contentPanelComponentAdded
+
+    private void menu_newOrder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newOrder1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menu_newOrder1ActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -547,9 +528,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel Welcome;
     private javax.swing.JMenuItem carrier_OverviewReport;
     private javax.swing.JMenuItem carrier_ReportByDate;
-    private javax.swing.JMenuItem client_OverviewReport;
-    private javax.swing.JMenuItem client_ReportByCategory;
-    private javax.swing.JMenuItem client_ReportByDate;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
@@ -557,7 +535,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jlbl_welcome;
     private javax.swing.JMenuItem menu_Carriers;
     private javax.swing.JMenu menu_CarriersReport;
-    private javax.swing.JMenu menu_ClientReports;
     private javax.swing.JMenuItem menu_Clients;
     private javax.swing.JMenuItem menu_Close;
     private javax.swing.JMenuItem menu_Employees;
@@ -575,6 +552,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_ViewOrderStatuses;
     private javax.swing.JMenuItem menu_Warehouses;
     private javax.swing.JMenuItem menu_newOrder;
+    private javax.swing.JMenuItem menu_newOrder1;
     private javax.swing.JMenuItem order_OverviewReport;
     private javax.swing.JMenuItem order_ReportByDate;
     private javax.swing.JMenuItem order_ReportByStatuses;

@@ -38,7 +38,7 @@ public class SectorPanelController implements IController<Sector> {
         //agrega los titulos a la columna
         String[] titles = {"Id","Codigo", "Nombre", "Cant.pedidos"};
         model.setColumnIdentifiers(titles);
-        List<Sector> sectors = sectorService.findAll();
+        List<Sector> sectors = sectorService.findAllEnabled();
         List<Sector> result = new ArrayList<>();
         for (Sector sec : sectors) {
             if (sec.getWarehouse().getCode().equals(string)) {
@@ -114,7 +114,7 @@ public class SectorPanelController implements IController<Sector> {
     @Override
     public String disable(Long id) {
         Sector sector = sectorService.findById(id);
-        if (!sector.getEnabled()) {
+        if (!sector.isEnable()) {
             return "ERROR. Este sector ya se encuentra eliminado.";
         } else {
             try {
@@ -131,7 +131,7 @@ public class SectorPanelController implements IController<Sector> {
     @Override
     public String enable(Long id) {
        Sector sector = sectorService.findById(id);
-        if (sector.getEnabled()) {
+        if (sector.isEnable()) {
             return "ERROR. Este sector no se encuentra eliminado.";
         } else {
             try {

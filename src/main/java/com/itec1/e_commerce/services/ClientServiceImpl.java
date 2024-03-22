@@ -4,7 +4,6 @@ import com.itec1.e_commerce.config.Connection;
 import java.util.List;
 
 import com.itec1.e_commerce.dao.ClientJpaController;
-import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Client;
 
 public class ClientServiceImpl implements ICRUD<Client> {
@@ -45,9 +44,12 @@ public class ClientServiceImpl implements ICRUD<Client> {
 
     @Override
     public List<Client> findAll() {
-        return clientJpaController.findClientEntities().stream()
-                .filter(Client::isEnable)
-                .toList();
+        return clientJpaController.findClientEntities();
+    }
+    
+    @Override
+    public List<Client> findAllEnabled() {
+        return findAll().stream().filter(Client::isEnable).toList();
     }
 
     @Override

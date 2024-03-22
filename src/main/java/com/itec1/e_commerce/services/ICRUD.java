@@ -6,8 +6,6 @@ package com.itec1.e_commerce.services;
 
 import java.util.List;
 
-import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
-
 /**
  *
  * @author sjcex
@@ -21,6 +19,8 @@ public interface ICRUD<T> {
     T findById(Long id);
 
     List<T> findAll();
+    
+    List<T> findAllEnabled();
 
     T disable(Long id) throws Exception;
 

@@ -26,7 +26,7 @@ public class ClientPanelController implements IController<Client> {
         //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "Apellido", "C.U.I.T.", "Direción", "Correo", "Teléfono"};
         model.setColumnIdentifiers(titles);
-        List<Client> clients = service.findAll();
+        List<Client> clients = service.findAllEnabled();
         List<Client> result = new ArrayList<>();
         for (Client cl : clients) {
             if (cl.getCuit().startsWith(cuit)) {

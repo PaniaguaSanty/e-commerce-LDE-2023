@@ -5,7 +5,6 @@
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
-import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.SectorJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Order;
@@ -14,7 +13,6 @@ import com.itec1.e_commerce.entities.Warehouse;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 
 /**
  * @author pania
@@ -56,7 +54,7 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     @Override
     public Sector disable(Long id) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
-        sector.setEnabled(false);
+        sector.setEnable(false);
         sectorJpaController.edit(sector);
         return sectorJpaController.findSector(id);
     }
@@ -70,7 +68,7 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     @Override
     public Sector enable(Long id) throws NonexistentEntityException, Exception {
         Sector sector = sectorJpaController.findSector(id);
-        sector.setEnabled(true);
+        sector.setEnable(true);
         sectorJpaController.edit(sector);
         return sectorJpaController.findSector(id);
     }
@@ -82,8 +80,12 @@ public class SectorServiceImpl implements ICRUD<Sector> {
 
     @Override
     public List<Sector> findAll() {
-        return sectorJpaController.findSectorEntities().stream()
-                .filter(sector -> sector.getEnabled()).collect(Collectors.toList());
+        return sectorJpaController.findSectorEntities();
+    }
+    
+    @Override
+    public List<Sector> findAllEnabled() {
+        return findAll().stream().filter(Sector::isEnable).toList();
     }
 
 
@@ -97,24 +99,15 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     }
 
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
-        try {
-            return sectorJpaController.findSectorEntities()
-                    .stream()
+            return findAll().stream()
                     .filter(sector -> sector.getWarehouse().getId()
-                            .equals(warehouse.getId()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error while finding sector´s by warehouse." + e.getMessage());
-            throw new RuntimeException("Failed to find sector´s by warehouse", e);
-        }
+                            .equals(warehouse.getId())).toList();
     }
 
     public Sector findByCode(String string) {
-        return sectorJpaController.findSectorEntities()
-                .stream()
+        return findAll().stream()
                 .filter(sector -> sector.getCode().equals(string))
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
 
     public Sector changeSector(Order order, Sector sector) throws Exception {

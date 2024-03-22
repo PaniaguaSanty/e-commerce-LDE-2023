@@ -37,7 +37,7 @@ public class EmployeePanelController implements IController<Employee> {
         //agrega los titulos a la columna
         String[] titles = {"C.U.I.T.", "Nombre"};
         model.setColumnIdentifiers(titles);
-        List<Employee> employees = employeeService.findAll();
+        List<Employee> employees = employeeService.findAllEnabled();
         List<Employee> result = new ArrayList<>();
         for (Employee emp : employees) {
             if (emp.getWarehouse().getCode().equals(string)) {
@@ -117,7 +117,7 @@ public class EmployeePanelController implements IController<Employee> {
     @Override
     public String disable(Long id) {
         Employee sector = employeeService.findById(id);
-        if (!sector.getEnable()) {
+        if (!sector.isEnable()) {
             return "ERROR. Este empleado ya se encuentra eliminado.";
         } else {
             try {
@@ -134,7 +134,7 @@ public class EmployeePanelController implements IController<Employee> {
     @Override
     public String enable(Long id) {
         Employee sector = employeeService.findById(id);
-        if (sector.getEnable()) {
+        if (sector.isEnable()) {
             return "ERROR. Este empleado no se encuentra eliminado.";
         } else {
             try {

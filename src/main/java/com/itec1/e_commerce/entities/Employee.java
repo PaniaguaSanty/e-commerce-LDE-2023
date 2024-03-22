@@ -106,7 +106,7 @@ public class Employee implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnable() {
+    public Boolean isEnable() {
         return enable;
     }
 

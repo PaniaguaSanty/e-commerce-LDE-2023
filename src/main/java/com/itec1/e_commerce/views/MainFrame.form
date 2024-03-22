@@ -134,37 +134,14 @@
             <Property name="text" type="java.lang.String" value="Informes"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="menu_ClientReports">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_newOrder1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generar informe de Clientes"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="client_OverviewReport">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Informe general"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="client_OverviewReportActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="client_ReportByDate">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Informe por fecha"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="client_ReportByDateActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="client_ReportByCategory">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Informe por categoria de productos"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="client_ReportByCategoryActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_newOrder1ActionPerformed"/>
+              </Events>
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="menu_ProvidersReport">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generar informe de Proveedores"/>

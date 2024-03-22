@@ -357,4 +357,5 @@ public class OrderPanelController {
         }
         return "Remito generado con éxito.";
     }
+    
 }

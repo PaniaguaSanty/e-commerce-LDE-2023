@@ -26,7 +26,7 @@ public class CarrierPanelController implements IController<Carrier> {
         //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
-        List<Carrier> carriers = service.findAll();
+        List<Carrier> carriers = service.findAllEnabled();
         List<Carrier> result = new ArrayList<>();
         for (Carrier carrier : carriers) {
             if (carrier.getCuit().startsWith(cuit)) {
@@ -37,17 +37,6 @@ public class CarrierPanelController implements IController<Carrier> {
             }
         }
         this.panel.getTable().setModel(model);
-        return result;
-    }
-  
-    private String verifyEnabledTransports(Carrier carrier) {
-        String result = (carrier.isGround()
-                ? (carrier.isMaritime()
-                ? (carrier.isAerial()
-                ? "Terrestre, Marítimo y Aéreo" : "Terrestre y Marítimo") : "Terrestre")
-                : (carrier.isAerial()
-                ? (carrier.isMaritime()
-                ? "Marítimo y Aéreo" : "Aéreo") : "Marítimo"));
         return result;
     }
   

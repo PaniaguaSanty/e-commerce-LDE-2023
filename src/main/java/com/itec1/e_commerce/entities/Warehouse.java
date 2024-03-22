@@ -78,11 +78,11 @@ public class Warehouse implements Serializable {
         this.country = country;
     }
 
-    public Boolean getEnabled() {
+    public Boolean isEnable() {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
+    public void setEnable(Boolean enabled) {
         this.enabled = enabled;
     }
 
