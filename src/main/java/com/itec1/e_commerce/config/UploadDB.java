@@ -91,7 +91,6 @@ public class UploadDB {
         warehouseService.create(new Warehouse("Calle Hamburger 789","Estados Unidos","060606","606060","43210"));
         warehouseService.create(new Warehouse("American Coleslaw 987","Estados Unidos","070707","707070","67890"));
         warehouseService.create(new Warehouse("Chapa Chapita Tampon 654","Colombia","080808","808080","09876"));
-        
     }
     
     private void uploadCategories() {

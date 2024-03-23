@@ -6,13 +6,11 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
-import com.itec1.e_commerce.views.resources.JWarehouseTableFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -309,29 +307,14 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbn_chooseDestinyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_chooseDestinyActionPerformed
-
-    }//GEN-LAST:event_jbn_chooseDestinyActionPerformed
-
-    private void jbn_chooseOriginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_chooseOriginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbn_chooseOriginActionPerformed
-
-    private void jbn_chooseCarrierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_chooseCarrierActionPerformed
-
-    }//GEN-LAST:event_jbn_chooseCarrierActionPerformed
-
-    private void Jbtn_enterAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Jbtn_enterAmountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Jbtn_enterAmountActionPerformed
-
     private void jbtn_warehouseOriginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_warehouseOriginActionPerformed
 
         int selectedWarehouse = tableChooseWarehouse.getSelectedRow();
-        if (selectedWarehouse > 0) {
+        if (selectedWarehouse >= 0) {
             Warehouse warehouse = warehouses.get(selectedWarehouse);
             jtf_warehouseOriginSelected.setText(warehouse.getCode());
             validator.enableField(false, jtf_warehouseOriginSelected);
+            controller.assignWarehouseOriginToOrder(warehouse);
         }
 
     }//GEN-LAST:event_jbtn_warehouseOriginActionPerformed
@@ -342,6 +325,7 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
             Carrier carrier = carriers.get(selectedCarrier);
             jtf_carrierSelected.setText(carrier.getCuit());
             changeConditionButton(jbtn_createNewOrder, true);
+            controller.assignCarrierToInvoice(carrier);
         }
     }//GEN-LAST:event_jbtn_ConfirmCarrierActionPerformed
 
@@ -355,9 +339,10 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
 
     private void jbtn_warehouseDestinyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_warehouseDestinyActionPerformed
         int selectedWarehouse = tableChooseWarehouse.getSelectedRow();
-        if (selectedWarehouse > 0) {
+        if (selectedWarehouse >= 0) {
             Warehouse warehouse = warehouses.get(selectedWarehouse);
             jtf_warehouseDestinySelected.setText(warehouse.getCode());
+            controller.assignWarehouseDestinyToOrder(warehouse);
         }
     }//GEN-LAST:event_jbtn_warehouseDestinyActionPerformed
 
@@ -366,8 +351,11 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     }//GEN-LAST:event_jbtn_previewOrderPanelActionPerformed
 
     private void jbtn_createNewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_createNewOrderActionPerformed
-        JOptionPane.showMessageDialog(mainFrame, "VIVA LA LIBERTAD CARAJO!.");
-        
+
+        controller.createOrder();
+        cleanAllFields();
+        mainFrame.changeOrderPanel();
+        changeConditionButton(jbtn_createNewOrder, false);
     }//GEN-LAST:event_jbtn_createNewOrderActionPerformed
 
     private void jtf_warehouseFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_warehouseFilterActionPerformed
@@ -482,6 +470,9 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     @Override
     public void cleanAllFields() {
         cleanField(jtf_warehouseOriginSelected);
+        cleanField(jtf_warehouseDestinySelected);
+        cleanField(jtf_carrierSelected);
+        cleanField(jtf_warehouseFilter);
     }
 
     @Override

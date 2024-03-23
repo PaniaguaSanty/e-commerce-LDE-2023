@@ -325,7 +325,7 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
             changeConditionField(jtf_productNameFilter, true);
             comboBox_category.setEnabled(true);
             changeConditionButton(jbtn_addDetailOrder, true);
-            controller.setClient(clientExist);
+            controller.assignClientToOrder(clientExist);
         } else {
             jbl_CuitFilterInfo.setText("INGRESE UN CUIT.");
         }
@@ -340,7 +340,7 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
             if (controller.verifyDetail(product)) {
                 newDetail.setProduct(product);
                 newDetail.setAmount(selectedAmount);
-                controller.insertNewDetail(newDetail);
+                controller.assignNewDetailToOrder(newDetail);
             } else {
                 controller.changeDetailAmount(product, selectedAmount);
             }
