@@ -575,4 +575,9 @@ public final class NewOrder_SecondPanel extends javax.swing.JPanel implements In
     private javax.swing.JTable tableChooseWarehouse;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void updateTable() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

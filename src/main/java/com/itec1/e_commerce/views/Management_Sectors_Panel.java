@@ -227,12 +227,13 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
                 .addGap(17, 17, 17)
                 .addComponent(jScrollPaneTabla3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jtf_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_datos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbl_info, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
@@ -334,7 +335,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     public void initListener() {
         tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
         tableSectors.getSelectionModel().addListSelectionListener(new TableListener(this));
-        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(warehouses, controller, this));
+        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
     }
 
     @Override
@@ -450,4 +451,9 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     private javax.swing.JTable tableSectors;
     private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void updateTable() {
+        sectors = controller.updateTable(jtf_codeFilter.getText());
+    }
 }

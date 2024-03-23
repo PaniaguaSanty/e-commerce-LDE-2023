@@ -22,15 +22,12 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     public Management_Providers_Panel() {
         initComponents();
         this.controller = new ProviderPanelController(this);
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(providers, controller, this));
-        tableProvider.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.providers = controller.updateTable("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();
         initPanel();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -632,7 +629,7 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     @Override
     public void initListener() {
         tableProvider.getSelectionModel().addListSelectionListener(new TableListener(this));
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(providers, controller, this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
     }
 
     @Override
@@ -652,5 +649,10 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_restore, true);
         cleanAllFields();
         controller.verifyCrud("");
+    }
+
+    @Override
+    public void updateTable() {
+        providers = controller.updateTable(jtf_cuitFilter.getText());
     }
 }

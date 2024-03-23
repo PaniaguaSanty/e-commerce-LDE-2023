@@ -28,9 +28,6 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
         this.category = new ProductCategory();
         this.provider = new Provider();
         this.controller = new ProductPanelController(this);
-        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener<>(products, controller, this));
-        productTable.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.products = controller.updateTable("");
         this.validator = new FieldDataValidator();
         loadComboBox();
         initListener();
@@ -494,7 +491,7 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
             jlbl_info.setText("");
             changeConditionButton(jbn_save, false);
             changeConditionButton(jbn_restore, false);
-            
+
             // activar el boton de restaurar si el producto esta disable
             if (!selected.isEnable()) {
                 jbn_restore.setEnabled(true);
@@ -571,7 +568,7 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void initListener() {
-        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(products, controller, this));
+        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
         productTable.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
@@ -622,6 +619,11 @@ public final class Management_Products_Panel extends javax.swing.JPanel implemen
         columnModel.getColumn(columnIndexToHide).setMinWidth(0);
         columnModel.getColumn(columnIndexToHide).setMaxWidth(0);
         columnModel.getColumn(columnIndexToHide).setPreferredWidth(0);
+    }
+
+    @Override
+    public void updateTable() {
+        products = controller.updateTable(jtf_nameFilter.getText());
     }
 
 }

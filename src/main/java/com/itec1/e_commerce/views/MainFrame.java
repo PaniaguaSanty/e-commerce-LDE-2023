@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private NewOrder_FirstPanel newOrderFirstPanel;
     private NewOrder_SecondPanel newOrderSecondPanel;
-    private Order_ViewOrderSector_Panel wiewOrderSectorPanel;
+    private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
     private Reports_Carriers_ByDate_Panel carriersByDatePanel;
@@ -77,7 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         newOrderFirstPanel = new NewOrder_FirstPanel(this);
         newOrderSecondPanel = new NewOrder_SecondPanel(this);
-        wiewOrderSectorPanel = new Order_ViewOrderSector_Panel();
+        viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 
         carriersByDatePanel = new Reports_Carriers_ByDate_Panel();
@@ -505,7 +505,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_menu_newOrderActionPerformed
 
     private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
-        changePanel(sectorsPanel);
+        changePanel(viewOrderSectorPanel);
     }// GEN-LAST:event_menu_ViewOrderSectorActionPerformed
 
     private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed

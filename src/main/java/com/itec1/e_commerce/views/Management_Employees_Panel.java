@@ -431,7 +431,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
     public void initListener() {
         tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
         tableEmployees.getSelectionModel().addListSelectionListener(new TableListener(this));
-        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(warehouses, controller, this));
+        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
     }
 
     @Override
@@ -552,6 +552,11 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
     @Override
     public String getStringFilter() {
         return jtf_codeFilter.getText();
+    }
+
+    @Override
+    public void updateTable() {
+   employees = controller.updateTable(jtf_codeFilter.getText());
     }
 
 }

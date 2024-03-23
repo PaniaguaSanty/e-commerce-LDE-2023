@@ -367,7 +367,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
 
     @Override
     public void initListener() {
-        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(warehouses, controller, this));
+        jtf_codeFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
         tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
@@ -503,5 +503,10 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
     private javax.swing.JButton seeWarehouses;
     private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void updateTable() {
+    warehouses = controller.updateTable(jtf_codeFilter.getText());
+    }
 
 }

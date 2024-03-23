@@ -4,17 +4,46 @@
  */
 package com.itec1.e_commerce.views;
 
+import com.itec1.e_commerce.controllers.IController;
+import com.itec1.e_commerce.controllers.OrderPanelController;
+import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.Warehouse;
+import com.itec1.e_commerce.views.resources.FieldDataValidator;
+import com.itec1.e_commerce.views.resources.JClientFieldListener;
+import com.itec1.e_commerce.views.resources.JOrderFieldListener;
+import com.itec1.e_commerce.views.resources.JSectorFieldListener;
+import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import com.itec1.e_commerce.views.resources.JWarehouseFieldListener;
+import com.itec1.e_commerce.views.resources.TableListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 /**
  *
  * @author sjcex
  */
-public class Order_ViewOrderSector_Panel extends javax.swing.JPanel {
+public class Order_ViewOrderSector_Panel extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
+
+    private final OrderPanelController controller;
+    private final FieldDataValidator validator;
+    private List<Warehouse> warehouses;
+    private List<Sector> sectors;
+    private List<Order> orders;
 
     /**
      * Creates new form Management_Client_Panel
      */
     public Order_ViewOrderSector_Panel() {
         initComponents();
+        this.controller = new OrderPanelController(this);
+        initListener();
+        this.validator = new FieldDataValidator();
+        initValidator();
+        initPanel();
     }
 
     /**
@@ -26,19 +55,332 @@ public class Order_ViewOrderSector_Panel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableSector = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableOrders = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableWarehouse = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jtf_codeClient = new javax.swing.JTextField();
+        jbn_findOrder = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jtf_codeWarehouse = new javax.swing.JTextField();
+        jbn_findWarehouse = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jtf_codeSector = new javax.swing.JTextField();
+        jbn_findSector = new javax.swing.JButton();
+
+        setBackground(new java.awt.Color(0, 0, 255));
+
+        tableSector.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tableSector.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tableSector);
+
+        tableOrders.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tableOrders.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tableOrders);
+
+        tableWarehouse.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tableWarehouse.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tableWarehouse);
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Filtrar por Cliente:");
+
+        jbn_findOrder.setText("Buscar");
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Filtrar por Código de Sucursal:");
+
+        jbn_findWarehouse.setText("Buscar");
+        jbn_findWarehouse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbn_findWarehouseActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Filtrar por Código de Sector:");
+
+        jbn_findSector.setText("Buscar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_codeClient, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbn_findOrder)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_codeSector, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbn_findSector)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_codeWarehouse, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbn_findWarehouse))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_codeWarehouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbn_findWarehouse)))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_codeSector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbn_findSector)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_codeClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbn_findOrder)))
+                .addGap(18, 18, 18))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbn_findWarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_findWarehouseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbn_findWarehouseActionPerformed
 
+    @Override
+    public void initListener() {
+        tableWarehouse.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tableSector.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tableOrders.getSelectionModel().addListSelectionListener(new TableListener(this));
+        jtf_codeWarehouse.getDocument().addDocumentListener(new JWarehouseFieldListener( this));
+        jtf_codeSector.getDocument().addDocumentListener(new JSectorFieldListener(this));
+        jtf_codeClient.getDocument().addDocumentListener(new JOrderFieldListener( this));
+    }
+
+    @Override
+    public void initValidator() {
+    }
+
+    @Override
+    public void initPanel() {
+        warehouses = controller.updateWarehouseTable("");
+
+    }
+
+    @Override
+    public JTable getTable() {
+        return this.tableWarehouse;
+    }
+
+    @Override
+    public void selectFromTable() {
+        int fieldWarehouse = tableWarehouse.getSelectedRow();
+        int fieldSectors = tableSector.getSelectedRow();
+        int fieldOrder = tableOrders.getSelectedRow();
+        if (fieldWarehouse >= 0) {
+            Warehouse selected = warehouses.get(fieldWarehouse);
+            sectors = controller.updateTableSector(selected.getCode(), getSectorFilter());
+            jtf_codeWarehouse.setText(selected.getCode());
+         
+            changeConditionButton(jbn_findWarehouse, true);
+            changeConditionButton(jbn_findSector, false);
+            changeConditionButton(jbn_findOrder, false);
+
+        }
+        if (fieldSectors >= 0) {
+            Sector selected = sectors.get(fieldSectors);
+            orders = controller.updateTableOrder(selected.getCode());
+            changeConditionButton(jbn_findWarehouse, false);
+            changeConditionButton(jbn_findSector, true);
+            changeConditionButton(jbn_findOrder, false);
+            jtf_codeSector.setText(selected.getCode());
+        }
+        if (fieldOrder >= 0) {
+            changeConditionButton(jbn_findOrder, true);
+
+        }
+
+    }
+
+    @Override
+    public void changeConditionAllFields(boolean state) {
+    }
+
+    @Override
+    public void changeConditionField(JTextField textField, boolean state) {
+    }
+
+    @Override
+    public void changeConditionAllButtons(boolean state) {
+    }
+
+    @Override
+    public void changeConditionButton(JButton button, boolean state) {
+    }
+
+    @Override
+    public void cleanAllFields() {
+    }
+
+    @Override
+    public void cleanField(JTextField textfield) {
+    }
+
+    @Override
+    public boolean verifyEmptyFields() {
+        return false;
+
+    }
+
+    @Override
+    public String getStringFilter() {
+        return jtf_codeWarehouse.getText();
+    }
+
+    public void clearSectorTable() {
+        if (!controller.verifyWarehouse(jtf_codeWarehouse.getText())) {
+            changeConditionField(jtf_codeSector, false);
+            sectors = controller.updateTableSector("", "");
+        } else {
+            sectors = controller.updateTableSector(jtf_codeWarehouse.getText(), getSectorFilter());
+            changeConditionField(jtf_codeSector, true);
+        }
+    }
+
+    @Override
+    public void updateTable() {
+        warehouses = controller.updateWarehouseTableForCode(jtf_codeWarehouse.getText());
+        clearSectorTable();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton jbn_findOrder;
+    private javax.swing.JButton jbn_findSector;
+    private javax.swing.JButton jbn_findWarehouse;
+    private javax.swing.JTextField jtf_codeClient;
+    private javax.swing.JTextField jtf_codeSector;
+    private javax.swing.JTextField jtf_codeWarehouse;
+    private javax.swing.JTable tableOrders;
+    private javax.swing.JTable tableSector;
+    private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public JTable getClientsTable() {
+        return null;
+    }
+
+    @Override
+    public JTable getProductsTable() {
+        return null;
+    }
+
+    @Override
+    public JTable getWarehousesTable() {
+        return this.tableWarehouse;
+    }
+
+    @Override
+    public JTable getSectorsTable() {
+        return this.tableSector;
+    }
+
+    @Override
+    public JTable getOrdersTable() {
+        return this.tableOrders;
+    }
+
+    @Override
+    public JTable getCarriersTable() {
+        return null;
+    }
+
+    @Override
+    public JTable getDetailOrdersTable() {
+        return null;
+    }
+
+    @Override
+    public String getClientFilter() {
+        return jtf_codeClient.getText();
+    }
+
+    @Override
+    public String getProductFilter() {
+        return null;
+    }
+
+    @Override
+    public String getWarehouseFilter() {
+        return jtf_codeWarehouse.getText();
+    }
+
+    @Override
+    public String getSectorFilter() {
+        return this.jtf_codeSector.getText();
+    }
+
+    @Override
+    public String getOrderFilter() {
+        return this.jtf_codeClient.getText();
+    }
+
+    @Override
+    public String getCarrierFilter() {
+        return null;
+    }
 }
