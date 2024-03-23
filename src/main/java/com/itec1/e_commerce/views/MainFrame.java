@@ -35,6 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
     private Reports_Providers_ByDate_Panel providersByDatePanel;
     private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
+    private Report_Clients reportClients;
 
     public MainFrame() {
 
@@ -85,6 +86,7 @@ public class MainFrame extends javax.swing.JFrame {
         reportsClientsByCategoryPanel = new Reports_Clients_ByCategory_Panel();
         reportsClientsByDatePanel = new Reports_Clients_ByDate_Panel();
         reportsClientsOverviewPanel = new Reports_Clients_Overview_Panel();
+        reportClients= new Report_Clients();
         reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
         reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
         reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
@@ -428,7 +430,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_contentPanelComponentAdded
 
     private void menu_newOrder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newOrder1ActionPerformed
-        // TODO add your handling code here:
+        changePanel(reportClients);
     }//GEN-LAST:event_menu_newOrder1ActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
