@@ -30,7 +30,7 @@ public class Carrier implements Serializable {
     private boolean ground;
     private boolean maritime;
     private boolean aerial;
-
+    
     public Carrier() {
         this.enable = true;
     }

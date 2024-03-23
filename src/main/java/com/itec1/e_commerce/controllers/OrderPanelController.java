@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 public class OrderPanelController {
 
     private static Order order = new Order();
+    private static Invoice invoice = new Invoice();
     private static List<DetailOrder> details = new ArrayList<>();
     private final InterfaceOrderPanel panel;
     private final OrderServiceImpl orderService;
@@ -57,17 +58,13 @@ public class OrderPanelController {
 
     //Orders
     public String createOrder() {
-        if (orderService.findById(order.getId()) != null) {
-            return "No se pudo generar el pedido, por favor, inténtelo nuevamente.";
-        } else {
-            try {
-                orderService.createOrder(order);
-                this.addDetail(order, details);
-            } catch (Exception e) {
-                return "ERROR: " + e.getMessage();
-            }
+        try {
+            orderService.createOrder(order);
+            this.addDetail(order, details);
+            return "Pedido creado correctamente";
+        } catch (Exception e) {
+            return "ERROR: " + e.getMessage();
         }
-        return "Pedido creado correctamente.";
     }
 
     public Order findById(Long id) {
@@ -107,17 +104,21 @@ public class OrderPanelController {
         }
     }
 
-    public void setClient(Client client) {
-        order.setClient(client);
+    public void assignClientToOrder(Client clientSelected) {
+        order.setClient(clientSelected);
     }
 
-    public void setWarehouseOrigin(Warehouse warehouseOrigin) {
+    public void assignWarehouseOriginToOrder(Warehouse warehouseOrigin) {
         order.setWarehouseOrigin(warehouseOrigin);          //cambiar
         order.setSector(sectorService.findSectorByName("recibidos", warehouseOrigin));
     }
 
-    public void setWarehouseDestiny(Warehouse warehouseDestiny) {
+    public void assignWarehouseDestinyToOrder(Warehouse warehouseDestiny) {
         order.setWarehouseDestiny(warehouseDestiny);
+    }
+
+    public void assignCarrierToInvoice(Carrier carrierSelected) {
+        invoice.setCarrier(carrierSelected);
     }
 
     //TrackingOrder
@@ -185,7 +186,7 @@ public class OrderPanelController {
         }
     }
 
-    public void insertNewDetail(DetailOrder detailOrder) {
+    public void assignNewDetailToOrder(DetailOrder detailOrder) {
         detailOrder.setOrder(order);
         detailOrder.setProviderQualification(0);
         details.add(detailOrder);
@@ -344,7 +345,7 @@ public class OrderPanelController {
     }
 
     //invoice
-    public String createInvoice(Invoice invoice) {
+    public String createInvoice() {
         if (orderService.findById(invoice.getId()) != null) {
             return "No se pudo generar el remito, por favor inténtelo nuevamente.";
         } else {
@@ -357,5 +358,4 @@ public class OrderPanelController {
         }
         return "Remito generado con éxito.";
     }
-    
 }
