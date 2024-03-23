@@ -38,4 +38,6 @@ public interface InterfacePanel {
     boolean verifyEmptyFields();
     
     String getStringFilter();
+    
+    void updateTable();
 }

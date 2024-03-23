@@ -19,9 +19,6 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
     public Management_Clients_Panel() {
         initComponents();
         this.controller = new ClientPanelController(this);
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
-        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.clients = controller.updateTable("");
         this.validator = new FieldDataValidator();
         initListener();
         initValidator();
@@ -515,7 +512,7 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
 
     @Override
     public void initListener() {
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(clients, controller, this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
         tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
@@ -536,6 +533,11 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
         this.clients = controller.updateTable("");
         cleanAllFields();
         controller.verifyCrud("");
+    }
+
+    @Override
+    public void updateTable() {
+    clients = controller.updateTable(jtf_cuitFilter.getText());
     }
 
 }

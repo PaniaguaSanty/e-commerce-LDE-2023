@@ -283,6 +283,13 @@ public class OrderPanelController {
         this.panel.getProductsTable().setModel(model);
         return result;
     }
+    
+    public boolean verifyWarehouse(String code){
+        return warehouseService.findByCode(code)!= null;
+    }
+     public boolean verifySector ( String code){
+         return false;
+     }
 
     //Warehouse
     public List<Warehouse> findWarehouseByCountry(String countryName) {
@@ -311,6 +318,65 @@ public class OrderPanelController {
             }
         }
         this.panel.getWarehousesTable().setModel(model);
+        return result;
+    }
+    
+    public List<Warehouse> updateWarehouseTableForCode(String string) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Código", "Dirección", "País"};
+        model.setColumnIdentifiers(titles);
+        List<Warehouse> warehouses = warehouseService.findAll();
+        List<Warehouse> result = new ArrayList<>();
+        for (Warehouse wh : warehouses) {
+            if (wh.getCode().startsWith(string)) {
+                Object[] object = {wh.getCode(), wh.getAddress(), wh.getCountry()};
+                model.addRow(object);
+                result.add(wh);
+            }
+        }
+        this.panel.getWarehousesTable().setModel(model);
+        return result;
+    }
+
+    public List<Sector> updateTableSector(String codeWarehouse ,String code) {
+      Warehouse warehouse = warehouseService.findByCode(codeWarehouse);
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Nombre", "Código"};
+        model.setColumnIdentifiers(titles);
+        List<Sector> sectors = new ArrayList<>();
+        if(warehouse == null){
+            this.panel.getSectorsTable().setModel(model);
+            return sectors;
+        }else{
+            sectors=sectorService.findSectorByWarehouse(warehouse);
+            
+        }
+        List<Sector> result = new ArrayList<>();
+        for (Sector se : sectors) {
+            if (se.getCode().startsWith(code)) {
+                Object[] object = {se.getName(), se.getCode()};
+                model.addRow(object);
+                result.add(se);
+            }
+        }
+        this.panel.getSectorsTable().setModel(model);
+        return result;
+    }
+
+    public List<Order> updateTableOrder(String code) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Cliente","C.U.I.T"};
+        model.setColumnIdentifiers(titles);
+        List<Order> orders = orderService.findAll();
+        List<Order> result = new ArrayList<>();
+        for (Order or : orders) {
+            if (or.getCode().startsWith(code)) {
+                Object[] object = {or.getClient().getName(),or.getClient().getCuit()};
+                model.addRow(object);
+                result.add(or);
+            }
+        }
+        this.panel.getOrdersTable().setModel(model);
         return result;
     }
 

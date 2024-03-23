@@ -25,6 +25,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
+
     @ManyToOne
     private Client client;
 
@@ -41,11 +43,12 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Client client, Warehouse warehouseOrigin, Warehouse warehouseDestiny, Sector sector) {
+    public Order(Client client, Warehouse warehouseOrigin, Warehouse warehouseDestiny, Sector sector, String code) {
         this.client = client;
         this.warehouseOrigin = warehouseOrigin;
         this.warehouseDestiny = warehouseDestiny;
         this.sector = sector;
+        this.code = code;
     }
 
     public Long getId() {
@@ -54,6 +57,14 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Client getClient() {
@@ -87,8 +98,6 @@ public class Order implements Serializable {
     public void setSector(Sector sector) {
         this.sector = sector;
     }
-    
-    
 
     @Override
     public int hashCode() {

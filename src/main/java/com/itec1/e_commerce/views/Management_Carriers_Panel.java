@@ -24,9 +24,6 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     public Management_Carriers_Panel() {
         initComponents();
         this.controller = new CarrierPanelController(this);
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
-        tableCarriers.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.carriers = controller.updateTable("");
         initListener();
         this.validator = new FieldDataValidator();
         initValidator();
@@ -421,7 +418,7 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
 
     @Override
     public void initListener() {
-        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(carriers, controller, this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
         tableCarriers.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
@@ -534,6 +531,12 @@ public final class Management_Carriers_Panel extends javax.swing.JPanel implemen
     @Override
     public String getStringFilter() {
         return jtf_cuitFilter.getText();
+    }
+
+    @Override
+    public void updateTable() {
+         carriers = controller.updateTable(jtf_cuitFilter.getText());
+    
     }
 
 }

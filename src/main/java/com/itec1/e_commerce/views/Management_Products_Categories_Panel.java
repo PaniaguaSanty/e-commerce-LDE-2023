@@ -19,9 +19,6 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     public Management_Products_Categories_Panel() {
         initComponents();
         this.controller = new ProductCategoryPanelController(this);
-        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
-        tableCategories.getSelectionModel().addListSelectionListener(new TableListener(this));
-        this.categories = controller.updateTable("");
         initListener();
         this.validator = new FieldDataValidator();
         initValidator();
@@ -401,7 +398,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
 
     @Override
     public void initListener() {
-        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(categories, controller, this));
+        jtf_nameFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
         tableCategories.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
@@ -418,6 +415,11 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
         changeConditionAllFields(false);
         changeConditionButton(jbn_save, true);
         changeConditionButton(jbn_restore, true);
+    }
+
+    @Override
+    public void updateTable() {
+   categories = controller.updateTable(jtf_nameFilter.getText());
     }
 
 }
