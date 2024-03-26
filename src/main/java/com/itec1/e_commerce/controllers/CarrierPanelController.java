@@ -23,7 +23,6 @@ public class CarrierPanelController implements IController<Carrier> {
     @Override
     public List<Carrier> updateTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
         List<Carrier> carriers = service.findAllEnabled();
@@ -39,7 +38,7 @@ public class CarrierPanelController implements IController<Carrier> {
         this.panel.getTable().setModel(model);
         return result;
     }
-  
+
     @Override
     public boolean verifyCrud(String selectedOption) {
         if (!crudOption.equals(selectedOption)) {
@@ -122,5 +121,4 @@ public class CarrierPanelController implements IController<Carrier> {
         }
         return "Cliente recuperado correctamente.";
     }
-
 }

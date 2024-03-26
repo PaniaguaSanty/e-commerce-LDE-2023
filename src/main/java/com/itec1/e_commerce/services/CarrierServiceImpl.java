@@ -108,5 +108,4 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
                 ? (carrier.isAerial()
                 ? "Marítimo y Aéreo" : "Marítimo") : "Aéreo"));
     }
-
 }

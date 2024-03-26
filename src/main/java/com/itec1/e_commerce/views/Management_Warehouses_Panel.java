@@ -11,6 +11,8 @@ import com.itec1.e_commerce.services.SectorServiceImpl;
 import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -306,10 +308,12 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
             changeConditionField(jtf_code, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
+            setGreenFont();
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
 
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Warehouse newWarehouse = controller.findByCode(jtf_code.getText());
@@ -332,11 +336,13 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
+            setGreenFont();
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Warehouse newWarehouse = new Warehouse();
@@ -355,6 +361,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_code, true);
+            setGreenFont();
             jlbl_info.setText("Ingrese el códifo a restaurar y vuelva a presionar");
         } else {
 
@@ -436,6 +443,16 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
         changeConditionButton(jbn_delete, state);
     }
 
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
     @Override
     public void changeConditionButton(JButton button, boolean state) {
         validator.enableButton(state, button, null, null, null, null);
@@ -506,7 +523,7 @@ public final class Management_Warehouses_Panel extends javax.swing.JPanel implem
 
     @Override
     public void updateTable() {
-    warehouses = controller.updateTable(jtf_codeFilter.getText());
+        warehouses = controller.updateTable(jtf_codeFilter.getText());
     }
 
 }

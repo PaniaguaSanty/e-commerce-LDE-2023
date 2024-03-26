@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Client;
@@ -12,9 +8,6 @@ import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
-import com.itec1.e_commerce.services.ProductServiceImpl;
-import com.itec1.e_commerce.services.SectorServiceImpl;
-import com.itec1.e_commerce.services.WarehouseServiceImpl;
 import com.itec1.e_commerce.views.InterfacePanel;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,14 +96,12 @@ public class ReportPanelController {
         }
         return report;
     }
-    
+
     public String clientReport(String clientCuit) {
         return "";
     }
 
     //hay que hacer las puntuaciones de los clientes hacia los transportistas pa despues añadirlo.
-    
-    
     // --------------------------- INFORME: TRANSPORTISTAS --------------------------- //
     public String carrierOverViewReport() {
         return carrierInfo();

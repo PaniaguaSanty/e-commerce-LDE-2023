@@ -11,6 +11,8 @@ import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
+import java.awt.Color;
+import java.awt.Font;
 
 import java.util.List;
 import javax.swing.JButton;
@@ -275,10 +277,12 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
             changeConditionField(jtf_name, true);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
+            setGreenFont();
             jlbl_info.setText("Modifique el nombre y vuelva a pulsar");
 
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no puede tener nombre vacío");
             } else {
                 Sector newSector = controller.findByCode(jtf_code.getText());
@@ -299,11 +303,13 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
+            setGreenFont();
             jlbl_info.setText("Ingrese un nombre y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Sector newSector = new Sector();
@@ -321,6 +327,7 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_code, true);
+            setGreenFont();
             jlbl_info.setText("Ingrese el código del sector a restaurar y vuelva a presionar");
         } else {
             {
@@ -364,6 +371,11 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     }
 
     @Override
+    public void updateTable() {
+        sectors = controller.updateTable(jtf_codeFilter.getText());
+    }
+
+    @Override
     public void selectFromTable() {
         int fieldWarehouse = tableWarehouse.getSelectedRow();
         int fieldSectors = tableSectors.getSelectedRow();
@@ -401,6 +413,16 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
         changeConditionButton(jbn_restore, state);
         changeConditionButton(jbn_update, state);
         changeConditionButton(jbn_delete, state);
+    }
+
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
     }
 
     @Override
@@ -452,8 +474,4 @@ public class Management_Sectors_Panel extends javax.swing.JPanel implements Inte
     private javax.swing.JTable tableWarehouse;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void updateTable() {
-        sectors = controller.updateTable(jtf_codeFilter.getText());
-    }
 }

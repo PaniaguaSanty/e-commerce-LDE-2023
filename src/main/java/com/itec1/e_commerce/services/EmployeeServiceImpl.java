@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     public List<Employee> findAll() {
         return employeeJpaController.findEmployeeEntities();
     }
-    
+
     @Override
     public List<Employee> findAllEnabled() {
         return findAll().stream().filter(Employee::isEnable).toList();
@@ -78,15 +78,15 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     public Employee findByCuit(String cuit) {
         return employeeJpaController.findEmployeeEntities().stream()
-                    .filter(client -> client.getCuit().equals(cuit))
-                    .findFirst()
-                    .orElse(null);
+                .filter(client -> client.getCuit().equals(cuit))
+                .findFirst()
+                .orElse(null);
     }
-  
-  public List<Employee> searchByWarehouse(String warehouseToSearch) {
+
+    public List<Employee> searchByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
                 .filter(employee -> employee.getWarehouse().getCode().
-                        equals(warehouseToSearch)).toList();
+                equals(warehouseToSearch)).toList();
     }
 
     //Verificar
@@ -99,7 +99,4 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         }
         return null;
     }
-    
-    
-
 }

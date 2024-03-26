@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.itec1.e_commerce.views.resources;
 
 import java.awt.Color;
@@ -127,6 +122,7 @@ public class FieldDataValidator {
      * limpia el textfield
      *
      * textField unTextField
+     *
      * @param textField
      */
     public void cleanField(JTextField textField) {
@@ -175,7 +171,7 @@ public class FieldDataValidator {
     public void enableCombobox(boolean state, JComboBox comboBox) {
         comboBox.setEnabled(state);
     }
-    
+
     /**
      * Habilita o deshabilita un CheckBox segun el estado
      *
