@@ -52,7 +52,7 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     public List<Carrier> findAllEnabled() {
         return findAll().stream().filter(Carrier::isEnable).toList();
     }
-    
+
     public List<Carrier> findAllDisabled() {
         return findAll().stream().filter(carrier -> !carrier.isEnable()).toList();
     }
@@ -108,5 +108,4 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
                 ? (carrier.isAerial()
                 ? "Marítimo y Aéreo" : "Marítimo") : "Aéreo"));
     }
-
 }

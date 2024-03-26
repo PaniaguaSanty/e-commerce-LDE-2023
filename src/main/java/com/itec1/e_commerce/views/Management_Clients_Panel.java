@@ -5,6 +5,8 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -318,10 +320,12 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
             changeConditionField(jtf_cuit, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
+            setGreenFont();
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
 
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Client newClient = controller.findByCuit(jtf_cuit.getText());
@@ -345,11 +349,13 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
+            setGreenFont();
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Client newClient = new Client();
@@ -370,9 +376,9 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_cuit, true);
+            setGreenFont();
             jlbl_info.setText("Ingrese el CUIT a restaurar y vuelva a presionar");
         } else {
-
             Client newClient = controller.findByCuit(jtf_cuit.getText());
             jlbl_info.setText(controller.enable(newClient.getId()));
             initPanel();
@@ -472,6 +478,16 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
         validator.enableButton(state, button, null, null, null, null);
     }
 
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
     @Override
     public void cleanAllFields() {
         cleanField(jtf_name);
@@ -537,7 +553,7 @@ public final class Management_Clients_Panel extends javax.swing.JPanel implement
 
     @Override
     public void updateTable() {
-    clients = controller.updateTable(jtf_cuitFilter.getText());
+        clients = controller.updateTable(jtf_cuitFilter.getText());
     }
 
 }

@@ -496,11 +496,11 @@ public final class Management_Providers_Panel extends javax.swing.JPanel impleme
     }//GEN-LAST:event_seeProvidersActionPerformed
 
     private void jbn_deleteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbn_deleteKeyPressed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jbn_deleteKeyPressed
 
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
 
 

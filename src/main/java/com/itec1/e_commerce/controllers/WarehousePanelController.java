@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Warehouse;
@@ -24,21 +20,19 @@ public class WarehousePanelController implements IController<Warehouse> {
 
     public WarehousePanelController(Management_Warehouses_Panel warehousePanel) {
         this.warehouseService = new WarehouseServiceImpl();
-          this.warehousePanel = warehousePanel;
-
+        this.warehousePanel = warehousePanel;
     }
 
     @Override
     public List<Warehouse> updateTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
         model.setColumnIdentifiers(titles);
         List<Warehouse> warehouses = warehouseService.findAllEnabled();
         List<Warehouse> result = new ArrayList<>();
         for (Warehouse wh : warehouses) {
             if (wh.getCode().startsWith(string)) {
-                Object[] object = {wh.getId(),wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
+                Object[] object = {wh.getId(), wh.getCode(), wh.getAddress(), wh.getCountry(), wh.getLatitude(), wh.getLongitude()};
                 model.addRow(object);
                 result.add(wh);
             }
@@ -125,7 +119,4 @@ public class WarehousePanelController implements IController<Warehouse> {
     public Warehouse findByCode(String code) {
         return warehouseService.findByCode(code);
     }
-
-  
-
 }

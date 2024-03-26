@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Order;
@@ -109,7 +105,7 @@ public class OrderPanelController {
     }
 
     public void assignWarehouseOriginToOrder(Warehouse warehouseOrigin) {
-        order.setWarehouseOrigin(warehouseOrigin);          //cambiar
+        order.setWarehouseOrigin(warehouseOrigin);
         order.setSector(sectorService.findSectorByName("recibidos", warehouseOrigin));
     }
 
@@ -197,7 +193,7 @@ public class OrderPanelController {
     }
 
     public boolean verifyDetail(Product receivedProduct) {
-        return !details.stream() // " ! " retorna FALSE
+        return !details.stream()
                 .anyMatch(detail -> detail.getProduct().equals(receivedProduct));
     }
 
@@ -284,13 +280,14 @@ public class OrderPanelController {
         this.panel.getProductsTable().setModel(model);
         return result;
     }
-    
-    public boolean verifyWarehouse(String code){
-        return warehouseService.findByCode(code)!= null;
+
+    public boolean verifyWarehouse(String code) {
+        return warehouseService.findByCode(code) != null;
     }
-     public boolean verifySector ( String code){
-         return false;
-     }
+
+    public boolean verifySector(String code) {
+        return false;
+    }
 
     //Warehouse
     public List<Warehouse> findWarehouseByCountry(String countryName) {
@@ -322,7 +319,7 @@ public class OrderPanelController {
         this.panel.getWarehousesTable().setModel(model);
         return result;
     }
-    
+
     public List<Warehouse> updateWarehouseTableForCode(String string) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Código", "Dirección", "País"};
@@ -340,18 +337,18 @@ public class OrderPanelController {
         return result;
     }
 
-    public List<Sector> updateTableSector(String codeWarehouse ,String code) {
-      Warehouse warehouse = warehouseService.findByCode(codeWarehouse);
+    public List<Sector> updateTableSector(String codeWarehouse, String code) {
+        Warehouse warehouse = warehouseService.findByCode(codeWarehouse);
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Código"};
         model.setColumnIdentifiers(titles);
         List<Sector> sectors = new ArrayList<>();
-        if(warehouse == null){
+        if (warehouse == null) {
             this.panel.getSectorsTable().setModel(model);
             return sectors;
-        }else{
-            sectors=sectorService.findSectorByWarehouse(warehouse);
-            
+        } else {
+            sectors = sectorService.findSectorByWarehouse(warehouse);
+
         }
         List<Sector> result = new ArrayList<>();
         for (Sector se : sectors) {
@@ -367,13 +364,13 @@ public class OrderPanelController {
 
     public List<Order> updateTableOrder(String code) {
         DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Cliente","C.U.I.T"};
+        String[] titles = {"Cliente", "C.U.I.T"};
         model.setColumnIdentifiers(titles);
         List<Order> orders = orderService.findAll();
         List<Order> result = new ArrayList<>();
         for (Order or : orders) {
             if (or.getCode().startsWith(code)) {
-                Object[] object = {or.getClient().getName(),or.getClient().getCuit()};
+                Object[] object = {or.getClient().getName(), or.getClient().getCuit()};
                 model.addRow(object);
                 result.add(or);
             }

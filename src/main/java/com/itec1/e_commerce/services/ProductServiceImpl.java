@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -57,8 +53,8 @@ public class ProductServiceImpl implements ICRUD<Product> {
     public List<Product> findAll() {
         return productJpaController.findProductEntities();
     }
-    
-        @Override
+
+    @Override
     public List<Product> findAllEnabled() {
         return findAll().stream().filter(Product::isEnable).toList();
     }

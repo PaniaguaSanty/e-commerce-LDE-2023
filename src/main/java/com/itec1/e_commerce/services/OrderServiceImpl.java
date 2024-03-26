@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -16,12 +12,10 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
-import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.List;
@@ -90,8 +84,8 @@ public class OrderServiceImpl {
         return findAll().stream().filter(order -> order.getSector().getWarehouse().getId()
                 .equals(orderByWarehouse.getId())).toList();
     }
-    
-    public List<DetailOrder> viewDetailOfOrder (Order order) {
+
+    public List<DetailOrder> viewDetailOfOrder(Order order) {
         return detailOrderJpaController.findDetailOrderEntities().stream().
                 filter(detail -> detail.getOrder().equals(order)).toList();
     }
