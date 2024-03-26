@@ -103,10 +103,25 @@ public class ReportPanelController {
         }
         return report;
     }
-
+    
     public String clientReport(String clientCuit) {
         return "";
     }
 
-    // --------------------------- INFORME: EMPLEADOS --------------------------- //
+    //hay que hacer las puntuaciones de los clientes hacia los transportistas pa despues añadirlo.
+    
+    
+    // --------------------------- INFORME: TRANSPORTISTAS --------------------------- //
+    public String carrierOverViewReport() {
+        return carrierInfo();
+    }
+
+    private String carrierInfo() {
+        return "El sistema cuenta con un total de "
+                + carrierService.findAll().size() + " transportistas registrados.\n"
+                + " - " + carrierService.findAllEnabled() + " de ellos están disponibles para realizar envíos.\n"
+                + " - " + carrierService.findAllDisabled() + " de ellos no están disponibles.\n";
+        //falta falta jsjsjs
+    }
+
 }
