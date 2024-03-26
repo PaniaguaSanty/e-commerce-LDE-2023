@@ -31,17 +31,16 @@ public class ReportPanelController {
     private final ClientServiceImpl clientService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategoryService;
-    
-    public ReportPanelController (InterfacePanel panel) {
+
+    public ReportPanelController(InterfacePanel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
         this.clientService = new ClientServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
     }
-    
+
     // --------------------------- INFORME: CLIENTES --------------------------- //
-    
     public List<Client> updateClientsTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
@@ -58,37 +57,29 @@ public class ReportPanelController {
         this.panel.getTable().setModel(model);
         return result;
     }
-    
-    private int clientsWithoutOrders() {
-        int result = 0;
-        for (Client client : clientService.findAll()) {
-            for (Order order : orderService.findAll()) {
-                if (order.getClient().equals(client)) {
-                    result += 1;
-                    break;
-                }
-            }
-        }
-        return clientService.findAll().size() - result;
+
+    private long findClientsWithoutOrders() {
+        List<Order> allOrders = orderService.findAll();
+        List<Client> allClients = clientService.findAll();
+        return allClients.stream()
+                .filter(client -> allOrders.stream()
+                .noneMatch(order -> order.getClient().equals(client))) //verifica que no tengan ningún pedido asociado.
+                .count();
     }
 
-    private int disabledClients() {
-        int result = 0;
-        for (Client client : clientService.findAll()) {
-            if (!client.isEnable()) {
-                result += 1;
-            }
-        }
-        return result;
+    private int findDisabledClients() {
+        return (int) clientService.findAll().stream()
+                .filter(Client -> !Client.isEnable())
+                .count();
     }
 
     public String clientOverviewReport() {
         String report = "El sistema cuenta con un total de "
                 + clientService.findAll().size() + " clientes registrados.\n"
-                + " - " + clientsWithoutOrders() + " de ellos no realizaron ningún pedido en el sistema.\n"
-                + " - " + disabledClients() + " de ellos se encuentran deshabilitados.\n"
-                + " - Los cliente realizaron un total de " + orderService.findAll().size() +
-                " pedidos con las siguientes preferencias:\n";
+                + " - " + findClientsWithoutOrders() + " de ellos no realizaron ningún pedido en el sistema.\n"
+                + " - " + findDisabledClients() + " de ellos se encuentran deshabilitados.\n"
+                + " - Los cliente realizaron un total de " + orderService.findAll().size()
+                + " pedidos con las siguientes preferencias:\n";
         List<DetailOrder> allDetails = new ArrayList<>();
         for (Order anOrder : orderService.findAll()) {
             allDetails.addAll(orderService.viewDetailOfOrder(anOrder));
@@ -117,4 +108,5 @@ public class ReportPanelController {
         return "";
     }
 
+    // --------------------------- INFORME: EMPLEADOS --------------------------- //
 }
