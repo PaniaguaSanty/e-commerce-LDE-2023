@@ -6,8 +6,12 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.controllers.ReportPanelController;
+import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import com.itec1.e_commerce.views.resources.TableListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -15,18 +19,21 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public class Report_Clients extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel{
+public class Report_Clients extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
 
     private final ReportPanelController panel;
     private List<Client> clients;
-    
+    private List<JLabel> lines = new ArrayList<>();
+
     /**
      * Creates new form Management_Client_Panel
      */
     public Report_Clients() {
         initComponents();
         this.panel = new ReportPanelController(this);
-        jbl_reportData.setText(panel.clientOverviewReport());
+        this.panel.updateClientsTable("");
+        overviewReport();
+        initListener();
     }
 
     /**
@@ -41,7 +48,16 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         jPanel2 = new javax.swing.JPanel();
         jPanel_data = new javax.swing.JPanel();
         jbl_reportTitle = new javax.swing.JLabel();
-        jbl_reportData = new javax.swing.JLabel();
+        jbl_reportDataLine1 = new javax.swing.JLabel();
+        jbl_reportDataLine2 = new javax.swing.JLabel();
+        jbl_reportDataLine3 = new javax.swing.JLabel();
+        jbl_reportDataLine4 = new javax.swing.JLabel();
+        jbl_reportDataLine5 = new javax.swing.JLabel();
+        jbl_reportDataLine6 = new javax.swing.JLabel();
+        jbl_reportDataLine7 = new javax.swing.JLabel();
+        jbl_reportDataLine8 = new javax.swing.JLabel();
+        jbl_reportDataLine9 = new javax.swing.JLabel();
+        jbl_reportDataLine0 = new javax.swing.JLabel();
         jPanel_table = new javax.swing.JPanel();
         jScrollPaneTabla = new javax.swing.JScrollPane();
         tableClient = new javax.swing.JTable();
@@ -59,8 +75,35 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         jbl_reportTitle.setForeground(new java.awt.Color(255, 255, 255));
         jbl_reportTitle.setText("INFORME GENERAL:");
 
-        jbl_reportData.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportData.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_reportDataLine1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine2.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine3.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine4.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine5.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine6.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine7.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine8.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine9.setForeground(new java.awt.Color(255, 255, 255));
+
+        jbl_reportDataLine0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_reportDataLine0.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel_dataLayout = new javax.swing.GroupLayout(jPanel_data);
         jPanel_data.setLayout(jPanel_dataLayout);
@@ -73,7 +116,17 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                         .addComponent(jbl_reportTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_dataLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jbl_reportData, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbl_reportDataLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine3, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine5, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine6, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine8, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine7, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine9, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_reportDataLine0, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_dataLayout.setVerticalGroup(
@@ -82,8 +135,26 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                 .addGap(25, 25, 25)
                 .addComponent(jbl_reportTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportData, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jbl_reportDataLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbl_reportDataLine0, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         jPanel_table.setBackground(new java.awt.Color(0, 51, 255));
@@ -152,7 +223,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel_data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(314, 314, 314))
+                .addContainerGap(320, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,31 +237,26 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1457, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(17, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(326, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 618, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(8, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(8, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deselectClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deselectClientActionPerformed
-        
-    }//GEN-LAST:event_deselectClientActionPerformed
-
     private void jtf_cuitFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuitFilterActionPerformed
-        
+
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
+
+    private void deselectClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deselectClientActionPerformed
+        overviewReport();
+        cleanAllFields();
+    }//GEN-LAST:event_deselectClientActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -200,7 +266,16 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     private javax.swing.JPanel jPanel_table;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JLabel jbl_filter;
-    private javax.swing.JLabel jbl_reportData;
+    private javax.swing.JLabel jbl_reportDataLine0;
+    private javax.swing.JLabel jbl_reportDataLine1;
+    private javax.swing.JLabel jbl_reportDataLine2;
+    private javax.swing.JLabel jbl_reportDataLine3;
+    private javax.swing.JLabel jbl_reportDataLine4;
+    private javax.swing.JLabel jbl_reportDataLine5;
+    private javax.swing.JLabel jbl_reportDataLine6;
+    private javax.swing.JLabel jbl_reportDataLine7;
+    private javax.swing.JLabel jbl_reportDataLine8;
+    private javax.swing.JLabel jbl_reportDataLine9;
     private javax.swing.JLabel jbl_reportTitle;
     private javax.swing.JTextField jtf_cuitFilter;
     private javax.swing.JTable tableClient;
@@ -209,22 +284,53 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     @Override
     public void initValidator() {
     }
-    
+
     @Override
     public void initListener() {
+        tableClient.getSelectionModel().addListSelectionListener(new TableListener(this));
+        jtf_cuitFilter.getDocument().addDocumentListener(new JTextFieldListener(this));
     }
 
     @Override
     public void initPanel() {
+        if (!lines.isEmpty()) {
+            lines.clear();
+        }
+        jbl_reportDataLine1.setText("");
+        lines.add(jbl_reportDataLine1);
+        jbl_reportDataLine2.setText("");
+        lines.add(jbl_reportDataLine2);
+        jbl_reportDataLine3.setText("");
+        lines.add(jbl_reportDataLine3);
+        jbl_reportDataLine4.setText("");
+        lines.add(jbl_reportDataLine4);
+        jbl_reportDataLine5.setText("");
+        lines.add(jbl_reportDataLine5);
+        jbl_reportDataLine6.setText("");
+        lines.add(jbl_reportDataLine6);
+        jbl_reportDataLine7.setText("");
+        lines.add(jbl_reportDataLine7);
+        jbl_reportDataLine8.setText("");
+        lines.add(jbl_reportDataLine8);
+        jbl_reportDataLine9.setText("");
+        lines.add(jbl_reportDataLine9);
+        jbl_reportDataLine0.setText("");
+        lines.add(jbl_reportDataLine0);
     }
 
     @Override
     public JTable getTable() {
-        return null;
+        return tableClient;
     }
 
     @Override
     public void selectFromTable() {
+        int field = tableClient.getSelectedRow();
+        if (field >= 0) {
+            Client client = clients.get(field);
+            this.clients = panel.updateClientsTable(client.getCuit());
+            clientReport(client);
+        }
     }
 
     @Override
@@ -245,6 +351,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
 
     @Override
     public void cleanAllFields() {
+        jtf_cuitFilter.setText("");
     }
 
     @Override
@@ -330,4 +437,43 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     public String getCarrierFilter() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    private void overviewReport() {
+        initPanel();
+        this.clients = panel.updateClientsTable("");
+        jbl_reportTitle.setText("INFORME GENERAL:");
+        String report = panel.clientOverviewReport();
+        String auxiliar = "";
+        int count = 0;
+        for (int i = 0; i < report.length(); i++) {
+            auxiliar += report.charAt(i);
+            if (report.charAt(i) == '.' || report.charAt(i) == ':') {
+                if (!Character.isDigit(report.charAt(i - 1))) {
+                    lines.get(count).setText(auxiliar);
+                    auxiliar = "";
+                    count++;
+                }
+            }
+        }
+    }
+
+    private void clientReport(Client client) {
+        initPanel();
+        this.clients = panel.updateClientsTable(client.getCuit());
+        String report = panel.clientReport(client);
+        jbl_reportTitle.setText("INFORME DE " + client.getLastname() + " " + client.getName() + ":");
+        String auxiliar = "";
+        int count = 0;
+        for (int i = 0; i < report.length(); i++) {
+            auxiliar += report.charAt(i);
+            if (report.charAt(i) == '.' || report.charAt(i) == ':') {
+                if (!Character.isDigit(report.charAt(i - 1))) {
+                    lines.get(count).setText(auxiliar);
+                    auxiliar = "";
+                    count++;
+                }
+            }
+        }
+    }
+
 }
