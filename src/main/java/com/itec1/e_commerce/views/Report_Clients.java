@@ -32,8 +32,8 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         initComponents();
         this.panel = new ReportPanelController(this);
         this.panel.updateClientsTable("");
-        overviewReport();
         initListener();
+        overviewReport();
     }
 
     /**
@@ -370,7 +370,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
 
     @Override
     public void updateTable() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.clients = this.panel.updateClientsTable(jtf_cuitFilter.getText());
     }
 
     @Override
