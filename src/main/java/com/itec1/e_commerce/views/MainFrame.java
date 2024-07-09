@@ -25,17 +25,8 @@ public class MainFrame extends javax.swing.JFrame {
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
-    private Reports_Carriers_ByDate_Panel carriersByDatePanel;
-    private Reports_Carriers_Overview_Panel reportsCarriersOverviewPanel;
-    private Reports_Clients_ByCategory_Panel reportsClientsByCategoryPanel;
-    private Reports_Clients_ByDate_Panel reportsClientsByDatePanel;
-    private Reports_Clients_Overview_Panel reportsClientsOverviewPanel;
-    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
-    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
-    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
-    private Reports_Providers_ByDate_Panel providersByDatePanel;
-    private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
-    private Report_Clients reportClients;
+    private Report_ClientsPanel reportClients;
+    private Report_ProvidersPanel reportProviders;
 
     public MainFrame() {
 
@@ -81,17 +72,8 @@ public class MainFrame extends javax.swing.JFrame {
         viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 
-        carriersByDatePanel = new Reports_Carriers_ByDate_Panel();
-        reportsCarriersOverviewPanel = new Reports_Carriers_Overview_Panel();
-        reportsClientsByCategoryPanel = new Reports_Clients_ByCategory_Panel();
-        reportsClientsByDatePanel = new Reports_Clients_ByDate_Panel();
-        reportsClientsOverviewPanel = new Reports_Clients_Overview_Panel();
-        reportClients= new Report_Clients();
-        reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
-        reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
-        reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
-        providersByDatePanel = new Reports_Providers_ByDate_Panel();
-        reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
+        reportClients= new Report_ClientsPanel();
+        reportProviders= new Report_ProvidersPanel();
 
     }
 
@@ -137,16 +119,7 @@ public class MainFrame extends javax.swing.JFrame {
         menu_ViewOrderStatuses = new javax.swing.JMenuItem();
         menu_Reports = new javax.swing.JMenu();
         menu_newOrder1 = new javax.swing.JMenuItem();
-        menu_ProvidersReport = new javax.swing.JMenu();
-        provider_OverviewReport = new javax.swing.JMenuItem();
-        provider_ReportByDate = new javax.swing.JMenuItem();
-        menu_CarriersReport = new javax.swing.JMenu();
-        carrier_OverviewReport = new javax.swing.JMenuItem();
-        carrier_ReportByDate = new javax.swing.JMenuItem();
-        menu_OrdersReport = new javax.swing.JMenu();
-        order_OverviewReport = new javax.swing.JMenuItem();
-        order_ReportByDate = new javax.swing.JMenuItem();
-        order_ReportByStatuses = new javax.swing.JMenuItem();
+        menu_providerReport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 660));
@@ -333,73 +306,13 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menu_Reports.add(menu_newOrder1);
 
-        menu_ProvidersReport.setText("Generar informe de Proveedores");
-
-        provider_OverviewReport.setText("Informe general");
-        provider_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
+        menu_providerReport.setText("Generar informe de Proveedores");
+        menu_providerReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                provider_OverviewReportActionPerformed(evt);
+                menu_providerReportActionPerformed(evt);
             }
         });
-        menu_ProvidersReport.add(provider_OverviewReport);
-
-        provider_ReportByDate.setText("Informe por fecha");
-        provider_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                provider_ReportByDateActionPerformed(evt);
-            }
-        });
-        menu_ProvidersReport.add(provider_ReportByDate);
-
-        menu_Reports.add(menu_ProvidersReport);
-
-        menu_CarriersReport.setText("Generar informe de Transportistas");
-
-        carrier_OverviewReport.setText("Informe general");
-        carrier_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                carrier_OverviewReportActionPerformed(evt);
-            }
-        });
-        menu_CarriersReport.add(carrier_OverviewReport);
-
-        carrier_ReportByDate.setText("Informe por fecha");
-        carrier_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                carrier_ReportByDateActionPerformed(evt);
-            }
-        });
-        menu_CarriersReport.add(carrier_ReportByDate);
-
-        menu_Reports.add(menu_CarriersReport);
-
-        menu_OrdersReport.setText("Generar informe de Pedidos");
-
-        order_OverviewReport.setText("Informe general");
-        order_OverviewReport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                order_OverviewReportActionPerformed(evt);
-            }
-        });
-        menu_OrdersReport.add(order_OverviewReport);
-
-        order_ReportByDate.setText("Informe por fecha");
-        order_ReportByDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                order_ReportByDateActionPerformed(evt);
-            }
-        });
-        menu_OrdersReport.add(order_ReportByDate);
-
-        order_ReportByStatuses.setText("Informe por estados");
-        order_ReportByStatuses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                order_ReportByStatusesActionPerformed(evt);
-            }
-        });
-        menu_OrdersReport.add(order_ReportByStatuses);
-
-        menu_Reports.add(menu_OrdersReport);
+        menu_Reports.add(menu_providerReport);
 
         jMenuBar1.add(menu_Reports);
 
@@ -432,6 +345,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void menu_newOrder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_newOrder1ActionPerformed
         changePanel(reportClients);
     }//GEN-LAST:event_menu_newOrder1ActionPerformed
+
+    private void menu_providerReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_providerReportActionPerformed
+        changePanel(reportProviders);
+    }//GEN-LAST:event_menu_providerReportActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -528,26 +445,21 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Welcome;
-    private javax.swing.JMenuItem carrier_OverviewReport;
-    private javax.swing.JMenuItem carrier_ReportByDate;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel jlbl_welcome;
     private javax.swing.JMenuItem menu_Carriers;
-    private javax.swing.JMenu menu_CarriersReport;
     private javax.swing.JMenuItem menu_Clients;
     private javax.swing.JMenuItem menu_Close;
     private javax.swing.JMenuItem menu_Employees;
     private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
-    private javax.swing.JMenu menu_OrdersReport;
     private javax.swing.JMenuItem menu_ProductCategories;
     private javax.swing.JMenuItem menu_Products;
     private javax.swing.JMenuItem menu_Providers;
-    private javax.swing.JMenu menu_ProvidersReport;
     private javax.swing.JMenu menu_Reports;
     private javax.swing.JMenuItem menu_Sectors;
     private javax.swing.JMenuItem menu_ViewOrderSector;
@@ -555,10 +467,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_Warehouses;
     private javax.swing.JMenuItem menu_newOrder;
     private javax.swing.JMenuItem menu_newOrder1;
-    private javax.swing.JMenuItem order_OverviewReport;
-    private javax.swing.JMenuItem order_ReportByDate;
-    private javax.swing.JMenuItem order_ReportByStatuses;
-    private javax.swing.JMenuItem provider_OverviewReport;
-    private javax.swing.JMenuItem provider_ReportByDate;
+    private javax.swing.JMenuItem menu_providerReport;
     // End of variables declaration//GEN-END:variables
 }

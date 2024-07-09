@@ -19,7 +19,7 @@ import javax.swing.JTextField;
  *
  * @author sjcex
  */
-public class Report_Clients extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
+public class Report_ProvidersPanel extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
 
     private final ReportPanelController panel;
     private List<Client> clients;
@@ -28,7 +28,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     /**
      * Creates new form Management_Client_Panel
      */
-    public Report_Clients() {
+    public Report_ProvidersPanel() {
         initComponents();
         this.panel = new ReportPanelController(this);
         this.panel.updateClientsTable("");
@@ -64,6 +64,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         deselectClient = new javax.swing.JButton();
         jbl_filter = new javax.swing.JLabel();
         jtf_cuitFilter = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
@@ -184,6 +185,8 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
             }
         });
 
+        jLabel1.setText("Informe de Proveedores");
+
         javax.swing.GroupLayout jPanel_tableLayout = new javax.swing.GroupLayout(jPanel_table);
         jPanel_table.setLayout(jPanel_tableLayout);
         jPanel_tableLayout.setHorizontalGroup(
@@ -197,14 +200,21 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                 .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_tableLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_tableLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel_tableLayout.setVerticalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,6 +271,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deselectClient;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_data;
     private javax.swing.JPanel jPanel_table;
