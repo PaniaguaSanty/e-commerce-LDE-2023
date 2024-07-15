@@ -6,9 +6,11 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.controllers.ReportPanelController;
+import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,18 +24,19 @@ import javax.swing.JTextField;
 public class Report_Clients extends javax.swing.JPanel implements InterfacePanel, InterfaceOrderPanel {
 
     private final ReportPanelController panel;
+    private final FieldDataValidator validator;
     private List<Client> clients;
-    private List<JLabel> lines = new ArrayList<>();
 
     /**
      * Creates new form Management_Client_Panel
      */
     public Report_Clients() {
-        initComponents();
         this.panel = new ReportPanelController(this);
-        this.panel.updateClientsTable("");
+        this.validator = new FieldDataValidator();
+        initComponents();
         initListener();
-        overviewReport();
+        initValidator();
+        initPanel();
     }
 
     /**
@@ -48,22 +51,23 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         jPanel2 = new javax.swing.JPanel();
         jPanel_data = new javax.swing.JPanel();
         jbl_reportTitle = new javax.swing.JLabel();
-        jbl_reportDataLine1 = new javax.swing.JLabel();
-        jbl_reportDataLine2 = new javax.swing.JLabel();
-        jbl_reportDataLine3 = new javax.swing.JLabel();
-        jbl_reportDataLine4 = new javax.swing.JLabel();
-        jbl_reportDataLine5 = new javax.swing.JLabel();
-        jbl_reportDataLine6 = new javax.swing.JLabel();
-        jbl_reportDataLine7 = new javax.swing.JLabel();
-        jbl_reportDataLine8 = new javax.swing.JLabel();
-        jbl_reportDataLine9 = new javax.swing.JLabel();
-        jbl_reportDataLine0 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        reportText = new javax.swing.JTextArea();
         jPanel_table = new javax.swing.JPanel();
         jScrollPaneTabla = new javax.swing.JScrollPane();
         tableClient = new javax.swing.JTable();
         deselectClient = new javax.swing.JButton();
         jbl_filter = new javax.swing.JLabel();
         jtf_cuitFilter = new javax.swing.JTextField();
+        jtf_dateFilterInitDay = new javax.swing.JTextField();
+        jtf_dateFilterEndDay = new javax.swing.JTextField();
+        jtf_dateFilterInitMonth = new javax.swing.JTextField();
+        jtf_dateFilterEndMonth = new javax.swing.JTextField();
+        jtf_dateFilterInitYear = new javax.swing.JTextField();
+        jtf_dateFilterEndYear = new javax.swing.JTextField();
+        jbl_dateFilterInit = new javax.swing.JLabel();
+        jbl_dateFilterEnd = new javax.swing.JLabel();
+        jbn_dateFilter = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
@@ -75,35 +79,12 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         jbl_reportTitle.setForeground(new java.awt.Color(255, 255, 255));
         jbl_reportTitle.setText("INFORME GENERAL:");
 
-        jbl_reportDataLine1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine1.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine2.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine3.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine4.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine5.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine6.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine7.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine8.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine9.setForeground(new java.awt.Color(255, 255, 255));
-
-        jbl_reportDataLine0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_reportDataLine0.setForeground(new java.awt.Color(255, 255, 255));
+        reportText.setEditable(false);
+        reportText.setColumns(20);
+        reportText.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        reportText.setRows(5);
+        reportText.setAlignmentX(0.0F);
+        jScrollPane1.setViewportView(reportText);
 
         javax.swing.GroupLayout jPanel_dataLayout = new javax.swing.GroupLayout(jPanel_data);
         jPanel_data.setLayout(jPanel_dataLayout);
@@ -115,19 +96,9 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                         .addGap(74, 74, 74)
                         .addComponent(jbl_reportTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_dataLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbl_reportDataLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine3, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine5, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine6, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine8, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine7, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine9, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbl_reportDataLine0, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel_dataLayout.setVerticalGroup(
             jPanel_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,26 +106,8 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
                 .addGap(25, 25, 25)
                 .addComponent(jbl_reportTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_reportDataLine0, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
 
         jPanel_table.setBackground(new java.awt.Color(0, 51, 255));
@@ -184,34 +137,126 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
             }
         });
 
+        jtf_dateFilterInitDay.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterInitDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterInitDayActionPerformed(evt);
+            }
+        });
+
+        jtf_dateFilterEndDay.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterEndDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterEndDayActionPerformed(evt);
+            }
+        });
+
+        jtf_dateFilterInitMonth.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterInitMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterInitMonthActionPerformed(evt);
+            }
+        });
+
+        jtf_dateFilterEndMonth.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterEndMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterEndMonthActionPerformed(evt);
+            }
+        });
+
+        jtf_dateFilterInitYear.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterInitYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterInitYearActionPerformed(evt);
+            }
+        });
+
+        jtf_dateFilterEndYear.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_dateFilterEndYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_dateFilterEndYearActionPerformed(evt);
+            }
+        });
+
+        jbl_dateFilterInit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_dateFilterInit.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_dateFilterInit.setText("inicial ->");
+
+        jbl_dateFilterEnd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbl_dateFilterEnd.setForeground(new java.awt.Color(255, 255, 255));
+        jbl_dateFilterEnd.setText("final ->");
+
+        jbn_dateFilter.setText("FILTRAR POR FECHA");
+        jbn_dateFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbn_dateFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_tableLayout = new javax.swing.GroupLayout(jPanel_table);
         jPanel_table.setLayout(jPanel_tableLayout);
         jPanel_tableLayout.setHorizontalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(deselectClient)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
-            .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_tableLayout.createSequentialGroup()
+                        .addComponent(deselectClient)
+                        .addGap(26, 26, 26)
+                        .addComponent(jbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbn_dateFilter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jbl_dateFilterInit)
+                            .addComponent(jbl_dateFilterEnd))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_tableLayout.createSequentialGroup()
+                                .addComponent(jtf_dateFilterInitDay, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_dateFilterInitMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_dateFilterInitYear, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel_tableLayout.createSequentialGroup()
+                                .addComponent(jtf_dateFilterEndDay, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_dateFilterEndMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_dateFilterEndYear, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel_tableLayout.setVerticalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(deselectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(deselectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtf_cuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbn_dateFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_tableLayout.createSequentialGroup()
+                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_dateFilterInitDay, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_dateFilterInitMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_dateFilterInitYear, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbl_dateFilterInit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_tableLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtf_dateFilterEndDay, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_dateFilterEndMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_dateFilterEndYear, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jbl_dateFilterEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -220,10 +265,10 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel_data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel_table, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(326, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,13 +284,13 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -254,9 +299,41 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     }//GEN-LAST:event_jtf_cuitFilterActionPerformed
 
     private void deselectClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deselectClientActionPerformed
-        overviewReport();
         cleanAllFields();
+        overviewReport(getInitDate(), getEndDate());
     }//GEN-LAST:event_deselectClientActionPerformed
+
+    private void jtf_dateFilterEndMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterEndMonthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterEndMonthActionPerformed
+
+    private void jtf_dateFilterEndYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterEndYearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterEndYearActionPerformed
+
+    private void jtf_dateFilterInitYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterInitYearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterInitYearActionPerformed
+
+    private void jtf_dateFilterInitMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterInitMonthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterInitMonthActionPerformed
+
+    private void jbn_dateFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_dateFilterActionPerformed
+        if (clients.size() == 1) {
+            clientReport(clients.get(0), getInitDate(), getEndDate());
+        } else {
+            overviewReport(getInitDate(), getEndDate());
+        }
+    }//GEN-LAST:event_jbn_dateFilterActionPerformed
+
+    private void jtf_dateFilterEndDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterEndDayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterEndDayActionPerformed
+
+    private void jtf_dateFilterInitDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_dateFilterInitDayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_dateFilterInitDayActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -264,25 +341,40 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_data;
     private javax.swing.JPanel jPanel_table;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneTabla;
+    private javax.swing.JLabel jbl_dateFilterEnd;
+    private javax.swing.JLabel jbl_dateFilterInit;
     private javax.swing.JLabel jbl_filter;
-    private javax.swing.JLabel jbl_reportDataLine0;
-    private javax.swing.JLabel jbl_reportDataLine1;
-    private javax.swing.JLabel jbl_reportDataLine2;
-    private javax.swing.JLabel jbl_reportDataLine3;
-    private javax.swing.JLabel jbl_reportDataLine4;
-    private javax.swing.JLabel jbl_reportDataLine5;
-    private javax.swing.JLabel jbl_reportDataLine6;
-    private javax.swing.JLabel jbl_reportDataLine7;
-    private javax.swing.JLabel jbl_reportDataLine8;
-    private javax.swing.JLabel jbl_reportDataLine9;
     private javax.swing.JLabel jbl_reportTitle;
+    private javax.swing.JButton jbn_dateFilter;
     private javax.swing.JTextField jtf_cuitFilter;
+    private javax.swing.JTextField jtf_dateFilterEndDay;
+    private javax.swing.JTextField jtf_dateFilterEndMonth;
+    private javax.swing.JTextField jtf_dateFilterEndYear;
+    private javax.swing.JTextField jtf_dateFilterInitDay;
+    private javax.swing.JTextField jtf_dateFilterInitMonth;
+    private javax.swing.JTextField jtf_dateFilterInitYear;
+    private javax.swing.JTextArea reportText;
     private javax.swing.JTable tableClient;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void initValidator() {
+        validator.onlyNumbers(jtf_cuitFilter);
+        validator.onlyNumbers(jtf_dateFilterInitDay);
+        validator.onlyNumbers(jtf_dateFilterInitMonth);
+        validator.onlyNumbers(jtf_dateFilterInitYear);
+        validator.onlyNumbers(jtf_dateFilterEndDay);
+        validator.onlyNumbers(jtf_dateFilterEndMonth);
+        validator.onlyNumbers(jtf_dateFilterEndYear);
+        validator.limitSize(jtf_cuitFilter, 11);
+        validator.limitSize(jtf_dateFilterInitDay, 2);
+        validator.limitSize(jtf_dateFilterEndDay, 2);
+        validator.limitSize(jtf_dateFilterInitMonth, 2);
+        validator.limitSize(jtf_dateFilterEndMonth, 2);
+        validator.limitSize(jtf_dateFilterInitYear, 4);
+        validator.limitSize(jtf_dateFilterEndYear, 4);
     }
 
     @Override
@@ -293,34 +385,28 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
 
     @Override
     public void initPanel() {
-        if (!lines.isEmpty()) {
-            lines.clear();
-        }
-        jbl_reportDataLine1.setText("");
-        lines.add(jbl_reportDataLine1);
-        jbl_reportDataLine2.setText("");
-        lines.add(jbl_reportDataLine2);
-        jbl_reportDataLine3.setText("");
-        lines.add(jbl_reportDataLine3);
-        jbl_reportDataLine4.setText("");
-        lines.add(jbl_reportDataLine4);
-        jbl_reportDataLine5.setText("");
-        lines.add(jbl_reportDataLine5);
-        jbl_reportDataLine6.setText("");
-        lines.add(jbl_reportDataLine6);
-        jbl_reportDataLine7.setText("");
-        lines.add(jbl_reportDataLine7);
-        jbl_reportDataLine8.setText("");
-        lines.add(jbl_reportDataLine8);
-        jbl_reportDataLine9.setText("");
-        lines.add(jbl_reportDataLine9);
-        jbl_reportDataLine0.setText("");
-        lines.add(jbl_reportDataLine0);
+        this.clients = this.panel.updateClientsTable("");
+        cleanAllFields();
+        overviewReport(getInitDate(), getEndDate());
     }
 
     @Override
     public JTable getTable() {
         return tableClient;
+    }
+
+    private GregorianCalendar getInitDate() {
+        int initDay = jtf_dateFilterInitDay.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterInitDay.getText());
+        int initMonth = jtf_dateFilterInitMonth.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterInitMonth.getText());
+        int initYear = jtf_dateFilterInitYear.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterInitYear.getText());
+        return new GregorianCalendar(initYear, initMonth, initDay);
+    }
+
+    private GregorianCalendar getEndDate() {
+        int endDay = jtf_dateFilterEndDay.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterEndDay.getText());
+        int endMonth = jtf_dateFilterEndMonth.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterEndMonth.getText());
+        int endYear = jtf_dateFilterEndYear.getText().isBlank() ? 0 : Integer.parseInt(jtf_dateFilterEndYear.getText());
+        return new GregorianCalendar(endYear, endMonth, endDay);
     }
 
     @Override
@@ -329,7 +415,7 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
         if (field >= 0) {
             Client client = clients.get(field);
             this.clients = panel.updateClientsTable(client.getCuit());
-            clientReport(client);
+            clientReport(client, getInitDate(), getEndDate());
         }
     }
 
@@ -351,11 +437,18 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
 
     @Override
     public void cleanAllFields() {
-        jtf_cuitFilter.setText("");
+        cleanField(jtf_cuitFilter);
+        cleanField(jtf_dateFilterInitDay);
+        cleanField(jtf_dateFilterInitMonth);
+        cleanField(jtf_dateFilterInitYear);
+        cleanField(jtf_dateFilterEndDay);
+        cleanField(jtf_dateFilterEndMonth);
+        cleanField(jtf_dateFilterEndYear);
     }
 
     @Override
     public void cleanField(JTextField textfield) {
+        validator.cleanField(textfield);
     }
 
     @Override
@@ -371,6 +464,19 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     @Override
     public void updateTable() {
         this.clients = this.panel.updateClientsTable(jtf_cuitFilter.getText());
+    }
+
+    private void overviewReport(GregorianCalendar init, GregorianCalendar end) {
+        this.clients = panel.updateClientsTable("");
+        jbl_reportTitle.setText("INFORME GENERAL:");
+        cleanAllFields();
+        reportText.setText(panel.clientOverviewReport(init, end));
+    }
+
+    private void clientReport(Client client, GregorianCalendar init, GregorianCalendar end) {
+        this.clients = panel.updateClientsTable(client.getCuit());
+        jbl_reportTitle.setText("INFORME DE " + client.getLastname() + " " + client.getName() + ":");
+        reportText.setText(panel.clientReport(client, init, end));
     }
 
     @Override
@@ -436,44 +542,6 @@ public class Report_Clients extends javax.swing.JPanel implements InterfacePanel
     @Override
     public String getCarrierFilter() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void overviewReport() {
-        initPanel();
-        this.clients = panel.updateClientsTable("");
-        jbl_reportTitle.setText("INFORME GENERAL:");
-        String report = panel.clientOverviewReport();
-        String auxiliar = "";
-        int count = 0;
-        for (int i = 0; i < report.length(); i++) {
-            auxiliar += report.charAt(i);
-            if (report.charAt(i) == '.' || report.charAt(i) == ':') {
-                if (!Character.isDigit(report.charAt(i - 1))) {
-                    lines.get(count).setText(auxiliar);
-                    auxiliar = "";
-                    count++;
-                }
-            }
-        }
-    }
-
-    private void clientReport(Client client) {
-        initPanel();
-        this.clients = panel.updateClientsTable(client.getCuit());
-        String report = panel.clientReport(client);
-        jbl_reportTitle.setText("INFORME DE " + client.getLastname() + " " + client.getName() + ":");
-        String auxiliar = "";
-        int count = 0;
-        for (int i = 0; i < report.length(); i++) {
-            auxiliar += report.charAt(i);
-            if (report.charAt(i) == '.' || report.charAt(i) == ':') {
-                if (!Character.isDigit(report.charAt(i - 1))) {
-                    lines.get(count).setText(auxiliar);
-                    auxiliar = "";
-                    count++;
-                }
-            }
-        }
     }
 
 }
