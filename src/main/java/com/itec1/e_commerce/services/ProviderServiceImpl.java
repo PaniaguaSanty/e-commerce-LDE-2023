@@ -4,7 +4,11 @@ import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProviderJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 
 /**
@@ -60,6 +64,23 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     @Override
     public List<Provider> findAllEnabled() {
         return findAll().stream().filter(Provider::isEnable).toList();
+    }
+
+    public Map<String, Integer> countEnableDisable(){
+        List<Provider> providers = findAll();
+        Map<String, Integer> map = new HashMap<>();
+        Integer enable = 0;
+        Integer disable = 0;
+        for (Provider provider : providers) {
+            if (provider.isEnable()) {
+                enable++;
+            } else {
+                disable++;
+            }
+        }
+        map.put("enable", enable);
+        map.put("disable", disable);
+        return map;
     }
 
     @Override
