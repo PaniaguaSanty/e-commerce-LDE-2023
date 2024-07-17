@@ -16,12 +16,12 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
+
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
-import java.util.ArrayList;
+
 
 import java.util.Date;
 import java.util.List;
@@ -52,16 +52,18 @@ public class OrderServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
-    public OrderServiceImpl(OrderJpaController orderJpaController) {
+    public OrderServiceImpl(OrderJpaController orderJpaController, DetailOrderJpaController detailOrderJpaController, TrackingOrderJpaController trackingOrderJpaController, InvoiceJpaController invoiceJpaController) {
         this.orderJpaController = orderJpaController;
+        this.detailOrderJpaController = detailOrderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
-        this.detailOrderJpaController = new DetailOrderJpaController(Connection.getEmf());
         this.productJpaController = new ProductJpaController(Connection.getEmf());
-        this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
-        this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
+        this.trackingOrderJpaController = trackingOrderJpaController;
+        this.invoiceJpaController = invoiceJpaController;
 
     }
+
+
 
     public Order createOrder(Order entity) throws Exception {
         orderJpaController.create(entity);
@@ -107,7 +109,7 @@ public class OrderServiceImpl {
                 .collect(Collectors.toList());
     }
 
-    private void generateTracking(Order order, String latitude, String longitude, State state) {
+    protected TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
         tracking.setDate(new Date());
@@ -115,7 +117,7 @@ public class OrderServiceImpl {
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);
-        createTrackingOrder(tracking);
+        return createTrackingOrder(tracking);
     }
 
     public void changeOrderState(Order order) {
@@ -148,6 +150,7 @@ public class OrderServiceImpl {
         sectorServiceImpl.changeSector(order,
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
+
 
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
