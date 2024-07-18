@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -23,7 +19,6 @@ import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
 
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,8 +87,8 @@ public class OrderServiceImpl {
         return findAll().stream().filter(order -> order.getSector().getWarehouse().getId()
                 .equals(orderByWarehouse.getId())).toList();
     }
-    
-    public List<DetailOrder> viewDetailOfOrder (Order order) {
+
+    public List<DetailOrder> viewDetailOfOrder(Order order) {
         return detailOrderJpaController.findDetailOrderEntities().stream().
                 filter(detail -> detail.getOrder().equals(order)).toList();
     }
@@ -112,8 +107,6 @@ public class OrderServiceImpl {
     protected TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);

@@ -53,6 +53,10 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
         return findAll().stream().filter(Carrier::isEnable).toList();
     }
 
+    public List<Carrier> findAllDisabled() {
+        return findAll().stream().filter(carrier -> !carrier.isEnable()).toList();
+    }
+
     @Override
     public Carrier disable(Long id) throws Exception {
         Carrier carrier = carrierJpaController.findCarrier(id);
@@ -76,7 +80,6 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
     }
 
     public Carrier findByCuit(String cuit) {
-
         return carrierJpaController.findCarrierEntities().stream()
                 .filter(carrier -> carrier.getCuit().equals(cuit))
                 .findFirst()
@@ -105,5 +108,4 @@ public class CarrierServiceImpl implements ICRUD<Carrier> {
                 ? (carrier.isAerial()
                 ? "Marítimo y Aéreo" : "Marítimo") : "Aéreo"));
     }
-
 }

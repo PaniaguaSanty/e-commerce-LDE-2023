@@ -4,9 +4,6 @@
  */
 package com.itec1.e_commerce.views;
 
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
 /**
  *
  * @author pania
@@ -24,7 +21,7 @@ public interface InterfaceOrderPanel {
     javax.swing.JTable getOrdersTable();
 
     javax.swing.JTable getCarriersTable();
-    
+
     javax.swing.JTable getDetailOrdersTable();
 
     String getClientFilter();

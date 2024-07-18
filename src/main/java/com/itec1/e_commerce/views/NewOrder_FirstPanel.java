@@ -10,6 +10,7 @@ import com.itec1.e_commerce.views.resources.JClientFieldListener;
 import com.itec1.e_commerce.views.resources.JProductFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -221,34 +222,38 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
                                     .addComponent(jbtn_addDetailOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPaneTabla1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jbl_CuitFilterInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jtf_clientCuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jbl_filter7)
-                                                    .addComponent(jtf_productNameFilter)
-                                                    .addComponent(comboBox_category, 0, 145, Short.MAX_VALUE)
-                                                    .addComponent(jbl_productName))
-                                                .addComponent(jbl_clientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGap(37, 37, 37)
-                                                    .addComponent(Jbtn_findClientByCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jtf_clientCuitFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(jbl_filter2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
-                                    .addContainerGap()))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(jbl_filter7)
+                                                            .addComponent(jtf_productNameFilter)
+                                                            .addComponent(comboBox_category, 0, 145, Short.MAX_VALUE)
+                                                            .addComponent(jbl_productName))
+                                                        .addComponent(jbl_clientInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                            .addGap(37, 37, 37)
+                                                            .addComponent(Jbtn_findClientByCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addGap(0, 0, Short.MAX_VALUE))
+                                                .addComponent(jbl_filter2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
+                                            .addContainerGap()))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jbtn_nextOrderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(24, 24, 24))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jbtn_nextOrderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbl_CuitFilterInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(535, Short.MAX_VALUE)
@@ -321,13 +326,15 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
         Client clientExist = controller.findByCuit(jtf_clientCuitFilter.getText());
         if (clientExist != null) {
             changeConditionButton(Jbtn_findClientByCuit, false);
-            jbl_CuitFilterInfo.setText("CLIENTE ASOCIADO CON ÉXITO");
+            setGreenFont();
+            jbl_CuitFilterInfo.setText("Cliente asociado.");
             changeConditionField(jtf_productNameFilter, true);
             comboBox_category.setEnabled(true);
             changeConditionButton(jbtn_addDetailOrder, true);
-            controller.setClient(clientExist);
+            controller.assignClientToOrder(clientExist);
         } else {
-            jbl_CuitFilterInfo.setText("INGRESE UN CUIT.");
+            setRedFont();
+            jbl_CuitFilterInfo.setText("Ingrese un cuit.");
         }
     }//GEN-LAST:event_Jbtn_findClientByCuitActionPerformed
 
@@ -340,7 +347,7 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
             if (controller.verifyDetail(product)) {
                 newDetail.setProduct(product);
                 newDetail.setAmount(selectedAmount);
-                controller.insertNewDetail(newDetail);
+                controller.assignNewDetailToOrder(newDetail);
             } else {
                 controller.changeDetailAmount(product, selectedAmount);
             }
@@ -475,6 +482,16 @@ public final class NewOrder_FirstPanel extends javax.swing.JPanel implements Int
         Color buttonDisabledColor = Color.DARK_GRAY;
         Color buttonTextDisabledColor = Color.BLACK;
         validator.enableButton(state, button, buttonEnabledColor, textEnabledcolor, buttonDisabledColor, buttonTextDisabledColor);
+    }
+
+    private void setRedFont() {
+        jbl_CuitFilterInfo.setForeground(Color.RED);
+        jbl_CuitFilterInfo.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jbl_CuitFilterInfo.setForeground(Color.GREEN);
+        jbl_CuitFilterInfo.setFont(new Font("Arial", Font.BOLD, 16));
     }
 
     @Override

@@ -60,6 +60,7 @@ n
 h
 8src/main/java/com/itec1/e_commerce/entities/Carrier.java,1/c/1cc165795508407b204404e4371bb33b1402f054
 s
+
 Csrc/main/java/com/itec1/e_commerce/services/InvoiceServiceImpl.java,a/4/a430a13cace53f053a94bcf2562fb365a0e4769c
 w
 Gsrc/test/java/com/itec1/e_commerce/services/InvoiceServiceImplTest.java,c/b/cbc7ae76459680677edfd12c7a08870e65931077
@@ -67,3 +68,14 @@ z
 Jsrc/main/java/com/itec1/e_commerce/controllers/CarrierPanelController.java,5/6/56e54a044e86c15915c461ea0e3693465df9bfbb
 b
 2src/main/java/com/itec1/e_commerce/E_commerce.java,6/a/6a7370d7ccec7ea68d62245841611de80968b9a6
+
+Csrc/main/java/com/itec1/e_commerce/services/CarrierServiceImpl.java,7\8\780732eee7f8ab756abd2793d272ed4f07be3906
+q
+Asrc/main/java/com/itec1/e_commerce/views/NewOrder_FirstPanel.java,6\d\6de7f0469b590b264790290a437ecc3d0dbb50bf
+r
+Bsrc/main/java/com/itec1/e_commerce/views/NewOrder_SecondPanel.form,f\0\f084e76d97c5e47da9cfd1408894b17944eccafd
+r
+Bsrc/main/java/com/itec1/e_commerce/views/NewOrder_SecondPanel.java,4\6\4646eb86e6d5fd7f397d430cbe5c6d23666740bd
+l
+<src/main/java/com/itec1/e_commerce/views/Report_Clients.java,2\6\26f66165d6e0f915be83a1cf5c4c02c86e0af57e
+

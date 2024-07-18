@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -9,7 +5,6 @@ import com.itec1.e_commerce.dao.ProviderJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Provider;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 
 /**
@@ -61,12 +56,11 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     public List<Provider> findAll() {
         return providerJpaController.findProviderEntities();
     }
-    
+
     @Override
     public List<Provider> findAllEnabled() {
         return findAll().stream().filter(Provider::isEnable).toList();
     }
-    
 
     @Override
     public Provider disable(Long id) throws Exception {
@@ -91,9 +85,9 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
     }
 
     public Provider findByCuit(String cuit) {
-            return findAll().stream()
-                    .filter(client -> client.getCuit().equals(cuit))
-                    .findFirst().orElse(null);
+        return findAll().stream()
+                .filter(client -> client.getCuit().equals(cuit))
+                .findFirst().orElse(null);
     }
 
     public Provider findByName(String name) {
@@ -101,7 +95,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
                 .filter(product -> product.getName().equals(name))
                 .findFirst().orElse(null);
     }
-    
+
     public void getProviderCMB(JComboBox comboBox_provider) {
         providerJpaController.getProviderCMB(comboBox_provider);
     }

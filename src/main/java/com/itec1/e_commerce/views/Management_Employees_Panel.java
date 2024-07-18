@@ -10,6 +10,8 @@ import com.itec1.e_commerce.controllers.EmployeePanelController;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -334,6 +336,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_cuit, true);
+            setGreenFont();
             jlbl_info.setText("Ingrese el código del empleado a restaurar y vuelva a presionar");
         } else {
             {
@@ -347,11 +350,13 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
+            setGreenFont();
             jlbl_info.setText("Complete los datos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 Employee newEmployee = fillEmployeeData();
@@ -373,9 +378,11 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
             changeConditionAllFields(true);
             changeConditionField(jtf_cuit, false);
             changeConditionButton(jbn_update, true);
+            setGreenFont();
             jlbl_info.setText("Modifique los datos que requiera y vuelva a pulsar");
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no puede tener nombre vacío");
             } else {
                 Employee employeeUpdated = fillEmployeeData();
@@ -512,6 +519,16 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
         changeConditionButton(jbn_delete, state);
     }
 
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
     @Override
     public void changeConditionButton(JButton button, boolean state) {
         validator.enableButton(state, button, null, null, null, null);
@@ -556,7 +573,7 @@ public final class Management_Employees_Panel extends javax.swing.JPanel impleme
 
     @Override
     public void updateTable() {
-   employees = controller.updateTable(jtf_codeFilter.getText());
+        employees = controller.updateTable(jtf_codeFilter.getText());
     }
 
 }

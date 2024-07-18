@@ -5,6 +5,8 @@ import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.views.resources.TableListener;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -241,9 +243,11 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
             changeConditionField(jtf_name, false);
             changeConditionAllButtons(false);
             changeConditionButton(jbn_update, true);
+            setGreenFont();
             jlbl_info.setText("Modifique los campos que requiera. y vuelva a pulsar");
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 ProductCategory newCat = controller.findByName(jtf_name.getText());
@@ -264,11 +268,13 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
     private void jbn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_saveActionPerformed
         if (controller.verifyCrud("save")) {
             changeConditionAllFields(true);
+            setGreenFont();
             jlbl_info.setText("Complete los campos y vuelva a presionar Guardar");
             changeConditionAllButtons(false);
             changeConditionButton(jbn_save, true);
         } else {
             if (verifyEmptyFields()) {
+                setRedFont();
                 jlbl_info.setText("Error: no pueden haber datos vacios");
             } else {
                 ProductCategory newCat = new ProductCategory();
@@ -285,6 +291,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
         if (controller.verifyCrud("restore")) {
             changeConditionButton(jbn_save, false);
             changeConditionField(jtf_name, true);
+            setGreenFont();
             jlbl_info.setText("Ingrese la categoria a restaurar y vuelva a presionar");
         } else {
             ProductCategory newCat = controller.findByName(jtf_name.getText());
@@ -361,6 +368,16 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
         changeConditionButton(jbn_delete, state);
     }
 
+    private void setRedFont() {
+        jlbl_info.setForeground(Color.RED);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
+    private void setGreenFont() {
+        jlbl_info.setForeground(Color.GREEN);
+        jlbl_info.setFont(new Font("Arial", Font.BOLD, 16));
+    }
+
     @Override
     public void changeConditionButton(JButton button, boolean state) {
         validator.enableButton(state, button, null, null, null, null);
@@ -419,7 +436,7 @@ public final class Management_Products_Categories_Panel extends javax.swing.JPan
 
     @Override
     public void updateTable() {
-   categories = controller.updateTable(jtf_nameFilter.getText());
+        categories = controller.updateTable(jtf_nameFilter.getText());
     }
 
 }

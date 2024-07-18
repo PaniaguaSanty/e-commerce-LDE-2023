@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Order;
@@ -34,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 public class OrderPanelController {
 
     private static Order order = new Order();
+    private static Invoice invoice = new Invoice();
     private static List<DetailOrder> details = new ArrayList<>();
     private final InterfaceOrderPanel panel;
     private final OrderServiceImpl orderService;
@@ -57,17 +54,13 @@ public class OrderPanelController {
 
     //Orders
     public String createOrder() {
-        if (orderService.findById(order.getId()) != null) {
-            return "No se pudo generar el pedido, por favor, inténtelo nuevamente.";
-        } else {
-            try {
-                orderService.createOrder(order);
-                this.addDetail(order, details);
-            } catch (Exception e) {
-                return "ERROR: " + e.getMessage();
-            }
+        try {
+            orderService.createOrder(order);
+            this.addDetail(order, details);
+            return "Pedido creado correctamente";
+        } catch (Exception e) {
+            return "ERROR: " + e.getMessage();
         }
-        return "Pedido creado correctamente.";
     }
 
     public Order findById(Long id) {
@@ -107,17 +100,21 @@ public class OrderPanelController {
         }
     }
 
-    public void setClient(Client client) {
-        order.setClient(client);
+    public void assignClientToOrder(Client clientSelected) {
+        order.setClient(clientSelected);
     }
 
-    public void setWarehouseOrigin(Warehouse warehouseOrigin) {
-        order.setWarehouseOrigin(warehouseOrigin);          //cambiar
+    public void assignWarehouseOriginToOrder(Warehouse warehouseOrigin) {
+        order.setWarehouseOrigin(warehouseOrigin);
         order.setSector(sectorService.findSectorByName("recibidos", warehouseOrigin));
     }
 
-    public void setWarehouseDestiny(Warehouse warehouseDestiny) {
+    public void assignWarehouseDestinyToOrder(Warehouse warehouseDestiny) {
         order.setWarehouseDestiny(warehouseDestiny);
+    }
+
+    public void assignCarrierToInvoice(Carrier carrierSelected) {
+        invoice.setCarrier(carrierSelected);
     }
 
     //TrackingOrder
@@ -185,7 +182,7 @@ public class OrderPanelController {
         }
     }
 
-    public void insertNewDetail(DetailOrder detailOrder) {
+    public void assignNewDetailToOrder(DetailOrder detailOrder) {
         detailOrder.setOrder(order);
         detailOrder.setProviderQualification(0);
         details.add(detailOrder);
@@ -196,7 +193,7 @@ public class OrderPanelController {
     }
 
     public boolean verifyDetail(Product receivedProduct) {
-        return !details.stream() // " ! " retorna FALSE
+        return !details.stream()
                 .anyMatch(detail -> detail.getProduct().equals(receivedProduct));
     }
 
@@ -283,13 +280,14 @@ public class OrderPanelController {
         this.panel.getProductsTable().setModel(model);
         return result;
     }
-    
-    public boolean verifyWarehouse(String code){
-        return warehouseService.findByCode(code)!= null;
+
+    public boolean verifyWarehouse(String code) {
+        return warehouseService.findByCode(code) != null;
     }
-     public boolean verifySector ( String code){
-         return false;
-     }
+
+    public boolean verifySector(String code) {
+        return false;
+    }
 
     //Warehouse
     public List<Warehouse> findWarehouseByCountry(String countryName) {
@@ -321,7 +319,7 @@ public class OrderPanelController {
         this.panel.getWarehousesTable().setModel(model);
         return result;
     }
-    
+
     public List<Warehouse> updateWarehouseTableForCode(String string) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Código", "Dirección", "País"};
@@ -339,18 +337,18 @@ public class OrderPanelController {
         return result;
     }
 
-    public List<Sector> updateTableSector(String codeWarehouse ,String code) {
-      Warehouse warehouse = warehouseService.findByCode(codeWarehouse);
+    public List<Sector> updateTableSector(String codeWarehouse, String code) {
+        Warehouse warehouse = warehouseService.findByCode(codeWarehouse);
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Código"};
         model.setColumnIdentifiers(titles);
         List<Sector> sectors = new ArrayList<>();
-        if(warehouse == null){
+        if (warehouse == null) {
             this.panel.getSectorsTable().setModel(model);
             return sectors;
-        }else{
-            sectors=sectorService.findSectorByWarehouse(warehouse);
-            
+        } else {
+            sectors = sectorService.findSectorByWarehouse(warehouse);
+
         }
         List<Sector> result = new ArrayList<>();
         for (Sector se : sectors) {
@@ -366,13 +364,13 @@ public class OrderPanelController {
 
     public List<Order> updateTableOrder(String code) {
         DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Cliente","C.U.I.T"};
+        String[] titles = {"Cliente", "C.U.I.T"};
         model.setColumnIdentifiers(titles);
         List<Order> orders = orderService.findAll();
         List<Order> result = new ArrayList<>();
         for (Order or : orders) {
             if (or.getCode().startsWith(code)) {
-                Object[] object = {or.getClient().getName(),or.getClient().getCuit()};
+                Object[] object = {or.getClient().getName(), or.getClient().getCuit()};
                 model.addRow(object);
                 result.add(or);
             }
@@ -410,7 +408,7 @@ public class OrderPanelController {
     }
 
     //invoice
-    public String createInvoice(Invoice invoice) {
+    public String createInvoice() {
         if (orderService.findById(invoice.getId()) != null) {
             return "No se pudo generar el remito, por favor inténtelo nuevamente.";
         } else {
@@ -423,5 +421,4 @@ public class OrderPanelController {
         }
         return "Remito generado con éxito.";
     }
-    
 }

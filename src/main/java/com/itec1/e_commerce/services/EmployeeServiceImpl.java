@@ -5,7 +5,6 @@ import com.itec1.e_commerce.dao.EmployeeJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Employee;
 import com.itec1.e_commerce.entities.Warehouse;
-import java.util.stream.Collectors;
 import java.util.List;
 
 public class EmployeeServiceImpl implements ICRUD<Employee> {
@@ -49,7 +48,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     public List<Employee> findAll() {
         return employeeJpaController.findEmployeeEntities();
     }
-    
+
     @Override
     public List<Employee> findAllEnabled() {
         return findAll().stream().filter(Employee::isEnable).toList();
@@ -79,15 +78,15 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
 
     public Employee findByCuit(String cuit) {
         return employeeJpaController.findEmployeeEntities().stream()
-                    .filter(client -> client.getCuit().equals(cuit))
-                    .findFirst()
-                    .orElse(null);
+                .filter(client -> client.getCuit().equals(cuit))
+                .findFirst()
+                .orElse(null);
     }
-  
-  public List<Employee> searchByWarehouse(String warehouseToSearch) {
+
+    public List<Employee> findByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
                 .filter(employee -> employee.getWarehouse().getCode().
-                        equals(warehouseToSearch)).toList();
+                equals(warehouseToSearch)).toList();
     }
 
     //Verificar
@@ -100,6 +99,4 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
         }
         return null;
     }
-
-
 }

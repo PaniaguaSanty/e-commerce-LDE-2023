@@ -126,21 +126,20 @@ public class ProductPanelController implements IController<Product> {
         }
         return false;
     }
-    
+
     public ProductCategory getCategoryByName(String name) {
         return categoryService.findByName(name);
     }
-    
+
     public Provider getProviderByName(String name) {
         return providerService.findByName(name);
     }
-    
-    public void getCategoryCMB(JComboBox comboBox_category){
+
+    public void getCategoryCMB(JComboBox comboBox_category) {
         categoryService.getCategoryCMB(comboBox_category);
     }
-    
-    public void getProviderCMB(JComboBox comboBox_provider){
+
+    public void getProviderCMB(JComboBox comboBox_provider) {
         providerService.getProviderCMB(comboBox_provider);
     }
-
 }

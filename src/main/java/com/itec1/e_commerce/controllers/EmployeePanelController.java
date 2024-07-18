@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Employee;
@@ -34,7 +30,6 @@ public class EmployeePanelController implements IController<Employee> {
     @Override
     public List<Employee> updateTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"C.U.I.T.", "Nombre"};
         model.setColumnIdentifiers(titles);
         List<Employee> employees = employeeService.findAllEnabled();
@@ -48,7 +43,6 @@ public class EmployeePanelController implements IController<Employee> {
         }
         this.panel.getTable().setModel(model);
         return result;
-
     }
 
     public List<Warehouse> getWarehouses(String string) {
@@ -147,5 +141,4 @@ public class EmployeePanelController implements IController<Employee> {
         }
         return "Empleado recuperado correctamente.";
     }
-
 }

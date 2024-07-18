@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.controllers;
 
 import com.itec1.e_commerce.entities.Sector;
@@ -29,32 +25,28 @@ public class SectorPanelController implements IController<Sector> {
         this.sectorPanel = sectorPanel;
         this.sectorService = new SectorServiceImpl();
         this.warehouseService = new WarehouseServiceImpl();
-
     }
 
     @Override
     public List<Sector> updateTable(String string) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
-        String[] titles = {"Id","Codigo", "Nombre", "Cant.pedidos"};
+        String[] titles = {"Id", "Codigo", "Nombre", "Cant.pedidos"};
         model.setColumnIdentifiers(titles);
         List<Sector> sectors = sectorService.findAllEnabled();
         List<Sector> result = new ArrayList<>();
         for (Sector sec : sectors) {
             if (sec.getWarehouse().getCode().equals(string)) {
-                Object[] object = {sec.getId(),sec.getCode(), sec.getName(), sec.getOrders().size()};
+                Object[] object = {sec.getId(), sec.getCode(), sec.getName(), sec.getOrders().size()};
                 model.addRow(object);
                 result.add(sec);
             }
         }
         this.sectorPanel.getTable().setModel(model);
         return result;
-
     }
 
     public List<Warehouse> getWarehouses(String string) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Código", "Dirección", "País", "Latitud", "Longitud"};
         model.setColumnIdentifiers(titles);
         List<Warehouse> warehouses = warehouseService.findAll();
@@ -130,7 +122,7 @@ public class SectorPanelController implements IController<Sector> {
 
     @Override
     public String enable(Long id) {
-       Sector sector = sectorService.findById(id);
+        Sector sector = sectorService.findById(id);
         if (sector.isEnable()) {
             return "ERROR. Este sector no se encuentra eliminado.";
         } else {
@@ -148,9 +140,8 @@ public class SectorPanelController implements IController<Sector> {
     public Sector findByName(String name, Warehouse entity) {
         return sectorService.findSectorByName(name, entity);
     }
-    
-      public Sector findByCode(String string){
+
+    public Sector findByCode(String string) {
         return sectorService.findByCode(string);
     }
-
 }

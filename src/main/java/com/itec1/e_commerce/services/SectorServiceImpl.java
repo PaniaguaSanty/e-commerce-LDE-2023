@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.services;
 
 import com.itec1.e_commerce.config.Connection;
@@ -12,7 +8,6 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author pania
@@ -82,12 +77,11 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     public List<Sector> findAll() {
         return sectorJpaController.findSectorEntities();
     }
-    
+
     @Override
     public List<Sector> findAllEnabled() {
         return findAll().stream().filter(Sector::isEnable).toList();
     }
-
 
     public Sector findSectorByName(String sectorName, Warehouse entity) {
         List<Sector> sectors = findSectorByWarehouse(entity);
@@ -99,9 +93,9 @@ public class SectorServiceImpl implements ICRUD<Sector> {
     }
 
     public List<Sector> findSectorByWarehouse(Warehouse warehouse) {
-            return findAll().stream()
-                    .filter(sector -> sector.getWarehouse().getId()
-                            .equals(warehouse.getId())).toList();
+        return findAll().stream()
+                .filter(sector -> sector.getWarehouse().getId()
+                .equals(warehouse.getId())).toList();
     }
 
     public Sector findByCode(String string) {
@@ -114,5 +108,4 @@ public class SectorServiceImpl implements ICRUD<Sector> {
         order.setSector(sector);
         return orderService.changeSector(order, sector).getSector();
     }
-
 }

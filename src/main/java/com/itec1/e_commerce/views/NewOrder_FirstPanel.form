@@ -63,43 +63,49 @@
                               <Component id="jScrollPaneTabla1" min="-2" pref="353" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jbl_CuitFilterInfo" min="-2" pref="155" max="-2" attributes="0"/>
-                                      <Component id="jtf_clientCuitFilter" min="-2" pref="161" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="jbl_filter7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jtf_productNameFilter" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="comboBox_category" alignment="0" pref="145" max="32767" attributes="0"/>
-                                                  <Component id="jbl_productName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="jbl_clientInfo" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                                  <Component id="Jbtn_findClientByCuit" min="-2" pref="93" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          <Component id="jtf_clientCuitFilter" min="-2" pref="161" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jbl_filter2" alignment="1" pref="287" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="jbl_filter7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="jtf_productNameFilter" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="comboBox_category" alignment="0" pref="145" max="32767" attributes="0"/>
+                                                          <Component id="jbl_productName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="jbl_clientInfo" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                                          <Component id="Jbtn_findClientByCuit" min="-2" pref="93" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Component id="jbl_filter2" alignment="1" pref="287" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jbtn_nextOrderPanel" min="-2" pref="204" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jbtn_nextOrderPanel" min="-2" pref="204" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jbl_CuitFilterInfo" min="-2" pref="222" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>

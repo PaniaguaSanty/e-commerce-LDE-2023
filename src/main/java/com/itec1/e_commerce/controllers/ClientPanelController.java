@@ -23,7 +23,6 @@ public class ClientPanelController implements IController<Client> {
     @Override
     public List<Client> updateTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
-        //agrega los titulos a la columna
         String[] titles = {"Id", "Nombre", "Apellido", "C.U.I.T.", "Direción", "Correo", "Teléfono"};
         model.setColumnIdentifiers(titles);
         List<Client> clients = service.findAllEnabled();
@@ -76,9 +75,9 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String disable(Long id){
+    public String disable(Long id) {
         Client client = service.findById(id);
-        if(!client.isEnable()) {
+        if (!client.isEnable()) {
             return "ERROR. Este cliente ya se encuentra eliminado.";
         } else {
             try {
@@ -93,9 +92,9 @@ public class ClientPanelController implements IController<Client> {
     }
 
     @Override
-    public String enable(Long id){
+    public String enable(Long id) {
         Client client = service.findById(id);
-        if(client.isEnable()) {
+        if (client.isEnable()) {
             return "ERROR. Este cliente no se encuentra eliminado.";
         } else {
             try {
@@ -117,5 +116,4 @@ public class ClientPanelController implements IController<Client> {
         }
         return false;
     }
-
 }
