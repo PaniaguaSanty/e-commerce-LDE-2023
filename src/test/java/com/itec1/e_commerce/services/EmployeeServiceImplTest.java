@@ -40,9 +40,9 @@ class EmployeeServiceImplTest {
 
     @Test
     void testCreateEmployee() {
-        Mockito.doNothing().when(employeeJpa).create(any());
-        employeeService.create(any());
-        verify(employeeJpa).create(any());
+       Employee expected = employees.get(0);
+       Mockito.when(employeeJpa.findEmployee(1L)).thenReturn(expected);
+       assertEquals(expected,employeeService.create(expected));
     }
 
     @Test

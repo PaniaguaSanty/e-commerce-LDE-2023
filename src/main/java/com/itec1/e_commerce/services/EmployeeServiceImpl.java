@@ -22,7 +22,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     @Override
     public Employee create(Employee entity) {
         employeeJpaController.create(entity);
-        return entity;
+        return employeeJpaController.findEmployee(entity.getId());
     }
 
     @Override

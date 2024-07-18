@@ -21,6 +21,10 @@ public class InvoiceServiceImpl {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
 
+    public InvoiceServiceImpl(InvoiceJpaController invoiceJpaController) {
+        this.invoiceJpaController = invoiceJpaController;
+    }
+
     public Invoice create(Invoice entity) {
         try {
             invoiceJpaController.create(entity);

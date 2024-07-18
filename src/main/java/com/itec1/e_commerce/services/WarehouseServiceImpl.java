@@ -21,6 +21,12 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
         this.sectorService = new SectorServiceImpl();
     }
 
+    public WarehouseServiceImpl(WarehouseJpaController controller, SectorServiceImpl service){
+        this.warehouseJpaController = controller;
+        this.sectorService = service;
+    }
+
+
     @Override
     public Warehouse create(Warehouse entity) {
         warehouseJpaController.create(entity);
