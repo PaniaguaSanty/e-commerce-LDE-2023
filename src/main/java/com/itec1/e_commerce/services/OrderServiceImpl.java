@@ -17,7 +17,6 @@ import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,8 +103,6 @@ public class OrderServiceImpl {
     private void generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);

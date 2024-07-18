@@ -15,3 +15,5 @@ r
 Bsrc/main/java/com/itec1/e_commerce/views/NewOrder_SecondPanel.form,f\0\f084e76d97c5e47da9cfd1408894b17944eccafd
 r
 Bsrc/main/java/com/itec1/e_commerce/views/NewOrder_SecondPanel.java,4\6\4646eb86e6d5fd7f397d430cbe5c6d23666740bd
+l
+<src/main/java/com/itec1/e_commerce/views/Report_Clients.java,2\6\26f66165d6e0f915be83a1cf5c4c02c86e0af57e

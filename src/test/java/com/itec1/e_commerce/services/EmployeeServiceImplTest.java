@@ -105,7 +105,7 @@ class EmployeeServiceImplTest {
     @Test
     void testsearchEmployedByWarehouse() {
         when(employeeJpa.findEmployeeEntities()).thenReturn(employees);
-        List<Employee> result = employeeService.searchByWarehouse("1111");
+        List<Employee> result = employeeService.findByWarehouse("1111");
         assertEquals(2, result.size());
     }
 

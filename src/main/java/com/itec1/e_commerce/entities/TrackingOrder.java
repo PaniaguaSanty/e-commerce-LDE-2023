@@ -5,15 +5,13 @@
 package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -27,31 +25,23 @@ public class TrackingOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Temporal(TemporalType.DATE)
-    private Date date;
-    
-    @Temporal(TemporalType.TIME)
-    private Date hour;
-    
+    private GregorianCalendar registDate;
     private String latitude;
     private String longitude;
-    private State state;
+    private State stateOrder;
     
     @ManyToOne
     private Order order;
     
-    
-
     public TrackingOrder() {
     }
 
-    public TrackingOrder(Date date, Date hour, String latitude, String longitude, Order order, State state) {
-        this.date = date;
-        this.hour = hour;
+    public TrackingOrder(String latitude, String longitude, Order order, State state) {
+        this.registDate = new GregorianCalendar();
         this.latitude = latitude;
         this.longitude = longitude;
         this.order = order;
-        this.state = state;
+        this.stateOrder = state;
     }
     
     public Long getId() {
@@ -78,9 +68,6 @@ public class TrackingOrder implements Serializable {
         this.longitude = longitude;
     }
 
-   
-
-   
     public Order getOrder() {
         return order;
     }
@@ -89,34 +76,22 @@ public class TrackingOrder implements Serializable {
         this.order = order;
     }
 
-    public Date getDate() {
-        return date;
+    public GregorianCalendar getDate() {
+        return registDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getHour() {
-        return hour;
-    }
-
-    public void setHour(Date hour) {
-        this.hour = hour;
+    public void setDate(GregorianCalendar date) {
+        this.registDate = date;
     }
 
     public State getState() {
-        return state;
+        return stateOrder;
     }
 
     public void setState(State state) {
-        this.state = state;
+        this.stateOrder = state;
     }
     
-    
-    
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
