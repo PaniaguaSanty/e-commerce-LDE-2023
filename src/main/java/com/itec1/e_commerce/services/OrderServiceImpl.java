@@ -97,13 +97,13 @@ public class OrderServiceImpl {
                 .collect(Collectors.toList());
     }
 
-    private void generateTracking(Order order, String latitude, String longitude, State state) {
+    protected TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);
-        createTrackingOrder(tracking);
+        return createTrackingOrder(tracking);
     }
 
     public void changeOrderState(Order order) {

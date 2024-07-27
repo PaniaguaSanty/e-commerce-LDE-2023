@@ -72,7 +72,7 @@ public class MainFrame extends javax.swing.JFrame {
         viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 
-        reportClients= new Report_ClientsPanel();
+        reportClients= new Report_Clients();
         reportProviders= new Report_ProvidersPanel();
 
     }
