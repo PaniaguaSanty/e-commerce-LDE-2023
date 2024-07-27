@@ -20,7 +20,7 @@ public class InvoiceServiceImpl {
     public InvoiceServiceImpl() {
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
     }
-    
+
     public InvoiceServiceImpl(InvoiceJpaController invoiceJpaController) {
         this.invoiceJpaController = invoiceJpaController;
     }
@@ -65,5 +65,5 @@ public class InvoiceServiceImpl {
         }
         return Math.round(((result/count)*100d)/100d);
     }
-    
+
 }

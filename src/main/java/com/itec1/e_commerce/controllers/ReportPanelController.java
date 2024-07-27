@@ -5,6 +5,7 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
@@ -12,11 +13,15 @@ import com.itec1.e_commerce.services.ClientServiceImpl;
 import com.itec1.e_commerce.services.InvoiceServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
-import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.views.InterfacePanel;
+import com.sun.jdi.connect.Transport;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,15 +29,14 @@ import javax.swing.table.DefaultTableModel;
  * @author turraca
  */
 public class ReportPanelController {
-
+    
     private final InterfacePanel panel;
     private final OrderServiceImpl orderService;
     private final ClientServiceImpl clientService;
     private final CarrierServiceImpl carrierService;
     private final InvoiceServiceImpl invoiceService;
     private final ProductCategoryServiceImpl productCategoryService;
-    private final ProviderServiceImpl providerServiceImpl;
-
+    
     public ReportPanelController(InterfacePanel panel) {
         this.panel = panel;
         this.orderService = new OrderServiceImpl();
@@ -40,10 +44,9 @@ public class ReportPanelController {
         this.carrierService = new CarrierServiceImpl();
         this.invoiceService = new InvoiceServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
-        this.providerServiceImpl = new ProviderServiceImpl();
     }
 
-    //// --------------------------- INFORME: CLIENTES --------------------------- ////
+//// --------------------------- INFORME: CLIENTES --------------------------- ////
     public List<Client> updateClientsTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
@@ -60,7 +63,7 @@ public class ReportPanelController {
         this.panel.getTable().setModel(model);
         return result;
     }
-
+    
     private int findClientsWithoutOrders(List<Order> allOrders) {
         List<Client> allClients = clientService.findAll();
         int count = allClients.size();
@@ -78,13 +81,13 @@ public class ReportPanelController {
 //                .noneMatch(order -> order.getClient().equals(client))) //verifica que no tengan ningún pedido asociado.
 //                .count();
     }
-
+    
     private int findDisabledClients() {
         return (int) clientService.findAll().stream()
                 .filter(Client -> !Client.isEnable())
                 .count();
     }
-
+    
     private List<Order> filterByDate(List<Order> orders, GregorianCalendar init, GregorianCalendar end) {
         if (init.after(new GregorianCalendar(2000, 1, 1))) {
             //orders = orders.stream().filter(order
@@ -108,7 +111,7 @@ public class ReportPanelController {
         }
         return orders;
     }
-
+    
     private String getCategoryPreferences(List<Order> orders) {
         List<DetailOrder> allDetails = new ArrayList<>();
         List<ProductCategory> categories = productCategoryService.findAll();
@@ -134,7 +137,7 @@ public class ReportPanelController {
         }
         return result;
     }
-
+    
     private String getPreferredProvider(List<Order> orders) {
         List<DetailOrder> allDetails = new ArrayList<>();
         List<String> allProviders = new ArrayList<>();
@@ -165,7 +168,7 @@ public class ReportPanelController {
         }
         return preferredProvider;
     }
-
+    
     private String getPreferredCarrier(List<Order> orders) {
         List<Invoice> allInvoices = new ArrayList<>();
         List<String> allCarriers = new ArrayList<>();
@@ -194,7 +197,7 @@ public class ReportPanelController {
         }
         return preferredCarrier;
     }
-
+    
     public String clientOverviewReport(GregorianCalendar init, GregorianCalendar end) {
         List<Order> allOrders = filterByDate(orderService.findAll(), init, end);
         String report = "El sistema cuenta con un total de "
@@ -205,7 +208,7 @@ public class ReportPanelController {
         report += getCategoryPreferences(allOrders);
         return report;
     }
-
+    
     public String clientReport(Client client, GregorianCalendar init, GregorianCalendar end) {
         List<Order> allOrders = filterByDate(orderService.findOrdersByClient(client), init, end);
         String report = "Este cliente se encuentra actualmente " + (client.isEnable() ? "habilitado" : "deshabilitado") + " en el sistema.\n";
@@ -238,7 +241,7 @@ public class ReportPanelController {
         this.panel.getTable().setModel(model);
         return result;
     }
-
+    
     private int findCarriersWithoutOrders(List<Order> allOrders) {
         List<Carrier> allCarriers = carrierService.findAll();
         int count = allCarriers.size();
@@ -256,13 +259,13 @@ public class ReportPanelController {
 //                .noneMatch(order -> order.getClient().equals(client))) //verifica que no tengan ningún pedido asociado.
 //                .count();
     }
-
+    
     private int findDisabledCarriers() {
         return (int) carrierService.findAll().stream()
                 .filter(carrier -> !carrier.isEnable())
                 .count();
     }
-
+    
     public String carrierOverviewReport(GregorianCalendar init, GregorianCalendar end) {
         List<Order> allOrders = filterByDate(orderService.findAll(), init, end);
         String report = "El sistema cuenta con un total de "
@@ -272,7 +275,7 @@ public class ReportPanelController {
                 + " - Los transportistas trasladaron un total de " + allOrders.size() + " pedidos con las siguientes preferencias:\n";
         return report;
     }
-
+    
     public String carrierReport(Carrier carrier, GregorianCalendar init, GregorianCalendar end) {
         List<Order> allOrders = new ArrayList<>();
         for (Invoice anInvoice : invoiceService.findByCarrier(carrier)) {
@@ -294,45 +297,13 @@ public class ReportPanelController {
     public String carrierOverViewReport() {
         return carrierInfo();
     }
-
+    
     private String carrierInfo() {
         return "El sistema cuenta con un total de "
                 + carrierService.findAll().size() + " transportistas registrados.\n"
                 + " - " + carrierService.findAllEnabled() + " de ellos están disponibles para realizar envíos.\n"
                 + " - " + carrierService.findAllDisabled() + " de ellos no están disponibles.\n";
         //falta falta jsjsjs
-    }    // ---------------- INFORME PROVEEDORES ---------------- //
-
-    public List<Provider> updateProvidersTable(String cuit) {
-        DefaultTableModel model = new DefaultTableModel();
-        String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
-        model.setColumnIdentifiers(titles);
-        List<Provider> providers = providerServiceImpl.findAll();
-        List<Provider> result = new ArrayList<>();
-        for (Provider pr : providers) {
-            if (pr.getCuit().startsWith(cuit)) {
-                Object[] object = {pr.getName(), pr.getLastname(), pr.getCuit()};
-                model.addRow(object);
-                result.add(pr);
-            }
-        }
-        this.panel.getTable().setModel(model);
-        return result;
     }
-
-    public Integer getTotalProviders() {
-        return providerServiceImpl.findAll().size();
-    }
-
-    public Integer getTotalEnabledProviders() {
-        return providerServiceImpl.findAllEnabled().size();
-    }
-
-    public Integer getScore(String cuit) {
-        Integer score = orderService.getAverageProviderScore(cuit);
-        if (score == null || score == 0) {
-            return 0;
-        }
-        return score;
-    }
+    
 }

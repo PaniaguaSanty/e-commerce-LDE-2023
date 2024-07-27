@@ -24,15 +24,15 @@ public class TrackingOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private GregorianCalendar registDate;
     private String latitude;
     private String longitude;
-    private State state;
+    private State stateOrder;
     
     @ManyToOne
     private Order order;
-
+    
     public TrackingOrder() {
     }
 
@@ -41,7 +41,7 @@ public class TrackingOrder implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.order = order;
-        this.state = state;
+        this.stateOrder = state;
     }
     
     public Long getId() {
@@ -64,14 +64,6 @@ public class TrackingOrder implements Serializable {
         return longitude;
     }
 
-    public GregorianCalendar getDate() {
-        return registDate;
-    }
-
-    public void setDate(GregorianCalendar date) {
-        this.registDate = date;
-    }
-
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
@@ -84,14 +76,22 @@ public class TrackingOrder implements Serializable {
         this.order = order;
     }
 
+    public GregorianCalendar getDate() {
+        return registDate;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.registDate = date;
+    }
+
     public State getState() {
-        return state;
+        return stateOrder;
     }
 
     public void setState(State state) {
-        this.state = state;
+        this.stateOrder = state;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

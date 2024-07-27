@@ -43,9 +43,9 @@ class SectorServiceImplTest {
 
     @Test
     void testCreateSector() {
-        Mockito.doNothing().when(sectorJpa).create(sectors.get(0));
-        serviceImplTest.create(sectors.get(0));
-        Mockito.verify(sectorJpa).create(sectors.get(0));
+       Sector expected = sectors.get(0);
+       Mockito.when(sectorJpa.findSector(1L)).thenReturn(expected);
+       assertEquals(expected,serviceImplTest.create(expected));
 
 
     }
@@ -131,8 +131,10 @@ class SectorServiceImplTest {
         Warehouse warehouse = new Warehouse();
         warehouse.setId(1L);
         Sector s1 = new Sector("name", warehouse, "code");
+        s1.setId(1L);
         sectors.add(s1);
         Sector s2 = new Sector("name1", warehouse, "code1");
+        s2.setId(2L);
         sectors.add(s2);
     }
 

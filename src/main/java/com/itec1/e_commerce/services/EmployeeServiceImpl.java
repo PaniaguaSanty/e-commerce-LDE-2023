@@ -22,7 +22,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
     @Override
     public Employee create(Employee entity) {
         employeeJpaController.create(entity);
-        return entity;
+        return employeeJpaController.findEmployee(entity.getId());
     }
 
     @Override
@@ -83,7 +83,7 @@ public class EmployeeServiceImpl implements ICRUD<Employee> {
                 .orElse(null);
     }
 
-    public List<Employee> searchByWarehouse(String warehouseToSearch) {
+    public List<Employee> findByWarehouse(String warehouseToSearch) {
         return employeeJpaController.findEmployeeEntities().stream()
                 .filter(employee -> employee.getWarehouse().getCode().
                 equals(warehouseToSearch)).toList();

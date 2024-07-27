@@ -8,9 +8,18 @@ import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.TrackingOrderJpaController;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
-import com.itec1.e_commerce.entities.*;
+import com.itec1.e_commerce.entities.Client;
+import com.itec1.e_commerce.entities.DetailOrder;
+import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.Order;
 
-import java.util.*;
+import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.State;
+import com.itec1.e_commerce.entities.TrackingOrder;
+import com.itec1.e_commerce.entities.Warehouse;
+
+
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -26,11 +35,9 @@ public class OrderServiceImpl {
     private final OrderJpaController orderJpaController;
     private final InvoiceJpaController invoiceJpaController;
     private SectorServiceImpl sectorServiceImpl;
-    private ProductServiceImpl productServiceImpl;
     private State state;
 
     public OrderServiceImpl() {
-        this.productServiceImpl = new ProductServiceImpl();
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
         this.detailOrderJpaController = new DetailOrderJpaController(Connection.getEmf());
@@ -38,20 +45,20 @@ public class OrderServiceImpl {
         this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
         this.orderJpaController = new OrderJpaController(Connection.getEmf());
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
-
     }
 
-    public OrderServiceImpl(OrderJpaController orderJpaController, ProductServiceImpl productServiceImpl) {
+    public OrderServiceImpl(OrderJpaController orderJpaController, DetailOrderJpaController detailOrderJpaController, TrackingOrderJpaController trackingOrderJpaController, InvoiceJpaController invoiceJpaController) {
         this.orderJpaController = orderJpaController;
-        this.productServiceImpl = productServiceImpl;
+        this.detailOrderJpaController = detailOrderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
-        this.detailOrderJpaController = new DetailOrderJpaController(Connection.getEmf());
         this.productJpaController = new ProductJpaController(Connection.getEmf());
-        this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
-        this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
+        this.trackingOrderJpaController = trackingOrderJpaController;
+        this.invoiceJpaController = invoiceJpaController;
 
     }
+
+
 
     public Order createOrder(Order entity) throws Exception {
         orderJpaController.create(entity);
@@ -137,6 +144,7 @@ public class OrderServiceImpl {
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
 
+
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
@@ -167,53 +175,4 @@ public class OrderServiceImpl {
         invoice.setCarrierQualification(star);
         invoiceJpaController.edit(invoice);
     }
-
-    public List<DetailOrder> getDetailsByProvider(String cuit){
-        List<Product> products = productServiceImpl.findProductsByProvider(cuit);
-        return detailOrderJpaController.findDetailOrderEntities()
-                .stream()
-                .filter(detail -> products.contains(detail.getProduct()))
-                .toList();
-    }
-
-    public Integer getTotalProviderScore(String cuit){
-        List<DetailOrder> details = getDetailsByProvider(cuit);
-        return details
-                .stream()
-                .mapToInt(DetailOrder::getProviderQualification)
-                .sum();
-    }
-
-    public Integer getProviderScoreCount(String cuit){
-        List<DetailOrder> details = getDetailsByProvider(cuit);
-        return details.size();
-    }
-
-    public Integer getAverageProviderScore(String cuit){
-        if (getProviderScoreCount(cuit) == 0) {
-            return 0;
-        }
-        return getTotalProviderScore(cuit) / getProviderScoreCount(cuit);
-    }
-
-    // name: quantity
-    public Map<String, Integer> getProviderTopSales(String cuit){
-        List<DetailOrder> details = getDetailsByProvider(cuit);
-        Map<String, Integer> result = new HashMap<>();
-        details.forEach(detail -> {
-            if (result.containsKey(detail.getProduct().getName())) {
-                result.put(detail.getProduct().getName(), result.get(detail.getProduct().getName()) + detail.getAmount());
-            } else {
-                result.put(detail.getProduct().getName(), detail.getAmount());
-            }
-        });
-        // limitar a los 10 primeros
-        return result
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .limit(10)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-    }
-
 }
