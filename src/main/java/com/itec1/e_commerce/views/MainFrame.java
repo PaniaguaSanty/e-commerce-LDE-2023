@@ -20,8 +20,10 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
 
-    private NewOrder_FirstPanel newOrderFirstPanel;
-    private NewOrder_SecondPanel newOrderSecondPanel;
+    private NewOrder_ChooseClientPanel chooseClientPanel;
+    private NewOrder_ChooseProductsPanel chooseProductsPanel;
+    private NewOrder_ChooseWarehousePanel chooseWarehousePanel;
+    private NewOrder_ChooseCarrierPanel chooseCarrierPanel;
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
@@ -72,12 +74,14 @@ public class MainFrame extends javax.swing.JFrame {
         employeesPanel = new Management_Employees_Panel();
         warehouseHouse = new Management_Warehouses_Panel();
 
-        newOrderFirstPanel = new NewOrder_FirstPanel(this);
-        newOrderSecondPanel = new NewOrder_SecondPanel(this);
+        chooseClientPanel = new NewOrder_ChooseClientPanel(this);
+        chooseProductsPanel = new NewOrder_ChooseProductsPanel(this);
+        chooseWarehousePanel = new NewOrder_ChooseWarehousePanel(this);
+        chooseCarrierPanel = new NewOrder_ChooseCarrierPanel(this);
         viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
         orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
 
-        reportClients= new Report_Clients();
+        reportClients = new Report_Clients();
         reportCarriers = new Report_Carriers();
         reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
         reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
@@ -90,12 +94,19 @@ public class MainFrame extends javax.swing.JFrame {
     public void changeOrderPanel() {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
-        if (newOrderFirstPanel.equals(activePanel)) {
-            contentPanel.add(newOrderSecondPanel, BorderLayout.CENTER);
-            activePanel = newOrderSecondPanel;
+        if (chooseClientPanel.equals(activePanel)) {
+            contentPanel.add(chooseProductsPanel, BorderLayout.CENTER);
+            activePanel = chooseProductsPanel;
+            
+        } else if(chooseProductsPanel.equals(activePanel)) {
+            contentPanel.add(chooseWarehousePanel, BorderLayout.CENTER);
+            activePanel = chooseWarehousePanel;
+        } else if(chooseWarehousePanel.equals(activePanel)) {
+             contentPanel.add(chooseCarrierPanel, BorderLayout.CENTER);
+            activePanel = chooseCarrierPanel;
         } else {
-            contentPanel.add(newOrderFirstPanel, BorderLayout.CENTER);
-            activePanel = newOrderFirstPanel;
+            contentPanel.add(chooseClientPanel, BorderLayout.CENTER);
+            activePanel = chooseClientPanel;
         }
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -472,8 +483,8 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_carrier_ReportByDateActionPerformed
 
     private void menu_newOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_newOrderActionPerformed
-        newOrderFirstPanel.initPanel();
-        changeOrderPanel();
+        changePanel(chooseClientPanel);
+        //changeOrderPanel();
     }// GEN-LAST:event_menu_newOrderActionPerformed
 
     private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
