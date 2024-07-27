@@ -1,7 +1,18 @@
 package com.itec1.e_commerce.controllers;
 
-import com.itec1.e_commerce.entities.*;
-import com.itec1.e_commerce.services.*;
+import com.itec1.e_commerce.entities.Carrier;
+import com.itec1.e_commerce.entities.Client;
+import com.itec1.e_commerce.entities.DetailOrder;
+import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.ProductCategory;
+import com.itec1.e_commerce.entities.Provider;
+import com.itec1.e_commerce.services.CarrierServiceImpl;
+import com.itec1.e_commerce.services.ClientServiceImpl;
+import com.itec1.e_commerce.services.InvoiceServiceImpl;
+import com.itec1.e_commerce.services.OrderServiceImpl;
+import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
+import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.views.InterfacePanel;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
