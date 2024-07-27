@@ -1,12 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.itec1.e_commerce.views;
+
 import com.itec1.e_commerce.controllers.ReportPanelController;
 import com.itec1.e_commerce.entities.Provider;
+import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
+
+import java.awt.*;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 public class Report_ProvidersPanel extends javax.swing.JPanel implements InterfacePanel {
 
     private final ReportPanelController panel;
+    private final FieldDataValidator validator;
     private List<Provider> providers;
 
     /**
@@ -27,7 +28,9 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
     public Report_ProvidersPanel() {
         initComponents();
         this.panel = new ReportPanelController(this);
+        this.validator = new FieldDataValidator();
         initListener();
+        initValidator();
         initPanel();
     }
 
@@ -58,7 +61,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
         tbl_providers = new javax.swing.JTable();
         jbl_filter = new javax.swing.JLabel();
         jtf_cuit_filter = new javax.swing.JTextField();
-        btn_Select = new javax.swing.JButton();
+        btn_select = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
@@ -200,10 +203,13 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
             }
         });
 
-        btn_Select.setText("Seleccionar");
-        btn_Select.addActionListener(new java.awt.event.ActionListener() {
+        btn_select.setText("Seleccionar");
+        btn_select.setMaximumSize(new java.awt.Dimension(110, 23));
+        btn_select.setMinimumSize(new java.awt.Dimension(110, 23));
+        btn_select.setPreferredSize(new java.awt.Dimension(110, 23));
+        btn_select.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_SelectActionPerformed(evt);
+                btn_selectActionPerformed(evt);
             }
         });
 
@@ -219,7 +225,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
                         .addGap(18, 18, 18)
                         .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_Select))
+                        .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_tableLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -232,7 +238,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
                 .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Select)
+                    .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -273,20 +279,22 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_total_proveedoresActionPerformed
 
-    private void btn_SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SelectActionPerformed
-        if (btn_Select.getText().equals("Seleccionar")) {
+    private void btn_selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selectActionPerformed
+        if (btn_select.getText().equals("Seleccionar")) {
             jtf_cuit_filter.setEnabled(false);
             jtf_cuit_filter.setText(tbl_providers.getValueAt(tbl_providers.getSelectedRow(), 2).toString());
             tbl_providers.setEnabled(false);
             jtf_valoracion.setText(getValoracion());
             //tbl_top_products.updateTopProductsTable();
-            btn_Select.setText("Limpiar");
+            btn_select.setText("Limpiar");
         } else {
+            jtf_cuit_filter.setText("");
+            jtf_valoracion.setText("");
             jtf_cuit_filter.setEnabled(true);
             tbl_providers.setEnabled(true);
-            btn_Select.setText("Seleccionar");
+            btn_select.setText("Seleccionar");
         }
-    }//GEN-LAST:event_btn_SelectActionPerformed
+    }//GEN-LAST:event_btn_selectActionPerformed
 
     private String getValoracion() {
         Integer score = panel.getScore(jtf_cuit_filter.getText());
@@ -295,7 +303,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Select;
+    private javax.swing.JButton btn_select;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_data;
     private javax.swing.JPanel jPanel_table;
@@ -318,19 +326,21 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
 
     @Override
     public void initValidator() {
+        validator.onlyNumbers(jtf_cuit_filter);
     }
 
     @Override
     public void initListener() {
+        jtf_cuit_filter.getDocument().addDocumentListener(new JTextFieldListener<>(this));
         tbl_providers.getSelectionModel().addListSelectionListener(new TableListener(this));
-        jtf_cuit_filter.getDocument().addDocumentListener(new JTextFieldListener(this));
     }
 
     @Override
     public void initPanel() {
         this.panel.updateProvidersTable("");
-        btn_Select.setText("Seleccionar");
-        btn_Select.setEnabled(false);
+        btn_select.setPreferredSize(new Dimension(110, 23));
+        btn_select.setText("Seleccionar");
+        btn_select.setEnabled(false);
         jtf_total_proveedores.setEnabled(false);
         jtf_total_proveedores.setText(getTotalProveedores());
         jtf_total_habilitados.setText(getTotalHabilitados());
@@ -357,13 +367,12 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
 
     @Override
     public JTable getTable() {
-        return tbl_providers;
+        return this.tbl_providers;
     }
 
     @Override
     public void selectFromTable() {
-        int field = tbl_providers.getSelectedRow();
-        btn_Select.setEnabled(true);
+        btn_select.setEnabled(true);
     }
 
     @Override
@@ -403,6 +412,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
 
     @Override
     public void updateTable() {
+        providers = panel.updateProvidersTable(jtf_cuit_filter.getText());
     }
 
 }

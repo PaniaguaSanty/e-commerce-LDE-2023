@@ -277,7 +277,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jtf_cuit_filter" min="-2" pref="234" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btn_Select" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_select" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -295,7 +295,7 @@
                       <Component id="jScrollPaneTabla" min="-2" pref="172" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btn_Select" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_select" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jtf_cuit_filter" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbl_filter" alignment="3" pref="23" max="32767" attributes="0"/>
                       </Group>
@@ -364,12 +364,21 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtf_cuit_filterActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_Select">
+            <Component class="javax.swing.JButton" name="btn_select">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Seleccionar"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[110, 23]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[110, 23]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[110, 23]"/>
+                </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_SelectActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_selectActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

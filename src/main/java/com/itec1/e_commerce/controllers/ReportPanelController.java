@@ -170,7 +170,7 @@ public class ReportPanelController {
 
     public Integer getScore(String cuit) {
         Integer score = orderService.getAverageProviderScore(cuit);
-        if (score == null) {
+        if (score == null || score == 0) {
             return 0;
         }
         return score;

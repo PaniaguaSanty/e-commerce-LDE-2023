@@ -192,6 +192,9 @@ public class OrderServiceImpl {
     }
 
     public Integer getAverageProviderScore(String cuit){
+        if (getProviderScoreCount(cuit) == 0) {
+            return 0;
+        }
         return getTotalProviderScore(cuit) / getProviderScoreCount(cuit);
     }
 
