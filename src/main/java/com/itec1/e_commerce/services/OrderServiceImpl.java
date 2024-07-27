@@ -100,8 +100,6 @@ public class OrderServiceImpl {
     private void generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
-        tracking.setDate(new Date());
-        tracking.setHour(new Date());
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);

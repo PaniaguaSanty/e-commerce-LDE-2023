@@ -6,6 +6,7 @@ package com.itec1.e_commerce.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,28 +27,20 @@ public class TrackingOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Temporal(TemporalType.DATE)
-    private Date date;
-    
-    @Temporal(TemporalType.TIME)
-    private Date hour;
-    
+
+    private GregorianCalendar registDate;
     private String latitude;
     private String longitude;
     private State state;
     
     @ManyToOne
     private Order order;
-    
-    
 
     public TrackingOrder() {
     }
 
-    public TrackingOrder(Date date, Date hour, String latitude, String longitude, Order order, State state) {
-        this.date = date;
-        this.hour = hour;
+    public TrackingOrder(String latitude, String longitude, Order order, State state) {
+        this.registDate = new GregorianCalendar();
         this.latitude = latitude;
         this.longitude = longitude;
         this.order = order;
@@ -74,35 +67,24 @@ public class TrackingOrder implements Serializable {
         return longitude;
     }
 
+    public GregorianCalendar getRegistDate() {
+        return registDate;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.registDate = date;
+    }
+
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-   
-
-   
     public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getHour() {
-        return hour;
-    }
-
-    public void setHour(Date hour) {
-        this.hour = hour;
     }
 
     public State getState() {
@@ -112,10 +94,6 @@ public class TrackingOrder implements Serializable {
     public void setState(State state) {
         this.state = state;
     }
-    
-    
-    
-    
 
     @Override
     public int hashCode() {
