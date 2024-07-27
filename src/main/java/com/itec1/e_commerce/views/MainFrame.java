@@ -25,7 +25,13 @@ public class MainFrame extends javax.swing.JFrame {
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
-    private Report_ClientsPanel reportClients;
+    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
+    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
+    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
+    private Reports_Providers_ByDate_Panel providersByDatePanel;
+    private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
+    private Report_Clients reportClients;
+    private Report_Carriers reportCarriers;
     private Report_ProvidersPanel reportProviders;
 
     public MainFrame() {
