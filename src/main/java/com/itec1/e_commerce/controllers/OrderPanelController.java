@@ -57,6 +57,7 @@ public class OrderPanelController {
         try {
             orderService.createOrder(order);
             this.addDetail(order, details);
+            details.removeAll(details);
             return "Pedido creado correctamente";
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
@@ -113,8 +114,8 @@ public class OrderPanelController {
         order.setWarehouseDestiny(warehouseDestiny);
     }
 
-    public void assignCarrierToInvoice(Carrier carrierSelected) {
-        invoice.setCarrier(carrierSelected);
+    public void assignCarrierToInvoice(String carrierSelected) {
+        invoice.setCarrier(carrierService.findByCuit(carrierSelected));
     }
 
     //TrackingOrder
@@ -384,7 +385,7 @@ public class OrderPanelController {
         return carrierService.findByTypeOfTransport(transportType);
     }
 
-    public List<Carrier> updateCarrierTable(String transportType) {
+    public List<Carrier> updateCarrierTableByTransportType(String transportType) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
@@ -397,6 +398,24 @@ public class OrderPanelController {
         }
         for (Carrier carrier : carriers) {
             if (carrier.isEnable()) {
+                Object[] object = {carrier.getName(),
+                    carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
+                model.addRow(object);
+                result.add(carrier);
+            }
+        }
+        this.panel.getCarriersTable().setModel(model);
+        return result;
+    }
+
+    public List<Carrier> updateCarrierTable(String cuit) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
+        model.setColumnIdentifiers(titles);
+        List<Carrier> carriers = carrierService.findAll();
+        List<Carrier> result = new ArrayList<>();
+        for (Carrier carrier : carriers) {
+            if (carrier.isEnable() && carrier.getCuit().contains(cuit)) {
                 Object[] object = {carrier.getName(),
                     carrier.getCuit(), carrier.getPhone(), carrierService.verifyEnabledTransports(carrier)};
                 model.addRow(object);
