@@ -7,6 +7,7 @@ package com.itec1.e_commerce.dao;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.ProductCategory;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,16 +15,18 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JComboBox;
 
 /**
  *
- * @author sjcex
+ * @author turraca
  */
 public class ProductCategoryJpaController implements Serializable {
 
     public ProductCategoryJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -133,5 +136,15 @@ public class ProductCategoryJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public void getCategoryCMB(JComboBox<ProductCategory> comboBox_category) {
+        EntityManager em = getEntityManager();
+        Iterator it = em.createQuery("SELECT pc FROM ProductCategory pc").getResultList().iterator();
+        ProductCategory category;
+        while (it.hasNext()) {
+            category = (ProductCategory) it.next();
+            comboBox_category.addItem(category);
+        }
+    }
+
 }

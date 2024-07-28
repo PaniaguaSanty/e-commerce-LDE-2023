@@ -1,20 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itec1.e_commerce.entities;
 
+import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author sjcex
  */
 @Entity
-public class ProductCategory {
+@Table(name = "product_categories")
+public class ProductCategory implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +27,13 @@ public class ProductCategory {
     private boolean enable;
 
     public ProductCategory() {
+        this.enable = true;
     }
 
-    public ProductCategory(Long id, String name, String description, boolean enable) {
-        this.id = id;
+    public ProductCategory(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
-        this.enable = enable;
     }
 
     public Long getId() {
@@ -69,10 +69,32 @@ public class ProductCategory {
     }
 
     @Override
-    public String toString() {
-        return "ProductCategory{" + "id=" + id + ", name=" + name + ", description=" + description + ", enable=" + enable + '}';
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProductCategory other = (ProductCategory) obj;
+        return Objects.equals(this.id, other.id);
     }
     
     
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }
