@@ -13,6 +13,7 @@ import com.itec1.e_commerce.services.ClientServiceImpl;
 import com.itec1.e_commerce.services.InvoiceServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
+import com.itec1.e_commerce.services.ProviderServiceImpl;
 import com.itec1.e_commerce.views.InterfacePanel;
 import com.sun.jdi.connect.Transport;
 import java.util.AbstractMap;
@@ -36,6 +37,7 @@ public class ReportPanelController {
     private final CarrierServiceImpl carrierService;
     private final InvoiceServiceImpl invoiceService;
     private final ProductCategoryServiceImpl productCategoryService;
+    private final ProviderServiceImpl providerServiceImpl;
     
     public ReportPanelController(InterfacePanel panel) {
         this.panel = panel;
@@ -44,6 +46,7 @@ public class ReportPanelController {
         this.carrierService = new CarrierServiceImpl();
         this.invoiceService = new InvoiceServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
+        this.providerServiceImpl = new ProviderServiceImpl();
     }
 
 //// --------------------------- INFORME: CLIENTES --------------------------- ////
@@ -293,17 +296,41 @@ public class ReportPanelController {
     }
 
     //hay que hacer las puntuaciones de los clientes hacia los transportistas pa despues añadirlo.
-    // --------------------------- INFORME: TRANSPORTISTAS --------------------------- //
-    public String carrierOverViewReport() {
-        return carrierInfo();
-    }
     
-    private String carrierInfo() {
-        return "El sistema cuenta con un total de "
-                + carrierService.findAll().size() + " transportistas registrados.\n"
-                + " - " + carrierService.findAllEnabled() + " de ellos están disponibles para realizar envíos.\n"
-                + " - " + carrierService.findAllDisabled() + " de ellos no están disponibles.\n";
-        //falta falta jsjsjs
+
+// ---------------- INFORME PROVEEDORES ---------------- //
+
+    public List<Provider> updateProvidersTable(String cuit) {
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
+        model.setColumnIdentifiers(titles);
+        List<Provider> providers = providerServiceImpl.findAll();
+        List<Provider> result = new ArrayList<>();
+        for (Provider pr : providers) {
+            if (pr.getCuit().startsWith(cuit)) {
+                Object[] object = {pr.getName(), pr.getLastname(), pr.getCuit()};
+                model.addRow(object);
+                result.add(pr);
+            }
+        }
+        this.panel.getTable().setModel(model);
+        return result;
+    }
+
+    public Integer getTotalProviders() {
+        return providerServiceImpl.findAll().size();
+    }
+
+    public Integer getTotalEnabledProviders() {
+        return providerServiceImpl.findAllEnabled().size();
+    }
+
+    public Integer getScore(String cuit) {
+        Integer score = orderService.getAverageProviderScore(cuit);
+        if (score == null || score == 0) {
+            return 0;
+        }
+        return score;
     }
     
 }
