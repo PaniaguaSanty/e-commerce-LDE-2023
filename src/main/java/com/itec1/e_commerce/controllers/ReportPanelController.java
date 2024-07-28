@@ -8,12 +8,7 @@ import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Provider;
-import com.itec1.e_commerce.services.CarrierServiceImpl;
-import com.itec1.e_commerce.services.ClientServiceImpl;
-import com.itec1.e_commerce.services.InvoiceServiceImpl;
-import com.itec1.e_commerce.services.OrderServiceImpl;
-import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
-import com.itec1.e_commerce.services.ProviderServiceImpl;
+import com.itec1.e_commerce.services.*;
 import com.itec1.e_commerce.views.InterfacePanel;
 import com.sun.jdi.connect.Transport;
 import java.util.AbstractMap;
@@ -38,6 +33,7 @@ public class ReportPanelController {
     private final InvoiceServiceImpl invoiceService;
     private final ProductCategoryServiceImpl productCategoryService;
     private final ProviderServiceImpl providerServiceImpl;
+    private final ProductServiceImpl productServiceImpl;
     
     public ReportPanelController(InterfacePanel panel) {
         this.panel = panel;
@@ -47,6 +43,7 @@ public class ReportPanelController {
         this.invoiceService = new InvoiceServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
         this.providerServiceImpl = new ProviderServiceImpl();
+        this.productServiceImpl = new ProductServiceImpl();
     }
 
 //// --------------------------- INFORME: CLIENTES --------------------------- ////
@@ -317,6 +314,24 @@ public class ReportPanelController {
         return result;
     }
 
+    public DefaultTableModel loadTopProducts(String cuit) {
+        if (cuit == null) {
+            return null;
+        }
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Top", "Nombre", "Cant. Vendida"};
+        model.setColumnIdentifiers(titles);
+        Map<String, Integer> topProducts = orderService.getTopProductsByProvider(cuit);
+        Integer top = 0;
+        for (Map.Entry<String, Integer> entry : topProducts.entrySet()) {
+            Object[] object = {++top, entry.getKey(), entry.getValue()};
+            model.addRow(object);
+        }
+        return model;
+    }
+
+
+
     public Integer getTotalProviders() {
         return providerServiceImpl.findAll().size();
     }
@@ -332,5 +347,7 @@ public class ReportPanelController {
         }
         return score;
     }
-    
+
+
+
 }
