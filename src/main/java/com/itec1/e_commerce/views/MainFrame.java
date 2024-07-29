@@ -27,14 +27,12 @@ public class MainFrame extends javax.swing.JFrame {
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
-    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
-    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
-    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
     private Reports_Providers_ByDate_Panel providersByDatePanel;
     private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
     private Report_Clients reportClients;
     private Report_Carriers reportCarriers;
     private Report_ProvidersPanel reportProviders;
+    private Report_OrdersPanel reportOrders;
 
     public MainFrame() {
 
@@ -85,9 +83,6 @@ public class MainFrame extends javax.swing.JFrame {
         reportClients = new Report_Clients();
         reportCarriers = new Report_Carriers();
         reportProviders= new Report_ProvidersPanel();
-        reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
-        reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
-        reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
         providersByDatePanel = new Reports_Providers_ByDate_Panel();
         reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
 
@@ -144,6 +139,7 @@ public class MainFrame extends javax.swing.JFrame {
         menu_reportClients = new javax.swing.JMenuItem();
         menu_reportCarriers = new javax.swing.JMenuItem();
         menu_providerReport = new javax.swing.JMenuItem();
+        menu_OrdersReport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 660));
@@ -346,6 +342,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menu_Reports.add(menu_providerReport);
 
+        menu_OrdersReport.setText("Generar informe de Ordenes");
+        menu_OrdersReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_OrdersReportActionPerformed(evt);
+            }
+        });
+        menu_Reports.add(menu_OrdersReport);
+
         jMenuBar1.add(menu_Reports);
 
         setJMenuBar(jMenuBar1);
@@ -385,6 +389,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void menu_providerReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_providerReportActionPerformed
         changePanel(reportProviders);
     }//GEN-LAST:event_menu_providerReportActionPerformed
+
+    private void menu_OrdersReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_OrdersReportActionPerformed
+        changePanel(reportOrders);
+    }//GEN-LAST:event_menu_OrdersReportActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -461,6 +469,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
+    private javax.swing.JMenuItem menu_OrdersReport;
     private javax.swing.JMenuItem menu_ProductCategories;
     private javax.swing.JMenuItem menu_Products;
     private javax.swing.JMenuItem menu_Providers;
