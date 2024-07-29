@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Report_Clients reportClients;
     private Report_Carriers reportCarriers;
     private Report_ProvidersPanel reportProviders;
-    private Report_OrdersPanel reportOrders;
+    private Report_OrdersPanel_List reportOrders;
 
     public MainFrame() {
 

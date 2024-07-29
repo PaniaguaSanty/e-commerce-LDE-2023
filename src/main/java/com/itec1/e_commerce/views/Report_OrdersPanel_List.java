@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author sjcex
  */
-public class Report_OrdersPanel extends javax.swing.JPanel implements InterfacePanel {
+public class Report_OrdersPanel_List extends javax.swing.JPanel implements InterfacePanel {
 
     private final ReportPanelController panel;
     private final FieldDataValidator validator;
@@ -26,7 +26,7 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
     /**
      * Creates new form Management_Client_Panel
      */
-    public Report_OrdersPanel() {
+    public Report_OrdersPanel_List() {
         initComponents();
         this.panel = new ReportPanelController(this);
         this.validator = new FieldDataValidator();
@@ -45,30 +45,19 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jPanel_data = new javax.swing.JPanel();
         jPanel_table = new javax.swing.JPanel();
         jScrollPaneTabla = new javax.swing.JScrollPane();
         tbl_Orders = new javax.swing.JTable();
-        jbl_filter = new javax.swing.JLabel();
+        lbl_filter = new javax.swing.JLabel();
         jtf_cuit_filter = new javax.swing.JTextField();
         btn_select = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
         jPanel2.setMinimumSize(new java.awt.Dimension(800, 600));
-
-        jPanel_data.setBackground(new java.awt.Color(0, 51, 255));
-
-        javax.swing.GroupLayout jPanel_dataLayout = new javax.swing.GroupLayout(jPanel_data);
-        jPanel_data.setLayout(jPanel_dataLayout);
-        jPanel_dataLayout.setHorizontalGroup(
-            jPanel_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        jPanel_dataLayout.setVerticalGroup(
-            jPanel_dataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 369, Short.MAX_VALUE)
-        );
 
         jPanel_table.setBackground(new java.awt.Color(0, 51, 255));
 
@@ -87,9 +76,8 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
         ));
         jScrollPaneTabla.setViewportView(tbl_Orders);
 
-        jbl_filter.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbl_filter.setForeground(new java.awt.Color(255, 255, 255));
-        jbl_filter.setText("Filtrar por cuit:");
+        lbl_filter.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_filter.setText("CUIT CLIENTE:");
 
         jtf_cuit_filter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtf_cuit_filter.addActionListener(new java.awt.event.ActionListener() {
@@ -98,7 +86,7 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
             }
         });
 
-        btn_select.setText("Seleccionar");
+        btn_select.setText("Buscar");
         btn_select.setMaximumSize(new java.awt.Dimension(110, 23));
         btn_select.setMinimumSize(new java.awt.Dimension(110, 23));
         btn_select.setPreferredSize(new java.awt.Dimension(110, 23));
@@ -108,35 +96,54 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
             }
         });
 
+        jLabel1.setText("Listado de Ordenes");
+
+        jButton1.setText("VER PRODUCTOS");
+
+        jButton2.setText("VER TRACKING");
+
         javax.swing.GroupLayout jPanel_tableLayout = new javax.swing.GroupLayout(jPanel_table);
         jPanel_table.setLayout(jPanel_tableLayout);
         jPanel_tableLayout.setHorizontalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_tableLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tableLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_tableLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_tableLayout.createSequentialGroup()
+                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel_tableLayout.createSequentialGroup()
+                                .addComponent(lbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel_tableLayout.setVerticalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -144,14 +151,10 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel_data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel_table, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -193,12 +196,14 @@ public class Report_OrdersPanel extends javax.swing.JPanel implements InterfaceP
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_select;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel_data;
     private javax.swing.JPanel jPanel_table;
     private javax.swing.JScrollPane jScrollPaneTabla;
-    private javax.swing.JLabel jbl_filter;
     private javax.swing.JTextField jtf_cuit_filter;
+    private javax.swing.JLabel lbl_filter;
     private javax.swing.JTable tbl_Orders;
     // End of variables declaration//GEN-END:variables
 
