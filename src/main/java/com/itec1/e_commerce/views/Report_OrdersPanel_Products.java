@@ -1,9 +1,12 @@
 package com.itec1.e_commerce.views;
 
+import com.itec1.e_commerce.controllers.OrderPanelController;
 import com.itec1.e_commerce.controllers.ReportPanelController;
+import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.views.resources.TableListener;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  *
@@ -11,14 +14,16 @@ import javax.swing.*;
  */
 public class Report_OrdersPanel_Products extends javax.swing.JPanel implements InterfacePanel {
 
-    private final ReportPanelController panel;
+    private final ReportPanelController reportPanelController;
+    private final MainFrame mainFrame;
+    private final String orderCode;
+    private List<DetailOrder> details;
 
-    /**
-     * Creates new form Management_Client_Panel
-     */
-    public Report_OrdersPanel_Products() {
+    public Report_OrdersPanel_Products(MainFrame mainFrame, String orderCode) {
         initComponents();
-        this.panel = new ReportPanelController(this);
+        this.reportPanelController = new ReportPanelController(this);
+        this.mainFrame = mainFrame;
+        this.orderCode = orderCode;
         initListener();
         initPanel();
     }
@@ -32,14 +37,15 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel_table = new javax.swing.JPanel();
-        jScrollPaneTabla = new javax.swing.JScrollPane();
-        tbl_order_products = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_back = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPaneTabla = new javax.swing.JScrollPane();
+        tbl_order_details = new javax.swing.JTable();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
@@ -47,12 +53,24 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
 
         jPanel_table.setBackground(new java.awt.Color(0, 51, 255));
 
+        jLabel1.setText("PRODUCTOS DE LA ORDEN:");
+
+        btn_back.setText("VOLVER");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("000");
+
         jScrollPaneTabla.setMaximumSize(new java.awt.Dimension(950, 750));
         jScrollPaneTabla.setMinimumSize(new java.awt.Dimension(950, 750));
         jScrollPaneTabla.setPreferredSize(new java.awt.Dimension(950, 750));
 
-        tbl_order_products.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        tbl_order_products.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_order_details.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        tbl_order_details.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -60,35 +78,27 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
 
             }
         ));
-        jScrollPaneTabla.setViewportView(tbl_order_products);
+        jScrollPaneTabla.setViewportView(tbl_order_details);
 
-        jLabel1.setText("PRODUCTOS DE LA ORDEN:");
-
-        jButton1.setText("VOLVER");
-
-        jButton2.setText("VER TRACKING");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("000");
+        jScrollPane2.setViewportView(jScrollPaneTabla);
 
         javax.swing.GroupLayout jPanel_tableLayout = new javax.swing.GroupLayout(jPanel_table);
         jPanel_table.setLayout(jPanel_tableLayout);
         jPanel_tableLayout.setHorizontalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 815, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tableLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_tableLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel_tableLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel2))
+                        .addGroup(jPanel_tableLayout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel_tableLayout.setVerticalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,13 +107,11 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -129,51 +137,41 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        mainFrame.backToOrdersPanel();
+    }//GEN-LAST:event_btn_backActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_back;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_table;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneTabla;
-    private javax.swing.JTable tbl_order_products;
+    private javax.swing.JTable tbl_order_details;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void initValidator() {
-        
+
     }
 
     @Override
     public void initListener() {
-        tbl_order_products.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tbl_order_details.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override
     public void initPanel() {
-        this.panel.updateProvidersTable("");
-    }
-
-    private String getTotalHabilitados() {
-        Integer total = panel.getTotalEnabledProviders();
-        if (total == null) {
-            return "0";
-        }
-        return total.toString();
-    }
-
-    private String getTotalProveedores() {
-        Integer total = panel.getTotalProviders();
-        if (total == null) {
-            return "0";
-        }
-        return total.toString();
+        this.jLabel2.setText(orderCode);
+        this.reportPanelController.loadDetailsTable(this.reportPanelController.findOrderIdByCode(orderCode));
     }
 
     @Override
     public JTable getTable() {
-        return this.tbl_order_products;
+        return this.tbl_order_details;
     }
 
     @Override
@@ -216,6 +214,7 @@ public class Report_OrdersPanel_Products extends javax.swing.JPanel implements I
 
     @Override
     public void updateTable() {
+        details = reportPanelController.loadDetailsTable(this.reportPanelController.findOrderIdByCode(orderCode));
     }
 
 }

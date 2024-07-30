@@ -2,16 +2,14 @@ package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ReportPanelController;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
-import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
 import com.itec1.e_commerce.views.resources.TableListener;
+import com.sun.jdi.LongValue;
 
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,17 +17,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Report_OrdersPanel_List extends javax.swing.JPanel implements InterfacePanel {
 
-    private final ReportPanelController panel;
+    private final ReportPanelController reportPanelController;
     private final FieldDataValidator validator;
+    private final MainFrame mainFrame;
     private List<Order> orders;
 
-    /**
-     * Creates new form Management_Client_Panel
-     */
-    public Report_OrdersPanel_List() {
+    public Report_OrdersPanel_List(MainFrame mainFrame) {
         initComponents();
-        this.panel = new ReportPanelController(this);
+        this.reportPanelController = new ReportPanelController(this);
         this.validator = new FieldDataValidator();
+        this.mainFrame = mainFrame;
         initListener();
         initValidator();
         initPanel();
@@ -44,22 +41,44 @@ public class Report_OrdersPanel_List extends javax.swing.JPanel implements Inter
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
         jPanel_table = new javax.swing.JPanel();
-        jScrollPaneTabla = new javax.swing.JScrollPane();
-        tbl_Orders = new javax.swing.JTable();
         lbl_filter = new javax.swing.JLabel();
         jtf_cuit_filter = new javax.swing.JTextField();
-        btn_select = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
-        jPanel2.setMinimumSize(new java.awt.Dimension(800, 600));
+        btn_see_detail = new javax.swing.JButton();
+        btn_see_tracking = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPaneTabla = new javax.swing.JScrollPane();
+        tbl_Orders = new javax.swing.JTable();
 
         jPanel_table.setBackground(new java.awt.Color(0, 51, 255));
+        jPanel_table.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        lbl_filter.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_filter.setText("CUIT CLIENTE:");
+
+        jtf_cuit_filter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtf_cuit_filter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_cuit_filterActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Listado de Ordenes");
+
+        btn_see_detail.setText("VER DETALLE DE ORDEN");
+        btn_see_detail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_see_detailActionPerformed(evt);
+            }
+        });
+
+        btn_see_tracking.setText("VER TRACKING");
+        btn_see_tracking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_see_trackingActionPerformed(evt);
+            }
+        });
 
         jScrollPaneTabla.setMaximumSize(new java.awt.Dimension(950, 750));
         jScrollPaneTabla.setMinimumSize(new java.awt.Dimension(950, 750));
@@ -76,131 +95,78 @@ public class Report_OrdersPanel_List extends javax.swing.JPanel implements Inter
         ));
         jScrollPaneTabla.setViewportView(tbl_Orders);
 
-        lbl_filter.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_filter.setText("CUIT CLIENTE:");
-
-        jtf_cuit_filter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtf_cuit_filter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_cuit_filterActionPerformed(evt);
-            }
-        });
-
-        btn_select.setText("Buscar");
-        btn_select.setMaximumSize(new java.awt.Dimension(110, 23));
-        btn_select.setMinimumSize(new java.awt.Dimension(110, 23));
-        btn_select.setPreferredSize(new java.awt.Dimension(110, 23));
-        btn_select.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_selectActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Listado de Ordenes");
-
-        jButton1.setText("VER PRODUCTOS");
-
-        jButton2.setText("VER TRACKING");
+        jScrollPane1.setViewportView(jScrollPaneTabla);
 
         javax.swing.GroupLayout jPanel_tableLayout = new javax.swing.GroupLayout(jPanel_table);
         jPanel_table.setLayout(jPanel_tableLayout);
         jPanel_tableLayout.setHorizontalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 795, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tableLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tableLayout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel_tableLayout.createSequentialGroup()
-                        .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel_tableLayout.createSequentialGroup()
-                                .addComponent(lbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btn_see_tracking, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_see_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addGroup(jPanel_tableLayout.createSequentialGroup()
+                            .addComponent(lbl_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27))
         );
         jPanel_tableLayout.setVerticalGroup(
             jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_tableLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lbl_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtf_cuit_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel_tableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_see_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_see_tracking, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel_table, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_see_trackingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_see_trackingActionPerformed
+        String orderCode = tbl_Orders.getValueAt(tbl_Orders.getSelectedRow(), 0).toString();
+        mainFrame.seeTrackingPanel(orderCode);
+    }//GEN-LAST:event_btn_see_trackingActionPerformed
+
+    private void btn_see_detailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_see_detailActionPerformed
+        String orderCode = tbl_Orders.getValueAt(tbl_Orders.getSelectedRow(), 0).toString();
+        mainFrame.seeDetailsPanel(orderCode);
+    }//GEN-LAST:event_btn_see_detailActionPerformed
+
     private void jtf_cuit_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_cuit_filterActionPerformed
-        orders = panel.updateOrdersTable(jtf_cuit_filter.getText());
+        orders = reportPanelController.updateOrdersTable(jtf_cuit_filter.getText());
     }//GEN-LAST:event_jtf_cuit_filterActionPerformed
 
-    private void btn_selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selectActionPerformed
-        if (btn_select.getText().equals("Seleccionar")) {
-            jtf_cuit_filter.setEnabled(false);
-            jtf_cuit_filter.setText(tbl_Orders.getValueAt(tbl_Orders.getSelectedRow(), 2).toString());
-            tbl_Orders.setEnabled(false);
-            btn_select.setText("Limpiar");
-        } else {
-            jtf_cuit_filter.setText("");
-            jtf_cuit_filter.setEnabled(true);
-            tbl_Orders.setEnabled(true);
-            btn_select.setEnabled(false);
-            btn_select.setText("Seleccionar");
-        }
-    }//GEN-LAST:event_btn_selectActionPerformed
-
-    private String getValoracion() {
-        Integer score = panel.getScore(jtf_cuit_filter.getText());
-        return score.toString();
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_select;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_see_detail;
+    private javax.swing.JButton btn_see_tracking;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_table;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneTabla;
     private javax.swing.JTextField jtf_cuit_filter;
     private javax.swing.JLabel lbl_filter;
@@ -220,26 +186,10 @@ public class Report_OrdersPanel_List extends javax.swing.JPanel implements Inter
 
     @Override
     public void initPanel() {
-        this.panel.updateProvidersTable("");
-        btn_select.setPreferredSize(new Dimension(110, 23));
-        btn_select.setText("Seleccionar");
-        btn_select.setEnabled(false);
-    }
+        this.reportPanelController.updateOrdersTable("");
+        btn_see_detail.setEnabled(false);
+        btn_see_tracking.setEnabled(false);
 
-    private String getTotalHabilitados() {
-        Integer total = panel.getTotalEnabledProviders();
-        if (total == null) {
-            return "0";
-        }
-        return total.toString();
-    }
-
-    private String getTotalProveedores() {
-        Integer total = panel.getTotalProviders();
-        if (total == null) {
-            return "0";
-        }
-        return total.toString();
     }
 
     @Override
@@ -249,7 +199,8 @@ public class Report_OrdersPanel_List extends javax.swing.JPanel implements Inter
 
     @Override
     public void selectFromTable() {
-        btn_select.setEnabled(true);
+        btn_see_detail.setEnabled(true);
+        btn_see_tracking.setEnabled(true);
     }
 
     @Override
@@ -289,7 +240,7 @@ public class Report_OrdersPanel_List extends javax.swing.JPanel implements Inter
 
     @Override
     public void updateTable() {
-        orders = panel.updateOrdersTable(jtf_cuit_filter.getText());
+        orders = reportPanelController.updateOrdersTable(jtf_cuit_filter.getText());
     }
 
 }

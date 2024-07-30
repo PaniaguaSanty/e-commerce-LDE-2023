@@ -1,13 +1,6 @@
 package com.itec1.e_commerce.controllers;
 
-import com.itec1.e_commerce.entities.Carrier;
-import com.itec1.e_commerce.entities.Client;
-import com.itec1.e_commerce.entities.DetailOrder;
-import com.itec1.e_commerce.entities.Invoice;
-import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
-import com.itec1.e_commerce.entities.ProductCategory;
-import com.itec1.e_commerce.entities.Provider;
+import com.itec1.e_commerce.entities.*;
 import com.itec1.e_commerce.services.*;
 import com.itec1.e_commerce.views.InterfacePanel;
 import com.sun.jdi.connect.Transport;
@@ -293,10 +286,7 @@ public class ReportPanelController {
     }
 
     //hay que hacer las puntuaciones de los clientes hacia los transportistas pa despues añadirlo.
-
-
 // ---------------- INFORME PROVEEDORES ---------------- //
-
     public List<Provider> updateProvidersTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "Apellido", "C.U.I.T."};
@@ -330,7 +320,6 @@ public class ReportPanelController {
         return model;
     }
 
-
     public Integer getTotalProviders() {
         return providerServiceImpl.findAll().size();
     }
@@ -348,21 +337,71 @@ public class ReportPanelController {
     }
 
     // --------------- INFORME DE ORDENES ----------------- //
-
     public List<Order> updateOrdersTable(String cuit) {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Código", "Cliente", "C.U.I.T.", "Origen", "Destino", "Sector"};
         model.setColumnIdentifiers(titles);
-        List<Order> orders = orderService.findOrdersByClient(clientService.findByCuit(cuit));
+        List<Order> orders = orderService.findAll();
         List<Order> result = new ArrayList<>();
         for (Order o : orders) {
             if (o.getClient().getCuit().startsWith(cuit)) {
-                Object[] object = {o.getCode(), o.getClient().getName().concat(" ").concat(o.getClient().getLastname()), o.getClient().getCuit(), o.getWarehouseOrigin().getCode(), o.getWarehouseDestiny().getCode(), o.getSector().getName()};
+                Object[] object = {
+                        o.getCode(),
+                        o.getClient().getName().concat(" ").concat(o.getClient().getLastname()),
+                        o.getClient().getCuit(),
+                        o.getWarehouseOrigin().getAddress(),
+                        o.getWarehouseDestiny().getAddress(),
+                        o.getSector().getName()
+                };
                 model.addRow(object);
                 result.add(o);
             }
         }
         this.panel.getTable().setModel(model);
         return result;
+    }
+
+    public List<DetailOrder> loadDetailsTable(Long orderId) {
+        if (orderId == null) {
+            return null;
+        }
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Producto", "Cantidad", "Valoracion"};
+        model.setColumnIdentifiers(titles);
+        Order order = orderService.findById(orderId);
+        List<DetailOrder> details = orderService.getDetailsByOrder(order);
+        for (DetailOrder detail : details) {
+            Object[] object = {
+                    detail.getProduct().getName(),
+                    detail.getAmount(),
+                    detail.getProviderQualification()
+            };
+            model.addRow(object);
+        }
+        this.panel.getTable().setModel(model);
+        return details;
+    }
+
+    public List<TrackingOrder> loadTrackingByOrder(Long orderId) {
+        Order order = orderService.findById(orderId);
+        DefaultTableModel model = new DefaultTableModel();
+        String[] titles = {"Fecha", "Estado"};
+        model.setColumnIdentifiers(titles);
+        List<TrackingOrder> trackingOrders = orderService.getTrackingByOrder(order);
+        for (TrackingOrder to : trackingOrders) {
+            Object[] object = {
+                    to.getDate(),
+                    to.getLatitude(),
+                    to.getLongitude(),
+                    to.getState()
+            };
+            model.addRow(object);
+        }
+        this.panel.getTable().setModel(model);
+        return trackingOrders;
+    }
+
+    public Long findOrderIdByCode(String code) {
+        return orderService.findOrderByCode(code).getId();
     }
 }

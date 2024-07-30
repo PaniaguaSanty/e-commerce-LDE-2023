@@ -8,16 +8,7 @@ import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.TrackingOrderJpaController;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
-import com.itec1.e_commerce.entities.Client;
-import com.itec1.e_commerce.entities.DetailOrder;
-import com.itec1.e_commerce.entities.Invoice;
-import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
-
-import com.itec1.e_commerce.entities.Sector;
-import com.itec1.e_commerce.entities.State;
-import com.itec1.e_commerce.entities.TrackingOrder;
-import com.itec1.e_commerce.entities.Warehouse;
+import com.itec1.e_commerce.entities.*;
 
 import java.util.*;
 
@@ -237,5 +228,32 @@ public class OrderServiceImpl {
 
         return topTen;
     }
-    
+
+    public List<DetailOrder> getDetailsByOrder(Order order) {
+        List<DetailOrder> details = new ArrayList<>();
+        for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
+            if (detail.getOrder().equals(order)) {
+                details.add(detail);
+            }
+        }
+        return details;
+    }
+
+    public List<TrackingOrder> getTrackingByOrder(Order order) {
+        List<TrackingOrder> list = new ArrayList<>();
+        for (TrackingOrder trackingOrder : trackingOrderJpaController.findTrackingOrderEntities()) {
+            if (trackingOrder.getOrder().equals(order)) {
+                list.add(trackingOrder);
+            }
+        }
+        return list;
+    }
+
+    public Order findOrderByCode(String code) {
+        return orderJpaController.findOrderEntities()
+                .stream()
+                .filter(order -> order.getCode().equals(code))
+                .findFirst()
+                .orElse(null);
+    }
 }
