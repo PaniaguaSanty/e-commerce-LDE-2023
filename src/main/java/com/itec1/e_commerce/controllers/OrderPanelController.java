@@ -12,6 +12,7 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
+import com.itec1.e_commerce.services.EmployeeServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
@@ -37,6 +38,7 @@ public class OrderPanelController {
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
     private final WarehouseServiceImpl warehouseService;
+    private final EmployeeServiceImpl employeeService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
@@ -47,6 +49,7 @@ public class OrderPanelController {
         this.clientService = new ClientServiceImpl();
         this.productService = new ProductServiceImpl();
         this.warehouseService = new WarehouseServiceImpl();
+        this.employeeService = new EmployeeServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
         this.sectorService = new SectorServiceImpl();
@@ -58,6 +61,7 @@ public class OrderPanelController {
             orderService.createOrder(order);
             this.addDetail(order, details);
             details.removeAll(details);
+            createInvoice();
             return "Pedido creado correctamente";
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
@@ -389,11 +393,9 @@ public class OrderPanelController {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
-        List<Carrier> carriers = new ArrayList<>();
+        List<Carrier> carriers = carrierService.findAll();
         List<Carrier> result = new ArrayList<>();
-        if (transportType.equals("")) {
-            carriers = carrierService.findAll();
-        } else {
+        if (!transportType.equals("")) {
             carriers = findByTypeOfTransport(transportType);
         }
         for (Carrier carrier : carriers) {
@@ -427,17 +429,12 @@ public class OrderPanelController {
     }
 
     //invoice
-    public String createInvoice() {
-        if (orderService.findById(invoice.getId()) != null) {
-            return "No se pudo generar el remito, por favor inténtelo nuevamente.";
-        } else {
-            try {
-                orderService.createInvoice(invoice);
-            } catch (Exception e) {
-                System.err.println("Error while finding orders by sector");
-                throw new RuntimeException("Failed to found orders by sector", e);
-            }
+    public void createInvoice() {
+        if (orderService.findById(order.getId()) != null) {
+            invoice.setOrder(order);
+            invoice.setEmployeeIssuing(employeeService.findByWarehouse(order.getWarehouseOrigin().getCode()).get(0));
+            invoice.setEmployeeReceiving(employeeService.findByWarehouse(order.getWarehouseDestiny().getCode()).get(0));
+            orderService.createInvoice(invoice);
         }
-        return "Remito generado con éxito.";
     }
 }

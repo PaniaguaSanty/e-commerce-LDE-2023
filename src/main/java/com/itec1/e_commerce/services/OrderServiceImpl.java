@@ -8,6 +8,22 @@ import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.TrackingOrderJpaController;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
+import com.itec1.e_commerce.entities.Client;
+import com.itec1.e_commerce.entities.DetailOrder;
+import com.itec1.e_commerce.entities.Invoice;
+import com.itec1.e_commerce.entities.Order;
+import com.itec1.e_commerce.entities.Product;
+
+import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.State;
+import com.itec1.e_commerce.entities.TrackingOrder;
+import com.itec1.e_commerce.entities.Warehouse;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import java.util.List;
+import java.util.Map;
 import com.itec1.e_commerce.entities.*;
 
 import java.util.*;
@@ -44,19 +60,25 @@ public class OrderServiceImpl {
 
     public OrderServiceImpl(OrderJpaController orderJpaController, DetailOrderJpaController detailOrderJpaController, TrackingOrderJpaController trackingOrderJpaController, InvoiceJpaController invoiceJpaController) {
         this.orderJpaController = orderJpaController;
-        this.productServiceImpl = productServiceImpl;
+        this.productServiceImpl = new ProductServiceImpl();
         this.detailOrderJpaController = detailOrderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
         this.productJpaController = new ProductJpaController(Connection.getEmf());
         this.trackingOrderJpaController = trackingOrderJpaController;
         this.invoiceJpaController = invoiceJpaController;
-
     }
 
-
-
     public Order createOrder(Order entity) throws Exception {
+        String code = String.valueOf(entity.getWarehouseOrigin().getCode().charAt(0));
+        code += entity.getWarehouseOrigin().getCode().charAt(1);
+        code += entity.getWarehouseDestiny().getCode().charAt(0);
+        code += entity.getWarehouseDestiny().getCode().charAt(1);
+        code += findAll().size() + 1;
+        if (6 > code.length()) {
+            code = 0 + code;
+        }
+        entity.setCode(code);
         orderJpaController.create(entity);
         return orderJpaController.findOrder(entity.getId());
     }
@@ -140,7 +162,6 @@ public class OrderServiceImpl {
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
 
-
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
@@ -183,7 +204,7 @@ public class OrderServiceImpl {
         return details;
     }
 
-    public Integer getTotalProviderScore(String cuit){
+    public Integer getTotalProviderScore(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details
                 .stream()
@@ -191,12 +212,12 @@ public class OrderServiceImpl {
                 .sum();
     }
 
-    public Integer getProviderScoreCount(String cuit){
+    public Integer getProviderScoreCount(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details.size();
     }
 
-    public Integer getAverageProviderScore(String cuit){
+    public Integer getAverageProviderScore(String cuit) {
         if (getProviderScoreCount(cuit) == 0) {
             return 0;
         }
