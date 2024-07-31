@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,7 +54,7 @@ public class OrderServiceImpl {
 
     public OrderServiceImpl(OrderJpaController orderJpaController, DetailOrderJpaController detailOrderJpaController, TrackingOrderJpaController trackingOrderJpaController, InvoiceJpaController invoiceJpaController) {
         this.orderJpaController = orderJpaController;
-        this.productServiceImpl = productServiceImpl;
+        this.productServiceImpl = new ProductServiceImpl();
         this.detailOrderJpaController = detailOrderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
@@ -65,9 +64,14 @@ public class OrderServiceImpl {
 
     }
 
-
-
     public Order createOrder(Order entity) throws Exception {
+        int code = entity.getWarehouseOrigin().getCode().charAt(0) + entity.getWarehouseOrigin().getCode().charAt(0);
+        code += entity.getWarehouseDestiny().getCode().charAt(0) + entity.getWarehouseDestiny().getCode().charAt(0);
+        code += findAll().size() + 1;
+        if (6 > code) {
+            code = 0 + code;
+        }
+        entity.setCode(String.valueOf(code));
         orderJpaController.create(entity);
         return orderJpaController.findOrder(entity.getId());
     }
@@ -151,7 +155,6 @@ public class OrderServiceImpl {
                 sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
     }
 
-
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
@@ -182,8 +185,8 @@ public class OrderServiceImpl {
         invoice.setCarrierQualification(star);
         invoiceJpaController.edit(invoice);
     }
-    
-    public List<DetailOrder> getDetailsByProvider(String cuit){
+
+    public List<DetailOrder> getDetailsByProvider(String cuit) {
         List<Product> products;
         products = productServiceImpl.findProductsByProvider(cuit);
         return detailOrderJpaController.findDetailOrderEntities()
@@ -192,7 +195,7 @@ public class OrderServiceImpl {
                 .toList();
     }
 
-    public Integer getTotalProviderScore(String cuit){
+    public Integer getTotalProviderScore(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details
                 .stream()
@@ -200,12 +203,12 @@ public class OrderServiceImpl {
                 .sum();
     }
 
-    public Integer getProviderScoreCount(String cuit){
+    public Integer getProviderScoreCount(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details.size();
     }
 
-    public Integer getAverageProviderScore(String cuit){
+    public Integer getAverageProviderScore(String cuit) {
         if (getProviderScoreCount(cuit) == 0) {
             return 0;
         }
@@ -213,7 +216,7 @@ public class OrderServiceImpl {
     }
 
     // name: quantity
-    public Map<String, Integer> getProviderTopSales(String cuit){
+    public Map<String, Integer> getProviderTopSales(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         Map<String, Integer> result = new HashMap<>();
         details.forEach(detail -> {
@@ -231,5 +234,5 @@ public class OrderServiceImpl {
                 .limit(10)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
-    
+
 }
