@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 
 /**
- *
  * @author sjcex
  */
 public class MainFrame extends javax.swing.JFrame {
@@ -27,14 +26,15 @@ public class MainFrame extends javax.swing.JFrame {
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
     private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
-    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
-    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
-    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
-    private Reports_Providers_ByDate_Panel providersByDatePanel;
-    private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
     private Report_Clients reportClients;
     private Report_Carriers reportCarriers;
     private Report_ProvidersPanel reportProviders;
+
+    private Report_OrdersPanel_List reportOrdersList;
+    private Report_OrdersPanel_Tracking reportOrdersTracking;
+    private Report_OrdersPanel_Products reportOrdersProducts;
+
+    private String orderCode;
 
     public MainFrame() {
 
@@ -84,13 +84,37 @@ public class MainFrame extends javax.swing.JFrame {
 
         reportClients = new Report_Clients();
         reportCarriers = new Report_Carriers();
-        reportProviders= new Report_ProvidersPanel();
-        reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
-        reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
-        reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
-        providersByDatePanel = new Reports_Providers_ByDate_Panel();
-        reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
+        reportProviders = new Report_ProvidersPanel();
 
+        reportOrdersList = new Report_OrdersPanel_List(this);
+
+    }
+
+    public void seeDetailsPanel(String orderCode) {
+        this.orderCode = orderCode;
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(new Report_OrdersPanel_Products(this, orderCode), BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void seeTrackingPanel(String orderCode) {
+        this.orderCode = orderCode;
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(new Report_OrdersPanel_Tracking(this, orderCode), BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void backToOrdersPanel() {
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(reportOrdersList, BorderLayout.CENTER);
+        reportOrdersList.initPanel();
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     public void changeOrderPanel() {
@@ -99,12 +123,12 @@ public class MainFrame extends javax.swing.JFrame {
         if (chooseClientPanel.equals(activePanel)) {
             contentPanel.add(chooseProductsPanel, BorderLayout.CENTER);
             activePanel = chooseProductsPanel;
-            
-        } else if(chooseProductsPanel.equals(activePanel)) {
+
+        } else if (chooseProductsPanel.equals(activePanel)) {
             contentPanel.add(chooseWarehousePanel, BorderLayout.CENTER);
             activePanel = chooseWarehousePanel;
-        } else if(chooseWarehousePanel.equals(activePanel)) {
-             contentPanel.add(chooseCarrierPanel, BorderLayout.CENTER);
+        } else if (chooseWarehousePanel.equals(activePanel)) {
+            contentPanel.add(chooseCarrierPanel, BorderLayout.CENTER);
             activePanel = chooseCarrierPanel;
         } else {
             contentPanel.add(chooseClientPanel, BorderLayout.CENTER);
@@ -144,6 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
         menu_reportClients = new javax.swing.JMenuItem();
         menu_reportCarriers = new javax.swing.JMenuItem();
         menu_providerReport = new javax.swing.JMenuItem();
+        menu_OrdersReport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 660));
@@ -172,36 +197,36 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout WelcomeLayout = new javax.swing.GroupLayout(Welcome);
         Welcome.setLayout(WelcomeLayout);
         WelcomeLayout.setHorizontalGroup(
-            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WelcomeLayout.createSequentialGroup()
-                .addComponent(jlbl_welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeLayout.createSequentialGroup()
-                .addGap(0, 135, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(135, 135, 135))
+                WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(WelcomeLayout.createSequentialGroup()
+                                .addComponent(jlbl_welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeLayout.createSequentialGroup()
+                                .addGap(0, 135, Short.MAX_VALUE)
+                                .addComponent(jLabel4)
+                                .addGap(135, 135, 135))
         );
         WelcomeLayout.setVerticalGroup(
-            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WelcomeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlbl_welcome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addContainerGap(265, Short.MAX_VALUE))
+                WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(WelcomeLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jlbl_welcome)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addContainerGap(265, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
-            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenuApp.setText("App");
@@ -346,6 +371,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menu_Reports.add(menu_providerReport);
 
+        menu_OrdersReport.setText("Generar informe de Ordenes");
+        menu_OrdersReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_OrdersReportActionPerformed(evt);
+            }
+        });
+        menu_Reports.add(menu_OrdersReport);
+
         jMenuBar1.add(menu_Reports);
 
         setJMenuBar(jMenuBar1);
@@ -353,12 +386,12 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         contentPanel.getAccessibleContext().setAccessibleDescription("");
@@ -385,6 +418,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void menu_providerReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_providerReportActionPerformed
         changePanel(reportProviders);
     }//GEN-LAST:event_menu_providerReportActionPerformed
+
+    private void menu_OrdersReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_OrdersReportActionPerformed
+        changePanel(reportOrdersList);
+    }//GEN-LAST:event_menu_OrdersReportActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -461,6 +498,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
+    private javax.swing.JMenuItem menu_OrdersReport;
     private javax.swing.JMenuItem menu_ProductCategories;
     private javax.swing.JMenuItem menu_Products;
     private javax.swing.JMenuItem menu_Providers;

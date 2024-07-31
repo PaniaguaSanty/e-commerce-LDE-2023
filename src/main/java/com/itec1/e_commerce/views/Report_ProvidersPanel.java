@@ -1,6 +1,7 @@
 package com.itec1.e_commerce.views;
 
 import com.itec1.e_commerce.controllers.ReportPanelController;
+import com.itec1.e_commerce.entities.Product;
 import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
@@ -8,9 +9,8 @@ import com.itec1.e_commerce.views.resources.TableListener;
 
 import java.awt.*;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,6 +21,7 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
     private final ReportPanelController panel;
     private final FieldDataValidator validator;
     private List<Provider> providers;
+    private List<Product> products;
 
     /**
      * Creates new form Management_Client_Panel
@@ -284,17 +285,25 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
             jtf_cuit_filter.setEnabled(false);
             jtf_cuit_filter.setText(tbl_providers.getValueAt(tbl_providers.getSelectedRow(), 2).toString());
             tbl_providers.setEnabled(false);
+            getTopProductsTable(jtf_cuit_filter.getText());
             jtf_valoracion.setText(getValoracion());
-            //tbl_top_products.updateTopProductsTable();
             btn_select.setText("Limpiar");
         } else {
             jtf_cuit_filter.setText("");
             jtf_valoracion.setText("");
             jtf_cuit_filter.setEnabled(true);
             tbl_providers.setEnabled(true);
+            clearProductsTable();
+            btn_select.setEnabled(false);
             btn_select.setText("Seleccionar");
         }
     }//GEN-LAST:event_btn_selectActionPerformed
+
+    private void clearProductsTable() {
+        DefaultTableModel model = (DefaultTableModel) tbl_top_products.getModel();
+        model.setRowCount(0);
+        tbl_top_products.setModel(model);
+    }
 
     private String getValoracion() {
         Integer score = panel.getScore(jtf_cuit_filter.getText());
@@ -413,6 +422,10 @@ public class Report_ProvidersPanel extends javax.swing.JPanel implements Interfa
     @Override
     public void updateTable() {
         providers = panel.updateProvidersTable(jtf_cuit_filter.getText());
+    }
+
+    public void getTopProductsTable(String cuit) {
+        tbl_top_products.setModel(panel.loadTopProducts( cuit ));
     }
 
 }
