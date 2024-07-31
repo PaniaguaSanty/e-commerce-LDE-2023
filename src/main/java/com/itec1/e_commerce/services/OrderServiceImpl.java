@@ -61,17 +61,18 @@ public class OrderServiceImpl {
         this.productJpaController = new ProductJpaController(Connection.getEmf());
         this.trackingOrderJpaController = trackingOrderJpaController;
         this.invoiceJpaController = invoiceJpaController;
-
     }
 
     public Order createOrder(Order entity) throws Exception {
-        int code = entity.getWarehouseOrigin().getCode().charAt(0) + entity.getWarehouseOrigin().getCode().charAt(0);
-        code += entity.getWarehouseDestiny().getCode().charAt(0) + entity.getWarehouseDestiny().getCode().charAt(0);
+        String code = String.valueOf(entity.getWarehouseOrigin().getCode().charAt(0));
+        code += entity.getWarehouseOrigin().getCode().charAt(1);
+        code += entity.getWarehouseDestiny().getCode().charAt(0);
+        code += entity.getWarehouseDestiny().getCode().charAt(1);
         code += findAll().size() + 1;
-        if (6 > code) {
+        if (6 > code.length()) {
             code = 0 + code;
         }
-        entity.setCode(String.valueOf(code));
+        entity.setCode(code);
         orderJpaController.create(entity);
         return orderJpaController.findOrder(entity.getId());
     }
