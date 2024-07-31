@@ -8,23 +8,12 @@ import com.itec1.e_commerce.dao.OrderJpaController;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.TrackingOrderJpaController;
 import com.itec1.e_commerce.dao.WarehouseJpaController;
-import com.itec1.e_commerce.entities.Client;
-import com.itec1.e_commerce.entities.DetailOrder;
-import com.itec1.e_commerce.entities.Invoice;
-import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
+import com.itec1.e_commerce.entities.*;
 
-import com.itec1.e_commerce.entities.Sector;
-import com.itec1.e_commerce.entities.State;
-import com.itec1.e_commerce.entities.TrackingOrder;
-import com.itec1.e_commerce.entities.Warehouse;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 
-import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -184,12 +173,14 @@ public class OrderServiceImpl {
     }
     
     public List<DetailOrder> getDetailsByProvider(String cuit){
-        List<Product> products;
-        products = productServiceImpl.findProductsByProvider(cuit);
-        return detailOrderJpaController.findDetailOrderEntities()
-                .stream()
-                .filter(detail -> products.contains(detail.getProduct()))
-                .toList();
+        List<Product> products = new ArrayList<>();
+        List<DetailOrder> details = new ArrayList<>();
+        for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
+            if (detail.getProduct().getProvider().getCuit().equals(cuit)) {
+                details.add(detail);
+            }
+        }
+        return details;
     }
 
     public Integer getTotalProviderScore(String cuit){
@@ -212,24 +203,57 @@ public class OrderServiceImpl {
         return getTotalProviderScore(cuit) / getProviderScoreCount(cuit);
     }
 
-    // name: quantity
-    public Map<String, Integer> getProviderTopSales(String cuit){
+    public Map<String, Integer> getTopProductsByProvider(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         Map<String, Integer> result = new HashMap<>();
-        details.forEach(detail -> {
-            if (result.containsKey(detail.getProduct().getName())) {
-                result.put(detail.getProduct().getName(), result.get(detail.getProduct().getName()) + detail.getAmount());
-            } else {
-                result.put(detail.getProduct().getName(), detail.getAmount());
-            }
-        });
-        // limitar a los 10 primeros
-        return result
-                .entrySet()
+
+        // Recorrer las ventas y actualizar el contador para cada producto
+        details.stream()
+                .map(detail -> detail.getProduct().getName())
+                .forEach(name -> {
+                    result.put(name, result.getOrDefault(name, 0) + 1);
+                });
+
+        // Ordenar el mapa por valor de cada clave y seleccionar los primeros 10 productos
+        Map<String, Integer> topTen = result.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit(10)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        return topTen;
     }
-    
+
+    public List<DetailOrder> getDetailsByOrder(Order order) {
+        List<DetailOrder> details = new ArrayList<>();
+        for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
+            if (detail.getOrder().equals(order)) {
+                details.add(detail);
+            }
+        }
+        return details;
+    }
+
+    public List<TrackingOrder> getTrackingByOrder(Order order) {
+        List<TrackingOrder> list = new ArrayList<>();
+        for (TrackingOrder trackingOrder : trackingOrderJpaController.findTrackingOrderEntities()) {
+            if (trackingOrder.getOrder().equals(order)) {
+                list.add(trackingOrder);
+            }
+        }
+        return list;
+    }
+
+    public Order findOrderByCode(String code) {
+        return orderJpaController.findOrderEntities()
+                .stream()
+                .filter(order -> order.getCode().equals(code))
+                .findFirst()
+                .orElse(null);
+    }
 }

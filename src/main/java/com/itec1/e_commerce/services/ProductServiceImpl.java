@@ -4,6 +4,8 @@ import com.itec1.e_commerce.config.Connection;
 import com.itec1.e_commerce.dao.ProductJpaController;
 import com.itec1.e_commerce.dao.exceptions.NonexistentEntityException;
 import com.itec1.e_commerce.entities.Product;
+
+import java.util.Comparator;
 import java.util.List;
 
 public class ProductServiceImpl implements ICRUD<Product> {
@@ -105,7 +107,8 @@ public class ProductServiceImpl implements ICRUD<Product> {
 
     public List<Product> findProductsByProvider(String cuit) {
         try {
-            return productJpaController.findProductEntities().stream()
+            return productJpaController.findProductEntities()
+                    .stream()
                     .filter(product -> product.getProvider().getCuit().equals(cuit))
                     .toList();
         } catch (Exception e) {
@@ -127,4 +130,5 @@ public class ProductServiceImpl implements ICRUD<Product> {
                 .findFirst()
                 .orElse(null);
     }
+
 }
