@@ -4,7 +4,7 @@ import com.itec1.e_commerce.controllers.OrderPanelController;
 import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import com.itec1.e_commerce.views.NewOrder_FirstPanel;
+import com.itec1.e_commerce.views.NewOrder_ChooseProductsPanel;
 
 /**
  *
@@ -14,9 +14,9 @@ public class JProductFieldListener<T, U> implements DocumentListener {
 
     private List<T> entities;
     private final OrderPanelController controller;
-    private final NewOrder_FirstPanel panel;
+    private final NewOrder_ChooseProductsPanel panel;
 
-    public JProductFieldListener(List<T> entities, OrderPanelController controller, NewOrder_FirstPanel panel) {
+    public JProductFieldListener(List<T> entities, OrderPanelController controller, NewOrder_ChooseProductsPanel panel) {
         this.entities = entities;
         this.controller = controller;
         this.panel = panel;

@@ -10,7 +10,7 @@ import com.itec1.e_commerce.entities.Order;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.Warehouse;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
-import com.itec1.e_commerce.views.resources.JClientFieldListener;
+//import com.itec1.e_commerce.views.resources.JClientFieldListener;
 import com.itec1.e_commerce.views.resources.JOrderFieldListener;
 import com.itec1.e_commerce.views.resources.JSectorFieldListener;
 import com.itec1.e_commerce.views.resources.JTextFieldListener;
