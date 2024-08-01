@@ -12,7 +12,11 @@ import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
+
+import com.itec1.e_commerce.services.InvoiceServiceImpl;
+
 import com.itec1.e_commerce.services.EmployeeServiceImpl;
+
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
@@ -42,6 +46,7 @@ public class OrderPanelController {
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
+    private final InvoiceServiceImpl invoiceService;
 
     public OrderPanelController(InterfaceOrderPanel panel) {
         this.panel = panel;
@@ -53,6 +58,7 @@ public class OrderPanelController {
         this.carrierService = new CarrierServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
         this.sectorService = new SectorServiceImpl();
+        this.invoiceService = new InvoiceServiceImpl();
     }
 
     //Orders
@@ -94,6 +100,10 @@ public class OrderPanelController {
             System.err.println("Error while finding orders by sector");
             throw new RuntimeException("Failed to found orders by sector", e);
         }
+    }
+
+    public Order findByCode(String code) {
+        return orderService.findByCode(code);
     }
 
     public List<Order> findOrdersByWarehouse(Warehouse ordersByWharehouse) {
@@ -178,6 +188,10 @@ public class OrderPanelController {
         }
     }
 
+    public void changeSector(Order order, Sector sector) throws Exception {
+        orderService.changeSector(order, sector);
+    }
+
     //detail Order.
     public void addDetail(Order order, List<DetailOrder> details) {
         try {
@@ -228,6 +242,11 @@ public class OrderPanelController {
 
     public void qualifyCarrier(Invoice invoice, int star) throws Exception {
         orderService.qualifyCarrier(invoice, star);
+    }
+
+    public List<DetailOrder> getDetailOrders(Order order) {
+        return orderService.viewDetailOfOrder(order);
+
     }
 
     //Client.
@@ -366,6 +385,10 @@ public class OrderPanelController {
         this.panel.getSectorsTable().setModel(model);
         return result;
     }
+    
+    public List<Sector> getSector(Warehouse warehouse){
+        return sectorService.findSectorByWarehouse(warehouse);
+    }
 
     public List<Order> updateTableOrder(String code) {
         DefaultTableModel model = new DefaultTableModel();
@@ -383,6 +406,9 @@ public class OrderPanelController {
         this.panel.getOrdersTable().setModel(model);
         return result;
     }
+    
+   
+    
 
     //Carrier
     public List<Carrier> findByTypeOfTransport(String transportType) {
@@ -437,4 +463,9 @@ public class OrderPanelController {
             orderService.createInvoice(invoice);
         }
     }
+    
+    public Invoice getInvoice (Order order){
+       return  invoiceService.findByOrder(order);
+    }
+
 }

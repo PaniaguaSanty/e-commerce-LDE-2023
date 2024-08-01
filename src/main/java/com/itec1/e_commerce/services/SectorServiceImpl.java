@@ -15,11 +15,11 @@ import java.util.List;
 public class SectorServiceImpl implements ICRUD<Sector> {
 
     private final SectorJpaController sectorJpaController;
-    private final OrderServiceImpl orderService;
+    private  OrderServiceImpl orderService;
 
     public SectorServiceImpl() {
         this.sectorJpaController = new SectorJpaController(Connection.getEmf());
-        this.orderService = new OrderServiceImpl();
+       
     }
 
     public SectorServiceImpl(SectorJpaController sectorJpaController, OrderServiceImpl orderService) {
