@@ -44,7 +44,11 @@ class OrderServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(orderJpa, detailJpa, trackingJpa,invoiceJpa);
+        service = new OrderServiceImpl(orderJpa, 
+                detailJpa, 
+                trackingJpa,
+                invoiceJpa,
+                sectorService);
         sectorService = new SectorServiceImpl();
         orderList = new ArrayList<>();
         this.orderTest();

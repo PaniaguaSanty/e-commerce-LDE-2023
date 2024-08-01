@@ -2,3 +2,5 @@ target/
 .idea/
 .idea/*
 .vscode/
+.idea/sonarlint/securityhotspotstore/index.pb
+.idea/sonarlint/issuestore/index.pb
