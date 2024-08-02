@@ -30,9 +30,9 @@ public class WarehouseServiceImpl implements ICRUD<Warehouse> {
     @Override
     public Warehouse create(Warehouse entity) {
         warehouseJpaController.create(entity);
-        sectorService.create(new Sector("entregados", entity, "001"));
+        sectorService.create(new Sector("recepcion", entity, "001"));
         sectorService.create(new Sector("devueltos", entity, "002"));
-        sectorService.create(new Sector("recepcion", entity, "003"));
+        sectorService.create(new Sector("entregados", entity, "003"));
         return warehouseJpaController.findWarehouse(entity.getId());
     }
 
