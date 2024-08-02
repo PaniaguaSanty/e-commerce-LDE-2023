@@ -150,15 +150,13 @@ public class OrderServiceImpl {
         return createTrackingOrder(tracking);
     }
 
-    public void changeOrderState(Order order) {
-
-        int nextState = findByOrder(order).size() + 1;
-
+    public TrackingOrder changeOrderState(Order order) {
+        int nextState = findByOrder(order).size();
         if (nextState < 7) {
-            generateTracking(order, order.getWarehouseOrigin().getLatitude(),
+            return generateTracking(order, order.getWarehouseOrigin().getLatitude(),
                     order.getWarehouseOrigin().getLongitude(), states[nextState]);
         } else {
-            generateTracking(order, order.getWarehouseDestiny().getLatitude(),
+            return generateTracking(order, order.getWarehouseDestiny().getLatitude(),
                     order.getWarehouseDestiny().getLongitude(), states[nextState]);
         }
     }

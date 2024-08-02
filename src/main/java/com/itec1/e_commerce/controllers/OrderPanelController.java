@@ -181,12 +181,13 @@ public class OrderPanelController {
         }
     }
 
-    public void changeOrderState(Order order) {
+    public String changeOrderState(Order order) {
         try {
-            orderService.changeOrderState(order);
+            return orderService.changeOrderState(order).getState().getName();
         } catch (Exception e) {
-            System.err.println("Error while trying to change state." + e.getMessage());
+            return "Error while trying to change state." + e.getMessage();
         }
+        
     }
 
     public void changeSector(Order order, Sector sector) throws Exception {

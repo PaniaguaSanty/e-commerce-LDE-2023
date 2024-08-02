@@ -9,17 +9,11 @@ import com.itec1.e_commerce.controllers.SectorPanelController;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
-import com.itec1.e_commerce.entities.Provider;
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.views.resources.FieldDataValidator;
 import java.awt.Color;
-import java.awt.Component;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -75,13 +69,18 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
         jbn_saveCarrierQualification = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtp_info = new javax.swing.JTextPane();
-        jtf_sector = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jbn_cancelled = new javax.swing.JButton();
         jbn_returned = new javax.swing.JButton();
         jbl_sectorsName = new javax.swing.JLabel();
         jcb_sectors = new javax.swing.JComboBox<>();
         jcb_products = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jtf_latitude = new javax.swing.JTextField();
+        jtf_longitude = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jbn_report = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 0, 255));
 
@@ -123,14 +122,14 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
         });
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Puntuar un Producto");
+        jLabel4.setText("Puntuar un Producto:");
 
         jsd_providerQualification.setMaximum(50);
         jsd_providerQualification.setPaintLabels(true);
         jsd_providerQualification.setPaintTicks(true);
         jsd_providerQualification.setValue(0);
 
-        jbn_saveProductQualification.setText("Guardar Puntuación ");
+        jbn_saveProductQualification.setText("guardar puntuación ");
         jbn_saveProductQualification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbn_saveProductQualificationActionPerformed(evt);
@@ -190,69 +189,114 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
             }
         });
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Informar Ubicación:");
+
+        jtf_latitude.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_latitudeActionPerformed(evt);
+            }
+        });
+
+        jtf_longitude.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_longitudeActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Latitud:");
+
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Longitud:");
+
+        jbn_report.setText("Informar");
+        jbn_report.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbn_reportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbn_cancelled)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jsd_carrierQualification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(113, 113, 113)))
+                        .addComponent(jbn_saveCarrierQualification))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jsd_providerQualification, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jtf_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcb_products, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtf_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(129, 129, 129)
+                        .addComponent(jbn_saveProductQualification))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(9, 9, 9)
                                         .addComponent(jtf_code, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_findOrder))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addGap(48, 48, 48))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                                                    .addComponent(jbn_changeState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jbn_returned, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)))
+                                        .addComponent(jbn_cancelled, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jbn_changeSector))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_sector, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(30, 30, 30)
-                                        .addComponent(jcb_sectors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jbn_changeState, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbn_returned))
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jbl_sectorsName, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(19, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jsd_providerQualification, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(jbn_saveProductQualification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jcb_sectors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(51, 51, 51)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jbn_changeSector)
+                                            .addComponent(jbl_sectorsName, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(48, 48, 48))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcb_products, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jsd_carrierQualification, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jbn_saveCarrierQualification)))
-                        .addGap(204, 204, 204))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbn_report, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(12, 12, 12)
@@ -264,35 +308,49 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbn_changeState)
-                            .addComponent(jbn_returned))
-                        .addGap(18, 18, 18)
+                            .addComponent(jbn_returned)
+                            .addComponent(jbn_cancelled, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcb_sectors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbl_sectorsName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbn_changeSector)))
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel7)
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jtf_sector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcb_sectors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbn_changeSector)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbl_sectorsName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                            .addComponent(jtf_latitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_longitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jbn_report, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jcb_products, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jsd_carrierQualification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jsd_providerQualification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbn_saveCarrierQualification)
-                    .addComponent(jbn_saveProductQualification))
-                .addGap(93, 93, 93)
-                .addComponent(jbn_cancelled)
-                .addGap(20, 20, 20))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jcb_products, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(jsd_providerQualification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbn_saveProductQualification, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbn_saveCarrierQualification, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jsd_carrierQualification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -319,12 +377,13 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
                             + (status.equals("Canceled") ? "cancelado" : "devuelto");
                 } else {
                     info += "Pedido N°" + selectedOrder.getCode() + ": \n \n";
-                    info += "Sucursal actual: " + (trackings.size() > 5 ? selectedOrder.getWarehouseDestiny() : selectedOrder.getWarehouseOrigin());
-                    info += "\n \t Sector actual: " + selectedOrder.getSector().getName();
-                    info += "\n \n Estado: " + status;
+                    info += "Sucursal actual: " + (trackings.size() > 5 ? selectedOrder.getWarehouseDestiny().getCode() : selectedOrder.getWarehouseOrigin().getCode());
+                    info += "\n \t --> Sector actual: " + selectedOrder.getSector().getName();
+                    info += "\n\n\n Estado actual: " + status;
 
                     changeConditionButton(jbn_returned, true);
                     changeConditionButton(jbn_cancelled, true);
+                    changeConditionButton(jbn_report, true);
                     changeConditionButton(jbn_changeState, true);
                     changeConditionButton(jbn_changeSector, true);
                     changeConditionButton(jbn_saveProductQualification, true);
@@ -337,7 +396,7 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
     }
     private void jbn_changeSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_changeSectorActionPerformed
         Order order = panel.findByCode(jtf_code.getText());
-        Sector newSector = sectorPanel.findByCode(jtf_sector.getText());
+        Sector newSector = sectorPanel.findByCode(String.valueOf(jcb_sectors.getSelectedItem()));
         String info = "";
         if (newSector != null) {
             try {
@@ -408,21 +467,21 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
         List<TrackingOrder> trackings = panel.findByOrder(order);
         String info = "";
         String newStatus = trackings.get(trackings.size() - 1).getState().getName();
-        if (newStatus.equals("Canceled") || newStatus.equals("Returned")) {
-            info += "Este pedido ya ha sido "
-                    + (newStatus.equals("Canceled") ? "cancelado" : "devuelto");
-        } else if (newStatus.equals("Delivered")) {
-            info += "Este pedido ya ha sido entregado";
-        } else {
-            panel.changeOrderState(order);
-            info += "Pedido N°" + order.getCode() + ": \n \n";
-            info += "Sucursal actual: " + (trackings.size() > 5 ? order.getWarehouseDestiny() : order.getWarehouseOrigin());
-            info += "\n \t Sector actual: " + order.getSector().getName();
-            info += "\n \n Estado: " + newStatus;
-
+        switch (newStatus) {
+            case "Canceled", "Returned" ->
+                info += "Este pedido ya ha sido "
+                        + (newStatus.equals("Canceled") ? "cancelado" : "devuelto");
+            case "Delivered" ->
+                info += "Este pedido ya ha sido entregado";
+            default -> {
+                newStatus = panel.changeOrderState(order);
+                info += "Pedido N°" + order.getCode() + ": \n \n";
+                info += "Sucursal actual: " + (trackings.size() > 5 ? order.getWarehouseDestiny().getCode() : order.getWarehouseOrigin().getCode());
+                info += "\n \t --> Sector actual: " + order.getSector().getName();
+                info += "\n\n\n Estado actual: " + newStatus;
+            }
         }
         jtp_info.setText(info);
-
     }//GEN-LAST:event_jbn_changeStateActionPerformed
 
     private void jbn_returnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_returnedActionPerformed
@@ -470,7 +529,6 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
         Sector sector1 = sectorPanel.findByCode(sector);
 
         if (sector1 != null) {
-            jtf_sector.setText(sector);
             jbl_sectorsName.setText(sector1.getName());
         }
     }//GEN-LAST:event_jcb_sectorsItemStateChanged
@@ -483,6 +541,26 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
 
     }//GEN-LAST:event_jcb_productsActionPerformed
 
+    private void jtf_latitudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_latitudeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_latitudeActionPerformed
+
+    private void jtf_longitudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_longitudeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_longitudeActionPerformed
+
+    private void jbn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_reportActionPerformed
+        List<TrackingOrder> trackings = panel.findByOrder(selectedOrder);
+        if(jtf_latitude.getText().isEmpty() || jtf_longitude.getText().isEmpty()) {
+            jtp_info.setText("ERROR. debe ingresar latitud y longitud de su ubicación.");
+        } else if (trackings.get(trackings.size() - 1).getState().getName().equals("In Transit")){
+            panel.putOrderInTransit(selectedOrder, jtf_latitude.getText(), jtf_longitude.getText());
+            jtp_info.setText("Ubicación informada correctamente.");
+        } else {
+            jtp_info.setText("ERROR. este pedido no esta en tránsito");
+        }
+    }//GEN-LAST:event_jbn_reportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_findOrder;
@@ -492,11 +570,15 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jbl_sectorsName;
     private javax.swing.JButton jbn_cancelled;
     private javax.swing.JButton jbn_changeSector;
     private javax.swing.JButton jbn_changeState;
+    private javax.swing.JButton jbn_report;
     private javax.swing.JButton jbn_returned;
     private javax.swing.JButton jbn_saveCarrierQualification;
     private javax.swing.JButton jbn_saveProductQualification;
@@ -505,7 +587,8 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
     private javax.swing.JSlider jsd_carrierQualification;
     private javax.swing.JSlider jsd_providerQualification;
     private javax.swing.JTextField jtf_code;
-    private javax.swing.JTextField jtf_sector;
+    private javax.swing.JTextField jtf_latitude;
+    private javax.swing.JTextField jtf_longitude;
     private javax.swing.JTextPane jtp_info;
     // End of variables declaration//GEN-END:variables
 
@@ -576,7 +659,7 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
 
     @Override
     public void initListener() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
     }
 
     @Override
@@ -619,7 +702,7 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
     @Override
     public void changeConditionAllButtons(boolean state) {
         changeConditionButton(jbn_returned, state);
-
+        changeConditionButton(jbn_report, state);
         changeConditionButton(jbn_cancelled, state);
         changeConditionButton(jbn_changeSector, state);
         changeConditionButton(jbn_changeState, state);
@@ -630,13 +713,13 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
 
     @Override
     public void changeConditionButton(JButton button, boolean state) {
+        button.setForeground(Color.WHITE);
         validator.enableButton(state, button, null, null, null, null);
     }
 
     @Override
     public void cleanAllFields() {
         cleanField(jtf_code);
-        cleanField(jtf_sector);
     }
 
     @Override
