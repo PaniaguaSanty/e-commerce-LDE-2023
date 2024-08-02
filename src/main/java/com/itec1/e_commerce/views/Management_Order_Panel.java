@@ -665,7 +665,8 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
     @Override
     public void initValidator() {
         validator.onlyNumbers(jtf_code);
-
+        validator.onlyNumbers(jtf_latitude);
+        validator.onlyNumbers(jtf_longitude);
     }
 
     @Override

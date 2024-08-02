@@ -60,7 +60,9 @@ public class InvoiceServiceImpl {
         int count = 0;
         double result = 0;
         for (Invoice anInvoice : invoices) {
-            count++;
+            if(anInvoice.getCarrierQualification() != 0){
+                count++;
+            }
             result += anInvoice.getCarrierQualification();
         }
         return Math.round(((result/count)*100d)/100d);
