@@ -39,7 +39,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
 
         jPanel_table = new javax.swing.JPanel();
         jScrollPaneTabla = new javax.swing.JScrollPane();
-        tbl_Orders = new javax.swing.JTable();
+        tbl_tracking = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btn_back = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -50,8 +50,8 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
         jScrollPaneTabla.setMinimumSize(new java.awt.Dimension(950, 750));
         jScrollPaneTabla.setPreferredSize(new java.awt.Dimension(950, 750));
 
-        tbl_Orders.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        tbl_Orders.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_tracking.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        tbl_tracking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -59,7 +59,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
 
             }
         ));
-        jScrollPaneTabla.setViewportView(tbl_Orders);
+        jScrollPaneTabla.setViewportView(tbl_tracking);
 
         jLabel1.setText("TRACKING DE LA ORDEN:");
 
@@ -127,7 +127,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel_table;
     private javax.swing.JScrollPane jScrollPaneTabla;
-    private javax.swing.JTable tbl_Orders;
+    private javax.swing.JTable tbl_tracking;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -136,7 +136,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
 
     @Override
     public void initListener() {
-        tbl_Orders.getSelectionModel().addListSelectionListener(new TableListener(this));
+        tbl_tracking.getSelectionModel().addListSelectionListener(new TableListener(this));
     }
 
     @Override
@@ -147,7 +147,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
 
     @Override
     public JTable getTable() {
-        return this.tbl_Orders;
+        return this.tbl_tracking;
     }
 
     @Override
@@ -190,6 +190,7 @@ public class Report_OrdersPanel_Tracking extends javax.swing.JPanel implements I
 
     @Override
     public void updateTable() {
+        trackingOrders = reportPanelController.loadTrackingByOrder(this.reportPanelController.findOrderIdByCode(orderCode));
     }
 
 }
