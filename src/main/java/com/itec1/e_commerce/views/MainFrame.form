@@ -111,14 +111,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_newOrderActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menu_ViewOrderSector">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver sector de un pedido"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_ViewOrderSectorActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menu_ViewOrderStatuses">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver estados de un pedido"/>
