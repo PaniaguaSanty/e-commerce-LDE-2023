@@ -24,7 +24,6 @@ import com.itec1.e_commerce.services.EmployeeServiceImpl;
 import com.itec1.e_commerce.services.InvoiceServiceImpl;
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 
 public class UploadDB {
 
@@ -63,7 +62,6 @@ public class UploadDB {
         uploadProducts();
         uploadSectors();
         uploadEmployees();
-        uploadOrders();
       
 
     }
@@ -142,17 +140,6 @@ public class UploadDB {
         employeeService.create(new Employee("Michael", "López", "addressMichael", "00000000050", "micha@outlook.lde", "05000000000", warehouseService.findByCode("67890")));
         employeeService.create(new Employee("Ainara", "López", "addressAinara", "00000000060", "ainara@outlook.lde", "06000000000", warehouseService.findByCode("09876")));
         employeeService.create(new Employee("Lorena", "López", "addressLorena", "00000000070", "lorena@outlook.lde", "070000000000", warehouseService.findByCode("09876")));
-    }
-
-    private void uploadOrders() throws Exception {
-        Client client = clientService.findByCuit("20424052753");
-        Warehouse warehouse = warehouseService.findByCode("12345");
-        Sector sector = sectorService.findSectorByWarehouse(warehouse).get(0);
-         Order order =orderService.createOrder(new Order(client, warehouse, warehouse, sector, "11111"));
-        Employee employee = employeeService.findByWarehouse(warehouse.getCode()).get(0);
-        Carrier carrier = carrierService.findByCuit("10101010101");
-        invoiceService.create(new Invoice( LocalDate.now(),employee,employee,carrier,order));
-        orderService.createTrackingOrder(new TrackingOrder("111","222",order,State.PENDING));
     }
 
    
