@@ -18,13 +18,13 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Sectors_Panel sectorsPanel;
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
+    private Management_Order_Panel orderStatusesPanel;
 
     private NewOrder_ChooseClientPanel chooseClientPanel;
     private NewOrder_ChooseProductsPanel chooseProductsPanel;
     private NewOrder_ChooseWarehousePanel chooseWarehousePanel;
     private NewOrder_ChooseCarrierPanel chooseCarrierPanel;
     private Order_ViewOrderSector_Panel viewOrderSectorPanel;
-    private Order_ViewOrderStatuses_Panel orderStatusesPanel;
 
     private Report_Clients reportClients;
     private Report_Carriers reportCarriers;
@@ -80,7 +80,7 @@ public class MainFrame extends javax.swing.JFrame {
         chooseWarehousePanel = new NewOrder_ChooseWarehousePanel(this);
         chooseCarrierPanel = new NewOrder_ChooseCarrierPanel(this);
         viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
-        orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
+        orderStatusesPanel = new Management_Order_Panel();
 
         reportClients = new Report_Clients();
         reportCarriers = new Report_Carriers();
@@ -469,7 +469,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_menu_ViewOrderSectorActionPerformed
 
     private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed
-        changePanel(sectorsPanel);
+        changePanel(orderStatusesPanel);
     }// GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
     private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CloseActionPerformed
