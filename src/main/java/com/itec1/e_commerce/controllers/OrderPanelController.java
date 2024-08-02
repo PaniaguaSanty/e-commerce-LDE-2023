@@ -9,6 +9,7 @@ import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
@@ -68,7 +69,7 @@ public class OrderPanelController {
             this.addDetail(order, details);
             details.removeAll(details);
             createInvoice();
-            return "Pedido creado correctamente";
+           return "Pedido creado correctamente";
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
         }

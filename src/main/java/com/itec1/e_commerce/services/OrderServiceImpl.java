@@ -12,7 +12,6 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
 
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
@@ -26,12 +25,8 @@ import java.util.LinkedHashMap;
 
 import java.util.List;
 import java.util.Map;
-import com.itec1.e_commerce.entities.*;
 
 import java.util.*;
-
-
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +44,9 @@ public class OrderServiceImpl {
     private final  SectorServiceImpl sectorServiceImpl;
     private final State[] states = State.values();
     private ProductServiceImpl productServiceImpl;
+
+
+   
 
 
     public OrderServiceImpl() {
@@ -142,18 +140,20 @@ public class OrderServiceImpl {
                 .collect(Collectors.toList());
     }
 
-    protected TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
+    public TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);
+        tracking.setDate(new GregorianCalendar());
         return createTrackingOrder(tracking);
     }
 
     public void changeOrderState(Order order) {
-        State[] states = State.values();
-        int nextState = findByOrder(order).size();
+
+        int nextState = findByOrder(order).size() + 1;
+
         if (nextState < 7) {
             generateTracking(order, order.getWarehouseOrigin().getLatitude(),
                     order.getWarehouseOrigin().getLongitude(), states[nextState]);
@@ -210,7 +210,6 @@ public class OrderServiceImpl {
     }
     
     public List<DetailOrder> getDetailsByProvider(String cuit){
-        List<Product> products = new ArrayList<>();
         List<DetailOrder> details = new ArrayList<>();
         for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
             if (detail.getProduct().getProvider().getCuit().equals(cuit)) {

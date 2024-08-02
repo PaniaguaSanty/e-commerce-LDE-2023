@@ -82,27 +82,33 @@ public class ReportPanelController {
     }
 
     private List<Order> filterByDate(List<Order> orders, GregorianCalendar init, GregorianCalendar end) {
+        List<Order> filterInit = new ArrayList<>();
+        List<Order> filterEnd = new ArrayList<>();
         if (init.after(new GregorianCalendar(2000, 1, 1))) {
-            //orders = orders.stream().filter(order
-            //       -> orderService.findByOrder(order).stream().filter(track
-            //             -> track.getState().getName().equals("Pending")).findFirst().get().getDate().after(init)).toList();
+//            orders = orders.stream().filter(order
+//                   -> orderService.findByOrder(order).stream().filter(track
+//                         -> track.getState().getName().equals("Pending")).findFirst().get().getDate().after(init)).toList();
             for (Order anOrder : orders) {
-                if (!orderService.findByOrder(anOrder).get(0).getDate().after(init)) {
-                    orders.remove(anOrder);
+                if (orderService.findByOrder(anOrder).get(0).getDate().after(init)) {
+                    filterInit.add(anOrder);
                 }
             }
+        } else {
+            filterInit = orders;
         }
         if (end.after(new GregorianCalendar(2000, 1, 1))) {
-            //orders = orders.stream().filter(order
-            //       -> orderService.findByOrder(order).stream().filter(track
-            //              -> track.getState().getName().equals("Pending")).findFirst().get().getDate().before(end)).toList();
-            for (Order anOrder : orders) {
-                if (!orderService.findByOrder(anOrder).get(0).getDate().before(end)) {
-                    orders.remove(anOrder);
+//            orders = orders.stream().filter(order
+//                   -> orderService.findByOrder(order).stream().filter(track
+//                          -> track.getState().getName().equals("Pending")).findFirst().get().getDate().before(end)).toList();
+            for (Order anOrder : filterInit) {
+                if (orderService.findByOrder(anOrder).get(0).getDate().before(end)) {
+                    filterEnd.add(anOrder);
                 }
             }
+        } else {
+            return filterInit;
         }
-        return orders;
+        return filterEnd;
     }
 
     private String getCategoryPreferences(List<Order> orders) {
@@ -149,14 +155,14 @@ public class ReportPanelController {
             String provider = allProviders.get(i);
             for (String anProvider : allProviders) {
                 if (provider.equals(anProvider)) {
-                    count += allDetails.get(i).getAmount();
+                    count += allDetails.get(allProviders.indexOf(anProvider)).getAmount();
                     qualification += allDetails.get(i).getProviderQualification();
                 }
             }
             if (count > aux) {
                 aux = count;
                 qualification = Math.round(((qualification / count) * 100d) / 100d);
-                preferredProvider = provider + (qualification == 0 ? ", sin calificar." : ", con una calificación de " + qualification + "\n");
+                preferredProvider = provider + (qualification == 0 ? ", sin calificar.\n" : ", con una calificación de " + qualification + "\n");
             }
         }
         return preferredProvider;
@@ -179,13 +185,13 @@ public class ReportPanelController {
             for (String anCarrier : allCarriers) {
                 if (carrier.equals(anCarrier)) {
                     count++;
-                    qualification += allInvoices.get(i).getCarrierQualification();
+                    qualification += allInvoices.get(allCarriers.indexOf(anCarrier)).getCarrierQualification();
                 }
             }
             if (count > aux) {
                 aux = count;
                 qualification = Math.round(((qualification / count) * 100d) / 100d);
-                preferredCarrier = carrier + (qualification == 0 ? ", sin calificar." : ", con una calificación de " + qualification + "\n");
+                preferredCarrier = carrier + (qualification == 0 ? ", sin calificar.\n" : ", con una calificación de " + qualification + "\n");
             }
         }
         return preferredCarrier;
@@ -211,8 +217,8 @@ public class ReportPanelController {
             report += " - El cliente ha realizado " + allOrders.size() + " pedidos en el sistema.\n"
                     + " - Las preferencias de los productos pedidos son:\n";
             report += getCategoryPreferences(allOrders);
-            //report += " - El proveedor preferido por este cliente es:\n------> " + getPreferredProvider(allOrders);
-            //report += " - El transportista preferido por este cliente es\n------> " + getPreferredCarrier(allOrders);
+            report += " - El proveedor preferido por este cliente es:\n------> " + getPreferredProvider(allOrders);
+            report += " - El transportista preferido por este cliente es\n------> " + getPreferredCarrier(allOrders);
         }
         return report;
     }
