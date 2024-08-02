@@ -308,30 +308,33 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
         } else {
             loadComboBox();
             List<TrackingOrder> trackings = panel.findByOrder(selectedOrder);
-            String status = trackings.get(trackings.size() - 1).getState().getName();
-            String info = "";
-
-            if (status.equals("Canceled") || status.equals("Returned")) {
-                info += "Este pedido ya ha sido "
-                        + (status.equals("Canceled") ? "cancelado" : "devuelto");
+            if (trackings.isEmpty()) {
+                jtp_info.setText("No hay información de seguimiento para este pedido.");
             } else {
-                info += "Pedido N°" + selectedOrder.getCode() + ": \n \n";
-                info += "Sucursal actual: " + (trackings.size() > 5 ? selectedOrder.getWarehouseDestiny() : selectedOrder.getWarehouseOrigin());
-                info += "\n \t Sector actual: " + selectedOrder.getSector().getName();
-                info += "\n \n Estado: " + status;
+                String status = trackings.get(trackings.size() - 1).getState().getName();
+                String info = "";
 
-                changeConditionButton(jbn_returned, true);
-                changeConditionButton(jbn_cancelled, true);
-                changeConditionButton(jbn_changeState, true);
-                changeConditionButton(jbn_changeSector, true);
-                  changeConditionButton(jbn_saveProductQualification, true);
-                changeConditionButton(jbn_saveCarrierQualification, true);
+                if (status.equals("Canceled") || status.equals("Returned")) {
+                    info += "Este pedido ya ha sido "
+                            + (status.equals("Canceled") ? "cancelado" : "devuelto");
+                } else {
+                    info += "Pedido N°" + selectedOrder.getCode() + ": \n \n";
+                    info += "Sucursal actual: " + (trackings.size() > 5 ? selectedOrder.getWarehouseDestiny() : selectedOrder.getWarehouseOrigin());
+                    info += "\n \t Sector actual: " + selectedOrder.getSector().getName();
+                    info += "\n \n Estado: " + status;
 
+                    changeConditionButton(jbn_returned, true);
+                    changeConditionButton(jbn_cancelled, true);
+                    changeConditionButton(jbn_changeState, true);
+                    changeConditionButton(jbn_changeSector, true);
+                    changeConditionButton(jbn_saveProductQualification, true);
+                    changeConditionButton(jbn_saveCarrierQualification, true);
+
+                }
+                jtp_info.setText(info);
             }
-            jtp_info.setText(info);
-        }
     }//GEN-LAST:event_btn_findOrderActionPerformed
-
+    }
     private void jbn_changeSectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_changeSectorActionPerformed
         Order order = panel.findByCode(jtf_code.getText());
         Sector newSector = sectorPanel.findByCode(jtf_sector.getText());
@@ -342,7 +345,7 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
                 info += "Pedido N°: " + order.getCode();
                 info += "Enviado al sector: " + newSector.getName();
                 jtp_info.setText(info);
-              
+
             } catch (Exception ex) {
                 jtp_info.setText("No se ha encontrado ningun sector con el código proporcionado");
             }
@@ -379,7 +382,7 @@ public class Management_Order_Panel extends javax.swing.JPanel implements Interf
                 JOptionPane.showMessageDialog(this, "ERROR: " + ex.getMessage());
             }
 
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Solo pueden puntuarse los pedidos entregados.");
         }
 
