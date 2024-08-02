@@ -23,6 +23,7 @@ class ClientServiceImplTest {
 
     private ClientServiceImpl clientService;
     private Client client;
+    private Client client2;
     private List<Client> clientMockDB;
 
 
@@ -30,8 +31,10 @@ class ClientServiceImplTest {
     void setUp() {
         this.clientService = new ClientServiceImpl(clientJpa);
         this.client = new Client("name", "lastname", "address", "123", "email", "phone");
+        this.client2 = new Client("name2", "lastname2", "address2", "123", "email2", "phone2");
         this.clientMockDB = new ArrayList<>();
         this.clientMockDB.add(client);
+        this.clientMockDB.add(client2);
     }
 
     @Test
@@ -81,5 +84,11 @@ class ClientServiceImplTest {
         assertNotEquals(client.isEnable(), clientService.disable(client.getId()).isEnable());
     }
 
-
+    @Test
+    void findAllEnabled() {
+        client2.setEnable(false);
+        clientMockDB.add(client2);
+        when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
+        assertEquals(1, clientService.findAllEnabled().size());
+    }
 }

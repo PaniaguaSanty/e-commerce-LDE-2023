@@ -66,7 +66,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         return findAll().stream().filter(Provider::isEnable).toList();
     }
 
-    public Map<String, Integer> countEnableDisable(){
+    /*public Map<String, Integer> countEnableDisable(){
         List<Provider> providers = findAll();
         Map<String, Integer> map = new HashMap<>();
         Integer enable = 0;
@@ -81,7 +81,7 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
         map.put("enable", enable);
         map.put("disable", disable);
         return map;
-    }
+    }*/
 
     @Override
     public Provider disable(Long id) throws Exception {
@@ -93,8 +93,9 @@ public class ProviderServiceImpl implements ICRUD<Provider> {
 
     @Override
     public Provider delete(Long id) throws NonexistentEntityException {
+        Provider provider = providerJpaController.findProvider(id);
         providerJpaController.destroy(id);
-        return providerJpaController.findProvider(id);
+        return provider;
     }
 
     @Override
