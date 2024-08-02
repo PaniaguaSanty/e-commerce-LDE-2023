@@ -46,13 +46,10 @@ public class OrderServiceImpl {
     private final TrackingOrderJpaController trackingOrderJpaController;
     private final OrderJpaController orderJpaController;
     private final InvoiceJpaController invoiceJpaController;
-
     private final  SectorServiceImpl sectorServiceImpl;
-
-    
+    private final State[] states = State.values();
     private ProductServiceImpl productServiceImpl;
 
-    private State state;
 
     public OrderServiceImpl() {
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
@@ -83,7 +80,7 @@ public class OrderServiceImpl {
 
     }
 
-    public Order createOrder(Order entity) throws Exception {
+   public Order createOrder(Order entity) throws Exception {
         String code = String.valueOf(entity.getWarehouseOrigin().getCode().charAt(0));
         code += entity.getWarehouseOrigin().getCode().charAt(1);
         code += entity.getWarehouseDestiny().getCode().charAt(0);
@@ -93,7 +90,10 @@ public class OrderServiceImpl {
             code = 0 + code;
         }
         entity.setCode(code);
+        Sector sector = sectorServiceImpl.findSectorByWarehouse(entity.getWarehouseOrigin()).get(0);
+        entity.setSector(sector);
         orderJpaController.create(entity);
+        generateTracking(entity, entity.getWarehouseOrigin().getLatitude(), entity.getWarehouseOrigin().getLongitude(), states[0]);
         return orderJpaController.findOrder(entity.getId());
     }
 
@@ -130,7 +130,7 @@ public class OrderServiceImpl {
                 filter(detail -> detail.getOrder().equals(order)).toList();
     }
 
-    public TrackingOrder createTrackingOrder(TrackingOrder entity) {
+     public TrackingOrder createTrackingOrder(TrackingOrder entity) {
         trackingOrderJpaController.create(entity);
         return trackingOrderJpaController.findTrackingOrder(entity.getId());
     }
@@ -173,23 +173,19 @@ public class OrderServiceImpl {
         generateTracking(order, latitude, longitude, State.IN_TRANSIT);
     }
 
-    public void cancelOrder(Order order) throws Exception {
-        generateTracking(order,
+    public TrackingOrder cancelOrder(Order order) throws Exception {
+      return   generateTracking(order,
                 order.getWarehouseOrigin().getLatitude(),
                 order.getWarehouseOrigin().getLongitude(),
                 State.CANCELED);
-        changeSector(order,
-                sectorServiceImpl.findSectorByName("devueltos", order.getSector().getWarehouse()));
-    }
+      }
 
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
                 order.getWarehouseDestiny().getLongitude(),
                 State.RETURNED);
-        Sector sector = sectorServiceImpl.findSectorByName("devueltos", order.getSector().getWarehouse());
-        changeSector(order,sector);
-    }
+     }
 
     public Invoice createInvoice(Invoice invoice) {
         invoiceJpaController.create(invoice);
