@@ -396,10 +396,8 @@ public class ReportPanelController {
         List<TrackingOrder> trackingOrders = orderService.getTrackingByOrder(order);
         for (TrackingOrder to : trackingOrders) {
             Object[] object = {
-                    to.getDate(),
-                    to.getLatitude(),
-                    to.getLongitude(),
-                    to.getState()
+                    to.getDate().getTime(),
+                    to.getState().getName()
             };
             model.addRow(object);
         }
