@@ -15,7 +15,7 @@ public class E_commerce {
 
     public static void main(String[] args) {
         new Connection();
-        // new UploadDB();
+        new UploadDB();
         new MainFrame();
     }
 }
