@@ -67,7 +67,7 @@ class ClientServiceImplTest {
     void testFindAll() {
         clientMockDB.add(client);
         when(clientJpa.findClientEntities()).thenReturn(clientMockDB);
-        assertEquals(2, clientService.findAll().size());
+        assertEquals(3, clientService.findAll().size());
     }
 
 
