@@ -43,7 +43,7 @@ public class Invoice implements Serializable {
 
     public Invoice() {
         this.emission = LocalDate.now();
-        this.carrierQualification = null;
+        this.carrierQualification = 0;
     }
 
     public Invoice(LocalDate emission, Employee employeeIssuing, Employee employeeReceiving, Carrier carrier, Order order) {

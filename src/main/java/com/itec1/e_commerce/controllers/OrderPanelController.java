@@ -9,9 +9,15 @@ import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.ProductCategory;
 import com.itec1.e_commerce.entities.Sector;
+import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.services.CarrierServiceImpl;
 import com.itec1.e_commerce.services.ClientServiceImpl;
+
+import com.itec1.e_commerce.services.InvoiceServiceImpl;
+
+import com.itec1.e_commerce.services.EmployeeServiceImpl;
+
 import com.itec1.e_commerce.services.OrderServiceImpl;
 import com.itec1.e_commerce.services.ProductCategoryServiceImpl;
 import com.itec1.e_commerce.services.ProductServiceImpl;
@@ -37,9 +43,11 @@ public class OrderPanelController {
     private final ClientServiceImpl clientService;
     private final ProductServiceImpl productService;
     private final WarehouseServiceImpl warehouseService;
+    private final EmployeeServiceImpl employeeService;
     private final CarrierServiceImpl carrierService;
     private final ProductCategoryServiceImpl productCategoryService;
     private final SectorServiceImpl sectorService;
+    private final InvoiceServiceImpl invoiceService;
 
     public OrderPanelController(InterfaceOrderPanel panel) {
         this.panel = panel;
@@ -47,9 +55,11 @@ public class OrderPanelController {
         this.clientService = new ClientServiceImpl();
         this.productService = new ProductServiceImpl();
         this.warehouseService = new WarehouseServiceImpl();
+        this.employeeService = new EmployeeServiceImpl();
         this.carrierService = new CarrierServiceImpl();
         this.productCategoryService = new ProductCategoryServiceImpl();
         this.sectorService = new SectorServiceImpl();
+        this.invoiceService = new InvoiceServiceImpl();
     }
 
     //Orders
@@ -58,7 +68,8 @@ public class OrderPanelController {
             orderService.createOrder(order);
             this.addDetail(order, details);
             details.removeAll(details);
-            return "Pedido creado correctamente";
+            createInvoice();
+           return "Pedido creado correctamente";
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
         }
@@ -90,6 +101,10 @@ public class OrderPanelController {
             System.err.println("Error while finding orders by sector");
             throw new RuntimeException("Failed to found orders by sector", e);
         }
+    }
+
+    public Order findByCode(String code) {
+        return orderService.findByCode(code);
     }
 
     public List<Order> findOrdersByWarehouse(Warehouse ordersByWharehouse) {
@@ -166,12 +181,17 @@ public class OrderPanelController {
         }
     }
 
-    public void changeOrderState(Order order) {
+    public String changeOrderState(Order order) {
         try {
-            orderService.changeOrderState(order);
+            return orderService.changeOrderState(order).getState().getName();
         } catch (Exception e) {
-            System.err.println("Error while trying to change state." + e.getMessage());
+            return "Error while trying to change state." + e.getMessage();
         }
+        
+    }
+
+    public void changeSector(Order order, Sector sector) throws Exception {
+        orderService.changeSector(order, sector);
     }
 
     //detail Order.
@@ -224,6 +244,11 @@ public class OrderPanelController {
 
     public void qualifyCarrier(Invoice invoice, int star) throws Exception {
         orderService.qualifyCarrier(invoice, star);
+    }
+
+    public List<DetailOrder> getDetailOrders(Order order) {
+        return orderService.viewDetailOfOrder(order);
+
     }
 
     //Client.
@@ -362,6 +387,10 @@ public class OrderPanelController {
         this.panel.getSectorsTable().setModel(model);
         return result;
     }
+    
+    public List<Sector> getSector(Warehouse warehouse){
+        return sectorService.findSectorByWarehouse(warehouse);
+    }
 
     public List<Order> updateTableOrder(String code) {
         DefaultTableModel model = new DefaultTableModel();
@@ -379,6 +408,9 @@ public class OrderPanelController {
         this.panel.getOrdersTable().setModel(model);
         return result;
     }
+    
+   
+    
 
     //Carrier
     public List<Carrier> findByTypeOfTransport(String transportType) {
@@ -389,11 +421,9 @@ public class OrderPanelController {
         DefaultTableModel model = new DefaultTableModel();
         String[] titles = {"Nombre", "C.U.I.T.", "Teléfono", "Transportes habilitados"};
         model.setColumnIdentifiers(titles);
-        List<Carrier> carriers = new ArrayList<>();
+        List<Carrier> carriers = carrierService.findAll();
         List<Carrier> result = new ArrayList<>();
-        if (transportType.equals("")) {
-            carriers = carrierService.findAll();
-        } else {
+        if (!transportType.equals("")) {
             carriers = findByTypeOfTransport(transportType);
         }
         for (Carrier carrier : carriers) {
@@ -427,17 +457,17 @@ public class OrderPanelController {
     }
 
     //invoice
-    public String createInvoice() {
-        if (orderService.findById(invoice.getId()) != null) {
-            return "No se pudo generar el remito, por favor inténtelo nuevamente.";
-        } else {
-            try {
-                orderService.createInvoice(invoice);
-            } catch (Exception e) {
-                System.err.println("Error while finding orders by sector");
-                throw new RuntimeException("Failed to found orders by sector", e);
-            }
+    public void createInvoice() {
+        if (orderService.findById(order.getId()) != null) {
+            invoice.setOrder(order);
+            invoice.setEmployeeIssuing(employeeService.findByWarehouse(order.getWarehouseOrigin().getCode()).get(0));
+            invoice.setEmployeeReceiving(employeeService.findByWarehouse(order.getWarehouseDestiny().getCode()).get(0));
+            orderService.createInvoice(invoice);
         }
-        return "Remito generado con éxito.";
     }
+    
+    public Invoice getInvoice (Order order){
+       return  invoiceService.findByOrder(order);
+    }
+
 }

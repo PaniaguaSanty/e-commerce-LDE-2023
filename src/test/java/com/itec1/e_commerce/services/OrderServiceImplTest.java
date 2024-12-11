@@ -30,39 +30,50 @@ class OrderServiceImplTest {
     private TrackingOrderJpaController trackingJpa;
     @Mock
     private InvoiceJpaController invoiceJpa;
+    @Mock
     private SectorServiceImpl sectorService;
     private OrderServiceImpl service;
-
 
 
     private List<Order> orderList;
     private List<DetailOrder> detailList;
     private List<TrackingOrder> trackingList;
-
-
+    private List<Sector> sectorList;
 
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(orderJpa, detailJpa, trackingJpa,invoiceJpa);
-        sectorService = new SectorServiceImpl();
+        service = new OrderServiceImpl(orderJpa,
+                detailJpa,
+                trackingJpa,
+                invoiceJpa,
+                sectorService);
         orderList = new ArrayList<>();
         this.orderTest();
         detailList = new ArrayList<>();
         this.detailTest();
         trackingList = new ArrayList<>();
         this.trackingTest();
+        sectorList = new ArrayList<>();
 
 
     }
 
     @Test
     void testCreateOrder() throws Exception {
+
         Order expected = orderList.get(0);
+        Sector fakeSector = new Sector();
+        sectorList.add(fakeSector);
+        Mockito.when(orderJpa.findOrder(expected.getId())).thenReturn(expected);
+        Mockito.when(sectorService.findSectorByWarehouse(expected.getWarehouseOrigin())).thenReturn(sectorList);
+        Mockito.doNothing().when(orderJpa).create(expected);
         Mockito.when(orderJpa.findOrder(expected.getId())).thenReturn(expected);
         Order result = service.createOrder(expected);
         assertEquals(expected, result);
+        assertEquals(fakeSector, result.getSector()); // Verificar que el sector asignado es correcto
     }
+
 
     @Test
     void testFindOrderById() {
@@ -145,10 +156,10 @@ class OrderServiceImplTest {
 
     @Test
     void testChangeOrderState() {
-     Order expected = orderList.get(0);
-     OrderServiceImpl service1 = Mockito.spy(service);
-    service1.changeOrderState(expected);
-    Mockito.verify(service1).findByOrder(expected);
+        Order expected = orderList.get(0);
+        OrderServiceImpl service1 = Mockito.spy(service);
+        service1.changeOrderState(expected);
+        Mockito.verify(service1).findByOrder(expected);
     }
 
     @Test
@@ -163,20 +174,29 @@ class OrderServiceImplTest {
 
     @Test
     void testPutOrderInTransit() {
-       Order expected = orderList.get(0);
-       String latitude = "111";
-       String longitude ="222";
-       OrderServiceImpl service1 = Mockito.spy(service);
-      service1.putOrderInTransit(expected,latitude,longitude);
-       Mockito.verify(service1).generateTracking(expected,latitude,longitude,State.IN_TRANSIT);
-     }
+        Order expected = orderList.get(0);
+        String latitude = "111";
+        String longitude = "222";
+        OrderServiceImpl service1 = Mockito.spy(service);
+        service1.putOrderInTransit(expected, latitude, longitude);
+        Mockito.verify(service1).generateTracking(expected, latitude, longitude, State.IN_TRANSIT);
+    }
 
     @Test
     void testCancelOrder() throws Exception {
-     }
+        TrackingOrder expected = trackingList.get(1);
+        OrderServiceImpl service1 = Mockito.spy(service);
+        service1.cancelOrder(expected.getOrder());
+        Mockito.verify(service1).generateTracking(expected.getOrder(),expected.getLatitude(),expected.getLongitude(),State.CANCELED);
+    }
 
     @Test
-    void testreturnOrder() {
+    void testreturnOrder() throws Exception {
+        TrackingOrder expected = trackingList.get(1);
+        OrderServiceImpl service1 = Mockito.spy(service);
+        service1.returnOrder(expected.getOrder());
+        Mockito.verify(service1).generateTracking(expected.getOrder(),expected.getLatitude(),expected.getLongitude(),State.RETURNED);
+
     }
 
     @Test
@@ -185,14 +205,14 @@ class OrderServiceImplTest {
         expected.setId(1L);
         Mockito.when(invoiceJpa.findInvoice(expected.getId())).thenReturn(expected);
         Invoice result = service.createInvoice(expected);
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
     void testAddDetail() {
         Order expected = orderList.get(0);
-        List<DetailOrder>details = detailList;
-        service.addDetail(expected,details);
+        List<DetailOrder> details = detailList;
+        service.addDetail(expected, details);
         Mockito.verify(orderJpa).findOrder(expected.getId());
         Mockito.verify(detailJpa).create(any());
     }
@@ -202,7 +222,7 @@ class OrderServiceImplTest {
         DetailOrder expected = detailList.get(0);
         int star = 1;
         OrderServiceImpl service1 = Mockito.spy(service);
-        service1.qualifyProvider(expected,star);
+        service1.qualifyProvider(expected, star);
         Mockito.verify(detailJpa).edit(expected);
     }
 
@@ -211,7 +231,7 @@ class OrderServiceImplTest {
         Invoice expected = new Invoice();
         int star = 5;
         OrderServiceImpl service1 = Mockito.spy(service);
-        service1.qualifyCarrier(expected,star);
+        service1.qualifyCarrier(expected, star);
         Mockito.verify(invoiceJpa).edit(expected);
     }
 
@@ -220,10 +240,10 @@ class OrderServiceImplTest {
         client.setId(1L);
         Warehouse warehouse1 = new Warehouse();
         warehouse1.setId(1L);
-
+        warehouse1.setCode("12345");
         Warehouse warehouse2 = new Warehouse();
         warehouse2.setId(2L);
-
+        warehouse2.setCode("12345");
         Sector sector = new Sector();
         sector.setId(1L);
         sector.setWarehouse(warehouse1);
@@ -252,9 +272,9 @@ class OrderServiceImplTest {
         trackingOrder.setState(State.PENDING);
         trackingList.add(trackingOrder);
         TrackingOrder trackingOrder1 = new TrackingOrder();
-        Order order1 = new Order();
-        order1.setId(2L);
-        trackingOrder1.setOrder(order1);
+        trackingOrder1.setOrder(order);
+        trackingOrder1.setId(2L);
+        trackingOrder1.setState(State.CANCELED);
         trackingList.add(trackingOrder1);
     }
 

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 
 /**
- *
  * @author sjcex
  */
 public class MainFrame extends javax.swing.JFrame {
@@ -19,22 +18,23 @@ public class MainFrame extends javax.swing.JFrame {
     private Management_Sectors_Panel sectorsPanel;
     private Management_Employees_Panel employeesPanel;
     private Management_Warehouses_Panel warehouseHouse;
+    private Management_Order_Panel orderStatusesPanel;
 
     private NewOrder_ChooseClientPanel chooseClientPanel;
     private NewOrder_ChooseProductsPanel chooseProductsPanel;
     private NewOrder_ChooseWarehousePanel chooseWarehousePanel;
     private NewOrder_ChooseCarrierPanel chooseCarrierPanel;
-    private Order_ViewOrderSector_Panel viewOrderSectorPanel;
-    private Order_ViewOrderStatuses_Panel orderStatusesPanel;
+   
 
-    private Reports_Orders_ByDate_Panel reportsOrdersByDatePanel;
-    private Reports_Orders_ByStatuses_Panel reportsOrdersByStatusesPanel;
-    private Reports_Orders_Overview_Panel reportsOrdersOverviewPanel;
-    private Reports_Providers_ByDate_Panel providersByDatePanel;
-    private Reports_Providers_Overview_Panel reportsProvidersOverviewPanel;
     private Report_Clients reportClients;
     private Report_Carriers reportCarriers;
     private Report_ProvidersPanel reportProviders;
+
+    private Report_OrdersPanel_List reportOrdersList;
+    private Report_OrdersPanel_Tracking reportOrdersTracking;
+    private Report_OrdersPanel_Products reportOrdersProducts;
+
+    private String orderCode;
 
     public MainFrame() {
 
@@ -79,18 +79,42 @@ public class MainFrame extends javax.swing.JFrame {
         chooseProductsPanel = new NewOrder_ChooseProductsPanel(this);
         chooseWarehousePanel = new NewOrder_ChooseWarehousePanel(this);
         chooseCarrierPanel = new NewOrder_ChooseCarrierPanel(this);
-        viewOrderSectorPanel = new Order_ViewOrderSector_Panel();
-        orderStatusesPanel = new Order_ViewOrderStatuses_Panel();
+      
+        orderStatusesPanel = new Management_Order_Panel();
 
         reportClients = new Report_Clients();
         reportCarriers = new Report_Carriers();
-        reportProviders= new Report_ProvidersPanel();
-        reportsOrdersByDatePanel = new Reports_Orders_ByDate_Panel();
-        reportsOrdersByStatusesPanel = new Reports_Orders_ByStatuses_Panel();
-        reportsOrdersOverviewPanel = new Reports_Orders_Overview_Panel();
-        providersByDatePanel = new Reports_Providers_ByDate_Panel();
-        reportsProvidersOverviewPanel = new Reports_Providers_Overview_Panel();
+        reportProviders = new Report_ProvidersPanel();
 
+        reportOrdersList = new Report_OrdersPanel_List(this);
+
+    }
+
+    public void seeDetailsPanel(String orderCode) {
+        this.orderCode = orderCode;
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(new Report_OrdersPanel_Products(this, orderCode), BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void seeTrackingPanel(String orderCode) {
+        this.orderCode = orderCode;
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(new Report_OrdersPanel_Tracking(this, orderCode), BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void backToOrdersPanel() {
+        contentPanel.removeAll();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(reportOrdersList, BorderLayout.CENTER);
+        reportOrdersList.initPanel();
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     public void changeOrderPanel() {
@@ -99,12 +123,12 @@ public class MainFrame extends javax.swing.JFrame {
         if (chooseClientPanel.equals(activePanel)) {
             contentPanel.add(chooseProductsPanel, BorderLayout.CENTER);
             activePanel = chooseProductsPanel;
-            
-        } else if(chooseProductsPanel.equals(activePanel)) {
+
+        } else if (chooseProductsPanel.equals(activePanel)) {
             contentPanel.add(chooseWarehousePanel, BorderLayout.CENTER);
             activePanel = chooseWarehousePanel;
-        } else if(chooseWarehousePanel.equals(activePanel)) {
-             contentPanel.add(chooseCarrierPanel, BorderLayout.CENTER);
+        } else if (chooseWarehousePanel.equals(activePanel)) {
+            contentPanel.add(chooseCarrierPanel, BorderLayout.CENTER);
             activePanel = chooseCarrierPanel;
         } else {
             contentPanel.add(chooseClientPanel, BorderLayout.CENTER);
@@ -138,12 +162,12 @@ public class MainFrame extends javax.swing.JFrame {
         menu_Sectors = new javax.swing.JMenuItem();
         menu_Orders = new javax.swing.JMenu();
         menu_newOrder = new javax.swing.JMenuItem();
-        menu_ViewOrderSector = new javax.swing.JMenuItem();
         menu_ViewOrderStatuses = new javax.swing.JMenuItem();
         menu_Reports = new javax.swing.JMenu();
         menu_reportClients = new javax.swing.JMenuItem();
         menu_reportCarriers = new javax.swing.JMenuItem();
         menu_providerReport = new javax.swing.JMenuItem();
+        menu_OrdersReport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 660));
@@ -302,14 +326,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menu_Orders.add(menu_newOrder);
 
-        menu_ViewOrderSector.setText("Ver sector de un pedido");
-        menu_ViewOrderSector.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menu_ViewOrderSectorActionPerformed(evt);
-            }
-        });
-        menu_Orders.add(menu_ViewOrderSector);
-
         menu_ViewOrderStatuses.setText("Ver estados de un pedido");
         menu_ViewOrderStatuses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,6 +361,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         menu_Reports.add(menu_providerReport);
+
+        menu_OrdersReport.setText("Generar informe de Ordenes");
+        menu_OrdersReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_OrdersReportActionPerformed(evt);
+            }
+        });
+        menu_Reports.add(menu_OrdersReport);
 
         jMenuBar1.add(menu_Reports);
 
@@ -385,6 +409,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void menu_providerReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_providerReportActionPerformed
         changePanel(reportProviders);
     }//GEN-LAST:event_menu_providerReportActionPerformed
+
+    private void menu_OrdersReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_OrdersReportActionPerformed
+        changePanel(reportOrdersList);
+    }//GEN-LAST:event_menu_OrdersReportActionPerformed
 
     private void menu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ClientsActionPerformed
         changePanel(clientsPanel);
@@ -427,12 +455,10 @@ public class MainFrame extends javax.swing.JFrame {
         //changeOrderPanel();
     }// GEN-LAST:event_menu_newOrderActionPerformed
 
-    private void menu_ViewOrderSectorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderSectorActionPerformed
-        changePanel(viewOrderSectorPanel);
-    }// GEN-LAST:event_menu_ViewOrderSectorActionPerformed
+    
 
     private void menu_ViewOrderStatusesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_ViewOrderStatusesActionPerformed
-        changePanel(sectorsPanel);
+        changePanel(orderStatusesPanel);
     }// GEN-LAST:event_menu_ViewOrderStatusesActionPerformed
 
     private void menu_CloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_menu_CloseActionPerformed
@@ -461,12 +487,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_Exit;
     private javax.swing.JMenu menu_Management;
     private javax.swing.JMenu menu_Orders;
+    private javax.swing.JMenuItem menu_OrdersReport;
     private javax.swing.JMenuItem menu_ProductCategories;
     private javax.swing.JMenuItem menu_Products;
     private javax.swing.JMenuItem menu_Providers;
     private javax.swing.JMenu menu_Reports;
     private javax.swing.JMenuItem menu_Sectors;
-    private javax.swing.JMenuItem menu_ViewOrderSector;
     private javax.swing.JMenuItem menu_ViewOrderStatuses;
     private javax.swing.JMenuItem menu_Warehouses;
     private javax.swing.JMenuItem menu_newOrder;

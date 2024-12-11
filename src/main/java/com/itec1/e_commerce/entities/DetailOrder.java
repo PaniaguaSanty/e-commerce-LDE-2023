@@ -23,13 +23,14 @@ public class DetailOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private Integer amount;
-    private Integer providerQualification;
-    
+
     @ManyToOne
     private Product product;
-    
+
+    private Integer amount;
+
+    private Integer providerQualification;
+
     @ManyToOne
     private Order order;
 

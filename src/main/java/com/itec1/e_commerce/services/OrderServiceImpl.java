@@ -12,17 +12,21 @@ import com.itec1.e_commerce.entities.Client;
 import com.itec1.e_commerce.entities.DetailOrder;
 import com.itec1.e_commerce.entities.Invoice;
 import com.itec1.e_commerce.entities.Order;
-import com.itec1.e_commerce.entities.Product;
 
 import com.itec1.e_commerce.entities.Sector;
 import com.itec1.e_commerce.entities.State;
 import com.itec1.e_commerce.entities.TrackingOrder;
 import com.itec1.e_commerce.entities.Warehouse;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+
+import java.util.List;
+import java.util.Map;
+
 import java.util.*;
-
-
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -37,9 +41,13 @@ public class OrderServiceImpl {
     private final TrackingOrderJpaController trackingOrderJpaController;
     private final OrderJpaController orderJpaController;
     private final InvoiceJpaController invoiceJpaController;
-    private SectorServiceImpl sectorServiceImpl;
+    private final  SectorServiceImpl sectorServiceImpl;
+    private final State[] states = State.values();
     private ProductServiceImpl productServiceImpl;
-    private State state;
+
+
+   
+
 
     public OrderServiceImpl() {
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
@@ -49,11 +57,16 @@ public class OrderServiceImpl {
         this.trackingOrderJpaController = new TrackingOrderJpaController(Connection.getEmf());
         this.orderJpaController = new OrderJpaController(Connection.getEmf());
         this.invoiceJpaController = new InvoiceJpaController(Connection.getEmf());
+        this.sectorServiceImpl = new SectorServiceImpl();
     }
 
-    public OrderServiceImpl(OrderJpaController orderJpaController, DetailOrderJpaController detailOrderJpaController, TrackingOrderJpaController trackingOrderJpaController, InvoiceJpaController invoiceJpaController) {
+    public OrderServiceImpl(OrderJpaController orderJpaController,
+            DetailOrderJpaController detailOrderJpaController,
+            TrackingOrderJpaController trackingOrderJpaController,
+            InvoiceJpaController invoiceJpaController,
+                            SectorServiceImpl sectorService) {
         this.orderJpaController = orderJpaController;
-        this.productServiceImpl = productServiceImpl;
+        this.productServiceImpl = new ProductServiceImpl();
         this.detailOrderJpaController = detailOrderJpaController;
         this.clientJpaController = new ClientJpaController(Connection.getEmf());
         this.warehouseJpaController = new WarehouseJpaController(Connection.getEmf());
@@ -61,12 +74,24 @@ public class OrderServiceImpl {
         this.trackingOrderJpaController = trackingOrderJpaController;
         this.invoiceJpaController = invoiceJpaController;
 
+        this.sectorServiceImpl = sectorService;
+
     }
 
-
-
-    public Order createOrder(Order entity) throws Exception {
+   public Order createOrder(Order entity) throws Exception {
+        String code = String.valueOf(entity.getWarehouseOrigin().getCode().charAt(0));
+        code += entity.getWarehouseOrigin().getCode().charAt(1);
+        code += entity.getWarehouseDestiny().getCode().charAt(0);
+        code += entity.getWarehouseDestiny().getCode().charAt(1);
+        code += findAll().size() + 1;
+        if (6 > code.length()) {
+            code = 0 + code;
+        }
+        entity.setCode(code);
+        Sector sector = sectorServiceImpl.findSectorByWarehouse(entity.getWarehouseOrigin()).get(0);
+        entity.setSector(sector);
         orderJpaController.create(entity);
+        generateTracking(entity, entity.getWarehouseOrigin().getLatitude(), entity.getWarehouseOrigin().getLongitude(), states[0]);
         return orderJpaController.findOrder(entity.getId());
     }
 
@@ -88,6 +113,11 @@ public class OrderServiceImpl {
                 .equals(orderBySector.getId())).toList();
     }
 
+    public Order findByCode(String code) {
+        return findAll().stream().filter(order -> order.getCode()
+                .equals(code)).findFirst().orElse(null);
+    }
+
     public List<Order> findOrdersByWarehouse(Warehouse orderByWarehouse) {
         return findAll().stream().filter(order -> order.getSector().getWarehouse().getId()
                 .equals(orderByWarehouse.getId())).toList();
@@ -98,34 +128,35 @@ public class OrderServiceImpl {
                 filter(detail -> detail.getOrder().equals(order)).toList();
     }
 
-    public TrackingOrder createTrackingOrder(TrackingOrder entity) {
+     public TrackingOrder createTrackingOrder(TrackingOrder entity) {
         trackingOrderJpaController.create(entity);
         return trackingOrderJpaController.findTrackingOrder(entity.getId());
     }
 
     public List<TrackingOrder> findByOrder(Order order) {
+      
         return trackingOrderJpaController.findTrackingOrderEntities().stream()
                 .filter(trackingOrder -> trackingOrder.getOrder().getId().equals(order.getId()))
                 .collect(Collectors.toList());
     }
 
-    protected TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
+    public TrackingOrder generateTracking(Order order, String latitude, String longitude, State state) {
         TrackingOrder tracking = new TrackingOrder();
         tracking.setOrder(order);
         tracking.setLatitude(latitude);
         tracking.setLongitude(longitude);
         tracking.setState(state);
+        tracking.setDate(new GregorianCalendar());
         return createTrackingOrder(tracking);
     }
 
-    public void changeOrderState(Order order) {
-        State[] states = State.values();
-        int nextState = findByOrder(order).size() + 1;
+    public TrackingOrder changeOrderState(Order order) {
+        int nextState = findByOrder(order).size();
         if (nextState < 7) {
-            generateTracking(order, order.getWarehouseOrigin().getLatitude(),
+            return generateTracking(order, order.getWarehouseOrigin().getLatitude(),
                     order.getWarehouseOrigin().getLongitude(), states[nextState]);
         } else {
-            generateTracking(order, order.getWarehouseDestiny().getLatitude(),
+            return generateTracking(order, order.getWarehouseDestiny().getLatitude(),
                     order.getWarehouseDestiny().getLongitude(), states[nextState]);
         }
     }
@@ -140,24 +171,19 @@ public class OrderServiceImpl {
         generateTracking(order, latitude, longitude, State.IN_TRANSIT);
     }
 
-    public void cancelOrder(Order order) throws Exception {
-        generateTracking(order,
+    public TrackingOrder cancelOrder(Order order) throws Exception {
+      return   generateTracking(order,
                 order.getWarehouseOrigin().getLatitude(),
                 order.getWarehouseOrigin().getLongitude(),
                 State.CANCELED);
-        sectorServiceImpl.changeSector(order,
-                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
-    }
-
+      }
 
     public void returnOrder(Order order) throws Exception {
         generateTracking(order,
                 order.getWarehouseDestiny().getLatitude(),
                 order.getWarehouseDestiny().getLongitude(),
                 State.RETURNED);
-        sectorServiceImpl.changeSector(order,
-                sectorServiceImpl.findSectorByName("returned", order.getSector().getWarehouse()));
-    }
+     }
 
     public Invoice createInvoice(Invoice invoice) {
         invoiceJpaController.create(invoice);
@@ -182,7 +208,6 @@ public class OrderServiceImpl {
     }
     
     public List<DetailOrder> getDetailsByProvider(String cuit){
-        List<Product> products = new ArrayList<>();
         List<DetailOrder> details = new ArrayList<>();
         for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
             if (detail.getProduct().getProvider().getCuit().equals(cuit)) {
@@ -192,7 +217,7 @@ public class OrderServiceImpl {
         return details;
     }
 
-    public Integer getTotalProviderScore(String cuit){
+    public Integer getTotalProviderScore(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details
                 .stream()
@@ -200,12 +225,12 @@ public class OrderServiceImpl {
                 .sum();
     }
 
-    public Integer getProviderScoreCount(String cuit){
+    public Integer getProviderScoreCount(String cuit) {
         List<DetailOrder> details = getDetailsByProvider(cuit);
         return details.size();
     }
 
-    public Integer getAverageProviderScore(String cuit){
+    public Integer getAverageProviderScore(String cuit) {
         if (getProviderScoreCount(cuit) == 0) {
             return 0;
         }
@@ -237,5 +262,32 @@ public class OrderServiceImpl {
 
         return topTen;
     }
-    
+
+    public List<DetailOrder> getDetailsByOrder(Order order) {
+        List<DetailOrder> details = new ArrayList<>();
+        for (DetailOrder detail : detailOrderJpaController.findDetailOrderEntities()) {
+            if (detail.getOrder().equals(order)) {
+                details.add(detail);
+            }
+        }
+        return details;
+    }
+
+    public List<TrackingOrder> getTrackingByOrder(Order order) {
+        List<TrackingOrder> list = new ArrayList<>();
+        for (TrackingOrder trackingOrder : trackingOrderJpaController.findTrackingOrderEntities()) {
+            if (trackingOrder.getOrder().equals(order)) {
+                list.add(trackingOrder);
+            }
+        }
+        return list;
+    }
+
+    public Order findOrderByCode(String code) {
+        return orderJpaController.findOrderEntities()
+                .stream()
+                .filter(order -> order.getCode().equals(code))
+                .findFirst()
+                .orElse(null);
+    }
 }

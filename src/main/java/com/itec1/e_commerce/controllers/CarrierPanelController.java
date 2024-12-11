@@ -55,7 +55,7 @@ public class CarrierPanelController implements IController<Carrier> {
         } else {
             service.create(entity);
         }
-        return "Cliente creado correctamente.";
+        return "Transportista creado correctamente.";
     }
 
     @Override
