@@ -351,13 +351,14 @@ public class ReportPanelController {
         List<Order> result = new ArrayList<>();
         for (Order o : orders) {
             if (o.getClient().getCuit().startsWith(cuit)) {
+                String sectorName = (o.getSector() != null) ? o.getSector().getName() : "Sector no asignado";
                 Object[] object = {
                         o.getCode(),
                         o.getClient().getName().concat(" ").concat(o.getClient().getLastname()),
                         o.getClient().getCuit(),
                         o.getWarehouseOrigin().getAddress(),
                         o.getWarehouseDestiny().getAddress(),
-                        o.getSector().getName()
+                       sectorName
                 };
                 model.addRow(object);
                 result.add(o);
